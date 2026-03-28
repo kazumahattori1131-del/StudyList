@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>今日の勉強リスト</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', 'Hiragino Sans', 'Meiryo', sans-serif;
+      background: #f0f4ff;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 40px 16px;
+    }
+
+    .container {
+      background: #ffffff;
+      border-radius: 20px;
+      box-shadow: 0 4px 24px rgba(99, 102, 241, 0.12);
+      width: 100%;
+      max-width: 480px;
+      padding: 32px 28px;
+    }
+
+    /* ヘッダー */
+    .header {
+      margin-bottom: 28px;
+    }
+    .header h1 {
+      font-size: 22px;
+      font-weight: 700;
+      color: #1e1b4b;
+      margin-bottom: 4px;
+    }
+    .header .date {
+      font-size: 13px;
+      color: #6b7280;
+    }
+
+    /* 進捗バー */
+    .progress-wrap {
+      margin-bottom: 28px;
+    }
+    .progress-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      color: #6b7280;
+      margin-bottom: 8px;
+    }
+    .progress-label span:last-child {
+      font-weight: 600;
+      color: #6366f1;
+    }
+    .progress-bar {
+      background: #e0e7ff;
+      border-radius: 100px;
+      height: 8px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #6366f1, #818cf8);
+      border-radius: 100px;
+      transition: width 0.4s ease;
+    }
+
+    /* 入力エリア */
+    .input-area {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+    .input-area input {
+      flex: 1;
+      padding: 12px 16px;
+      border: 2px solid #e0e7ff;
+      border-radius: 12px;
+      font-size: 15px;
+      color: #1e1b4b;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .input-area input:focus {
+      border-color: #6366f1;
+    }
+    .input-area input::placeholder {
+      color: #b0b7c3;
+    }
+    .add-btn {
+      padding: 12px 18px;
+      background: #6366f1;
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 22px;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+      line-height: 1;
+    }
+    .add-btn:hover { background: #4f46e5; }
+    .add-btn:active { transform: scale(0.95); }
+
+    /* タスクリスト */
+    .task-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .task-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 16px;
+      background: #f8f9ff;
+      border-radius: 12px;
+      border: 1.5px solid #e0e7ff;
+      transition: background 0.2s, opacity 0.3s;
+      animation: slideIn 0.25s ease;
+    }
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(-8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .task-item.done {
+      background: #f0fdf4;
+      border-color: #bbf7d0;
+      opacity: 0.75;
+    }
+
+    /* カスタムチェックボックス */
+    .checkbox-wrap {
+      position: relative;
+      width: 22px;
+      height: 22px;
+      flex-shrink: 0;
+    }
+    .checkbox-wrap input[type="checkbox"] {
+      opacity: 0;
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      cursor: pointer;
+      margin: 0;
+    }
+    .checkmark {
+      position: absolute;
+      inset: 0;
+      border-radius: 6px;
+      border: 2px solid #c7d2fe;
+      background: white;
+      transition: all 0.2s;
+      pointer-events: none;
+    }
+    .checkmark::after {
+      content: '';
+      position: absolute;
+      left: 5px; top: 2px;
+      width: 7px; height: 11px;
+      border: 2px solid white;
+      border-top: none; border-left: none;
+      transform: rotate(45deg) scale(0);
+      transition: transform 0.15s;
+    }
+    .checkbox-wrap input:checked ~ .checkmark {
+      background: #22c55e;
+      border-color: #22c55e;
+    }
+    .checkbox-wrap input:checked ~ .checkmark::after {
+      transform: rotate(45deg) scale(1);
+    }
+
+    /* タスクテキスト */
+    .task-text {
+      flex: 1;
+      font-size: 15px;
+      color: #1e1b4b;
+      word-break: break-all;
+      transition: color 0.2s;
+    }
+    .task-item.done .task-text {
+      text-decoration: line-through;
+      color: #9ca3af;
+    }
+
+    /* 削除ボタン */
+    .delete-btn {
+      background: none;
+      border: none;
+      color: #d1d5db;
+      font-size: 18px;
+      cursor: pointer;
+      padding: 2px 4px;
+      border-radius: 6px;
+      transition: color 0.2s, background 0.2s;
+      line-height: 1;
+    }
+    .delete-btn:hover {
+      color: #ef4444;
+      background: #fee2e2;
+    }
+
+    /* 空状態 */
+    .empty {
+      text-align: center;
+      padding: 32px 0;
+      color: #b0b7c3;
+      font-size: 14px;
+    }
+    .empty .icon { font-size: 40px; margin-bottom: 10px; }
+
+    /* 全完了メッセージ */
+    .all-done {
+      text-align: center;
+      padding: 20px 0 8px;
+      font-size: 15px;
+      color: #22c55e;
+      font-weight: 600;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <h1>📖 今日の勉強リスト</h1>
+    <div class="date" id="today-date"></div>
+  </div>
+
+  <div class="progress-wrap" id="progress-wrap" style="display:none;">
+    <div class="progress-label">
+      <span>進捗</span>
+      <span id="progress-text">0 / 0</span>
+    </div>
+    <div class="progress-bar">
+      <div class="progress-fill" id="progress-fill" style="width:0%"></div>
+    </div>
+  </div>
+
+  <div class="input-area">
+    <input type="text" id="task-input" placeholder="例：数学 p.45〜50" maxlength="60" />
+    <button class="add-btn" onclick="addTask()" title="追加">＋</button>
+  </div>
+
+  <ul class="task-list" id="task-list"></ul>
+  <div class="empty" id="empty-state">
+    <div class="icon">✏️</div>
+    今日やることを追加しよう！
+  </div>
+  <div class="all-done" id="all-done">🎉 今日のタスク完了！お疲れさま！</div>
+</div>
+
+<script>
+  // 今日の日付
+  const d = new Date();
+  const days = ['日','月','火','水','木','金','土'];
+  document.getElementById('today-date').textContent =
+    `${d.getFullYear()}年${d.getMonth()+1}月${d.getDate()}日（${days[d.getDay()]}）`;
+
+  let tasks = JSON.parse(localStorage.getItem('study-tasks') || '[]');
+  render();
+
+  document.getElementById('task-input').addEventListener('keydown', e => {
+    if (e.key === 'Enter' && !e.isComposing) addTask();
+  });
+
+  function save() {
+    localStorage.setItem('study-tasks', JSON.stringify(tasks));
+  }
+
+  function addTask() {
+    const input = document.getElementById('task-input');
+    const text = input.value.trim();
+    if (!text) return;
+    tasks.push({ id: Date.now(), text, done: false });
+    input.value = '';
+    save();
+    render();
+  }
+
+  function toggleTask(id) {
+    tasks = tasks.map(t => t.id === id ? { ...t, done: !t.done } : t);
+    save();
+    render();
+  }
+
+  function deleteTask(id) {
+    tasks = tasks.filter(t => t.id !== id);
+    save();
+    render();
+  }
+
+  function render() {
+    const list = document.getElementById('task-list');
+    const empty = document.getElementById('empty-state');
+    const allDone = document.getElementById('all-done');
+    const progressWrap = document.getElementById('progress-wrap');
+    const progressFill = document.getElementById('progress-fill');
+    const progressText = document.getElementById('progress-text');
+
+    list.innerHTML = '';
+
+    if (tasks.length === 0) {
+      empty.style.display = 'block';
+      allDone.style.display = 'none';
+      progressWrap.style.display = 'none';
+      return;
+    }
+
+    empty.style.display = 'none';
+    progressWrap.style.display = 'block';
+
+    const doneCount = tasks.filter(t => t.done).length;
+    const pct = Math.round(doneCount / tasks.length * 100);
+    progressFill.style.width = pct + '%';
+    progressText.textContent = `${doneCount} / ${tasks.length}`;
+
+    allDone.style.display = (doneCount === tasks.length) ? 'block' : 'none';
+
+    tasks.forEach(task => {
+      const li = document.createElement('li');
+      li.className = 'task-item' + (task.done ? ' done' : '');
+      li.innerHTML = `
+        <label class="checkbox-wrap">
+          <input type="checkbox" ${task.done ? 'checked' : ''} onchange="toggleTask(${task.id})"/>
+          <span class="checkmark"></span>
+        </label>
+        <span class="task-text">${escapeHtml(task.text)}</span>
+        <button class="delete-btn" onclick="deleteTask(${task.id})" title="削除">✕</button>
+      `;
+      list.appendChild(li);
+    });
+  }
+
+  function escapeHtml(str) {
+    return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+</script>
+</body>
+</html>
