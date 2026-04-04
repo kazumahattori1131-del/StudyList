@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>【数学A】条件付き確率と余事象の融合</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <link rel="stylesheet" href="../../slide.css">
+  <style> :root { --accent: #6b46c1; } </style>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]})"></script>
+</head>
+<body>
+
+<!-- スライド 1：問題 -->
+<section class="slide active">
+  <div class="slide-header">
+    <span class="badge">数学 A</span>
+    <span class="badge orange">確率</span>
+    <span class="slide-title">条件付き確率と余事象の融合</span>
+    <div class="meta"><span>★★★☆☆ 中級</span><span>目安 15 分</span></div>
+  </div>
+
+  <div class="problem-label">問　題</div>
+  <div class="problem-box">
+    袋の中に赤球 4 個、白球 3 個の合計 7 個の球が入っている。この袋から同時に 3 個の球を取り出す。
+    <div class="sub-q"><strong>(1)</strong>　取り出した 3 個のうち、少なくとも 1 個が赤球である確率を求めよ。</div>
+    <div class="sub-q"><strong>(2)</strong>　少なくとも 1 個が赤球であったとき、赤球が 2 個以上含まれている条件付き確率を求めよ。</div>
+  </div>
+
+  <div class="section-title">解法の方針</div>
+  <div class="step">
+    (1)「少なくとも〜」は <span class="highlight">余事象</span> を使うと一発！<br>
+    (2) 条件付き確率の公式 $P(B \mid A) = \dfrac{P(A \cap B)}{P(A)}$ を活用する
+  </div>
+
+  <div class="slide-footer"><span>高校数学 重要問題解説</span><span>1 / 4</span></div>
+</section>
+
+<!-- スライド 2：(1) の解答 -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge">解説 (1)</span>
+    <span class="slide-title">余事象を使って確率を求める</span>
+  </div>
+
+  <div class="step">
+    <span class="step-num">1</span> 全体の場合の数：
+    $$\binom{7}{3} = \frac{7 \times 6 \times 5}{3 \times 2 \times 1} = 35 \text{ 通り}$$
+  </div>
+  <div class="step">
+    <span class="step-num">2</span> 余事象「3個全部が白球」の場合の数：$\binom{3}{3} = 1$ 通り
+  </div>
+  <div class="step">
+    <span class="step-num">3</span>
+    $$P(\text{少なくとも1個赤}) = 1 - P(\text{全部白}) = 1 - \frac{1}{35}$$
+  </div>
+
+  <div class="answer-label">(1) の答え</div>
+  <div class="answer-box">
+    $$P(\text{少なくとも1個赤}) = \frac{34}{35}$$
+  </div>
+
+  <div style="margin-top:16px;font-size:15px;color:#6b46c1;">
+    ▶ 直接求める場合：赤1個・2個・3個の3通りに分ける → 手間がかかる。余事象が圧倒的に速い！
+  </div>
+
+  <div class="slide-footer"><span>高校数学 重要問題解説</span><span>2 / 4</span></div>
+</section>
+
+<!-- スライド 3：(2) の解答 -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge">解説 (2)</span>
+    <span class="slide-title">条件付き確率の公式を使う</span>
+  </div>
+
+  <div class="step">
+    事象 $A$：少なくとも 1 個が赤球　　事象 $B$：赤球が 2 個以上含まれる<br>
+    $B \subset A$ なので $A \cap B = B$
+  </div>
+
+  <div class="key-formula">
+    $P(B \mid A) = \dfrac{P(A \cap B)}{P(A)} = \dfrac{P(B)}{P(A)}$
+  </div>
+
+  <div class="step">
+    <span class="step-num">★</span> 事象 $B$（赤球 2 個以上）の場合の数：
+    <table>
+      <thead><tr><th>赤球</th><th>白球</th><th>場合の数</th></tr></thead>
+      <tbody>
+        <tr><td>2 個</td><td>1 個</td><td>$\binom{4}{2}\binom{3}{1} = 18$ 通り</td></tr>
+        <tr><td>3 個</td><td>0 個</td><td>$\binom{4}{3}\binom{3}{0} = 4$ 通り</td></tr>
+        <tr><td colspan="2">合計</td><td>$22$ 通り　→　$P(B)=\dfrac{22}{35}$</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="answer-label">(2) の答え</div>
+  <div class="answer-box">
+    $$P(B \mid A) = \frac{P(B)}{P(A)} = \frac{\dfrac{22}{35}}{\dfrac{34}{35}} = \frac{22}{34} = \frac{11}{17}$$
+  </div>
+
+  <div class="slide-footer"><span>高校数学 重要問題解説</span><span>3 / 4</span></div>
+</section>
+
+<!-- スライド 4：ポイント -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge green">ポイント</span>
+    <span class="slide-title">受験テクニック・発展への橋渡し</span>
+  </div>
+
+  <ul class="point-list">
+    <li>「少なくとも〜」は余事象が基本。余事象なら1通りで済む</li>
+    <li>条件付き確率は <span class="highlight">$P(B \mid A) = P(A \cap B) / P(A)$</span> を公式から出発する</li>
+    <li>$B \subset A$（赤 2 個以上 $\Rightarrow$ 赤 1 個以上）に気づくと $A \cap B = B$ が使える</li>
+    <li><strong>直感的解釈：</strong>「34 通りの中で、赤 2 個以上の 22 通りが占める割合」$= \dfrac{22}{34} = \dfrac{11}{17}$</li>
+    <li><strong>発展：</strong>ベイズの定理への橋渡し（医療検査問題など）</li>
+  </ul>
+
+  <div class="slide-footer"><span>高校数学 重要問題解説</span><span>4 / 4</span></div>
+</section>
+
+<div id="nav">
+  <button id="btn-prev">◀ 前へ</button>
+  <span class="page-info" id="pinfo">1 / 4</span>
+  <button id="btn-next">次へ ▶</button>
+</div>
+<script src="../../slide.js"></script>
+</body>
+</html>

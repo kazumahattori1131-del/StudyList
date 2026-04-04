@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>【数学I】二次関数の最小値（パラメータ場合分け）</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <link rel="stylesheet" href="../../slide.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]})"></script>
+</head>
+<body>
+
+<!-- スライド 1：問題 -->
+<section class="slide active">
+  <div class="slide-header">
+    <span class="badge">数学 I</span>
+    <span class="badge orange">二次関数</span>
+    <span class="slide-title">二次関数の最小値（パラメータ場合分け）</span>
+    <div class="meta"><span>★★★☆☆ 中級</span><span>目安 15 分</span></div>
+  </div>
+
+  <div class="problem-label">問　題</div>
+  <div class="problem-box">
+    実数 $a$ を定数とする。関数
+    $$f(x) = x^2 - 2ax + 2a + 3$$
+    について、$0 \leq x \leq 3$ における $f(x)$ の最小値 $m(a)$ を求めよ。
+  </div>
+
+  <div class="section-title">考え方のヒント</div>
+  <div class="step">
+    放物線の頂点の $x$ 座標が定義域 $[0,\ 3]$ のどこにあるかによって最小値の場所が変わる。<br>
+    → <span class="highlight">頂点の位置で場合分け</span> が解法の核心！
+  </div>
+
+  <div class="slide-footer"><span>高校数学 重要問題解説</span><span>1 / 4</span></div>
+</section>
+
+<!-- スライド 2：頂点と場合分けの準備 -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge">解説</span>
+    <span class="slide-title">Step 1：平方完成で頂点を求める</span>
+  </div>
+
+  <div class="step">
+    <span class="step-num">1</span> 平方完成：
+    $$f(x) = (x - a)^2 - a^2 + 2a + 3$$
+    頂点 $\left(a,\ -a^2 + 2a + 3\right)$
+  </div>
+  <div class="step">
+    <span class="step-num">2</span>
+    場合分けの境界は頂点 $x=a$ が区間端と一致するとき：
+    <span class="highlight">$a=0$（左端）</span> と <span class="highlight">$a=3$（右端）</span> の 2 点
+  </div>
+
+  <div class="slide-footer"><span>高校数学 重要問題解説</span><span>2 / 4</span></div>
+</section>
+
+<!-- スライド 3：場合分けと答え -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge">解説</span>
+    <span class="slide-title">Step 2：場合分けして最小値を求める</span>
+  </div>
+
+  <div class="cases">
+    <div class="case-card">
+      <div class="case-cond">場合 1：$a &lt; 0$</div>
+      頂点が左外 → 単調増加<br>最小は $x=0$
+      $$m(a) = f(0) = 2a+3$$
+    </div>
+    <div class="case-card">
+      <div class="case-cond">場合 2：$0 \leq a \leq 3$</div>
+      頂点が区間内<br>最小は頂点の値
+      $$m(a) = -a^2+2a+3$$
+    </div>
+    <div class="case-card">
+      <div class="case-cond">場合 3：$a &gt; 3$</div>
+      頂点が右外 → 単調減少<br>最小は $x=3$
+      $$m(a) = f(3) = -4a+12$$
+    </div>
+  </div>
+
+  <div class="answer-label">答　え</div>
+  <div class="answer-box">
+    $$m(a) = \begin{cases} 2a + 3 & (a < 0) \\ -a^2 + 2a + 3 & (0 \leq a \leq 3) \\ -4a + 12 & (a > 3) \end{cases}$$
+  </div>
+
+  <div class="slide-footer"><span>高校数学 重要問題解説</span><span>3 / 4</span></div>
+</section>
+
+<!-- スライド 4：ポイント -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge green">ポイント</span>
+    <span class="slide-title">受験テクニック・確認事項</span>
+  </div>
+
+  <ul class="point-list">
+    <li>場合分けの境界は「頂点 $x=a$ が区間端 $x=0$，$x=3$ と一致するとき」</li>
+    <li>
+      各境界で答えが一致するか確認（連続性チェック）<br>
+      <span style="font-size:15px;color:#4a5568;margin-left:24px;">
+        $a=0$：$2(0)+3=3$，$-(0)^2+2(0)+3=3$ ✓<br>
+        $a=3$：$-(3)^2+2(3)+3=0$，$-4(3)+12=0$ ✓
+      </span>
+    </li>
+    <li>青チャート・フォーカスゴールドともに「最重要例題」に分類される形式</li>
+    <li><strong>発展：</strong>最小値が常に正となる $a$ の範囲は？（不等式との融合）</li>
+  </ul>
+
+  <div class="slide-footer"><span>高校数学 重要問題解説</span><span>4 / 4</span></div>
+</section>
+
+<div id="nav">
+  <button id="btn-prev">◀ 前へ</button>
+  <span class="page-info" id="pinfo">1 / 4</span>
+  <button id="btn-next">次へ ▶</button>
+</div>
+<script src="../../slide.js"></script>
+</body>
+</html>
