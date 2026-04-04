@@ -10,9 +10,20 @@ body {
   min-height: 100vh;
 }
 
+/* 進捗バー */
+#progress-bar {
+  position: fixed;
+  top: 0; left: 0;
+  height: 4px;
+  background: var(--accent);
+  transition: width 0.3s ease;
+  z-index: 200;
+}
+
 /* スライド */
 .slide {
   display: none;
+  opacity: 0;
   width: 1280px;
   min-height: 720px;
   margin: 0 auto;
@@ -20,8 +31,12 @@ body {
   padding: 56px 72px;
   box-shadow: 0 4px 24px rgba(0,0,0,0.12);
   flex-direction: column;
+  transition: opacity 0.2s ease;
 }
-.slide.active { display: flex; }
+.slide.active {
+  display: flex;
+  opacity: 1;
+}
 
 /* ヘッダー */
 .slide-header {
@@ -39,6 +54,7 @@ body {
   font-weight: 700;
   padding: 4px 12px;
   border-radius: 4px;
+  white-space: nowrap;
 }
 .badge.orange { background: #dd6b20; }
 .badge.green  { background: #276749; }
@@ -182,7 +198,7 @@ tr:last-child td { font-weight: 700; background: color-mix(in srgb, var(--accent
   flex-shrink: 0;
 }
 
-/* フッター */
+/* フッター（ページ番号はJSで自動入力） */
 .slide-footer {
   margin-top: auto;
   padding-top: 20px;
@@ -200,8 +216,9 @@ tr:last-child td { font-weight: 700; background: color-mix(in srgb, var(--accent
   left: 50%;
   transform: translateX(-50%);
   display: flex;
+  align-items: center;
   gap: 12px;
-  background: rgba(0,0,0,0.7);
+  background: rgba(0,0,0,0.72);
   padding: 10px 20px;
   border-radius: 30px;
   z-index: 100;
@@ -214,8 +231,11 @@ tr:last-child td { font-weight: 700; background: color-mix(in srgb, var(--accent
   font-size: 14px;
   font-weight: 700;
   cursor: pointer;
+  transition: background 0.15s;
 }
-#nav button:hover { background: color-mix(in srgb, var(--accent) 10%, white); }
-#nav .page-info { color: #fff; font-size: 14px; line-height: 36px; min-width: 60px; text-align: center; }
+#nav button:hover { background: color-mix(in srgb, var(--accent) 15%, white); }
+#nav button:disabled { opacity: 0.35; cursor: default; }
+#nav .page-info { color: #fff; font-size: 14px; min-width: 60px; text-align: center; }
+#nav .hint { color: #aaa; font-size: 11px; }
 
 .highlight { background: #fefcbf; padding: 1px 4px; border-radius: 3px; }

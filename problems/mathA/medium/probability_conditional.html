@@ -11,6 +11,7 @@
     onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]})"></script>
 </head>
 <body>
+<div id="progress-bar"></div>
 
 <!-- スライド 1：問題 -->
 <section class="slide active">
@@ -34,7 +35,7 @@
     (2) 条件付き確率の公式 $P(B \mid A) = \dfrac{P(A \cap B)}{P(A)}$ を活用する
   </div>
 
-  <div class="slide-footer"><span>高校数学 重要問題解説</span><span>1 / 4</span></div>
+  <div class="slide-footer"></div>
 </section>
 
 <!-- スライド 2：(1) の解答 -->
@@ -65,7 +66,7 @@
     ▶ 直接求める場合：赤1個・2個・3個の3通りに分ける → 手間がかかる。余事象が圧倒的に速い！
   </div>
 
-  <div class="slide-footer"><span>高校数学 重要問題解説</span><span>2 / 4</span></div>
+  <div class="slide-footer"></div>
 </section>
 
 <!-- スライド 3：(2) の解答 -->
@@ -101,7 +102,7 @@
     $$P(B \mid A) = \frac{P(B)}{P(A)} = \frac{\dfrac{22}{35}}{\dfrac{34}{35}} = \frac{22}{34} = \frac{11}{17}$$
   </div>
 
-  <div class="slide-footer"><span>高校数学 重要問題解説</span><span>3 / 4</span></div>
+  <div class="slide-footer"></div>
 </section>
 
 <!-- スライド 4：ポイント -->
@@ -119,13 +120,14 @@
     <li><strong>発展：</strong>ベイズの定理への橋渡し（医療検査問題など）</li>
   </ul>
 
-  <div class="slide-footer"><span>高校数学 重要問題解説</span><span>4 / 4</span></div>
+  <div class="slide-footer"></div>
 </section>
 
 <div id="nav">
   <button id="btn-prev">◀ 前へ</button>
   <span class="page-info" id="pinfo">1 / 4</span>
   <button id="btn-next">次へ ▶</button>
+  <span class="hint">← → キーでも操作できます</span>
 </div>
 <script src="../../slide.js"></script>
 </body>
