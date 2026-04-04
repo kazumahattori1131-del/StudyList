@@ -6,8 +6,8 @@
         "hooks": [
           {
             "type": "command",
-            "command": "INPUT=$(cat); FILE=$(echo \"$INPUT\" | jq -r '.tool_input.file_path // \"\"'); echo \"$FILE\" | grep -qE '/problems/.*\\.html$' && REL=\"${FILE#/home/user/StudyList/}\" && printf '{\"systemMessage\":\"GitHub Pages URL:\\nhttps://kazumahattori1131-del.github.io/StudyList/%s\"}' \"$REL\" || true",
-            "statusMessage": "GitHub Pages URLを生成中..."
+            "command": "INPUT=$(cat); FILE=$(echo \"$INPUT\" | jq -r '.tool_input.file_path // \"\"'); echo \"$FILE\" | grep -qE '/problems/.*\\.html$' || exit 0; REL=\"${FILE#/home/user/StudyList/}\"; URL=\"https://kazumahattori1131-del.github.io/StudyList/${REL}\"; grep -qF \"$URL\" \"$FILE\" || sed -i \"s|<body>|<body>\\n<!--\\n\\n${URL}\\n\\n-->|\" \"$FILE\"; printf '{\"systemMessage\":\"GitHub Pages URL:\\n%s\"}' \"$URL\"",
+            "statusMessage": "GitHub Pages URLを挿入中..."
           }
         ]
       }
