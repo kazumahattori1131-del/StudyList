@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>【数学A】条件付き確率と余事象の融合</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body, {
+      delimiters: [
+        {left: '$$', right: '$$', display: true},
+        {left: '$', right: '$', display: false}
+      ]
+    });"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
+      background: #f0f4f8;
+      color: #1a202c;
+      min-height: 100vh;
+    }
+
+    .slide {
+      display: none;
+      width: 1280px;
+      min-height: 720px;
+      margin: 0 auto;
+      background: #fff;
+      padding: 56px 72px;
+      position: relative;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+    }
+    .slide.active { display: flex; flex-direction: column; }
+
+    .slide-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 36px;
+      padding-bottom: 20px;
+      border-bottom: 3px solid #6b46c1;
+    }
+    .badge {
+      background: #6b46c1;
+      color: #fff;
+      font-size: 13px;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 4px;
+      white-space: nowrap;
+    }
+    .badge.orange { background: #dd6b20; }
+    .badge.green  { background: #276749; }
+    .slide-title {
+      font-size: 22px;
+      font-weight: 800;
+      color: #2d3748;
+      flex: 1;
+    }
+    .meta {
+      font-size: 13px;
+      color: #718096;
+      display: flex;
+      gap: 20px;
+    }
+
+    .problem-box {
+      background: #faf5ff;
+      border-left: 6px solid #6b46c1;
+      border-radius: 0 8px 8px 0;
+      padding: 28px 36px;
+      font-size: 20px;
+      line-height: 2;
+      margin-bottom: 24px;
+    }
+    .problem-label {
+      font-size: 13px;
+      font-weight: 700;
+      color: #6b46c1;
+      letter-spacing: 0.1em;
+      margin-bottom: 10px;
+    }
+    .sub-q {
+      margin-top: 12px;
+      padding: 10px 0;
+      border-top: 1px dashed #d6bcfa;
+      font-size: 18px;
+    }
+
+    .section-title {
+      font-size: 17px;
+      font-weight: 700;
+      color: #553c9a;
+      margin: 24px 0 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .section-title::before {
+      content: '';
+      display: inline-block;
+      width: 6px;
+      height: 20px;
+      background: #6b46c1;
+      border-radius: 3px;
+    }
+
+    .step {
+      background: #f7fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 20px 28px;
+      margin-bottom: 14px;
+      font-size: 18px;
+      line-height: 1.9;
+    }
+    .step-num {
+      display: inline-block;
+      background: #6b46c1;
+      color: #fff;
+      font-size: 12px;
+      font-weight: 700;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      text-align: center;
+      line-height: 22px;
+      margin-right: 8px;
+    }
+
+    /* 表 */
+    table {
+      border-collapse: collapse;
+      margin: 16px 0;
+      font-size: 17px;
+      width: 100%;
+    }
+    th {
+      background: #6b46c1;
+      color: #fff;
+      padding: 10px 20px;
+      text-align: center;
+    }
+    td {
+      border: 1px solid #d6bcfa;
+      padding: 10px 20px;
+      text-align: center;
+    }
+    tr:nth-child(even) td { background: #faf5ff; }
+    tr:last-child td { font-weight: 700; background: #f0e6ff; }
+
+    .answer-box {
+      background: #fff5f5;
+      border: 2px solid #fc8181;
+      border-radius: 10px;
+      padding: 20px 36px;
+      font-size: 19px;
+      line-height: 2.2;
+      margin-top: 8px;
+    }
+    .answer-label {
+      font-size: 13px;
+      font-weight: 700;
+      color: #c53030;
+      letter-spacing: 0.1em;
+      margin-bottom: 6px;
+    }
+
+    /* 余事象ビジュアル */
+    .venn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 32px;
+      margin: 20px 0;
+      font-size: 16px;
+    }
+    .venn-circle {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-weight: 700;
+      font-size: 15px;
+      line-height: 1.4;
+    }
+    .venn-total { background: #e9d8fd; border: 3px solid #6b46c1; }
+    .venn-bad   { background: #fff5f5; border: 3px solid #fc8181; }
+    .venn-good  { background: #c6f6d5; border: 3px solid #276749; }
+
+    .point-list {
+      list-style: none;
+      font-size: 17px;
+      line-height: 1.9;
+    }
+    .point-list li {
+      padding: 10px 0;
+      border-bottom: 1px dashed #e2e8f0;
+      display: flex;
+      gap: 10px;
+    }
+    .point-list li::before {
+      content: '✦';
+      color: #6b46c1;
+      font-size: 12px;
+      margin-top: 5px;
+      flex-shrink: 0;
+    }
+
+    .slide-footer {
+      margin-top: auto;
+      padding-top: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13px;
+      color: #a0aec0;
+      border-top: 1px solid #e2e8f0;
+    }
+
+    #nav {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 12px;
+      background: rgba(0,0,0,0.7);
+      padding: 10px 20px;
+      border-radius: 30px;
+      z-index: 100;
+    }
+    #nav button {
+      background: #fff;
+      border: none;
+      border-radius: 20px;
+      padding: 8px 22px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    #nav button:hover { background: #faf5ff; }
+    #nav .page-info { color: #fff; font-size: 14px; line-height: 36px; min-width: 60px; text-align: center; }
+
+    .highlight { background: #fefcbf; padding: 1px 4px; border-radius: 3px; }
+    .key-formula {
+      background: #faf5ff;
+      border: 2px solid #d6bcfa;
+      border-radius: 8px;
+      padding: 16px 28px;
+      font-size: 19px;
+      text-align: center;
+      margin: 12px 0;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ===== スライド 1：問題 ===== -->
+<section class="slide active" id="s1">
+  <div class="slide-header">
+    <span class="badge">数学 A</span>
+    <span class="badge orange">確率</span>
+    <span class="slide-title">条件付き確率と余事象の融合</span>
+    <div class="meta">
+      <span>★★★☆☆ 中級</span>
+      <span>目安 15 分</span>
+    </div>
+  </div>
+
+  <div class="problem-label">問　題</div>
+  <div class="problem-box">
+    袋の中に赤球 4 個、白球 3 個の合計 7 個の球が入っている。<br>
+    この袋から同時に 3 個の球を取り出す。
+
+    <div class="sub-q">
+      <strong>(1)</strong>　取り出した 3 個の球のうち、少なくとも 1 個が赤球である確率を求めよ。
+    </div>
+    <div class="sub-q">
+      <strong>(2)</strong>　取り出した 3 個の球のうち、少なくとも 1 個が赤球であったとき、<br>
+      　　　赤球が 2 個以上含まれている条件付き確率を求めよ。
+    </div>
+  </div>
+
+  <div class="section-title">解法の方針</div>
+  <div class="step">
+    (1)「少なくとも〜」は <span class="highlight">余事象</span> を使うと一発！<br>
+    (2) 条件付き確率の公式 $P(B \mid A) = \dfrac{P(A \cap B)}{P(A)}$ を活用する
+  </div>
+
+  <div class="slide-footer">
+    <span>高校数学 重要問題解説</span>
+    <span>1 / 4</span>
+  </div>
+</section>
+
+<!-- ===== スライド 2：(1) の解答 ===== -->
+<section class="slide" id="s2">
+  <div class="slide-header">
+    <span class="badge">解説 (1)</span>
+    <span class="slide-title">余事象を使って確率を求める</span>
+  </div>
+
+  <div class="step">
+    <span class="step-num">1</span> 全体の場合の数：
+    $$\binom{7}{3} = \frac{7 \times 6 \times 5}{3 \times 2 \times 1} = 35 \text{ 通り}$$
+  </div>
+
+  <div class="step">
+    <span class="step-num">2</span> 余事象「3個全部が白球」の場合の数：
+    $$\binom{3}{3} = 1 \text{ 通り}$$
+  </div>
+
+  <div class="step">
+    <span class="step-num">3</span>
+    $$P(\text{少なくとも1個赤}) = 1 - P(\text{全部白}) = 1 - \frac{1}{35}$$
+  </div>
+
+  <div class="answer-label">(1) の答え</div>
+  <div class="answer-box">
+    $$P(\text{少なくとも1個赤}) = \frac{34}{35}$$
+  </div>
+
+  <div style="margin-top:16px; font-size:15px; color:#6b46c1;">
+    ▶ 直接求める場合：赤1個・赤2個・赤3個の3通りに分けて計算 → 手間がかかる。余事象が圧倒的に速い！
+  </div>
+
+  <div class="slide-footer">
+    <span>高校数学 重要問題解説</span>
+    <span>2 / 4</span>
+  </div>
+</section>
+
+<!-- ===== スライド 3：(2) の解答 ===== -->
+<section class="slide" id="s3">
+  <div class="slide-header">
+    <span class="badge">解説 (2)</span>
+    <span class="slide-title">条件付き確率の公式を使う</span>
+  </div>
+
+  <div class="step" style="margin-bottom:10px;">
+    事象 $A$：少なくとも 1 個が赤球　　事象 $B$：赤球が 2 個以上含まれる<br>
+    $B \subset A$ なので　$A \cap B = B$
+  </div>
+
+  <div class="key-formula">
+    $P(B \mid A) = \dfrac{P(A \cap B)}{P(A)} = \dfrac{P(B)}{P(A)}$
+  </div>
+
+  <div class="step">
+    <span class="step-num">★</span> 事象 $B$（赤球 2 個以上）の場合の数：
+
+    <table>
+      <thead><tr><th>赤球</th><th>白球</th><th>場合の数</th></tr></thead>
+      <tbody>
+        <tr><td>2 個</td><td>1 個</td><td>$\binom{4}{2}\binom{3}{1} = 6 \times 3 = 18$ 通り</td></tr>
+        <tr><td>3 個</td><td>0 個</td><td>$\binom{4}{3}\binom{3}{0} = 4 \times 1 = 4$ 通り</td></tr>
+        <tr><td colspan="2">合計</td><td>$22$ 通り</td></tr>
+      </tbody>
+    </table>
+
+    $$P(B) = \frac{22}{35}$$
+  </div>
+
+  <div class="answer-label">(2) の答え</div>
+  <div class="answer-box">
+    $$P(B \mid A) = \frac{P(B)}{P(A)} = \frac{\dfrac{22}{35}}{\dfrac{34}{35}} = \frac{22}{34} = \frac{11}{17}$$
+  </div>
+
+  <div class="slide-footer">
+    <span>高校数学 重要問題解説</span>
+    <span>3 / 4</span>
+  </div>
+</section>
+
+<!-- ===== スライド 4：ポイント ===== -->
+<section class="slide" id="s4">
+  <div class="slide-header">
+    <span class="badge green">ポイント</span>
+    <span class="slide-title">受験テクニック・発展への橋渡し</span>
+  </div>
+
+  <ul class="point-list">
+    <li>「少なくとも〜」は余事象が基本。直接数えると3通りに分かれるが、余事象なら1通りで済む</li>
+    <li>
+      条件付き確率は <span class="highlight">$P(B \mid A) = P(A \cap B) / P(A)$</span> を必ず公式から出発する<br>
+      （感覚で解こうとするとミスが多い）
+    </li>
+    <li>$B \subset A$ の関係（赤 2 個以上 $\Rightarrow$ 赤 1 個以上）に気づくと $A \cap B = B$ が使える</li>
+    <li>
+      <strong>直感的解釈：</strong>「34 通りの中で、赤 2 個以上の 22 通りが占める割合」
+      → $\dfrac{22}{34} = \dfrac{11}{17}$
+    </li>
+    <li>
+      <strong>発展：</strong>ベイズの定理への橋渡し（原因の確率・医療検査問題など）
+    </li>
+  </ul>
+
+  <div class="slide-footer">
+    <span>高校数学 重要問題解説</span>
+    <span>4 / 4</span>
+  </div>
+</section>
+
+<!-- ===== ナビゲーション ===== -->
+<div id="nav">
+  <button onclick="go(-1)">◀ 前へ</button>
+  <span class="page-info" id="pinfo">1 / 4</span>
+  <button onclick="go(1)">次へ ▶</button>
+</div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  let cur = 0;
+  function go(d) {
+    slides[cur].classList.remove('active');
+    cur = Math.max(0, Math.min(slides.length - 1, cur + d));
+    slides[cur].classList.add('active');
+    document.getElementById('pinfo').textContent = `${cur+1} / ${slides.length}`;
+  }
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') go(1);
+    if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   go(-1);
+  });
+</script>
+</body>
+</html>
