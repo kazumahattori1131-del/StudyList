@@ -1,0 +1,221 @@
+/* ===== 共通スライドスタイル ===== */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root { --accent: #3182ce; }
+
+body {
+  font-family: 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
+  background: #f0f4f8;
+  color: #1a202c;
+  min-height: 100vh;
+}
+
+/* スライド */
+.slide {
+  display: none;
+  width: 1280px;
+  min-height: 720px;
+  margin: 0 auto;
+  background: #fff;
+  padding: 56px 72px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+  flex-direction: column;
+}
+.slide.active { display: flex; }
+
+/* ヘッダー */
+.slide-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 36px;
+  padding-bottom: 20px;
+  border-bottom: 3px solid var(--accent);
+}
+.badge {
+  background: var(--accent);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 4px;
+}
+.badge.orange { background: #dd6b20; }
+.badge.green  { background: #276749; }
+.slide-title { font-size: 22px; font-weight: 800; color: #2d3748; flex: 1; }
+.meta { font-size: 13px; color: #718096; display: flex; gap: 20px; }
+
+/* 問題ボックス */
+.problem-label {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--accent);
+  margin-bottom: 10px;
+}
+.problem-box {
+  background: color-mix(in srgb, var(--accent) 8%, white);
+  border-left: 6px solid var(--accent);
+  border-radius: 0 8px 8px 0;
+  padding: 28px 36px;
+  font-size: 20px;
+  line-height: 2;
+  margin-bottom: 24px;
+}
+.sub-q {
+  margin-top: 12px;
+  padding: 10px 0;
+  border-top: 1px dashed color-mix(in srgb, var(--accent) 30%, white);
+  font-size: 18px;
+}
+
+/* セクションタイトル */
+.section-title {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--accent);
+  margin: 24px 0 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.section-title::before {
+  content: '';
+  display: inline-block;
+  width: 6px; height: 20px;
+  background: var(--accent);
+  border-radius: 3px;
+}
+
+/* ステップ */
+.step {
+  background: #f7fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 20px 28px;
+  margin-bottom: 14px;
+  font-size: 18px;
+  line-height: 1.9;
+}
+.step-num {
+  display: inline-block;
+  background: var(--accent);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 22px;
+  margin-right: 8px;
+}
+
+/* 場合分けカード */
+.cases { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 16px 0; }
+.case-card {
+  border: 2px solid color-mix(in srgb, var(--accent) 30%, white);
+  border-radius: 10px;
+  padding: 18px 20px;
+  text-align: center;
+  font-size: 16px;
+  line-height: 2;
+}
+.case-cond {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 10%, white);
+  border-radius: 4px;
+  padding: 2px 8px;
+  margin-bottom: 10px;
+  display: inline-block;
+}
+
+/* 答えボックス */
+.answer-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: #c53030;
+  letter-spacing: 0.1em;
+  margin-bottom: 6px;
+}
+.answer-box {
+  background: #fff5f5;
+  border: 2px solid #fc8181;
+  border-radius: 10px;
+  padding: 20px 36px;
+  font-size: 19px;
+  line-height: 2.2;
+}
+
+/* 表 */
+table { border-collapse: collapse; margin: 16px 0; font-size: 17px; width: 100%; }
+th { background: var(--accent); color: #fff; padding: 10px 20px; text-align: center; }
+td { border: 1px solid color-mix(in srgb, var(--accent) 30%, white); padding: 10px 20px; text-align: center; }
+tr:nth-child(even) td { background: color-mix(in srgb, var(--accent) 5%, white); }
+tr:last-child td { font-weight: 700; background: color-mix(in srgb, var(--accent) 12%, white); }
+
+/* 重要公式 */
+.key-formula {
+  background: color-mix(in srgb, var(--accent) 6%, white);
+  border: 2px solid color-mix(in srgb, var(--accent) 25%, white);
+  border-radius: 8px;
+  padding: 16px 28px;
+  font-size: 19px;
+  text-align: center;
+  margin: 12px 0;
+}
+
+/* ポイントリスト */
+.point-list { list-style: none; font-size: 17px; line-height: 1.9; }
+.point-list li {
+  padding: 10px 0;
+  border-bottom: 1px dashed #e2e8f0;
+  display: flex;
+  gap: 10px;
+}
+.point-list li::before {
+  content: '✦';
+  color: var(--accent);
+  font-size: 12px;
+  margin-top: 5px;
+  flex-shrink: 0;
+}
+
+/* フッター */
+.slide-footer {
+  margin-top: auto;
+  padding-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  color: #a0aec0;
+  border-top: 1px solid #e2e8f0;
+}
+
+/* ナビゲーション */
+#nav {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 12px;
+  background: rgba(0,0,0,0.7);
+  padding: 10px 20px;
+  border-radius: 30px;
+  z-index: 100;
+}
+#nav button {
+  background: #fff;
+  border: none;
+  border-radius: 20px;
+  padding: 8px 22px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+#nav button:hover { background: color-mix(in srgb, var(--accent) 10%, white); }
+#nav .page-info { color: #fff; font-size: 14px; line-height: 36px; min-width: 60px; text-align: center; }
+
+.highlight { background: #fefcbf; padding: 1px 4px; border-radius: 3px; }
