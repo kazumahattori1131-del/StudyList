@@ -52,12 +52,13 @@
 
   update(); // 初期状態を設定
 
-  // ── PDF保存ボタン ──
+  // ── PDF保存ボタン（次へボタンの隣に配置）──
   const nav = document.getElementById('nav');
+  const hint = nav.querySelector('.hint');
   const pdfBtn = document.createElement('button');
   pdfBtn.id = 'btn-pdf';
-  pdfBtn.textContent = '⬇ PDF保存';
-  nav.appendChild(pdfBtn);
+  pdfBtn.textContent = '⬇ PDF';
+  nav.insertBefore(pdfBtn, hint);
   pdfBtn.addEventListener('click', () => window.print());
 
   // ── 印刷前: 縦にはみ出すスライドをzoomで縮小して1ページに収める ──
