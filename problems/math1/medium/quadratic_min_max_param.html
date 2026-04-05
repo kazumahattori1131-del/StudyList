@@ -17,6 +17,8 @@ https://kazumahattori1131-del.github.io/StudyList/problems/math1/medium/quadrati
 -->
 <div id="progress-bar"></div>
 
+<!-- ========== 【元問題】 ========== -->
+
 <!-- スライド 1：問題 -->
 <section class="slide active">
   <div class="slide-header">
@@ -42,7 +44,7 @@ https://kazumahattori1131-del.github.io/StudyList/problems/math1/medium/quadrati
   <div class="slide-footer"></div>
 </section>
 
-<!-- スライド 2：頂点と場合分けの準備 -->
+<!-- スライド 2：Step 1 -->
 <section class="slide">
   <div class="slide-header">
     <span class="badge">解説</span>
@@ -63,7 +65,7 @@ https://kazumahattori1131-del.github.io/StudyList/problems/math1/medium/quadrati
   <div class="slide-footer"></div>
 </section>
 
-<!-- スライド 3：場合分けと答え -->
+<!-- スライド 3：Step 2 -->
 <section class="slide">
   <div class="slide-header">
     <span class="badge">解説</span>
@@ -113,93 +115,13 @@ https://kazumahattori1131-del.github.io/StudyList/problems/math1/medium/quadrati
       </span>
     </li>
     <li>青チャート・フォーカスゴールドともに「最重要例題」に分類される形式</li>
-    <li><strong>発展：</strong>最小値が常に正となる $a$ の範囲は？（不等式との融合）</li>
+    <li>「場合の数だけ場合分け境界がある」→ 定義域の端点の数 = 場合の数 − 1</li>
   </ul>
 
   <div class="slide-footer"></div>
 </section>
 
-<!-- スライド 5：発展問題 -->
-<section class="slide">
-  <div class="slide-header">
-    <span class="badge" style="background:#6b46c1;">発展</span>
-    <span class="slide-title">発展問題：最小値が常に正となる $a$ の範囲</span>
-  </div>
-
-  <div class="problem-box" style="margin-bottom:16px;font-size:18px;">
-    前問で求めた $m(a)$ を用いて、すべての $a$ に対して $m(a) > 0$ が成り立つような $a$ の範囲を求めよ。
-  </div>
-
-  <div class="dev-layout">
-
-    <!-- 左：メイン解説 -->
-    <div class="col-main">
-      <div class="step">
-        <span class="step-num">1</span>
-        <strong>場合 1（$a &lt; 0$）：</strong>
-        $m(a) = 2a + 3 > 0 \Rightarrow a > -\dfrac{3}{2}$
-        $$\therefore\quad -\frac{3}{2} < a < 0$$
-      </div>
-      <div class="step">
-        <span class="step-num">2</span>
-        <strong>場合 2（$0 \leq a \leq 3$）：</strong>
-        $m(a) = -a^2 + 2a + 3 > 0$
-        $$a^2 - 2a - 3 < 0 \;\Rightarrow\; (a+1)(a-3) < 0 \;\Rightarrow\; -1 < a < 3$$
-        定義域 $0 \leq a \leq 3$ との共通部分：$0 \leq a < 3$
-      </div>
-      <div class="step">
-        <span class="step-num">3</span>
-        <strong>場合 3（$a &gt; 3$）：</strong>
-        $m(a) = -4a + 12 > 0 \Rightarrow a < 3$　→　矛盾。<strong>解なし</strong>
-      </div>
-      <div class="answer-label">答　え</div>
-      <div class="answer-box" style="padding:14px 28px;font-size:18px;">
-        各場合の和集合：$\displaystyle -\frac{3}{2} < a < 3$
-      </div>
-    </div>
-
-    <!-- 右：補足パネル -->
-    <div class="col-side">
-      <div class="side-block">
-        <div class="side-title">解法の流れ</div>
-        <ul class="side-body">
-          <li>前問の $m(a)$ をそのまま利用する</li>
-          <li>各場合ごとに $m(a)>0$ を解く</li>
-          <li>場合の条件との共通部分を取る</li>
-          <li>最後に3つの結果を合わせる</li>
-        </ul>
-      </div>
-      <div class="side-block">
-        <div class="side-title">数直線での確認</div>
-        <div class="side-body" style="text-align:center;letter-spacing:0.05em;">
-          <div style="margin:8px 0;font-size:14px;">
-            場合1：$\left(-\dfrac{3}{2},\ 0\right)$<br>
-            場合2：$\left[0,\ 3\right)$<br>
-            合計：$\left(-\dfrac{3}{2},\ 3\right)$
-          </div>
-        </div>
-      </div>
-      <div class="side-block">
-        <div class="caution">
-          場合3で「解なし」になっても省略しない。<br>
-          記述試験では「矛盾するため解なし」と明記すること。
-        </div>
-      </div>
-      <div class="side-block">
-        <div class="side-title">よく出る派生問題</div>
-        <ul class="side-body">
-          <li>$m(a) \geq 0$ となる範囲（$\geq$ への変更）</li>
-          <li>最大値が負となる $a$ の範囲</li>
-        </ul>
-      </div>
-    </div>
-
-  </div>
-
-  <div class="slide-footer"></div>
-</section>
-
-<!-- スライド 6：模範解答 -->
+<!-- スライド 5：模範解答 -->
 <section class="slide">
   <div class="slide-header">
     <span class="badge" style="background:#2d3748;">模範解答</span>
@@ -250,9 +172,134 @@ https://kazumahattori1131-del.github.io/StudyList/problems/math1/medium/quadrati
   <div class="slide-footer"></div>
 </section>
 
+<!-- ========== 【類　題】 ========== -->
+
+<!-- スライド 6：類題 -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge orange">類　題</span>
+    <span class="badge">数学 I</span>
+    <span class="slide-title">定義域・係数を変えた類似問題</span>
+    <div class="meta"><span>★★★☆☆ 中級</span><span>目安 15 分</span></div>
+  </div>
+
+  <div class="problem-label">類　題</div>
+  <div class="problem-box">
+    実数 $a$ を定数とする。関数
+    $$g(x) = x^2 - 2ax + 3a - 2$$
+    について、$0 \leq x \leq 4$ における $g(x)$ の最小値 $n(a)$ を求めよ。
+  </div>
+
+  <div class="section-title">元問題との違いを確認</div>
+  <div class="step">
+    <table style="font-size:16px;">
+      <thead><tr><th></th><th>元問題</th><th>類題</th></tr></thead>
+      <tbody>
+        <tr><td>関数</td><td>$x^2 - 2ax + 2a + 3$</td><td>$x^2 - 2ax + 3a - 2$</td></tr>
+        <tr><td>定義域</td><td>$[0,\ 3]$</td><td>$[0,\ 4]$</td></tr>
+        <tr><td>場合分け境界</td><td>$a=0,\ a=3$</td><td>$a=0,\ a=4$</td></tr>
+      </tbody>
+    </table>
+    <div style="margin-top:12px;">→ 解法の構造は全く同じ。<span class="highlight">定数項と定義域だけが変化</span></div>
+  </div>
+
+  <div class="slide-footer"></div>
+</section>
+
+<!-- スライド 7：類題 解説 -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge orange">類題解説</span>
+    <span class="slide-title">Step 1 → 2：平方完成と場合分け</span>
+  </div>
+
+  <div class="step">
+    <span class="step-num">1</span> 平方完成：
+    $$g(x) = (x - a)^2 - a^2 + 3a - 2$$
+    頂点 $\left(a,\ -a^2 + 3a - 2\right)$　　境界：$a=0$（左端）, $a=4$（右端）
+  </div>
+
+  <div class="cases">
+    <div class="case-card">
+      <div class="case-cond">場合 1：$a &lt; 0$</div>
+      頂点が左外 → 単調増加<br>最小は $x=0$
+      $$n(a) = g(0) = 3a-2$$
+    </div>
+    <div class="case-card">
+      <div class="case-cond">場合 2：$0 \leq a \leq 4$</div>
+      頂点が区間内<br>最小は頂点の値
+      $$n(a) = -a^2+3a-2$$
+    </div>
+    <div class="case-card">
+      <div class="case-cond">場合 3：$a &gt; 4$</div>
+      頂点が右外 → 単調減少<br>最小は $x=4$
+      $$n(a) = g(4) = -5a+14$$
+    </div>
+  </div>
+
+  <div class="step" style="margin-top:8px;font-size:15px;">
+    <strong>連続性チェック：</strong>
+    $a=0$：$3(0)-2=-2$，$-(0)^2+3(0)-2=-2$ ✓
+    $a=4$：$-(16)+12-2=-6$，$-5(4)+14=-6$ ✓
+  </div>
+
+  <div class="slide-footer"></div>
+</section>
+
+<!-- スライド 8：類題 模範解答 -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge" style="background:#2d3748;">類題 模範解答</span>
+    <span class="slide-title">記述答案例（類題）</span>
+    <div class="meta"><span>定義域 $[0,4]$・定数項 $3a-2$</span></div>
+  </div>
+
+  <div class="answer-sheet">
+    <div class="ans-block">
+      <div class="ans-line">
+        $g(x)$ を平方完成すると $g(x) = (x-a)^2 - a^2 + 3a - 2$ となり、頂点の $x$ 座標は $a$。
+      </div>
+      <div class="ans-line">
+        定義域 $[0,\ 4]$ に対する頂点の位置で次のように場合分けする。
+      </div>
+    </div>
+
+    <div class="ans-block">
+      <span class="ans-case">［i］ $a &lt; 0$ のとき</span>
+      <div class="ans-line">
+        $g(x)$ は $[0,\ 4]$ 上で単調増加ゆえ、最小値は $x=0$ で実現される。
+        $$n(a) = g(0) = 3a - 2$$
+      </div>
+    </div>
+
+    <div class="ans-block">
+      <span class="ans-case">［ii］ $0 \leq a \leq 4$ のとき</span>
+      <div class="ans-line">
+        頂点が区間内に含まれるから、最小値は頂点の $y$ 座標に等しい。
+        $$n(a) = -a^2 + 3a - 2$$
+      </div>
+    </div>
+
+    <div class="ans-block">
+      <span class="ans-case">［iii］ $a &gt; 4$ のとき</span>
+      <div class="ans-line">
+        $g(x)$ は $[0,\ 4]$ 上で単調減少ゆえ、最小値は $x=4$ で実現される。
+        $$n(a) = g(4) = 16 - 8a + 3a - 2 = -5a + 14$$
+      </div>
+    </div>
+
+    <div class="ans-therefore">
+      以上より
+      $$n(a) = \begin{cases} 3a - 2 & (a < 0) \\ -a^2 + 3a - 2 & (0 \leq a \leq 4) \\ -5a + 14 & (a > 4) \end{cases}$$
+    </div>
+  </div>
+
+  <div class="slide-footer"></div>
+</section>
+
 <div id="nav">
   <button id="btn-prev">◀ 前へ</button>
-  <span class="page-info" id="pinfo">1 / 6</span>
+  <span class="page-info" id="pinfo">1 / 8</span>
   <button id="btn-next">次へ ▶</button>
   <span class="hint">← → キーでも操作できます</span>
 </div>
