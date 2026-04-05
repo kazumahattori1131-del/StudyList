@@ -239,3 +239,68 @@ tr:last-child td { font-weight: 700; background: color-mix(in srgb, var(--accent
 #nav .hint { color: #aaa; font-size: 11px; }
 
 .highlight { background: #fefcbf; padding: 1px 4px; border-radius: 3px; }
+
+/* ===== 発展問題：左右2カラムレイアウト ===== */
+.dev-layout {
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+  gap: 20px;
+  flex: 1;
+  min-height: 0;
+}
+
+/* 左：メイン解説 */
+.col-main {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  overflow: hidden;
+}
+.col-main .step { margin-bottom: 0; }
+
+/* 右：補足パネル */
+.col-side {
+  background: color-mix(in srgb, var(--accent) 5%, white);
+  border: 2px solid color-mix(in srgb, var(--accent) 22%, white);
+  border-radius: 10px;
+  padding: 20px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.side-block { }
+.side-title {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+  border-bottom: 2px solid color-mix(in srgb, var(--accent) 35%, white);
+  padding-bottom: 6px;
+  margin-bottom: 10px;
+}
+.side-body {
+  font-size: 15px;
+  line-height: 1.85;
+  color: #2d3748;
+}
+.side-body li {
+  list-style: none;
+  padding: 4px 0;
+  display: flex;
+  gap: 8px;
+}
+.side-body li::before {
+  content: '›';
+  color: var(--accent);
+  font-weight: 700;
+  flex-shrink: 0;
+}
+.caution {
+  background: #fffbeb;
+  border-left: 4px solid #f6ad55;
+  border-radius: 0 6px 6px 0;
+  padding: 10px 14px;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.caution::before { content: '⚠ '; font-size: 13px; }

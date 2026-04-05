@@ -119,6 +119,86 @@ https://kazumahattori1131-del.github.io/StudyList/problems/math1/medium/quadrati
   <div class="slide-footer"></div>
 </section>
 
+<!-- スライド 5：発展問題 -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge" style="background:#6b46c1;">発展</span>
+    <span class="slide-title">発展問題：最小値が常に正となる $a$ の範囲</span>
+  </div>
+
+  <div class="problem-box" style="margin-bottom:16px;font-size:18px;">
+    前問で求めた $m(a)$ を用いて、すべての $a$ に対して $m(a) > 0$ が成り立つような $a$ の範囲を求めよ。
+  </div>
+
+  <div class="dev-layout">
+
+    <!-- 左：メイン解説 -->
+    <div class="col-main">
+      <div class="step">
+        <span class="step-num">1</span>
+        <strong>場合 1（$a &lt; 0$）：</strong>
+        $m(a) = 2a + 3 > 0 \Rightarrow a > -\dfrac{3}{2}$
+        $$\therefore\quad -\frac{3}{2} < a < 0$$
+      </div>
+      <div class="step">
+        <span class="step-num">2</span>
+        <strong>場合 2（$0 \leq a \leq 3$）：</strong>
+        $m(a) = -a^2 + 2a + 3 > 0$
+        $$a^2 - 2a - 3 < 0 \;\Rightarrow\; (a+1)(a-3) < 0 \;\Rightarrow\; -1 < a < 3$$
+        定義域 $0 \leq a \leq 3$ との共通部分：$0 \leq a < 3$
+      </div>
+      <div class="step">
+        <span class="step-num">3</span>
+        <strong>場合 3（$a &gt; 3$）：</strong>
+        $m(a) = -4a + 12 > 0 \Rightarrow a < 3$　→　矛盾。<strong>解なし</strong>
+      </div>
+      <div class="answer-label">答　え</div>
+      <div class="answer-box" style="padding:14px 28px;font-size:18px;">
+        各場合の和集合：$\displaystyle -\frac{3}{2} < a < 3$
+      </div>
+    </div>
+
+    <!-- 右：補足パネル -->
+    <div class="col-side">
+      <div class="side-block">
+        <div class="side-title">解法の流れ</div>
+        <ul class="side-body">
+          <li>前問の $m(a)$ をそのまま利用する</li>
+          <li>各場合ごとに $m(a)>0$ を解く</li>
+          <li>場合の条件との共通部分を取る</li>
+          <li>最後に3つの結果を合わせる</li>
+        </ul>
+      </div>
+      <div class="side-block">
+        <div class="side-title">数直線での確認</div>
+        <div class="side-body" style="text-align:center;letter-spacing:0.05em;">
+          <div style="margin:8px 0;font-size:14px;">
+            場合1：$\left(-\dfrac{3}{2},\ 0\right)$<br>
+            場合2：$\left[0,\ 3\right)$<br>
+            合計：$\left(-\dfrac{3}{2},\ 3\right)$
+          </div>
+        </div>
+      </div>
+      <div class="side-block">
+        <div class="caution">
+          場合3で「解なし」になっても省略しない。<br>
+          記述試験では「矛盾するため解なし」と明記すること。
+        </div>
+      </div>
+      <div class="side-block">
+        <div class="side-title">よく出る派生問題</div>
+        <ul class="side-body">
+          <li>$m(a) \geq 0$ となる範囲（$\geq$ への変更）</li>
+          <li>最大値が負となる $a$ の範囲</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="slide-footer"></div>
+</section>
+
 <div id="nav">
   <button id="btn-prev">◀ 前へ</button>
   <span class="page-info" id="pinfo">1 / 4</span>

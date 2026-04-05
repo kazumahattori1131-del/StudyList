@@ -128,6 +128,83 @@ https://kazumahattori1131-del.github.io/StudyList/problems/mathA/medium/probabil
   <div class="slide-footer"></div>
 </section>
 
+<!-- スライド 5：発展問題 -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge" style="background:#276749;">発展</span>
+    <span class="slide-title">発展問題：ベイズの定理への橋渡し</span>
+  </div>
+
+  <div class="problem-box" style="margin-bottom:16px;font-size:17px;">
+    同じ袋から球を <strong>1個ずつ順番</strong> に取り出す。<br>
+    <strong>2個目に取り出した球が赤球だった</strong>とき、<strong>1個目も赤球だった確率</strong>を求めよ。
+  </div>
+
+  <div class="dev-layout">
+
+    <!-- 左：メイン解説 -->
+    <div class="col-main">
+      <div class="step">
+        <span class="step-num">1</span> <strong>事象の定義</strong><br>
+        事象 $R_1$：1個目が赤球　　事象 $R_2$：2個目が赤球<br>
+        求めるのは $P(R_1 \mid R_2)$
+      </div>
+      <div class="step">
+        <span class="step-num">2</span> <strong>ベイズの定理を適用</strong>
+        $$P(R_1 \mid R_2) = \frac{P(R_2 \mid R_1)\,P(R_1)}{P(R_2)}$$
+      </div>
+      <div class="step">
+        <span class="step-num">3</span> <strong>各確率を計算</strong><br>
+        $P(R_1) = \dfrac{4}{7}$　（赤球4個 / 全7個）<br><br>
+        $P(R_2 \mid R_1) = \dfrac{3}{6} = \dfrac{1}{2}$　（1個目赤の後、残り6個中赤3個）<br><br>
+        $P(R_2) = \dfrac{4}{7}$　（対称性より、どの順番でも同確率）
+      </div>
+      <div class="answer-label">答　え</div>
+      <div class="answer-box" style="padding:14px 28px;font-size:18px;">
+        $$P(R_1 \mid R_2) = \frac{\dfrac{1}{2} \times \dfrac{4}{7}}{\dfrac{4}{7}} = \frac{1}{2}$$
+      </div>
+    </div>
+
+    <!-- 右：補足パネル -->
+    <div class="col-side">
+      <div class="side-block">
+        <div class="side-title">ベイズの定理とは</div>
+        <div class="side-body">
+          「結果から原因を逆推定する」公式。<br>
+          $$P(A \mid B) = \frac{P(B \mid A)\,P(A)}{P(B)}$$
+          今回は「2個目が赤」という<em>結果</em>から「1個目も赤だった」という<em>原因</em>を推定した。
+        </div>
+      </div>
+      <div class="side-block">
+        <div class="side-title">$P(R_2) = \frac{4}{7}$ の直感</div>
+        <ul class="side-body">
+          <li>取り出す順番を固定しなければ、各球が2番目になる確率は等しい</li>
+          <li>よって $P(R_2) = P(R_1) = \frac{4}{7}$</li>
+          <li>これを「対称性」という</li>
+        </ul>
+      </div>
+      <div class="side-block">
+        <div class="caution">
+          答えが $\frac{1}{2}$ と「きれい」なのは偶然でなく、<br>
+          $P(R_2) = P(R_1)$ の対称性による。<br>
+          一般には $P(R_1 \mid R_2) = P(R_1)$ とはならない。
+        </div>
+      </div>
+      <div class="side-block">
+        <div class="side-title">医療検査への応用</div>
+        <ul class="side-body">
+          <li>陽性反応が出た → 本当に病気か？</li>
+          <li>同じ構造で「原因の確率」を計算</li>
+          <li>共通テスト・難関私大で頻出</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="slide-footer"></div>
+</section>
+
 <div id="nav">
   <button id="btn-prev">◀ 前へ</button>
   <span class="page-info" id="pinfo">1 / 4</span>
