@@ -389,8 +389,8 @@ tr:last-child td { font-weight: 700; background: color-mix(in srgb, var(--accent
     position: relative !important;
     top: auto !important;
     left: auto !important;
-    width: 277mm !important;   /* 1280px ≈ 277mm @117dpi (landscape A4相当) */
-    height: 156mm !important;  /* 720px ≈ 156mm */
+    width: 339mm !important;   /* 1280px @ 96dpi */
+    height: 191mm !important;  /* 720px  @ 96dpi */
     min-height: unset !important;
     box-shadow: none !important;
     page-break-after: always;
@@ -409,6 +409,6 @@ tr:last-child td { font-weight: 700; background: color-mix(in srgb, var(--accent
 }
 
 @page {
-  size: 277mm 156mm;
+  size: 339mm 191mm;
   margin: 0;
 }
