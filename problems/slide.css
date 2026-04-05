@@ -237,6 +237,18 @@ tr:last-child td { font-weight: 700; background: color-mix(in srgb, var(--accent
 #nav button:disabled { opacity: 0.35; cursor: default; }
 #nav .page-info { color: #fff; font-size: 14px; min-width: 60px; text-align: center; }
 #nav .hint { color: #aaa; font-size: 11px; }
+#btn-pdf {
+  background: var(--accent) !important;
+  color: #fff !important;
+  border: none;
+  border-radius: 20px;
+  padding: 8px 22px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+#btn-pdf:hover { background: #2563a7 !important; }
 
 .highlight { background: #fefcbf; padding: 1px 4px; border-radius: 3px; }
 
@@ -390,7 +402,7 @@ tr:last-child td { font-weight: 700; background: color-mix(in srgb, var(--accent
     top: auto !important;
     left: auto !important;
     width: 339mm !important;   /* 1280px @ 96dpi */
-    height: 191mm !important;  /* 720px  @ 96dpi */
+    /* height は JS zoom で制御するため固定しない */
     min-height: unset !important;
     box-shadow: none !important;
     page-break-after: always;

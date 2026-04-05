@@ -51,4 +51,36 @@
   });
 
   update(); // 初期状態を設定
+
+  // ── PDF保存ボタン ──
+  const nav = document.getElementById('nav');
+  const pdfBtn = document.createElement('button');
+  pdfBtn.id = 'btn-pdf';
+  pdfBtn.textContent = '⬇ PDF保存';
+  nav.appendChild(pdfBtn);
+  pdfBtn.addEventListener('click', () => window.print());
+
+  // ── 印刷前: 縦にはみ出すスライドをzoomで縮小して1ページに収める ──
+  const SLIDE_H = 720; // 720px = 191mm @ 96dpi
+  window.addEventListener('beforeprint', function () {
+    slides.forEach(function (slide) {
+      // 一時的に全スライドを表示して高さを測定
+      const prevDisplay = slide.style.display;
+      const prevOpacity = slide.style.opacity;
+      slide.style.display = 'flex';
+      slide.style.opacity = '0';
+      slide.style.zoom = '1';
+      const h = slide.scrollHeight;
+      if (h > SLIDE_H * 1.01) {
+        slide.style.zoom = String((SLIDE_H / h).toFixed(4));
+      }
+      slide.style.display = prevDisplay;
+      slide.style.opacity = prevOpacity;
+    });
+  });
+  window.addEventListener('afterprint', function () {
+    slides.forEach(function (slide) {
+      slide.style.zoom = '';
+    });
+  });
 })();
