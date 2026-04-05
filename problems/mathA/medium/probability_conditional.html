@@ -54,10 +54,10 @@ https://kazumahattori1131-del.github.io/StudyList/problems/mathA/medium/probabil
 
   <div class="step">
     <span class="step-num">1</span> 全体の場合の数：
-    $$\binom{7}{3} = \frac{7 \times 6 \times 5}{3 \times 2 \times 1} = 35 \text{ 通り}$$
+    $${}_7C_3 = \frac{7 \times 6 \times 5}{3 \times 2 \times 1} = 35 \text{ 通り}$$
   </div>
   <div class="step">
-    <span class="step-num">2</span> 余事象「3個全部が白球」の場合の数：$\binom{3}{3} = 1$ 通り
+    <span class="step-num">2</span> 余事象「3個全部が白球」の場合の数：${}_3C_3 = 1$ 通り
   </div>
   <div class="step">
     <span class="step-num">3</span>
@@ -97,8 +97,8 @@ https://kazumahattori1131-del.github.io/StudyList/problems/mathA/medium/probabil
     <table>
       <thead><tr><th>赤球</th><th>白球</th><th>場合の数</th></tr></thead>
       <tbody>
-        <tr><td>2 個</td><td>1 個</td><td>$\binom{4}{2}\binom{3}{1} = 18$ 通り</td></tr>
-        <tr><td>3 個</td><td>0 個</td><td>$\binom{4}{3}\binom{3}{0} = 4$ 通り</td></tr>
+        <tr><td>2 個</td><td>1 個</td><td>${}_4C_2 \times {}_3C_1 = 18$ 通り</td></tr>
+        <tr><td>3 個</td><td>0 個</td><td>${}_4C_3 \times {}_3C_0 = 4$ 通り</td></tr>
         <tr><td colspan="2">合計</td><td>$22$ 通り　→　$P(B)=\dfrac{22}{35}$</td></tr>
       </tbody>
     </table>
@@ -140,14 +140,14 @@ https://kazumahattori1131-del.github.io/StudyList/problems/mathA/medium/probabil
   <div class="answer-sheet">
     <div class="ans-block">
       <div class="ans-line">
-        7個から3個を取り出す場合の数は $\displaystyle\binom{7}{3} = 35$ 通り。
+        7個から3個を取り出す場合の数は $\displaystyle{}_7C_3 = 35$ 通り。
       </div>
     </div>
 
     <div class="ans-block">
       <span class="ans-q">(1)</span>
       <div class="ans-line">
-        余事象「3個全て白球」の場合の数は $\displaystyle\binom{3}{3} = 1$ 通りであるから、
+        余事象「3個全て白球」の場合の数は $\displaystyle{}_3C_3 = 1$ 通りであるから、
       </div>
       <div class="ans-line">
         $$P(\text{少なくとも1個赤}) = 1 - \frac{1}{35} = \boxed{\dfrac{34}{35}}$$
@@ -162,7 +162,7 @@ https://kazumahattori1131-del.github.io/StudyList/problems/mathA/medium/probabil
       </div>
       <div class="ans-line">
         赤球2個以上の場合の数は、
-        $$\binom{4}{2}\binom{3}{1} + \binom{4}{3}\binom{3}{0} = 18 + 4 = 22 \text{ 通り}$$
+        $${}_4C_2 \times {}_3C_1 + {}_4C_3 \times {}_3C_0 = 18 + 4 = 22 \text{ 通り}$$
       </div>
       <div class="ans-line">
         よって $\displaystyle P(B) = \frac{22}{35}$。(1) より $\displaystyle P(A) = \frac{34}{35}$ だから、
@@ -216,7 +216,7 @@ https://kazumahattori1131-del.github.io/StudyList/problems/mathA/medium/probabil
   </div>
 
   <div class="step">
-    <span class="step-num">1</span> 全体の場合の数：$\displaystyle\binom{7}{3} = 35$ 通り
+    <span class="step-num">1</span> 全体の場合の数：$\displaystyle{}_7C_3 = 35$ 通り
   </div>
 
   <div class="step">
@@ -224,8 +224,8 @@ https://kazumahattori1131-del.github.io/StudyList/problems/mathA/medium/probabil
     <table>
       <thead><tr><th>赤球</th><th>白球</th><th>場合の数</th></tr></thead>
       <tbody>
-        <tr><td>2 個</td><td>1 個</td><td>$\binom{5}{2}\binom{2}{1} = 10 \times 2 = 20$ 通り</td></tr>
-        <tr><td>3 個</td><td>0 個</td><td>$\binom{5}{3}\binom{2}{0} = 10 \times 1 = 10$ 通り</td></tr>
+        <tr><td>2 個</td><td>1 個</td><td>${}_5C_2 \times {}_2C_1 = 10 \times 2 = 20$ 通り</td></tr>
+        <tr><td>3 個</td><td>0 個</td><td>${}_5C_3 \times {}_2C_0 = 10 \times 1 = 10$ 通り</td></tr>
         <tr><td colspan="2">合計</td><td>$30$ 通り</td></tr>
       </tbody>
     </table>
@@ -252,7 +252,7 @@ https://kazumahattori1131-del.github.io/StudyList/problems/mathA/medium/probabil
   <div class="answer-sheet">
     <div class="ans-block">
       <div class="ans-line">
-        7個から3個を取り出す場合の数は $\displaystyle\binom{7}{3} = 35$ 通り。
+        7個から3個を取り出す場合の数は $\displaystyle{}_7C_3 = 35$ 通り。
       </div>
     </div>
 
@@ -260,7 +260,7 @@ https://kazumahattori1131-del.github.io/StudyList/problems/mathA/medium/probabil
       <span class="ans-q">(1)</span>
       <div class="ans-line">
         赤球2個以上の場合の数は、
-        $$\binom{5}{2}\binom{2}{1} + \binom{5}{3}\binom{2}{0} = 20 + 10 = 30 \text{ 通り}$$
+        $${}_5C_2 \times {}_2C_1 + {}_5C_3 \times {}_2C_0 = 20 + 10 = 30 \text{ 通り}$$
       </div>
       <div class="ans-line">
         $$P(\text{赤球2個以上}) = \frac{30}{35} = \boxed{\dfrac{6}{7}}$$
@@ -273,7 +273,7 @@ https://kazumahattori1131-del.github.io/StudyList/problems/mathA/medium/probabil
         事象 $A$：赤球2個以上、事象 $B$：赤球3個、とおく。$B \subset A$ より $P(A \cap B) = P(B)$。
       </div>
       <div class="ans-line">
-        赤球3個の場合の数は $\displaystyle\binom{5}{3} = 10$ 通りより $\displaystyle P(B) = \frac{10}{35} = \frac{2}{7}$。
+        赤球3個の場合の数は $\displaystyle{}_5C_3 = 10$ 通りより $\displaystyle P(B) = \frac{10}{35} = \frac{2}{7}$。
       </div>
       <div class="ans-line">
         (1) より $\displaystyle P(A) = \frac{6}{7}$ だから、

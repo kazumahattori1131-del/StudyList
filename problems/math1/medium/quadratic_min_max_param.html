@@ -37,7 +37,7 @@ https://kazumahattori1131-del.github.io/StudyList/problems/math1/medium/quadrati
 
   <div class="section-title">考え方のヒント</div>
   <div class="step">
-    放物線の頂点の $x$ 座標が定義域 $[0,\ 3]$ のどこにあるかによって最小値の場所が変わる。<br>
+    放物線の頂点の $x$ 座標が定義域 $0 \leq x \leq 3$ のどこにあるかによって最小値の場所が変わる。<br>
     → <span class="highlight">頂点の位置で場合分け</span> が解法の核心！
   </div>
 
@@ -135,14 +135,14 @@ https://kazumahattori1131-del.github.io/StudyList/problems/math1/medium/quadrati
         $f(x)$ を平方完成すると $f(x) = (x-a)^2 - a^2 + 2a + 3$ となり、頂点の $x$ 座標は $a$。
       </div>
       <div class="ans-line">
-        定義域 $[0,\ 3]$ に対する頂点の位置で次のように場合分けする。
+        定義域 $0 \leq x \leq 3$ に対する頂点の位置で次のように場合分けする。
       </div>
     </div>
 
     <div class="ans-block">
       <span class="ans-case">［i］ $a &lt; 0$ のとき</span>
       <div class="ans-line">
-        $f(x)$ は $[0,\ 3]$ 上で単調増加ゆえ、最小値は $x=0$ で実現される。
+        $f(x)$ は $0 \leq x \leq 3$ において単調増加ゆえ、最小値は $x=0$ で実現される。
         $$m(a) = f(0) = 2a + 3$$
       </div>
     </div>
@@ -158,7 +158,7 @@ https://kazumahattori1131-del.github.io/StudyList/problems/math1/medium/quadrati
     <div class="ans-block">
       <span class="ans-case">［iii］ $a &gt; 3$ のとき</span>
       <div class="ans-line">
-        $f(x)$ は $[0,\ 3]$ 上で単調減少ゆえ、最小値は $x=3$ で実現される。
+        $f(x)$ は $0 \leq x \leq 3$ において単調減少ゆえ、最小値は $x=3$ で実現される。
         $$m(a) = f(3) = 9 - 6a + 2a + 3 = -4a + 12$$
       </div>
     </div>
@@ -196,7 +196,7 @@ https://kazumahattori1131-del.github.io/StudyList/problems/math1/medium/quadrati
       <thead><tr><th></th><th>元問題</th><th>類題</th></tr></thead>
       <tbody>
         <tr><td>関数</td><td>$x^2 - 2ax + 2a + 3$</td><td>$x^2 - 2ax + 3a - 2$</td></tr>
-        <tr><td>定義域</td><td>$[0,\ 3]$</td><td>$[0,\ 4]$</td></tr>
+        <tr><td>定義域</td><td>$0 \leq x \leq 3$</td><td>$0 \leq x \leq 4$</td></tr>
         <tr><td>場合分け境界</td><td>$a=0,\ a=3$</td><td>$a=0,\ a=4$</td></tr>
       </tbody>
     </table>
@@ -260,14 +260,14 @@ https://kazumahattori1131-del.github.io/StudyList/problems/math1/medium/quadrati
         $g(x)$ を平方完成すると $g(x) = (x-a)^2 - a^2 + 3a - 2$ となり、頂点の $x$ 座標は $a$。
       </div>
       <div class="ans-line">
-        定義域 $[0,\ 4]$ に対する頂点の位置で次のように場合分けする。
+        定義域 $0 \leq x \leq 4$ に対する頂点の位置で次のように場合分けする。
       </div>
     </div>
 
     <div class="ans-block">
       <span class="ans-case">［i］ $a &lt; 0$ のとき</span>
       <div class="ans-line">
-        $g(x)$ は $[0,\ 4]$ 上で単調増加ゆえ、最小値は $x=0$ で実現される。
+        $g(x)$ は $0 \leq x \leq 4$ において単調増加ゆえ、最小値は $x=0$ で実現される。
         $$n(a) = g(0) = 3a - 2$$
       </div>
     </div>
@@ -283,7 +283,7 @@ https://kazumahattori1131-del.github.io/StudyList/problems/math1/medium/quadrati
     <div class="ans-block">
       <span class="ans-case">［iii］ $a &gt; 4$ のとき</span>
       <div class="ans-line">
-        $g(x)$ は $[0,\ 4]$ 上で単調減少ゆえ、最小値は $x=4$ で実現される。
+        $g(x)$ は $0 \leq x \leq 4$ において単調減少ゆえ、最小値は $x=4$ で実現される。
         $$n(a) = g(4) = 16 - 8a + 3a - 2 = -5a + 14$$
       </div>
     </div>
