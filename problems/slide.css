@@ -8,6 +8,11 @@ body {
   background: #f0f4f8;
   color: #1a202c;
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
 }
 
 /* 進捗バー */
@@ -25,13 +30,15 @@ body {
   display: none;
   opacity: 0;
   width: 1280px;
-  min-height: 720px;
-  margin: 0 auto;
+  height: 720px;
+  flex-shrink: 0;
   background: #fff;
-  padding: 56px 72px;
+  padding: 40px 64px;
   box-shadow: 0 4px 24px rgba(0,0,0,0.12);
   flex-direction: column;
   transition: opacity 0.2s ease;
+  overflow: hidden;
+  transform-origin: center center;
 }
 .slide.active {
   display: flex;
@@ -42,10 +49,11 @@ body {
 .slide-header {
   display: flex;
   align-items: center;
-  gap: 16px;
-  margin-bottom: 36px;
-  padding-bottom: 20px;
+  gap: 12px;
+  margin-bottom: 20px;
+  padding-bottom: 14px;
   border-bottom: 3px solid var(--accent);
+  flex-shrink: 0;
 }
 .badge {
   background: var(--accent);
@@ -58,8 +66,8 @@ body {
 }
 .badge.orange { background: #dd6b20; }
 .badge.green  { background: #276749; }
-.slide-title { font-size: 22px; font-weight: 800; color: #2d3748; flex: 1; }
-.meta { font-size: 13px; color: #718096; display: flex; gap: 20px; }
+.slide-title { font-size: 20px; font-weight: 800; color: #2d3748; flex: 1; }
+.meta { font-size: 12px; color: #718096; display: flex; gap: 16px; }
 
 /* 問題ボックス */
 .problem-label {
@@ -73,10 +81,10 @@ body {
   background: color-mix(in srgb, var(--accent) 8%, white);
   border-left: 6px solid var(--accent);
   border-radius: 0 8px 8px 0;
-  padding: 28px 36px;
-  font-size: 20px;
-  line-height: 2;
-  margin-bottom: 24px;
+  padding: 18px 28px;
+  font-size: 18px;
+  line-height: 1.8;
+  margin-bottom: 16px;
 }
 .sub-q {
   margin-top: 12px;
@@ -87,13 +95,14 @@ body {
 
 /* セクションタイトル */
 .section-title {
-  font-size: 17px;
+  font-size: 15px;
   font-weight: 700;
   color: var(--accent);
-  margin: 24px 0 14px;
+  margin: 14px 0 8px;
   display: flex;
   align-items: center;
   gap: 8px;
+  flex-shrink: 0;
 }
 .section-title::before {
   content: '';
@@ -108,10 +117,10 @@ body {
   background: #f7fafc;
   border: 1px solid #e2e8f0;
   border-radius: 8px;
-  padding: 20px 28px;
-  margin-bottom: 14px;
-  font-size: 18px;
-  line-height: 1.9;
+  padding: 12px 22px;
+  margin-bottom: 10px;
+  font-size: 16px;
+  line-height: 1.75;
 }
 .step-num {
   display: inline-block;
@@ -127,14 +136,14 @@ body {
 }
 
 /* 場合分けカード */
-.cases { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 16px 0; }
+.cases { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 10px 0; }
 .case-card {
   border: 2px solid color-mix(in srgb, var(--accent) 30%, white);
   border-radius: 10px;
-  padding: 18px 20px;
+  padding: 12px 16px;
   text-align: center;
-  font-size: 16px;
-  line-height: 2;
+  font-size: 15px;
+  line-height: 1.75;
 }
 .case-cond {
   font-size: 13px;
@@ -159,9 +168,9 @@ body {
   background: #fff5f5;
   border: 2px solid #fc8181;
   border-radius: 10px;
-  padding: 20px 36px;
-  font-size: 19px;
-  line-height: 2.2;
+  padding: 14px 28px;
+  font-size: 17px;
+  line-height: 1.9;
 }
 
 /* 表 */
@@ -183,9 +192,9 @@ tr:last-child td { font-weight: 700; background: color-mix(in srgb, var(--accent
 }
 
 /* ポイントリスト */
-.point-list { list-style: none; font-size: 17px; line-height: 1.9; }
+.point-list { list-style: none; font-size: 15px; line-height: 1.75; }
 .point-list li {
-  padding: 10px 0;
+  padding: 8px 0;
   border-bottom: 1px dashed #e2e8f0;
   display: flex;
   gap: 10px;
@@ -201,10 +210,11 @@ tr:last-child td { font-weight: 700; background: color-mix(in srgb, var(--accent
 /* フッター（ページ番号はJSで自動入力） */
 .slide-footer {
   margin-top: auto;
-  padding-top: 20px;
+  padding-top: 12px;
+  flex-shrink: 0;
   display: flex;
   justify-content: space-between;
-  font-size: 13px;
+  font-size: 12px;
   color: #a0aec0;
   border-top: 1px solid #e2e8f0;
 }
@@ -320,12 +330,13 @@ tr:last-child td { font-weight: 700; background: color-mix(in srgb, var(--accent
 /* ===== 模範解答：答案用紙スタイル ===== */
 .answer-sheet {
   flex: 1;
+  min-height: 0;
   background: #fdfdf8;
   border: 1px solid #d4c89a;
   border-radius: 8px;
-  padding: 28px 40px;
-  font-size: 17px;
-  line-height: 2.1;
+  padding: 18px 32px;
+  font-size: 15px;
+  line-height: 1.85;
   position: relative;
   overflow: hidden;
 }
@@ -347,7 +358,7 @@ tr:last-child td { font-weight: 700; background: color-mix(in srgb, var(--accent
 .answer-sheet > * { position: relative; }
 
 .ans-block {
-  margin-bottom: 14px;
+  margin-bottom: 8px;
 }
 .ans-q {
   display: inline-block;
@@ -390,6 +401,7 @@ tr:last-child td { font-weight: 700; background: color-mix(in srgb, var(--accent
 
   /* body をブロック表示に戻す */
   body {
+    display: block !important;
     background: #fff !important;
     overflow: visible !important;
   }
@@ -402,12 +414,14 @@ tr:last-child td { font-weight: 700; background: color-mix(in srgb, var(--accent
     top: auto !important;
     left: auto !important;
     width: 339mm !important;   /* 1280px @ 96dpi */
-    /* height は JS zoom で制御するため固定しない */
-    min-height: unset !important;
+    height: 191mm !important;  /* 720px  @ 96dpi */
+    overflow: hidden !important;
     box-shadow: none !important;
     page-break-after: always;
     break-after: page;
     margin: 0 !important;
+    zoom: 1 !important;
+    transform: none !important;
   }
 
   /* 最後のスライドは改ページ不要 */

@@ -52,27 +52,17 @@
 
   update(); // 初期状態を設定
 
-  // ── 印刷前: 縦にはみ出すスライドをzoomで縮小して1ページに収める ──
-  const SLIDE_H = 720; // 720px = 191mm @ 96dpi
-  window.addEventListener('beforeprint', function () {
-    slides.forEach(function (slide) {
-      // 一時的に全スライドを表示して高さを測定
-      const prevDisplay = slide.style.display;
-      const prevOpacity = slide.style.opacity;
-      slide.style.display = 'flex';
-      slide.style.opacity = '0';
-      slide.style.zoom = '1';
-      const h = slide.scrollHeight;
-      if (h > SLIDE_H * 1.01) {
-        slide.style.zoom = String((SLIDE_H / h).toFixed(4));
-      }
-      slide.style.display = prevDisplay;
-      slide.style.opacity = prevOpacity;
-    });
-  });
-  window.addEventListener('afterprint', function () {
-    slides.forEach(function (slide) {
-      slide.style.zoom = '';
-    });
-  });
+  // ── ビューポートに合わせてスライドをスケーリング ──
+  function scaleToFit() {
+    const vw = document.documentElement.clientWidth;
+    const vh = document.documentElement.clientHeight;
+    const scale = Math.min(vw / 1280, vh / 720, 1);
+    const val = scale < 0.999 ? scale.toFixed(4) : '';
+    slides.forEach(function (s) { s.style.zoom = val; });
+  }
+  window.addEventListener('resize', scaleToFit);
+  scaleToFit();
+
+  // ── 印刷後にスケールを復元 ──
+  window.addEventListener('afterprint', scaleToFit);
 })();
