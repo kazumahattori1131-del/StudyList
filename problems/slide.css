@@ -420,8 +420,6 @@ tr:last-child td { font-weight: 700; background: color-mix(in srgb, var(--accent
     page-break-after: always;
     break-after: page;
     margin: 0 !important;
-    zoom: 1 !important;
-    transform: none !important;
   }
 
   /* 最後のスライドは改ページ不要 */
