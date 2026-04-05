@@ -369,3 +369,46 @@ tr:last-child td { font-weight: 700; background: color-mix(in srgb, var(--accent
   border-top: 1px dashed #e2e8f0;
   margin-top: 10px;
 }
+
+/* ===== 印刷・PDF出力 ===== */
+@media print {
+  /* ナビゲーション・プログレスバーを非表示 */
+  #nav,
+  #progress-bar { display: none !important; }
+
+  /* body をブロック表示に戻す */
+  body {
+    background: #fff !important;
+    overflow: visible !important;
+  }
+
+  /* 全スライドを表示し、1スライド＝1ページ */
+  .slide {
+    display: flex !important;
+    opacity: 1 !important;
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    width: 277mm !important;   /* 1280px ≈ 277mm @117dpi (landscape A4相当) */
+    height: 156mm !important;  /* 720px ≈ 156mm */
+    min-height: unset !important;
+    box-shadow: none !important;
+    page-break-after: always;
+    break-after: page;
+    margin: 0 !important;
+  }
+
+  /* 最後のスライドは改ページ不要 */
+  .slide:last-of-type {
+    page-break-after: avoid;
+    break-after: avoid;
+  }
+
+  /* 背景色を印刷でも保持 */
+  * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
+
+@page {
+  size: 277mm 156mm;
+  margin: 0;
+}
