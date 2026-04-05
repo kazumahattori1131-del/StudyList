@@ -63,9 +63,9 @@
   window.addEventListener('resize', scaleToFit);
   scaleToFit();
 
-  // ── 印刷前にズームをリセット、印刷後に復元 ──
+  // ── 印刷前にズームを1にリセット、印刷後に復元 ──
   window.addEventListener('beforeprint', function () {
-    slides.forEach(function (s) { s.style.zoom = ''; });
+    slides.forEach(function (s) { s.style.zoom = '1'; });
   });
   window.addEventListener('afterprint', scaleToFit);
 })();
