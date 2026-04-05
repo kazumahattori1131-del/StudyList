@@ -30,15 +30,13 @@ body {
   display: none;
   opacity: 0;
   width: 1280px;
-  height: 720px;
+  min-height: 720px;
   flex-shrink: 0;
   background: #fff;
   padding: 40px 64px;
   box-shadow: 0 4px 24px rgba(0,0,0,0.12);
   flex-direction: column;
   transition: opacity 0.2s ease;
-  overflow: hidden;
-  transform-origin: center center;
 }
 .slide.active {
   display: flex;
@@ -406,23 +404,28 @@ tr:last-child td { font-weight: 700; background: color-mix(in srgb, var(--accent
     overflow: visible !important;
   }
 
-  /* 全スライドを表示し、1スライド＝1ページ */
+  /* 全スライドを表示・1スライド1ページ */
+  /* width/zoom は beforeprint JS で設定（inline style が !important より優先） */
   .slide {
     display: flex !important;
     opacity: 1 !important;
     position: relative !important;
     top: auto !important;
     left: auto !important;
-    width: 339mm !important;   /* 1280px @ 96dpi */
-    height: 191mm !important;  /* 720px  @ 96dpi */
-    overflow: hidden !important;
+    height: auto !important;       /* 内容に合わせて伸縮 */
+    min-height: unset !important;
+    overflow: visible !important;  /* 切り取りなし */
     box-shadow: none !important;
     page-break-after: always;
     break-after: page;
     margin: 0 !important;
     padding: 40px 64px !important;
-    zoom: 1 !important;
-    transform: none !important;
+  }
+
+  /* 模範解答シートは flex:1 を解除して内容高さで表示 */
+  .answer-sheet {
+    flex: none !important;
+    overflow: visible !important;
   }
 
   /* 最後のスライドは改ページ不要 */
