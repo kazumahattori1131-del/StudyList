@@ -199,9 +199,60 @@ https://kazumahattori1131-del.github.io/StudyList/problems/math1/medium/quadrati
   <div class="slide-footer"></div>
 </section>
 
+<!-- スライド 6：模範解答 -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge" style="background:#2d3748;">模範解答</span>
+    <span class="slide-title">記述答案例（そのまま使えるレベル）</span>
+    <div class="meta"><span>二次関数の最小値</span></div>
+  </div>
+
+  <div class="answer-sheet">
+    <div class="ans-block">
+      <div class="ans-line">
+        $f(x)$ を平方完成すると $f(x) = (x-a)^2 - a^2 + 2a + 3$ となり、頂点の $x$ 座標は $a$。
+      </div>
+      <div class="ans-line">
+        定義域 $[0,\ 3]$ に対する頂点の位置で次のように場合分けする。
+      </div>
+    </div>
+
+    <div class="ans-block">
+      <span class="ans-case">［i］ $a &lt; 0$ のとき</span>
+      <div class="ans-line">
+        $f(x)$ は $[0,\ 3]$ 上で単調増加ゆえ、最小値は $x=0$ で実現される。
+        $$m(a) = f(0) = 2a + 3$$
+      </div>
+    </div>
+
+    <div class="ans-block">
+      <span class="ans-case">［ii］ $0 \leq a \leq 3$ のとき</span>
+      <div class="ans-line">
+        頂点が区間内に含まれるから、最小値は頂点の $y$ 座標に等しい。
+        $$m(a) = -a^2 + 2a + 3$$
+      </div>
+    </div>
+
+    <div class="ans-block">
+      <span class="ans-case">［iii］ $a &gt; 3$ のとき</span>
+      <div class="ans-line">
+        $f(x)$ は $[0,\ 3]$ 上で単調減少ゆえ、最小値は $x=3$ で実現される。
+        $$m(a) = f(3) = 9 - 6a + 2a + 3 = -4a + 12$$
+      </div>
+    </div>
+
+    <div class="ans-therefore">
+      以上より
+      $$m(a) = \begin{cases} 2a + 3 & (a < 0) \\ -a^2 + 2a + 3 & (0 \leq a \leq 3) \\ -4a + 12 & (a > 3) \end{cases}$$
+    </div>
+  </div>
+
+  <div class="slide-footer"></div>
+</section>
+
 <div id="nav">
   <button id="btn-prev">◀ 前へ</button>
-  <span class="page-info" id="pinfo">1 / 4</span>
+  <span class="page-info" id="pinfo">1 / 6</span>
   <button id="btn-next">次へ ▶</button>
   <span class="hint">← → キーでも操作できます</span>
 </div>

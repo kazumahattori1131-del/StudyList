@@ -205,9 +205,58 @@ https://kazumahattori1131-del.github.io/StudyList/problems/mathA/medium/probabil
   <div class="slide-footer"></div>
 </section>
 
+<!-- スライド 6：模範解答 -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge" style="background:#2d3748;">模範解答</span>
+    <span class="slide-title">記述答案例（そのまま使えるレベル）</span>
+    <div class="meta"><span>条件付き確率・余事象</span></div>
+  </div>
+
+  <div class="answer-sheet">
+    <div class="ans-block">
+      <div class="ans-line">
+        7個から3個を取り出す場合の数は $\displaystyle\binom{7}{3} = 35$ 通り。
+      </div>
+    </div>
+
+    <div class="ans-block">
+      <span class="ans-q">(1)</span>
+      <div class="ans-line">
+        余事象「3個全て白球」の場合の数は $\displaystyle\binom{3}{3} = 1$ 通りであるから、
+      </div>
+      <div class="ans-line">
+        $$P(\text{少なくとも1個赤}) = 1 - \frac{1}{35} = \boxed{\dfrac{34}{35}}$$
+      </div>
+    </div>
+
+    <div class="ans-block">
+      <span class="ans-q">(2)</span>
+      <div class="ans-line">
+        事象 $A$：少なくとも1個が赤球、事象 $B$：赤球が2個以上、とおく。
+        $B \subset A$ より $P(A \cap B) = P(B)$。
+      </div>
+      <div class="ans-line">
+        赤球2個以上の場合の数は、
+      </div>
+      <div class="ans-line">
+        $$\binom{4}{2}\binom{3}{1} + \binom{4}{3}\binom{3}{0} = 18 + 4 = 22 \text{ 通り}$$
+      </div>
+      <div class="ans-line">
+        よって $\displaystyle P(B) = \frac{22}{35}$。(1) より $\displaystyle P(A) = \frac{34}{35}$ だから、
+      </div>
+      <div class="ans-line">
+        $$P(B \mid A) = \frac{P(A \cap B)}{P(A)} = \frac{P(B)}{P(A)} = \frac{\,\dfrac{22}{35}\,}{\,\dfrac{34}{35}\,} = \frac{22}{34} = \boxed{\dfrac{11}{17}}$$
+      </div>
+    </div>
+  </div>
+
+  <div class="slide-footer"></div>
+</section>
+
 <div id="nav">
   <button id="btn-prev">◀ 前へ</button>
-  <span class="page-info" id="pinfo">1 / 4</span>
+  <span class="page-info" id="pinfo">1 / 6</span>
   <button id="btn-next">次へ ▶</button>
   <span class="hint">← → キーでも操作できます</span>
 </div>

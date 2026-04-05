@@ -304,3 +304,68 @@ tr:last-child td { font-weight: 700; background: color-mix(in srgb, var(--accent
   line-height: 1.7;
 }
 .caution::before { content: '⚠ '; font-size: 13px; }
+
+/* ===== 模範解答：答案用紙スタイル ===== */
+.answer-sheet {
+  flex: 1;
+  background: #fdfdf8;
+  border: 1px solid #d4c89a;
+  border-radius: 8px;
+  padding: 28px 40px;
+  font-size: 17px;
+  line-height: 2.1;
+  position: relative;
+  overflow: hidden;
+}
+/* 罫線の再現 */
+.answer-sheet::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent,
+    transparent calc(2.1em * 17px / 16 - 1px),
+    #e8e4cc calc(2.1em * 17px / 16 - 1px),
+    #e8e4cc calc(2.1em * 17px / 16)
+  );
+  pointer-events: none;
+  opacity: 0.45;
+}
+.answer-sheet > * { position: relative; }
+
+.ans-block {
+  margin-bottom: 14px;
+}
+.ans-q {
+  display: inline-block;
+  background: #2d3748;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 2px 10px;
+  border-radius: 4px;
+  margin-bottom: 6px;
+}
+.ans-line {
+  margin: 4px 0;
+}
+.ans-case {
+  display: inline-block;
+  background: color-mix(in srgb, var(--accent) 12%, white);
+  border: 1px solid color-mix(in srgb, var(--accent) 30%, white);
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 700;
+  padding: 1px 10px;
+  margin: 6px 0 4px;
+  color: var(--accent);
+}
+.ans-therefore {
+  font-size: 15px;
+  color: #c53030;
+  font-weight: 700;
+  padding: 8px 0 0;
+  border-top: 1px dashed #e2e8f0;
+  margin-top: 10px;
+}
