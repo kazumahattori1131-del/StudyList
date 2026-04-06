@@ -238,9 +238,62 @@ https://kazumahattori1131-del.github.io/StudyList/problems/mathC/hard/de_moivre_
   </div>
 </div>
 
+<!-- Slide 9: 類題 -->
+<div class="slide">
+  <h1 class="slide-title">類題：$\sin 3\theta$ の公式とsin10°の方程式</h1>
+  <div class="meta-row">
+    <span class="badge badge-level">★★★★☆ 上級</span>
+    <span class="badge badge-time">⏱ 目安：15分</span>
+  </div>
+  <p class="problem-label">類　題</p>
+  <div class="problem-box">
+    <p><strong>(1)</strong> ド・モアブルの定理を用いて、次の等式を示せ。</p>
+    $$\sin 3\theta = 3\sin\theta - 4\sin^3\theta$$
+    <p style="margin-top:1rem;"><strong>(2)</strong> (1) の結果を利用して、$\sin 10°$ は方程式</p>
+    $$8x^3 - 6x + 1 = 0$$
+    <p>の解であることを示せ。</p>
+  </div>
+  <div class="point-list" style="margin-top:1rem;">
+    <strong>解法のヒント</strong>
+    <ul>
+      <li>(1)：$(\cos\theta+i\sin\theta)^3$ を展開し、<span style="font-weight:bold;">虚部</span>を比較する（cos3θは実部、sin3θは虚部）</li>
+      <li>(2)：$\theta=10°$ を代入し、$\sin30°=\dfrac{1}{2}$ を使って整理する</li>
+    </ul>
+  </div>
+</div>
+
+<!-- Slide 10: 類題の模範解答 -->
+<div class="slide">
+  <h1 class="slide-title">類題 模範解答</h1>
+  <p class="answer-label">解答</p>
+  <div class="answer-sheet">
+    <div class="ans-block">
+      <div class="ans-line"><strong>(1)</strong> ド・モアブルの定理より：</div>
+      <div class="ans-line">$$(\cos\theta+i\sin\theta)^3 = \cos3\theta + i\sin3\theta \quad \cdots (*)$$</div>
+      <div class="ans-line">左辺を二項定理で展開する：</div>
+      <div class="ans-line">$$= \cos^3\theta + 3i\cos^2\theta\sin\theta - 3\cos\theta\sin^2\theta - i\sin^3\theta$$</div>
+      <div class="ans-line">$= (\cos^3\theta - 3\cos\theta\sin^2\theta) + i(3\cos^2\theta\sin\theta - \sin^3\theta)$</div>
+      <div class="ans-line">$(*)$ の虚部を比較する：</div>
+      <div class="ans-line">$$\sin3\theta = 3\cos^2\theta\sin\theta - \sin^3\theta$$</div>
+      <div class="ans-line">$\cos^2\theta = 1-\sin^2\theta$ を代入：</div>
+      <div class="ans-line">$$= 3(1-\sin^2\theta)\sin\theta - \sin^3\theta = 3\sin\theta - 3\sin^3\theta - \sin^3\theta$$</div>
+      <div class="ans-therefore">$$\sin3\theta = 3\sin\theta - 4\sin^3\theta \quad \square$$</div>
+    </div>
+    <div class="ans-block">
+      <div class="ans-line"><strong>(2)</strong> (1) の等式に $\theta=10°$ を代入する：</div>
+      <div class="ans-line">$$\sin30° = 3\sin10° - 4\sin^310°$$</div>
+      <div class="ans-line">$\sin30°=\dfrac{1}{2}$ より：</div>
+      <div class="ans-line">$$\frac{1}{2} = 3\sin10° - 4\sin^310°$$</div>
+      <div class="ans-line">両辺に $2$ をかけると：$1 = 6\sin10° - 8\sin^310°$</div>
+      <div class="ans-line">$$8\sin^310° - 6\sin10° + 1 = 0$$</div>
+      <div class="ans-therefore">$x=\sin10°$ とおくと $8x^3-6x+1=0$ を満たす。したがって $\sin10°$ は方程式 $8x^3-6x+1=0$ の解である。&ensp;□</div>
+    </div>
+  </div>
+</div>
+
 <div id="nav">
   <button id="btn-prev">◀ 前へ</button>
-  <span class="page-info" id="pinfo">1 / 8</span>
+  <span class="page-info" id="pinfo">1 / 10</span>
   <button id="btn-next">次へ ▶</button>
   <button id="btn-pdf" onclick="window.print()">⬇ PDF保存</button>
   <span class="hint">← → キーでも操作できます</span>

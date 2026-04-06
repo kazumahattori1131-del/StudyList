@@ -272,9 +272,86 @@ https://kazumahattori1131-del.github.io/StudyList/problems/math1/hard/quadratic_
   <div class="slide-footer"></div>
 </section>
 
+<!-- スライド 9：類題 -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge orange">類　題</span>
+    <span class="badge">数学 I</span>
+    <span class="slide-title">二次関数の最小値（定義域の変化）</span>
+    <div class="meta"><span>★★★★☆ 上級</span><span>目安 12 分</span></div>
+  </div>
+
+  <div class="problem-label">類　題</div>
+  <div class="problem-box">
+    実数 $a$ を定数とする。関数
+    $$f(x) = x^2 - 2ax + a + 6$$
+    の $0 \leq x \leq 3$ における最小値 $m(a)$ を、$a$ の値によって場合分けして求めよ。
+  </div>
+
+  <div class="section-title">解法のヒント</div>
+  <div class="step">
+    平方完成して軸と頂点を求め、軸 $x=a$ が $[0,3]$ のどこにあるかで場合分けする。<br>
+    境界は軸が定義域の端点 $x=0$ および $x=3$ と一致するとき、すなわち $a=0$ と $a=3$。
+  </div>
+  <div class="step">
+    端点の値：$f(0) = a+6$　　$f(3) = 9 - 6a + a + 6 = 15 - 5a$　　頂点：$f(a) = -a^2+a+6$
+  </div>
+
+  <div class="slide-footer"></div>
+</section>
+
+<!-- スライド 10：類題の模範解答 -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge" style="background:#2d3748;">類題 模範解答</span>
+    <span class="slide-title">記述答案例（類題）</span>
+    <div class="meta"><span>二次関数の最小値・軸の移動</span></div>
+  </div>
+
+  <div class="answer-sheet">
+    <div class="ans-block">
+      <div class="ans-line">
+        平方完成すると $f(x) = (x-a)^2 - a^2 + a + 6$。軸は $x=a$、頂点の $y$ 座標は $-a^2+a+6$。
+        端点の値：$f(0)=a+6$、$f(3)=15-5a$。放物線は上に開くので軸の位置で場合分けする。
+      </div>
+    </div>
+
+    <div class="ans-block">
+      <span class="ans-case">［i］ $a &lt; 0$ のとき</span>
+      <div class="ans-line">
+        軸 $x=a$ が $[0,3]$ の左外 → $f(x)$ は $[0,3]$ で単調増加。
+        $$m(a) = f(0) = a + 6$$
+      </div>
+    </div>
+
+    <div class="ans-block">
+      <span class="ans-case">［ii］ $0 \leq a \leq 3$ のとき</span>
+      <div class="ans-line">
+        軸 $x=a$ が $[0,3]$ 内 → 最小値は頂点の $y$ 座標。
+        $$m(a) = f(a) = -a^2 + a + 6$$
+      </div>
+    </div>
+
+    <div class="ans-block">
+      <span class="ans-case">［iii］ $a &gt; 3$ のとき</span>
+      <div class="ans-line">
+        軸 $x=a$ が $[0,3]$ の右外 → $f(x)$ は $[0,3]$ で単調減少。
+        $$m(a) = f(3) = 15 - 5a$$
+      </div>
+    </div>
+
+    <div class="ans-therefore">
+      $$m(a) = \begin{cases} a+6 & (a < 0) \\ -a^2+a+6 & (0 \leq a \leq 3) \\ 15-5a & (a > 3) \end{cases}$$
+      <span style="font-size:13px;color:#718096;">（連続性確認：$a=0$ で両式 $=6$ ✓、$a=3$ で両式 $=0$ ✓）</span>
+    </div>
+  </div>
+
+  <div class="slide-footer"></div>
+</section>
+
 <div id="nav">
   <button id="btn-prev">◀ 前へ</button>
-  <span class="page-info" id="pinfo">1 / 8</span>
+  <span class="page-info" id="pinfo">1 / 10</span>
   <button id="btn-next">次へ ▶</button>
   <button id="btn-pdf" onclick="window.print()">⬇ PDF保存</button>
   <span class="hint">← → キーでも操作できます</span>

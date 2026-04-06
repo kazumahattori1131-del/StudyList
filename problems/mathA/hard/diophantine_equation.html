@@ -259,9 +259,74 @@ https://kazumahattori1131-del.github.io/StudyList/problems/mathA/hard/diophantin
   <div class="slide-footer"></div>
 </section>
 
+<!-- ========== スライド 9：類題 ========== -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge orange">類　題</span>
+    <span class="badge">数学 A</span>
+    <span class="slide-title">不定方程式の整数解（係数の違う問題）</span>
+    <div class="meta"><span>★★★★☆ 上級</span><span>目安 12 分</span></div>
+  </div>
+
+  <div class="problem-label">類　題</div>
+  <div class="problem-box">
+    <strong>(1)</strong> $7x + 3y = 1$ の整数解をすべて求めよ。<br><br>
+    <strong>(2)</strong> $7x + 3y = 100$ を満たす正の整数解 $(x,\,y)$ の個数を求めよ。
+  </div>
+
+  <div class="section-title">解法のヒント</div>
+  <div class="step">
+    $\gcd(7,3)=1$ なので整数解は必ず存在する。特殊解を目算で探す：<br>
+    $x=1,\; y=-2$：$7-6=1$ ✓　→　$(1,\,-2)$ が特殊解。
+  </div>
+  <div class="step">
+    一般解の手順：$7(x-1)+3(y+2)=0$ → $7(x-1)=-3(y+2)$ → $7\mid(y+2)$ を利用。<br>
+    正整数条件：$x&gt;0$ と $y&gt;0$ をそれぞれ不等式で表し、$k$ の整数範囲を求める。
+  </div>
+
+  <div class="slide-footer"></div>
+</section>
+
+<!-- ========== スライド 10：類題の模範解答 ========== -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge" style="background:#2d3748;">類題 模範解答</span>
+    <span class="slide-title">記述答案例（類題）</span>
+    <div class="meta"><span>不定方程式の整数解</span></div>
+  </div>
+
+  <div class="answer-sheet">
+    <div class="ans-block">
+      <div class="ans-line"><strong>(1)</strong> $x=1,\;y=-2$ は $7\cdot1+3\cdot(-2)=1$ を満たすので特殊解である。</div>
+    </div>
+    <div class="ans-block">
+      <div class="ans-line">元の式との差をとると $7(x-1)+3(y+2)=0$、すなわち $7(x-1)=-3(y+2)$。</div>
+      <div class="ans-line">$\gcd(7,3)=1$ より $7\mid(y+2)$。$y+2=7k$（$k\in\mathbb{Z}$）とおくと $x-1=-3k$。</div>
+    </div>
+    <div class="ans-case">
+      $$x = 1-3k,\quad y = -2+7k \quad (k\in\mathbb{Z})$$
+    </div>
+    <div class="ans-block">
+      <div class="ans-line"><strong>(2)</strong> $7\cdot100+3\cdot(-200)=700-600=100$ なので特殊解は $(100,\,-200)$。</div>
+      <div class="ans-line">一般解：$x=100-3k,\;y=-200+7k$（$k\in\mathbb{Z}$）。</div>
+      <div class="ans-line">$x&gt;0$：$100-3k&gt;0 \;\Rightarrow\; k&lt;\dfrac{100}{3}\approx33.3 \;\Rightarrow\; k\leq33$</div>
+      <div class="ans-line">$y&gt;0$：$-200+7k&gt;0 \;\Rightarrow\; k&gt;\dfrac{200}{7}\approx28.6 \;\Rightarrow\; k\geq29$</div>
+      <div class="ans-line">共通範囲：$29\leq k\leq33$（整数）</div>
+      <div class="ans-line" style="font-size:14px;color:#4a5568;">
+        端点確認：$k=29$：$(x,y)=(13,3)$、$7\cdot13+3\cdot3=91+9=100$ ✓　　$k=33$：$(x,y)=(1,31)$、$7+93=100$ ✓
+      </div>
+    </div>
+    <div class="ans-therefore">
+      正の整数解 $(x,y)$ の個数は $\boldsymbol{5}$ 組
+    </div>
+  </div>
+
+  <div class="slide-footer"></div>
+</section>
+
 <div id="nav">
   <button id="btn-prev">◀ 前へ</button>
-  <span class="page-info" id="pinfo">1 / 8</span>
+  <span class="page-info" id="pinfo">1 / 10</span>
   <button id="btn-next">次へ ▶</button>
   <button id="btn-pdf" onclick="window.print()">⬇ PDF保存</button>
   <span class="hint">← → キーでも操作できます</span>

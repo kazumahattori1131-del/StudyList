@@ -210,9 +210,67 @@ https://kazumahattori1131-del.github.io/StudyList/problems/mathB/hard/induction_
   </div>
 </div>
 
+<!-- Slide 9: 類題 -->
+<div class="slide">
+  <h1 class="slide-title">類題：積の和の数学的帰納法</h1>
+  <div class="meta-row">
+    <span class="badge badge-level">★★★★☆ 上級</span>
+    <span class="badge badge-time">⏱ 目安：12分</span>
+  </div>
+  <p class="problem-label">類　題</p>
+  <div class="problem-box">
+    <p>すべての自然数 $n$ に対して、次の等式が成り立つことを数学的帰納法で証明せよ。</p>
+    $$\sum_{k=1}^{n} k(k+1) = \frac{n(n+1)(n+2)}{3}$$
+  </div>
+  <div class="point-list" style="margin-top:1rem;">
+    <strong>解法のヒント</strong>
+    <ul>
+      <li>[1] $n=1$：左辺 $= 1\cdot2 = 2$、右辺 $= \dfrac{1\cdot2\cdot3}{3} = 2$ ✓</li>
+      <li>[2] 仮定 $\displaystyle\sum_{k=1}^{m}k(k+1)=\dfrac{m(m+1)(m+2)}{3}$ を用いて、$(m+1)$ 番目の項を加える</li>
+      <li>$(m+1)(m+2)$ を共通因数としてくくり出すのが整理のコツ</li>
+    </ul>
+  </div>
+</div>
+
+<!-- Slide 10: 類題の模範解答 -->
+<div class="slide">
+  <h1 class="slide-title">類題 模範解答</h1>
+  <p class="answer-label">解答</p>
+  <div class="answer-sheet">
+    <div class="ans-block">
+      <div class="ans-line">$\displaystyle\sum_{k=1}^{n}k(k+1)=\dfrac{n(n+1)(n+2)}{3}$ …… $(\star)$ を数学的帰納法で証明する。</div>
+    </div>
+    <div class="ans-block">
+      <div class="ans-line"><strong>[1] $n=1$ のとき：</strong></div>
+      <div class="ans-line">（左辺）$= 1\cdot2 = 2$</div>
+      <div class="ans-line">（右辺）$= \dfrac{1\cdot2\cdot3}{3} = 2$</div>
+      <div class="ans-line">左辺 $=$ 右辺 より $n=1$ のとき $(\star)$ は成立する。</div>
+    </div>
+    <div class="ans-block">
+      <div class="ans-line"><strong>[2] $n=m$ のとき $(\star)$ が成立すると仮定する：</strong></div>
+      <div class="ans-line">$$\sum_{k=1}^{m}k(k+1)=\frac{m(m+1)(m+2)}{3} \quad \cdots (*)$$</div>
+      <div class="ans-line">$n=m+1$ のとき：</div>
+      <div class="ans-line">
+        $$\sum_{k=1}^{m+1}k(k+1) = \sum_{k=1}^{m}k(k+1) + (m+1)(m+2)$$
+      </div>
+      <div class="ans-line">
+        $$(*)より = \frac{m(m+1)(m+2)}{3} + (m+1)(m+2)$$
+      </div>
+      <div class="ans-line">
+        $$= (m+1)(m+2)\left(\frac{m}{3}+1\right) = (m+1)(m+2)\cdot\frac{m+3}{3}$$
+      </div>
+      <div class="ans-line">
+        $$= \frac{(m+1)(m+2)(m+3)}{3}$$
+      </div>
+      <div class="ans-line">これは $n=m+1$ のとき $(\star)$ が成立することを示す。</div>
+    </div>
+    <div class="ans-therefore">[1][2] より、すべての自然数 $n$ に対して $(\star)$ が成立する。&ensp;□</div>
+  </div>
+</div>
+
 <div id="nav">
   <button id="btn-prev">◀ 前へ</button>
-  <span class="page-info" id="pinfo">1 / 8</span>
+  <span class="page-info" id="pinfo">1 / 10</span>
   <button id="btn-next">次へ ▶</button>
   <button id="btn-pdf" onclick="window.print()">⬇ PDF保存</button>
   <span class="hint">← → キーでも操作できます</span>

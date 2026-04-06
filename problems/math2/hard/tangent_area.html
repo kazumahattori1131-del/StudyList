@@ -262,9 +262,83 @@ https://kazumahattori1131-del.github.io/StudyList/problems/math2/hard/tangent_ar
   <div class="slide-footer"></div>
 </section>
 
+<!-- スライド 9：類題 -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge orange">類　題</span>
+    <span class="badge">数学 II</span>
+    <span class="slide-title">接線と曲線が囲む面積（別の接点）</span>
+    <div class="meta"><span>★★★★☆ 上級</span><span>目安 12 分</span></div>
+  </div>
+
+  <div class="problem-label">類　題</div>
+  <div class="problem-box">
+    曲線 $C\colon y = x^3 - 3x$ 上の点 $(-1,\ 2)$ における接線 $\ell$ の方程式を求めよ。<br>
+    また、接線 $\ell$ と曲線 $C$ で囲まれた部分の面積 $S$ を求めよ。
+  </div>
+
+  <div class="section-title">解法のヒント</div>
+  <div class="step">
+    $y' = 3x^2-3$。$x=-1$ での傾き $= 3(-1)^2 - 3 = 0$（水平接線）。
+  </div>
+  <div class="step">
+    交点：$x^3-3x=2 \;\Rightarrow\; x^3-3x-2=0$。<br>
+    $x=-1$ が解なので $(x+1)$ で因数分解 → $(x+1)^2(x-2)=0$。<br>
+    交点は $x=-1$（重解・接点）と $x=2$。
+  </div>
+  <div class="step">
+    $-1&lt;x&lt;2$ で $(x+1)^2(x-2) &lt; 0$、つまり曲線が接線の下側。<br>
+    $\displaystyle S = \int_{-1}^{2}\bigl\{2-(x^3-3x)\bigr\}\,dx$
+  </div>
+
+  <div class="slide-footer"></div>
+</section>
+
+<!-- スライド 10：類題の模範解答 -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge" style="background:#2d3748;">類題 模範解答</span>
+    <span class="slide-title">記述答案例（類題）</span>
+    <div class="meta"><span>接線と曲線が囲む面積</span></div>
+  </div>
+
+  <div class="answer-sheet">
+    <div class="ans-block">
+      <div class="ans-line">
+        $y' = 3x^2-3$。$x=-1$ での傾きは $3(-1)^2-3=0$。点 $(-1,\,2)$ を通り傾き $0$ の接線は
+        $$\ell\colon y = 2$$
+      </div>
+    </div>
+
+    <div class="ans-block">
+      <div class="ans-line">
+        接線と曲線の交点：$x^3-3x=2 \;\Rightarrow\; x^3-3x-2=0$。$x=-1$ が解なので
+        $$(x+1)(x^2-x-2)=(x+1)^2(x-2)=0$$
+        ゆえに $x=-1$（重解）または $x=2$。
+      </div>
+    </div>
+
+    <div class="ans-block">
+      <span class="ans-case">面積の計算</span>
+      <div class="ans-line">
+        $-1&lt;x&lt;2$ において $(x+1)^2(x-2)&lt;0$、よって曲線は接線の下側。
+        $$S = \int_{-1}^{2}\bigl\{2-(x^3-3x)\bigr\}\,dx = \int_{-1}^{2}(x+1)^2(2-x)\,dx$$
+        $\dfrac{1}{12}$ 公式（$\alpha=-1$、$\beta=2$）を利用すると：
+        $$S = \frac{|\beta-\alpha|^4}{12} = \frac{3^4}{12} = \frac{81}{12}$$
+      </div>
+    </div>
+
+    <div class="ans-therefore">
+      接線：$y=2$　　面積：$\displaystyle S = \dfrac{27}{4}$
+    </div>
+  </div>
+
+  <div class="slide-footer"></div>
+</section>
+
 <div id="nav">
   <button id="btn-prev">◀ 前へ</button>
-  <span class="page-info" id="pinfo">1 / 8</span>
+  <span class="page-info" id="pinfo">1 / 10</span>
   <button id="btn-next">次へ ▶</button>
   <button id="btn-pdf" onclick="window.print()">⬇ PDF保存</button>
   <span class="hint">← → キーでも操作できます</span>
