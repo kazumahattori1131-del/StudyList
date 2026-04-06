@@ -118,8 +118,8 @@ body {
   border-radius: 8px;
   padding: 12px 22px;
   margin-bottom: 10px;
-  font-size: 16px;
-  line-height: 1.75;
+  font-size: 17px;
+  line-height: 1.85;
 }
 .step-num {
   display: inline-block;
@@ -261,6 +261,17 @@ tr:last-child td { font-weight: 700; background: color-mix(in srgb, var(--accent
 
 .highlight { background: #fefcbf; padding: 1px 4px; border-radius: 3px; }
 
+/* ===== KaTeX 数式スタイル ===== */
+/* 数式を本文より大きく表示 */
+.katex { font-size: 1.18em; }
+
+/* ディスプレイ数式（$$...$$）：中央揃え・上下余白・はみ出し許容 */
+.katex-display {
+  margin: 0.55em 0 !important;
+  overflow: visible !important;
+  text-align: center;
+}
+
 /* ===== 発展問題：左右2カラムレイアウト ===== */
 .dev-layout {
   display: grid;
@@ -334,10 +345,10 @@ tr:last-child td { font-weight: 700; background: color-mix(in srgb, var(--accent
   border: 1px solid #d4c89a;
   border-radius: 8px;
   padding: 18px 32px;
-  font-size: 15px;
-  line-height: 1.85;
+  font-size: 16px;
+  line-height: 1.95;
   position: relative;
-  overflow: hidden;
+  overflow: visible; /* hidden だと積分記号・分数の上下がクリップされる */
 }
 /* 罫線の再現 */
 .answer-sheet::before {
@@ -370,7 +381,8 @@ tr:last-child td { font-weight: 700; background: color-mix(in srgb, var(--accent
   margin-bottom: 6px;
 }
 .ans-line {
-  margin: 4px 0;
+  margin: 5px 0;
+  line-height: 1.9;
 }
 .ans-case {
   display: inline-block;
