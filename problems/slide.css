@@ -65,6 +65,7 @@ body {
 .badge.orange { background: #dd6b20; }
 .badge.green  { background: #276749; }
 .slide-title { font-size: 20px; font-weight: 800; color: #2d3748; flex: 1; }
+.slide > .slide-title { flex: none; } /* タイトルがslideの直接子要素の場合は縦伸縮しない */
 .meta { font-size: 12px; color: #718096; display: flex; gap: 16px; }
 
 /* 問題ボックス */
