@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>【数学I】二次不等式（連立不等式と整数解）</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <link rel="stylesheet" href="../../slide.css">
+  <style> :root { --accent: #2b6cb0; } </style>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]})"></script>
+</head>
+<body>
+<!--
+
+https://kazumahattori1131-del.github.io/StudyList/problems/math1/medium/quadratic_inequality.html
+
+-->
+<div id="progress-bar"></div>
+
+<!-- ========== 【元問題】 ========== -->
+
+<!-- スライド 1：問題 -->
+<section class="slide active">
+  <div class="slide-header">
+    <span class="badge">数学 I</span>
+    <span class="badge orange">二次不等式</span>
+    <span class="slide-title">二次不等式（連立不等式と整数解）</span>
+    <div class="meta"><span>★★★☆☆ 中級</span><span>目安 10 分</span></div>
+  </div>
+
+  <div class="problem-label">問　題</div>
+  <div class="problem-box">
+    次の連立不等式を解き、整数解をすべて求めよ。
+    $$x^2 - 3x - 4 < 0 \qquad \cdots ①$$
+    $$2x + 1 > x - 2 \qquad \cdots ②$$
+  </div>
+
+  <div class="section-title">考え方のヒント</div>
+  <div class="step">
+    各不等式を<span class="highlight">別々に解いてから共通範囲を求める</span>のが基本方針。<br>
+    ①は二次不等式なので因数分解、②は一次不等式なのでそのまま整理する。
+  </div>
+
+  <div class="slide-footer"></div>
+</section>
+
+<!-- スライド 2：Step 1 -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge">解説</span>
+    <span class="slide-title">Step 1：① $x^2 - 3x - 4 &lt; 0$ を解く</span>
+  </div>
+
+  <div class="step">
+    <span class="step-num">1</span> 左辺を因数分解する。
+    $$x^2 - 3x - 4 = (x + 1)(x - 4)$$
+  </div>
+  <div class="step">
+    <span class="step-num">2</span> 不等式を変形する。
+    $$(x + 1)(x - 4) < 0$$
+  </div>
+  <div class="step">
+    <span class="step-num">3</span> $(x - \alpha)(x - \beta) < 0 \;(\alpha < \beta)$ の解は $\alpha < x < \beta$ であるから、
+    $$\therefore\; -1 < x < 4$$
+  </div>
+
+  <div class="slide-footer"></div>
+</section>
+
+<!-- スライド 3：Step 2 -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge">解説</span>
+    <span class="slide-title">Step 2：② $2x + 1 &gt; x - 2$ を解く</span>
+  </div>
+
+  <div class="step">
+    <span class="step-num">1</span> $x$ の項を左辺、定数項を右辺に移項する。
+    $$2x - x > -2 - 1$$
+  </div>
+  <div class="step">
+    <span class="step-num">2</span> 整理する。
+    $$x > -3$$
+  </div>
+
+  <div class="section-title">まとめ</div>
+  <div class="step">
+    ① の解：$-1 < x < 4$<br>
+    ② の解：$x > -3$<br>
+    次のスライドで数直線を使って共通範囲を確認する。
+  </div>
+
+  <div class="slide-footer"></div>
+</section>
+
+<!-- スライド 4：Step 3 -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge">解説</span>
+    <span class="slide-title">Step 3：共通範囲を数直線で整理し、整数解を求める</span>
+  </div>
+
+  <div class="cases">
+    <div class="case-card">
+      <div class="case-cond">① の範囲</div>
+      $$-1 < x < 4$$
+    </div>
+    <div class="case-card">
+      <div class="case-cond">② の範囲</div>
+      $$x > -3$$
+    </div>
+    <div class="case-card" style="background:color-mix(in srgb,var(--accent) 5%,white);">
+      <div class="case-cond" style="background:color-mix(in srgb,var(--accent) 15%,white);">共通範囲</div>
+      $$-1 < x < 4$$
+    </div>
+  </div>
+
+  <div class="section-title">整数解の列挙</div>
+  <div class="step">
+    $-1 < x < 4$ を満たす整数は（端点 $-1$, $4$ は<span class="highlight">含まない</span>ことに注意）：
+    $$x = 0,\; 1,\; 2,\; 3$$
+  </div>
+
+  <div class="answer-label">答　え</div>
+  <div class="answer-box">
+    $$x = 0,\ 1,\ 2,\ 3$$
+  </div>
+
+  <div class="slide-footer"></div>
+</section>
+
+<!-- スライド 5：ポイント -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge green">ポイント</span>
+    <span class="slide-title">受験テクニック・確認事項</span>
+  </div>
+
+  <ul class="point-list">
+    <li><strong>二次不等式の解き方の手順：</strong>「因数分解 → 解の順序を確認 → 不等号の方向に注意」</li>
+    <li><strong>公式として覚える：</strong>$(x-\alpha)(x-\beta) < 0 \;(\alpha < \beta)$ の解は $\alpha < x < \beta$</li>
+    <li><strong>連立不等式は数直線で：</strong>各不等式の解を数直線上に図示して<span class="highlight">共通範囲を視覚的に確認</span>する</li>
+    <li><strong>整数解を求める際の注意：</strong>開区間（$<$）では端点を含まない。$-1 < x < 4$ の整数解は $-1$ と $4$ を除いた $0, 1, 2, 3$ の 4 個</li>
+  </ul>
+
+  <div class="slide-footer"></div>
+</section>
+
+<!-- スライド 6：模範解答 -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge" style="background:#2d3748;">模範解答</span>
+    <span class="slide-title">記述答案例（そのまま使えるレベル）</span>
+    <div class="meta"><span>二次不等式・連立</span></div>
+  </div>
+
+  <div class="answer-sheet">
+    <div class="ans-block">
+      <div class="ans-line">① $x^2 - 3x - 4 < 0$ を解く。</div>
+      <div class="ans-line">左辺を因数分解すると $(x+1)(x-4) < 0$</div>
+      <div class="ans-line">$$\therefore\; -1 < x < 4 \qquad \cdots \text{(i)}$$</div>
+    </div>
+    <div class="ans-block">
+      <div class="ans-line">② $2x + 1 > x - 2$ を解く。</div>
+      <div class="ans-line">$x > -3 \qquad \cdots \text{(ii)}$</div>
+    </div>
+    <div class="ans-block">
+      <div class="ans-line">(i), (ii) の共通範囲を求めると、</div>
+      <div class="ans-line">$$-1 < x < 4$$</div>
+    </div>
+    <div class="ans-therefore">
+      整数解は $x = 0,\; 1,\; 2,\; 3$
+    </div>
+  </div>
+
+  <div class="slide-footer"></div>
+</section>
+
+<!-- ========== 【類　題】 ========== -->
+
+<!-- スライド 7：類題 -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge orange">類　題</span>
+    <span class="badge">数学 I</span>
+    <span class="slide-title">係数を変えた類似問題</span>
+    <div class="meta"><span>★★★☆☆ 中級</span><span>目安 10 分</span></div>
+  </div>
+
+  <div class="problem-label">類　題</div>
+  <div class="problem-box">
+    次の連立不等式を解き、整数解をすべて求めよ。
+    $$x^2 - 5x + 4 \leq 0 \qquad \cdots ①$$
+    $$2x - 3 > x - 1 \qquad \cdots ②$$
+  </div>
+
+  <div class="section-title">元問題との違いを確認</div>
+  <div class="step">
+    <table style="font-size:16px;">
+      <thead><tr><th></th><th>元問題</th><th>類題</th></tr></thead>
+      <tbody>
+        <tr><td>二次不等式</td><td>$x^2 - 3x - 4 < 0$（開区間）</td><td>$x^2 - 5x + 4 \leq 0$（閉区間）</td></tr>
+        <tr><td>一次不等式</td><td>$2x + 1 > x - 2$</td><td>$2x - 3 > x - 1$</td></tr>
+        <tr><td>不等号</td><td>$<$（端点含まず）</td><td>$\leq$（端点含む）に注意</td></tr>
+      </tbody>
+    </table>
+    <div style="margin-top:10px;"><span class="highlight">$\leq$ と $<$ で整数解の個数が変わることがある</span>ので不等号に注意。</div>
+  </div>
+
+  <div class="slide-footer"></div>
+</section>
+
+<!-- スライド 8：類題 模範解答 -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge" style="background:#2d3748;">類題 模範解答</span>
+    <span class="slide-title">記述答案例（類題）</span>
+    <div class="meta"><span>$\leq$ の二次不等式</span></div>
+  </div>
+
+  <div class="answer-sheet">
+    <div class="ans-block">
+      <div class="ans-line">① $x^2 - 5x + 4 \leq 0$ を解く。</div>
+      <div class="ans-line">左辺を因数分解すると $(x-1)(x-4) \leq 0$</div>
+      <div class="ans-line">$$\therefore\; 1 \leq x \leq 4 \qquad \cdots \text{(i)}$$</div>
+    </div>
+    <div class="ans-block">
+      <div class="ans-line">② $2x - 3 > x - 1$ を解く。</div>
+      <div class="ans-line">$x > 2 \qquad \cdots \text{(ii)}$</div>
+    </div>
+    <div class="ans-block">
+      <div class="ans-line">(i), (ii) の共通範囲を求めると、</div>
+      <div class="ans-line">$$2 < x \leq 4$$</div>
+    </div>
+    <div class="ans-therefore">
+      整数解は $x = 3,\; 4$
+    </div>
+  </div>
+
+  <div class="slide-footer"></div>
+</section>
+
+<div id="nav">
+  <button id="btn-prev">◀ 前へ</button>
+  <span class="page-info" id="pinfo">1 / 8</span>
+  <button id="btn-next">次へ ▶</button>
+  <button id="btn-pdf" onclick="window.print()">⬇ PDF保存</button>
+  <span class="hint">← → キーでも操作できます</span>
+</div>
+<script src="../../slide.js"></script>
+</body>
+</html>
