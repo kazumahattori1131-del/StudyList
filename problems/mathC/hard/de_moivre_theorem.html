@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>【数学C】ド・モアブルの定理と三角関数の多倍角公式</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../slide.css">
+  <style> :root { --accent: #97266d; } </style>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]})"></script>
+</head>
+<body>
+<!--
+https://kazumahattori1131-del.github.io/StudyList/problems/mathC/hard/de_moivre_theorem.html
+-->
+<div id="progress-bar"></div>
+
+<!-- Slide 1: 問題 -->
+<div class="slide">
+  <h1 class="slide-title">【数学C】ド・モアブルの定理と多倍角公式</h1>
+  <div class="meta-row">
+    <span class="badge badge-level">★★★★☆ 上級</span>
+    <span class="badge badge-time">⏱ 目安：18分</span>
+  </div>
+  <p class="problem-label">問題</p>
+  <div class="problem-box">
+    <p><strong>(1)</strong> ド・モアブルの定理を用いて、次の等式を示せ。</p>
+    $$\cos 3\theta = 4\cos^3\theta - 3\cos\theta$$
+    <p style="margin-top:1rem;"><strong>(2)</strong> (1) の結果を利用して、$\cos 20°$ は方程式</p>
+    $$8x^3 - 6x - 1 = 0$$
+    <p>の解であることを示せ。</p>
+  </div>
+  <div class="point-list" style="margin-top:1.2rem;">
+    <strong>解法のヒント</strong>
+    <ul>
+      <li>(1)：$(\cos\theta+i\sin\theta)^3$ を展開し、実部を比較する</li>
+      <li>(2)：(1) に $\theta=20°$ を代入し、$\cos60°=\dfrac{1}{2}$ を利用する</li>
+    </ul>
+  </div>
+  <p style="margin-top:auto;font-size:13px;color:#718096;">（参考：東京大学 理系数学 複素数平面（類題））</p>
+</div>
+
+<!-- Slide 2: ド・モアブルの定理（復習） -->
+<div class="slide">
+  <h1 class="slide-title">ド・モアブルの定理（復習）</h1>
+  <p class="section-title">定理の内容</p>
+  <div class="answer-box" style="text-align:center;">
+    $$(\cos\theta+i\sin\theta)^n = \cos n\theta + i\sin n\theta$$
+    <p style="font-size:.9rem;margin-top:.5rem;">$n$ は整数、$\theta$ は実数</p>
+  </div>
+  <div class="point-list" style="margin-top:1.2rem;">
+    <strong>この定理が強力な理由</strong>
+    <ul>
+      <li>複素数の累乗を、偏角の $n$ 倍という単純な操作に帰着できる</li>
+      <li>左辺を二項展開 $\rightarrow$ 実部・虚部を比較することで $\cos n\theta$・$\sin n\theta$ の公式を導ける</li>
+      <li>$n=2$：$\cos2\theta=\cos^2\theta-\sin^2\theta$、$\sin2\theta=2\sin\theta\cos\theta$（倍角公式）が即座に得られる</li>
+    </ul>
+  </div>
+  <div style="background:#fce7f3;border-left:4px solid #97266d;padding:.9rem 1.2rem;border-radius:6px;margin-top:1rem;">
+    <strong>今回は $n=3$ の場合を使って $\cos3\theta$ の公式を導く</strong>
+  </div>
+</div>
+
+<!-- Slide 3: (1) Step 1: 左辺を展開 -->
+<div class="slide">
+  <h1 class="slide-title">(1) Step 1：左辺を展開</h1>
+  <p class="section-title">二項定理による展開</p>
+  <p>ド・モアブルの定理より：</p>
+  $$(\cos\theta+i\sin\theta)^3 = \cos3\theta + i\sin3\theta$$
+  <p style="margin-top:1rem;">左辺を二項定理で展開する：</p>
+  <div class="step">
+    <span class="step-num">展開</span>
+    <div>
+      $$\cos^3\theta + 3\cos^2\theta(i\sin\theta) + 3\cos\theta(i\sin\theta)^2 + (i\sin\theta)^3$$
+    </div>
+  </div>
+  <div class="step">
+    <span class="step-num">整理</span>
+    <div>
+      $i^2=-1$、$i^3=-i$ を代入：
+      $$= \cos^3\theta + 3i\cos^2\theta\sin\theta - 3\cos\theta\sin^2\theta - i\sin^3\theta$$
+    </div>
+  </div>
+  <div class="step">
+    <span class="step-num">実虚</span>
+    <div>
+      <span class="highlight">実部：</span>$\cos^3\theta - 3\cos\theta\sin^2\theta$
+      <br>
+      虚部：$3\cos^2\theta\sin\theta - \sin^3\theta$
+    </div>
+  </div>
+</div>
+
+<!-- Slide 4: (1) Step 2: 実部を比較して完成 -->
+<div class="slide">
+  <h1 class="slide-title">(1) Step 2：実部を比較して完成</h1>
+  <p class="section-title">実部の比較と $\sin^2\theta$ の置き換え</p>
+  <p>両辺の実部を比較すると：</p>
+  $$\cos3\theta = \cos^3\theta - 3\cos\theta\sin^2\theta$$
+  <div class="step">
+    <span class="step-num">置換</span>
+    <div>
+      $\sin^2\theta = 1-\cos^2\theta$ を代入：
+      $$= \cos^3\theta - 3\cos\theta(1-\cos^2\theta)$$
+    </div>
+  </div>
+  <div class="step">
+    <span class="step-num">展開</span>
+    <div>
+      $$= \cos^3\theta - 3\cos\theta + 3\cos^3\theta$$
+    </div>
+  </div>
+  <div class="step">
+    <span class="step-num">結論</span>
+    <div>
+      $$= 4\cos^3\theta - 3\cos\theta \quad \square$$
+    </div>
+  </div>
+  <div class="answer-box" style="margin-top:.8rem;">
+    $\cos3\theta = 4\cos^3\theta - 3\cos\theta$ &ensp;が示された。
+  </div>
+</div>
+
+<!-- Slide 5: (2) θ=20° を代入 -->
+<div class="slide">
+  <h1 class="slide-title">(2) $\theta=20°$ を代入</h1>
+  <p class="section-title">既知値の利用</p>
+  <p>(1) で示した $\cos3\theta = 4\cos^3\theta-3\cos\theta$ に $\theta=20°$ を代入する：</p>
+  <div class="step">
+    <span class="step-num">1</span>
+    <div>
+      $$\cos(3\times20°) = 4\cos^320°-3\cos20°$$
+      $$\cos60° = 4\cos^320°-3\cos20°$$
+    </div>
+  </div>
+  <div class="step">
+    <span class="step-num">2</span>
+    <div>
+      $\cos60°=\dfrac{1}{2}$ を代入：
+      $$\frac{1}{2} = 4\cos^320°-3\cos20°$$
+    </div>
+  </div>
+  <div class="step">
+    <span class="step-num">3</span>
+    <div>
+      両辺に $2$ をかける：
+      $$1 = 8\cos^320°-6\cos20°$$
+      $$8\cos^320°-6\cos20°-1=0$$
+    </div>
+  </div>
+  <div class="answer-box" style="margin-top:.8rem;">
+    $x=\cos20°$ とおくと $8x^3-6x-1=0$ を満たす。∴ $\cos20°$ は $8x^3-6x-1=0$ の解である。&ensp;□
+  </div>
+</div>
+
+<!-- Slide 6: 発展：3つの解と対称性 -->
+<div class="slide">
+  <h1 class="slide-title">発展：$8x^3-6x-1=0$ の3つの解</h1>
+  <p class="section-title">解の美しい対称性</p>
+  <p>$8x^3-6x-1=0$ は3次方程式なので解が3つある。$\cos3\theta=\dfrac{1}{2}$ の解を考えると：</p>
+  $$3\theta = 60°+360°k \quad (k=0,1,2)$$
+  $$\theta = 20°,\quad 140°,\quad 260°$$
+  <table>
+    <thead>
+      <tr><th>$k$</th><th>$\theta$</th><th>解 $x=\cos\theta$</th><th>別表示</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>$0$</td><td>$20°$</td><td>$\cos20°$</td><td>約 $0.940$</td></tr>
+      <tr><td>$1$</td><td>$140°$</td><td>$\cos140°$</td><td>$-\cos40°\approx -0.766$</td></tr>
+      <tr><td>$2$</td><td>$260°$</td><td>$\cos260°$</td><td>$-\cos80°\approx -0.174$</td></tr>
+    </tbody>
+  </table>
+  <div class="point-list" style="margin-top:1rem;">
+    <ul>
+      <li>3つの解は $\cos(20°+120°k)$（$k=0,1,2$）という規則的な形をしている</li>
+      <li>解の和：$\cos20°+\cos140°+\cos260° = 0$（解と係数の関係：$x^3$ の係数が $0$）</li>
+    </ul>
+  </div>
+</div>
+
+<!-- Slide 7: ポイント -->
+<div class="slide">
+  <h1 class="slide-title">解法のポイント</h1>
+  <div class="point-list">
+    <ul>
+      <li>
+        <strong>ド・モアブルの定理の活用</strong><br>
+        $(\cos\theta+i\sin\theta)^n = \cos n\theta+i\sin n\theta$ — 右辺は "偏角を $n$ 倍"、左辺は "二項展開"
+      </li>
+      <li>
+        <strong>実部・虚部の分離</strong><br>
+        展開後、実部比較 $\Rightarrow$ $\cos n\theta$、虚部比較 $\Rightarrow$ $\sin n\theta$ の公式が得られる
+      </li>
+      <li>
+        <strong>$\sin^2\theta = 1-\cos^2\theta$ の置き換え</strong><br>
+        $\cos\theta$ だけの式に整理するために必須。虚部も同様に $\cos^2\theta=1-\sin^2\theta$ を使う
+      </li>
+      <li>
+        <strong>既知の特殊角値の活用</strong><br>
+        $\cos60°=\dfrac{1}{2}$、$\cos90°=0$ など既知値を代入して特殊角の方程式を構成できる
+      </li>
+      <li>
+        <strong>類題</strong><br>
+        同様の手法で $\cos5\theta = 16\cos^5\theta-20\cos^3\theta+5\cos\theta$ も示せる
+      </li>
+    </ul>
+  </div>
+</div>
+
+<!-- Slide 8: 模範解答 -->
+<div class="slide">
+  <h1 class="slide-title">模範解答</h1>
+  <p class="answer-label">解答</p>
+  <div class="answer-sheet">
+    <div class="ans-block">
+      <div class="ans-line"><strong>(1)</strong> ド・モアブルの定理より：</div>
+      <div class="ans-line">$$(\cos\theta+i\sin\theta)^3 = \cos3\theta + i\sin3\theta \quad \cdots (*)$$</div>
+      <div class="ans-line">左辺を二項定理で展開する：</div>
+      <div class="ans-line">$$(\cos\theta+i\sin\theta)^3 = \cos^3\theta + 3i\cos^2\theta\sin\theta - 3\cos\theta\sin^2\theta - i\sin^3\theta$$</div>
+      <div class="ans-line">$= (\cos^3\theta - 3\cos\theta\sin^2\theta) + i(3\cos^2\theta\sin\theta - \sin^3\theta)$</div>
+      <div class="ans-line">$(*)$ の実部を比較する：</div>
+      <div class="ans-line">$$\cos3\theta = \cos^3\theta - 3\cos\theta\sin^2\theta$$</div>
+      <div class="ans-line">$\sin^2\theta = 1-\cos^2\theta$ を代入：</div>
+      <div class="ans-line">$$= \cos^3\theta - 3\cos\theta(1-\cos^2\theta) = \cos^3\theta - 3\cos\theta + 3\cos^3\theta$$</div>
+      <div class="ans-therefore">$$\cos3\theta = 4\cos^3\theta - 3\cos\theta \quad \square$$</div>
+    </div>
+    <div class="ans-block">
+      <div class="ans-line"><strong>(2)</strong> (1) の等式に $\theta = 20°$ を代入する：</div>
+      <div class="ans-line">$$\cos60° = 4\cos^320°-3\cos20°$$</div>
+      <div class="ans-line">$\cos60°=\dfrac{1}{2}$ より：</div>
+      <div class="ans-line">$$\frac{1}{2} = 4\cos^320°-3\cos20°$$</div>
+      <div class="ans-line">両辺に $2$ をかけると：</div>
+      <div class="ans-line">$$1 = 8\cos^320°-6\cos20°$$</div>
+      <div class="ans-line">$$8\cos^320°-6\cos20°-1=0$$</div>
+      <div class="ans-therefore">$x=\cos20°$ とおくと $8x^3-6x-1=0$ を満たす。したがって $\cos20°$ は方程式 $8x^3-6x-1=0$ の解である。&ensp;□</div>
+    </div>
+  </div>
+</div>
+
+<div id="nav">
+  <button id="btn-prev">◀ 前へ</button>
+  <span class="page-info" id="pinfo">1 / 8</span>
+  <button id="btn-next">次へ ▶</button>
+  <button id="btn-pdf" onclick="window.print()">⬇ PDF保存</button>
+  <span class="hint">← → キーでも操作できます</span>
+</div>
+<script src="../../../slide.js"></script>
+</body>
+</html>

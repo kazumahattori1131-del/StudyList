@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>【数学I】二次関数の最大・最小（軸の移動）</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <link rel="stylesheet" href="../../../slide.css">
+  <style> :root { --accent: #2b6cb0; } </style>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]})"></script>
+</head>
+<body>
+<!--
+https://kazumahattori1131-del.github.io/StudyList/problems/math1/hard/quadratic_minmax_axis.html
+-->
+<div id="progress-bar"></div>
+
+<!-- スライド 1：問題 -->
+<section class="slide active">
+  <div class="slide-header">
+    <span class="badge">数学 I</span>
+    <span class="badge orange">二次関数</span>
+    <span class="slide-title">二次関数の最大・最小（軸の移動）</span>
+    <div class="meta"><span>★★★★☆ 上級</span><span>目安 15 分</span></div>
+  </div>
+
+  <div class="problem-label">問　題</div>
+  <div class="problem-box">
+    実数 $a$ を定数とする。関数
+    $$f(x) = x^2 - 2ax + 3a$$
+    の $0 \leq x \leq 2$ における最小値 $m(a)$ を、$a$ の値によって場合分けして求めよ。
+  </div>
+
+  <div class="section-title">考え方のヒント</div>
+  <div class="step">
+    放物線の軸 $x = a$ が定義域 $0 \leq x \leq 2$ のどこにあるかで最小値の場所が決まる。<br>
+    → <span class="highlight">軸 $x=a$ の位置で場合分け</span> が解法の核心！
+  </div>
+
+  <p style="margin-top:auto;font-size:13px;color:#718096;">（参考：センター試験 数学I・A 2015年 入試問題 類題）</p>
+  <div class="slide-footer"></div>
+</section>
+
+<!-- スライド 2：準備（軸・頂点・端点の値） -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge">解説</span>
+    <span class="slide-title">準備：軸・頂点・端点の値を整理する</span>
+  </div>
+
+  <div class="step">
+    <span class="step-num">1</span> 平方完成して頂点を求める：
+    $$f(x) = (x - a)^2 - a^2 + 3a$$
+    軸：$x = a$　　頂点の $y$ 座標：$f(a) = -a^2 + 3a$
+  </div>
+  <div class="step">
+    <span class="step-num">2</span> 端点の値を計算する：
+    $$f(0) = 0 - 0 + 3a = 3a$$
+    $$f(2) = 4 - 4a + 3a = 4 - a$$
+  </div>
+  <div class="step">
+    <span class="step-num">3</span>
+    放物線は上に凸ではなく<span class="highlight">上に開く（$x^2$ の係数 $= 1 > 0$）</span>ので、
+    軸が区間内にあれば最小値は頂点の値、区間外にあれば端点が最小値となる。
+  </div>
+
+  <div class="slide-footer"></div>
+</section>
+
+<!-- スライド 3：Step 1: a < 0 -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge">解説</span>
+    <span class="slide-title">Step 1：$a &lt; 0$ のとき</span>
+  </div>
+
+  <div class="step">
+    <span class="step-num">1</span>
+    軸 $x = a$ は $a < 0$ より定義域 $[0, 2]$ の<span class="highlight">左外</span>にある。
+  </div>
+  <div class="step">
+    <span class="step-num">2</span>
+    放物線は軸より右側では単調増加するため、$0 \leq x \leq 2$ において $f(x)$ は<span class="highlight">単調増加</span>。
+  </div>
+  <div class="step">
+    <span class="step-num">3</span>
+    最小値は $x = 0$（左端）で実現される：
+    $$m(a) = f(0) = 3a$$
+  </div>
+
+  <div class="section-title">イメージ</div>
+  <div class="step" style="font-size:15px;color:#4a5568;">
+    軸 $x=a$（$a&lt;0$）　　　 $[0 \longrightarrow 2]$<br>
+    ← 軸 ─────── 区間全体が右肩上がり ───────→<br>
+    最小値は左端 $x=0$
+  </div>
+
+  <div class="slide-footer"></div>
+</section>
+
+<!-- スライド 4：Step 2: 0 ≤ a ≤ 2 -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge">解説</span>
+    <span class="slide-title">Step 2：$0 \leq a \leq 2$ のとき</span>
+  </div>
+
+  <div class="step">
+    <span class="step-num">1</span>
+    軸 $x = a$ が定義域 $[0, 2]$ の<span class="highlight">内部または端点</span>にある。
+  </div>
+  <div class="step">
+    <span class="step-num">2</span>
+    放物線は軸 $x = a$ で最小値をとる（上に開く放物線）。<br>
+    軸が区間内にあるため、最小値は<span class="highlight">頂点の $y$ 座標</span>に等しい。
+  </div>
+  <div class="step">
+    <span class="step-num">3</span>
+    $$m(a) = f(a) = a^2 - 2a \cdot a + 3a = -a^2 + 3a$$
+  </div>
+
+  <div class="section-title">イメージ</div>
+  <div class="step" style="font-size:15px;color:#4a5568;">
+    $[0 \longrightarrow$ 軸 $x=a$ $\longrightarrow 2]$<br>
+    区間内に頂点あり → 最小値 $= -a^2 + 3a$
+  </div>
+
+  <div class="slide-footer"></div>
+</section>
+
+<!-- スライド 5：Step 3: a > 2 -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge">解説</span>
+    <span class="slide-title">Step 3：$a &gt; 2$ のとき</span>
+  </div>
+
+  <div class="step">
+    <span class="step-num">1</span>
+    軸 $x = a$ は $a > 2$ より定義域 $[0, 2]$ の<span class="highlight">右外</span>にある。
+  </div>
+  <div class="step">
+    <span class="step-num">2</span>
+    放物線は軸より左側では単調減少するため、$0 \leq x \leq 2$ において $f(x)$ は<span class="highlight">単調減少</span>。
+  </div>
+  <div class="step">
+    <span class="step-num">3</span>
+    最小値は $x = 2$（右端）で実現される：
+    $$m(a) = f(2) = 4 - a$$
+  </div>
+
+  <div class="section-title">イメージ</div>
+  <div class="step" style="font-size:15px;color:#4a5568;">
+    $[0 \longrightarrow 2]$　　　軸 $x=a$（$a&gt;2$）→<br>
+    区間全体が右肩下がり → 最小値は右端 $x=2$
+  </div>
+
+  <div class="slide-footer"></div>
+</section>
+
+<!-- スライド 6：答え（場合分けまとめ） -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge">まとめ</span>
+    <span class="slide-title">場合分けの結果まとめ</span>
+  </div>
+
+  <div class="cases">
+    <div class="case-card">
+      <div class="case-cond">場合 1：$a &lt; 0$</div>
+      軸が左外 → 単調増加<br>最小は $x=0$
+      $$m(a) = 3a$$
+    </div>
+    <div class="case-card">
+      <div class="case-cond">場合 2：$0 \leq a \leq 2$</div>
+      軸が区間内<br>最小は頂点の値
+      $$m(a) = -a^2 + 3a$$
+    </div>
+    <div class="case-card">
+      <div class="case-cond">場合 3：$a &gt; 2$</div>
+      軸が右外 → 単調減少<br>最小は $x=2$
+      $$m(a) = 4 - a$$
+    </div>
+  </div>
+
+  <div class="answer-label">答　え</div>
+  <div class="answer-box">
+    $$m(a) = \begin{cases} 3a & (a < 0) \\ -a^2 + 3a & (0 \leq a \leq 2) \\ 4 - a & (a > 2) \end{cases}$$
+  </div>
+
+  <div class="slide-footer"></div>
+</section>
+
+<!-- スライド 7：ポイント -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge green">ポイント</span>
+    <span class="slide-title">受験テクニック・確認事項</span>
+  </div>
+
+  <ul class="point-list">
+    <li>
+      解法の核心は「<span class="highlight">軸の位置</span>」と「<span class="highlight">区間の端点</span>」を比較すること
+    </li>
+    <li>軸が区間<strong>内</strong> → 最小値は頂点の $y$ 座標 $= -a^2 + 3a$</li>
+    <li>軸が区間の<strong>左外</strong> → 区間全体で単調増加 → 最小は左端 $x=0$</li>
+    <li>軸が区間の<strong>右外</strong> → 区間全体で単調減少 → 最小は右端 $x=2$</li>
+    <li>
+      各境界で答えが一致するか確認（連続性チェック）：<br>
+      <span style="font-size:15px;color:#4a5568;margin-left:24px;">
+        $a=0$：$3 \times 0 = 0$、$-(0)^2 + 3(0) = 0$ ✓<br>
+        $a=2$：$-(2)^2 + 3(2) = -4+6 = 2$、$4-2 = 2$ ✓
+      </span>
+    </li>
+    <li>場合分けの境界は「軸 $x=a$ が区間端 $x=0$，$x=2$ と一致するとき」であり、境界は $a=0$ と $a=2$ の 2 点</li>
+  </ul>
+
+  <div class="slide-footer"></div>
+</section>
+
+<!-- スライド 8：模範解答 -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge" style="background:#2d3748;">模範解答</span>
+    <span class="slide-title">記述答案例（そのまま使えるレベル）</span>
+    <div class="meta"><span>二次関数の最小値（軸の移動）</span></div>
+  </div>
+
+  <div class="answer-sheet">
+    <div class="ans-block">
+      <div class="ans-line">
+        $f(x)$ を平方完成すると $f(x) = (x - a)^2 - a^2 + 3a$ となり、軸は $x = a$、頂点の $y$ 座標は $-a^2 + 3a$。
+      </div>
+      <div class="ans-line">
+        また端点の値は $f(0) = 3a$、$f(2) = 4 - a$。放物線は上に開くので、軸の位置で次のように場合分けする。
+      </div>
+    </div>
+
+    <div class="ans-block">
+      <span class="ans-case">［i］ $a &lt; 0$ のとき</span>
+      <div class="ans-line">
+        軸 $x=a$ は定義域 $[0,2]$ の左外にあり、$f(x)$ は $0 \leq x \leq 2$ において単調増加。
+        よって最小値は $x=0$ で実現される。
+        $$m(a) = f(0) = 3a$$
+      </div>
+    </div>
+
+    <div class="ans-block">
+      <span class="ans-case">［ii］ $0 \leq a \leq 2$ のとき</span>
+      <div class="ans-line">
+        軸 $x=a$ が区間 $[0,2]$ 内に含まれるから、最小値は頂点の $y$ 座標に等しい。
+        $$m(a) = f(a) = -a^2 + 3a$$
+      </div>
+    </div>
+
+    <div class="ans-block">
+      <span class="ans-case">［iii］ $a &gt; 2$ のとき</span>
+      <div class="ans-line">
+        軸 $x=a$ は定義域 $[0,2]$ の右外にあり、$f(x)$ は $0 \leq x \leq 2$ において単調減少。
+        よって最小値は $x=2$ で実現される。
+        $$m(a) = f(2) = 4 - a$$
+      </div>
+    </div>
+
+    <div class="ans-therefore">
+      以上より
+      $$m(a) = \begin{cases} 3a & (a < 0) \\ -a^2 + 3a & (0 \leq a \leq 2) \\ 4 - a & (a > 2) \end{cases}$$
+    </div>
+  </div>
+
+  <div class="slide-footer"></div>
+</section>
+
+<div id="nav">
+  <button id="btn-prev">◀ 前へ</button>
+  <span class="page-info" id="pinfo">1 / 8</span>
+  <button id="btn-next">次へ ▶</button>
+  <button id="btn-pdf" onclick="window.print()">⬇ PDF保存</button>
+  <span class="hint">← → キーでも操作できます</span>
+</div>
+<script src="../../../slide.js"></script>
+</body>
+</html>
