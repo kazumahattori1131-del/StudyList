@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>【数学A】直感と違う！円順列×確率</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <link rel="stylesheet" href="../slide.css">
+  <style>
+    :root { --accent: #553c9a; }
+    .hook-text { font-size: 26px; font-weight: 900; color: var(--accent); text-align: center; margin: 0.6rem 0; line-height: 1.4; }
+    .pause-box { background: #1a202c; color: #fff; border-radius: 12px; padding: 20px 32px; text-align: center; margin: 1rem 0; }
+    .pause-box .pause-title { font-size: 26px; font-weight: 900; letter-spacing: 0.05em; margin-bottom: 8px; }
+    .pause-box .pause-sub { font-size: 15px; color: #a0aec0; }
+    .trap-box { background: #fff5f5; border: 2px solid #fc8181; border-radius: 10px; padding: 14px 24px; margin: 10px 0; }
+    .trap-title { color: #c53030; font-weight: 800; font-size: 15px; margin-bottom: 6px; }
+    .key-box { background: #faf5ff; border-left: 6px solid #553c9a; border-radius: 0 10px 10px 0; padding: 16px 24px; margin: 10px 0; font-size: 18px; font-weight: 700; }
+    .badge-yt { background: #c53030; color: #fff; font-size: 13px; font-weight: 700; padding: 4px 12px; border-radius: 4px; white-space: nowrap; }
+  </style>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]})"></script>
+</head>
+<body>
+<!--
+https://kazumahattori1131-del.github.io/StudyList/problems/modified/mathA_circular_probability.html
+-->
+<div id="progress-bar"></div>
+
+<!-- スライド 1：フック + 問題 -->
+<section class="slide active">
+  <div class="slide-header">
+    <span class="badge-yt">直感より少ない！</span>
+    <span class="badge">数学A</span>
+    <span class="slide-title">円順列と確率の組み合わせ</span>
+    <div class="meta"><span>★★★☆☆ 標準</span><span>目安 5 分</span></div>
+  </div>
+
+  <p class="hook-text">「$\dfrac{1}{10}$ 」正解できる？<br>直感より <span style="color:var(--accent);">ずっと小さい</span> 確率が答えです。</p>
+
+  <div class="problem-label">問　題</div>
+  <div class="problem-box">
+    男子 3 人・女子 3 人の計 6 人が円形のテーブルに等確率で座るとき、<br>
+    男女が <strong>交互に並ぶ</strong> 確率を求めよ。
+  </div>
+
+  <div class="step" style="font-size:17px;">
+    💬 「$\dfrac{1}{5}$ くらいかな？」と思った人が多いはず。<br>
+    円順列は「固定してから数える」が鉄則！
+  </div>
+
+  <p style="margin-top:auto;font-size:13px;color:#718096;">偏差値55〜65レベル｜共通テスト〜MARCH</p>
+  <div class="slide-footer"></div>
+</section>
+
+<!-- スライド 2：考察タイム -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge orange">考察タイム</span>
+    <span class="slide-title">まず自分で考えてみよう</span>
+  </div>
+
+  <div class="pause-box">
+    <div class="pause-title">⏸ ここで一時停止！</div>
+    <div class="pause-sub">紙とペンを使って 3 分間考えてみよう</div>
+  </div>
+
+  <div class="section-title">ヒント</div>
+  <div class="step">
+    <span class="step-num">①</span>
+    円順列の全体の場合の数：$(6-1)! = ?$
+  </div>
+  <div class="step">
+    <span class="step-num">②</span>
+    男女交互になる配置を数えるには、まず <strong>男子1人を固定</strong> すると考えやすい。
+  </div>
+  <div class="step">
+    <span class="step-num">③</span>
+    男子1人を固定したとき、残りの男子2人の並べ方は何通り？女子3人は何通り？
+  </div>
+
+  <div class="slide-footer"></div>
+</section>
+
+<!-- スライド 3：解法の核心 -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge green">解法の核心</span>
+    <span class="slide-title">円順列は「1人固定して数える」</span>
+  </div>
+
+  <div class="key-box">
+    🔑 円順列では回転して同じ配置は同一視するため、<br>
+    　<strong>1人を固定</strong>して残りを並べる。<br><br>
+    男女交互の配置 = 「男・女・男・女・男・女」の座席パターン<br>
+    → 男子 1 人を固定し、残り 2 人の男子と 3 人の女子を並べる。
+  </div>
+
+  <div class="step">
+    全体の場合の数：$(6-1)! = 5! = 120$（通り）
+  </div>
+
+  <div class="slide-footer"></div>
+</section>
+
+<!-- スライド 4：解説 -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge">解説</span>
+    <span class="slide-title">交互になる場合の数を数える</span>
+  </div>
+
+  <div class="step">
+    <span class="step-num">1</span>
+    <strong>全体の場合の数</strong>：6人の円順列 $= (6-1)! = 120$（通り）
+  </div>
+  <div class="step">
+    <span class="step-num">2</span>
+    <strong>男女交互になる場合</strong>：男子1人（Aとする）を固定。<br>
+    Aの隣 2 席は女子、その隣は男子…と交互に決まる。
+  </div>
+  <div class="step">
+    <span class="step-num">3</span>
+    配置のパターン：<br>
+    残り 2 人の男子の並び方：$2! = 2$（通り）<br>
+    3 人の女子の並び方：$3! = 6$（通り）<br>
+    → $2 \times 6 = 12$（通り）
+  </div>
+  <div class="step">
+    <span class="step-num">4</span>
+    確率：
+    $$P = \frac{12}{120} = \frac{1}{10}$$
+  </div>
+
+  <div class="slide-footer"></div>
+</section>
+
+<!-- スライド 5：答え -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge green">答え</span>
+    <span class="slide-title">解答まとめ</span>
+  </div>
+
+  <div class="cases">
+    <div class="case-card">
+      <div class="case-cond">全体の場合の数</div>
+      6人の円順列
+      $$(6-1)! = 120$$
+    </div>
+    <div class="case-card">
+      <div class="case-cond">交互になる場合</div>
+      男子1人固定<br>
+      $2! \times 3! = 12$
+    </div>
+    <div class="case-card">
+      <div class="case-cond">確率</div>
+      $$P = \frac{12}{120}$$
+      $$= \frac{1}{10}$$
+    </div>
+  </div>
+
+  <div class="answer-label">答　え</div>
+  <div class="answer-box">
+    $$P = \frac{1}{10}$$
+  </div>
+
+  <div class="slide-footer"></div>
+</section>
+
+<!-- スライド 6：落とし穴 -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge-yt">落とし穴</span>
+    <span class="slide-title">ここで間違えやすい</span>
+  </div>
+
+  <div class="trap-box" style="margin-bottom:12px;">
+    <div class="trap-title">⚠ 落とし穴①：直線順列で考えてしまう</div>
+    「直線に並べた場合の数 $6!$」を分母にしてしまうミス。<br>
+    円順列では<strong>「回転して同じ」は1通り</strong>として数えるため $(6-1)!$ が正しい。
+  </div>
+
+  <div class="trap-box">
+    <div class="trap-title">⚠ 落とし穴②：交互の数え方</div>
+    「男女の選び方 $\binom{3}{1} \times \binom{3}{1} \times \ldots$」と組み合わせで数えようとするミス。<br>
+    <strong>固定した男子に対して隣の座席が自動的に決まる</strong>ので、並べ方で数えるのが正解。
+  </div>
+
+  <div class="key-box" style="font-size:16px;">
+    💡 円順列の確率問題は<br>
+    　分母：$(n-1)!$（全体の円順列）<br>
+    　分子：特定の条件を満たす円順列（1人固定）<br>
+    この形で必ず整理しよう！
+  </div>
+
+  <div class="slide-footer"></div>
+</section>
+
+<!-- スライド 7：一般化 -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge green">一般化</span>
+    <span class="slide-title">この発想はどこでも使える</span>
+  </div>
+
+  <div class="section-title">一般化</div>
+  <div class="step">
+    男子 $m$ 人・女子 $m$ 人（計 $2m$ 人）の円順列で男女交互になる確率：<br>
+    全体：$(2m-1)!$、交互：$(m-1)! \cdot m!$
+    $$P = \frac{(m-1)!\cdot m!}{(2m-1)!}$$
+    $m=3$ のとき：$P = \dfrac{2!\cdot 3!}{5!} = \dfrac{12}{120} = \dfrac{1}{10}$ ✓
+  </div>
+
+  <div class="section-title">類題</div>
+  <div class="problem-box" style="font-size:16px;">
+    男子 4 人・女子 4 人の 8 人が円形に並ぶとき、男女が交互になる確率を求めよ。
+  </div>
+  <div class="step" style="font-size:15px;">
+    全体：$7! = 5040$、交互：$3! \times 4! = 6 \times 24 = 144$<br>
+    $P = \dfrac{144}{5040} = \dfrac{1}{35}$
+  </div>
+
+  <div class="slide-footer"></div>
+</section>
+
+<!-- スライド 8：模範解答 -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge" style="background:#2d3748;">模範解答</span>
+    <span class="slide-title">記述答案例</span>
+    <div class="meta"><span>円順列・確率</span></div>
+  </div>
+
+  <div class="answer-sheet">
+    <div class="ans-block">
+      <div class="ans-line">6人が円形に並ぶ場合の数は $(6-1)! = 120$（通り）。</div>
+    </div>
+    <div class="ans-block">
+      <div class="ans-line">男女が交互になる場合を数える。男子1人（Aとする）を固定すると、</div>
+      <div class="ans-line">残り2人の男子の並び方：$2! = 2$（通り）</div>
+      <div class="ans-line">3人の女子の並び方：$3! = 6$（通り）</div>
+      <div class="ans-line">男女交互の場合の数：$2 \times 6 = 12$（通り）</div>
+    </div>
+    <div class="ans-therefore">
+      $$P = \frac{12}{120} = \frac{1}{10}$$
+    </div>
+  </div>
+
+  <div class="slide-footer"></div>
+</section>
+
+<div id="nav">
+  <button id="btn-prev">◀ 前へ</button>
+  <span class="page-info" id="pinfo">1 / 8</span>
+  <button id="btn-next">次へ ▶</button>
+  <button id="btn-pdf" onclick="window.print()">⬇ PDF保存</button>
+  <span class="hint">← → キーでも操作できます</span>
+</div>
+<script src="../slide.js"></script>
+</body>
+</html>

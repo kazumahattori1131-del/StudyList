@@ -62,6 +62,19 @@
 | 発展 | 確率漸化式（数学A×B） | https://kazumahattori1131-del.github.io/StudyList/problems/cross/probability_recurrence.html |
 | 発展 | 三角関数と積分・面積（数学II） | https://kazumahattori1131-del.github.io/StudyList/problems/cross/trig_integral_area.html |
 
+### YouTube向け問題（解けそうで解けない）
+
+偏差値55〜70を対象とした「解けそうで解けない」設計の問題。「考察タイム（⏸）」「落とし穴」「一般化」スライドを含む。
+
+| 科目 | 難易度 | タイトル | URL |
+|------|--------|---------|-----|
+| 数学I | ★★★☆☆ | 9割が判別式だけで考える二次不等式 | https://kazumahattori1131-del.github.io/StudyList/problems/modified/math1_quadratic_trap.html |
+| 数学II | ★★★☆☆ | 底が変数の対数方程式 — 置き換え1発 | https://kazumahattori1131-del.github.io/StudyList/problems/modified/math2_log_substitution.html |
+| 数学III | ★★★★☆ | ∫1/(1+x²)² — 三角置換の発展 | https://kazumahattori1131-del.github.io/StudyList/problems/modified/math3_integral_squared.html |
+| 数学A | ★★★☆☆ | 直感と違う！円順列×確率 | https://kazumahattori1131-del.github.io/StudyList/problems/modified/mathA_circular_probability.html |
+| 数学B | ★★★☆☆ | 両辺を割るだけ — 漸化式の発想 | https://kazumahattori1131-del.github.io/StudyList/problems/modified/mathB_recurrence_divide.html |
+| 数学C | ★★★★☆ | 因数分解したら一瞬！複素数の最大値 | https://kazumahattori1131-del.github.io/StudyList/problems/modified/mathC_complex_factorize.html |
+
 ---
 
 ## 開発メモ

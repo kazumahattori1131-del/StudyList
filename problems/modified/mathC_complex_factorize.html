@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>【数学C】因数分解したら一瞬！複素数の最大値</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <link rel="stylesheet" href="../slide.css">
+  <style>
+    :root { --accent: #97266d; }
+    .hook-text { font-size: 26px; font-weight: 900; color: var(--accent); text-align: center; margin: 0.6rem 0; line-height: 1.4; }
+    .pause-box { background: #1a202c; color: #fff; border-radius: 12px; padding: 20px 32px; text-align: center; margin: 1rem 0; }
+    .pause-box .pause-title { font-size: 26px; font-weight: 900; letter-spacing: 0.05em; margin-bottom: 8px; }
+    .pause-box .pause-sub { font-size: 15px; color: #a0aec0; }
+    .trap-box { background: #fff5f5; border: 2px solid #fc8181; border-radius: 10px; padding: 14px 24px; margin: 10px 0; }
+    .trap-title { color: #c53030; font-weight: 800; font-size: 15px; margin-bottom: 6px; }
+    .key-box { background: #fff5f7; border-left: 6px solid #97266d; border-radius: 0 10px 10px 0; padding: 16px 24px; margin: 10px 0; font-size: 18px; font-weight: 700; }
+    .badge-yt { background: #c53030; color: #fff; font-size: 13px; font-weight: 700; padding: 4px 12px; border-radius: 4px; white-space: nowrap; }
+  </style>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]})"></script>
+</head>
+<body>
+<!--
+https://kazumahattori1131-del.github.io/StudyList/problems/modified/mathC_complex_factorize.html
+-->
+<div id="progress-bar"></div>
+
+<!-- スライド 1：フック + 問題 -->
+<section class="slide active">
+  <div class="slide-header">
+    <span class="badge-yt">因数分解で一瞬！</span>
+    <span class="badge">数学C</span>
+    <span class="slide-title">複素数の絶対値の最大値</span>
+    <div class="meta"><span>★★★★☆ 発展</span><span>目安 7 分</span></div>
+  </div>
+
+  <p class="hook-text">$|z^2 - 1|$ の最大値、<br>直接計算しようとすると<span style="color:var(--accent);">計算地獄</span>。でも…</p>
+
+  <div class="problem-label">問　題</div>
+  <div class="problem-box">
+    複素数 $z$ が $|z - 1| = 1$ を満たすとき、$|z^2 - 1|$ の最大値を求めよ。
+  </div>
+
+  <div class="step" style="font-size:17px;">
+    💬 「$z = x + yi$ とおいて計算しようとすると大変…」<br>
+    $z^2 - 1$ を<span class="highlight">因数分解</span>する発想に気づけるかが鍵！
+  </div>
+
+  <p style="margin-top:auto;font-size:13px;color:#718096;">偏差値65〜70レベル｜旧帝・難関国公立</p>
+  <div class="slide-footer"></div>
+</section>
+
+<!-- スライド 2：考察タイム -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge orange">考察タイム</span>
+    <span class="slide-title">まず自分で考えてみよう</span>
+  </div>
+
+  <div class="pause-box">
+    <div class="pause-title">⏸ ここで一時停止！</div>
+    <div class="pause-sub">紙とペンを使って 4 分間考えてみよう</div>
+  </div>
+
+  <div class="section-title">ヒント</div>
+  <div class="step">
+    <span class="step-num">①</span>
+    $z^2 - 1 = (z-1)(z+1)$ と因数分解できる！
+  </div>
+  <div class="step">
+    <span class="step-num">②</span>
+    絶対値の積 $|z^2-1| = |z-1| \cdot |z+1|$。条件より $|z-1| = 1$。
+  </div>
+  <div class="step">
+    <span class="step-num">③</span>
+    $|z+1|$ の最大値は？$z$ が中心 $1$、半径 $1$ の円上を動くとき、$z+1$ はどんな値になる？
+  </div>
+
+  <div class="slide-footer"></div>
+</section>
+
+<!-- スライド 3：解法の核心 -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge green">解法の核心</span>
+    <span class="slide-title">$z^2-1 = (z-1)(z+1)$ に気づく</span>
+  </div>
+
+  <div class="key-box">
+    🔑 $z^2 - 1 = (z-1)(z+1)$ なので
+    $$|z^2-1| = |z-1|\cdot|z+1| = 1 \cdot |z+1| = |z+1|$$
+    後は $|z-1|=1$（中心 1、半径 1 の円）上で $|z+1|$（原点 $-1$ からの距離）の<strong>最大値を求めるだけ！</strong>
+  </div>
+
+  <div class="step">
+    複素平面上で、$|z-1|=1$ は中心 $(1, 0)$、半径 $1$ の円。<br>
+    $|z+1|$ は点 $z$ と点 $-1$（$= -1 + 0i$）の距離。
+  </div>
+
+  <div class="slide-footer"></div>
+</section>
+
+<!-- スライド 4：解説 -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge">解説</span>
+    <span class="slide-title">$|z+1|$ の最大値を求める</span>
+  </div>
+
+  <div class="step">
+    <span class="step-num">1</span>
+    $|z-1|=1$ より $z = 1 + e^{i\theta} = 1 + \cos\theta + i\sin\theta$（$0 \leq \theta < 2\pi$）。
+  </div>
+  <div class="step">
+    <span class="step-num">2</span>
+    $z + 1 = 2 + \cos\theta + i\sin\theta$ なので：
+    $$|z+1|^2 = (2+\cos\theta)^2 + \sin^2\theta = 4 + 4\cos\theta + \cos^2\theta + \sin^2\theta = 5 + 4\cos\theta$$
+  </div>
+  <div class="step">
+    <span class="step-num">3</span>
+    $|z+1|^2 = 5 + 4\cos\theta$ は $\cos\theta = 1$（$\theta = 0$）のとき最大：
+    $$|z+1|^2_{\max} = 5 + 4 = 9 \;\Rightarrow\; |z+1|_{\max} = 3$$
+  </div>
+  <div class="step">
+    <span class="step-num">4</span>
+    $\theta = 0$ のとき $z = 1 + 1 = 2$、確かに $|z-1| = |2-1| = 1$ ✓
+  </div>
+
+  <div class="slide-footer"></div>
+</section>
+
+<!-- スライド 5：答え -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge green">答え</span>
+    <span class="slide-title">解答まとめ</span>
+  </div>
+
+  <div class="cases">
+    <div class="case-card">
+      <div class="case-cond">因数分解</div>
+      $z^2-1=(z-1)(z+1)$<br>
+      $|z^2-1|=|z-1|\cdot|z+1|$<br>
+      $= |z+1|$
+    </div>
+    <div class="case-card">
+      <div class="case-cond">$|z+1|^2$</div>
+      $z=1+e^{i\theta}$ とおくと<br>
+      $|z+1|^2 = 5+4\cos\theta$<br>
+      最大は $\cos\theta=1$
+    </div>
+    <div class="case-card">
+      <div class="case-cond">最大値</div>
+      $\theta=0$、$z=2$ のとき
+      $$|z^2-1|_{\max} = 3$$
+    </div>
+  </div>
+
+  <div class="answer-label">答　え</div>
+  <div class="answer-box">
+    $|z^2 - 1|$ の最大値 $= 3$　（$z = 2$ のとき）
+  </div>
+
+  <div class="slide-footer"></div>
+</section>
+
+<!-- スライド 6：落とし穴 -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge-yt">落とし穴</span>
+    <span class="slide-title">ここで間違えやすい</span>
+  </div>
+
+  <div class="trap-box" style="margin-bottom:12px;">
+    <div class="trap-title">⚠ 落とし穴①：$z = x + yi$ で直接計算</div>
+    $z = x + yi$、$|z-1|^2 = (x-1)^2 + y^2 = 1$ として<br>
+    $z^2-1 = x^2 - y^2 - 1 + 2xyi$ と展開するととても複雑になる。<br>
+    <strong>$z^2 - 1$ を因数分解することで計算を劇的に簡略化</strong>できる。
+  </div>
+
+  <div class="trap-box">
+    <div class="trap-title">⚠ 落とし穴②：最大を「距離」で考えない</div>
+    $|z+1|$ は「複素平面上で $z$ と $-1$ の距離」。<br>
+    円の中心 $(1, 0)$ と点 $(-1, 0)$ の距離は $2$、半径 $1$ を足して<br>
+    最大距離 $= 3$ とも考えられる（三角不等式の活用）。
+  </div>
+
+  <div class="key-box" style="font-size:16px;">
+    💡 複素数の絶対値問題は<br>
+    　① まず<strong>因数分解</strong>できないか確認<br>
+    　② $|z \cdot w| = |z|\cdot|w|$ を使って既知の条件に帰着させる
+  </div>
+
+  <div class="slide-footer"></div>
+</section>
+
+<!-- スライド 7：一般化 -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge green">一般化</span>
+    <span class="slide-title">この発想はどこでも使える</span>
+  </div>
+
+  <div class="section-title">一般化</div>
+  <div class="step">
+    $|z - a| = r$ の円上で $|f(z)|$ を最大・最小化するとき：<br>
+    ① $f(z)$ を因数分解 → $|f(z)| = |z-\alpha|\cdot|z-\beta|\cdots$ に分解<br>
+    ② 条件に含まれる $|z - a|$ を使って既知の値に置き換える<br>
+    ③ 残りの絶対値を円と定点の距離として幾何的に最大化
+  </div>
+
+  <div class="section-title">類題</div>
+  <div class="problem-box" style="font-size:16px;">
+    $|z| = 2$ のとき、$|z^2 - 4|$ の最大値を求めよ。
+  </div>
+  <div class="step" style="font-size:15px;">
+    $z^2 - 4 = (z-2)(z+2)$、$|z^2-4| = |z-2|\cdot|z+2|$。<br>
+    $z = 2e^{i\theta}$ とおくと $|z-2| = |2e^{i\theta}-2|$、$|z+2| = |2e^{i\theta}+2|$。<br>
+    $|z-2|^2 = 4-4\cos\theta+4\sin^2\theta+4\cos^2\theta$... もしくは余弦定理で考えると最大は $\theta=\pi$：$|z-2|=4$、$|z+2|=0$ → $0$。<br>
+    実は $\theta = \pi/2$ のとき $|z^2-4| = |{-4-4}| = 8$。最大値 $= 8$。
+  </div>
+
+  <div class="slide-footer"></div>
+</section>
+
+<!-- スライド 8：模範解答 -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge" style="background:#2d3748;">模範解答</span>
+    <span class="slide-title">記述答案例</span>
+    <div class="meta"><span>複素数・絶対値の最大値</span></div>
+  </div>
+
+  <div class="answer-sheet">
+    <div class="ans-block">
+      <div class="ans-line">$z^2 - 1 = (z-1)(z+1)$ と因数分解できるから：</div>
+      <div class="ans-line">$$|z^2-1| = |z-1|\cdot|z+1| = 1\cdot|z+1| = |z+1|$$</div>
+    </div>
+    <div class="ans-block">
+      <div class="ans-line">$|z-1|=1$ より $z = 1 + \cos\theta + i\sin\theta$ とおくと、</div>
+      <div class="ans-line">$$|z+1|^2 = (2+\cos\theta)^2 + \sin^2\theta = 5 + 4\cos\theta$$</div>
+      <div class="ans-line">これは $\cos\theta = 1$（$\theta = 0$）のとき最大値 $9$ をとる。</div>
+    </div>
+    <div class="ans-block">
+      <div class="ans-line">このとき $z = 2$ であり $|z-1| = 1$ を満たす。</div>
+    </div>
+    <div class="ans-therefore">$|z^2-1|$ の最大値は $\sqrt{9} = 3$（$z = 2$ のとき）</div>
+  </div>
+
+  <div class="slide-footer"></div>
+</section>
+
+<div id="nav">
+  <button id="btn-prev">◀ 前へ</button>
+  <span class="page-info" id="pinfo">1 / 8</span>
+  <button id="btn-next">次へ ▶</button>
+  <button id="btn-pdf" onclick="window.print()">⬇ PDF保存</button>
+  <span class="hint">← → キーでも操作できます</span>
+</div>
+<script src="../slide.js"></script>
+</body>
+</html>

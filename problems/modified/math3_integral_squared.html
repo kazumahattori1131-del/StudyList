@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>【数学III】∫1/(1+x²)²dx — 三角置換の発展</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <link rel="stylesheet" href="../slide.css">
+  <style>
+    :root { --accent: #744210; }
+    .hook-text { font-size: 26px; font-weight: 900; color: var(--accent); text-align: center; margin: 0.6rem 0; line-height: 1.4; }
+    .pause-box { background: #1a202c; color: #fff; border-radius: 12px; padding: 20px 32px; text-align: center; margin: 1rem 0; }
+    .pause-box .pause-title { font-size: 26px; font-weight: 900; letter-spacing: 0.05em; margin-bottom: 8px; }
+    .pause-box .pause-sub { font-size: 15px; color: #a0aec0; }
+    .trap-box { background: #fff5f5; border: 2px solid #fc8181; border-radius: 10px; padding: 14px 24px; margin: 10px 0; }
+    .trap-title { color: #c53030; font-weight: 800; font-size: 15px; margin-bottom: 6px; }
+    .key-box { background: #fffbeb; border-left: 6px solid #744210; border-radius: 0 10px 10px 0; padding: 16px 24px; margin: 10px 0; font-size: 18px; font-weight: 700; }
+    .badge-yt { background: #c53030; color: #fff; font-size: 13px; font-weight: 700; padding: 4px 12px; border-radius: 4px; white-space: nowrap; }
+  </style>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]})"></script>
+</head>
+<body>
+<!--
+https://kazumahattori1131-del.github.io/StudyList/problems/modified/math3_integral_squared.html
+-->
+<div id="progress-bar"></div>
+
+<!-- スライド 1：フック + 問題 -->
+<section class="slide active">
+  <div class="slide-header">
+    <span class="badge-yt">2乗になったら？</span>
+    <span class="badge">数学III</span>
+    <span class="slide-title">∫1/(1+x²) の発展形</span>
+    <div class="meta"><span>★★★★☆ 発展</span><span>目安 8 分</span></div>
+  </div>
+
+  <p class="hook-text">$\int\!\dfrac{1}{1+x^2}dx = \arctan x + C$ は知ってる。<br>分母が <span style="color:var(--accent);">2乗</span>になったら？</p>
+
+  <div class="problem-label">問　題</div>
+  <div class="problem-box">
+    次の定積分を求めよ。
+    $$\int_0^1 \frac{1}{(1+x^2)^2}\,dx$$
+  </div>
+
+  <div class="step" style="font-size:17px;">
+    💬 「$x = \tan\theta$ の置換で $(1+x^2)$ が消える！」<br>
+    三角置換の使いどころを見極めよう。
+  </div>
+
+  <p style="margin-top:auto;font-size:13px;color:#718096;">偏差値65〜70レベル｜旧帝・難関国公立</p>
+  <div class="slide-footer"></div>
+</section>
+
+<!-- スライド 2：考察タイム -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge orange">考察タイム</span>
+    <span class="slide-title">まず自分で考えてみよう</span>
+  </div>
+
+  <div class="pause-box">
+    <div class="pause-title">⏸ ここで一時停止！</div>
+    <div class="pause-sub">紙とペンを使って 5 分間考えてみよう</div>
+  </div>
+
+  <div class="section-title">ヒント</div>
+  <div class="step">
+    <span class="step-num">①</span>
+    $x = \tan\theta$ とおくと $1 + x^2 = 1 + \tan^2\theta = \dfrac{1}{\cos^2\theta}$（$= \sec^2\theta$）
+  </div>
+  <div class="step">
+    <span class="step-num">②</span>
+    $dx = \dfrac{1}{\cos^2\theta}\,d\theta$ を使って被積分関数全体を $\theta$ で表してみよう。
+  </div>
+  <div class="step">
+    <span class="step-num">③</span>
+    積分範囲：$x: 0 \to 1$ のとき $\theta: 0 \to \dfrac{\pi}{4}$。
+  </div>
+
+  <div class="slide-footer"></div>
+</section>
+
+<!-- スライド 3：解法の核心 -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge green">解法の核心</span>
+    <span class="slide-title">$x = \tan\theta$ で分母が $\cos^4\theta$ に変わる</span>
+  </div>
+
+  <div class="key-box">
+    🔑 $x = \tan\theta$ とおくと
+    $$\frac{1}{(1+x^2)^2} = \frac{1}{\sec^4\theta} = \cos^4\theta,\quad dx = \sec^2\theta\,d\theta$$
+    かけ合わせると <strong>$\cos^4\theta \cdot \sec^2\theta\,d\theta = \cos^2\theta\,d\theta$</strong><br>
+    → 半角公式で簡単に積分できる形になる！
+  </div>
+
+  <div class="step">
+    $\sec^2\theta$（分母）と $dx$（分子の $\sec^2\theta$）が<span class="highlight">約分</span>されるのがポイント。
+  </div>
+
+  <div class="slide-footer"></div>
+</section>
+
+<!-- スライド 4：解説 -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge">解説</span>
+    <span class="slide-title">置換から積分まで</span>
+  </div>
+
+  <div class="step">
+    <span class="step-num">1</span>
+    $x = \tan\theta$（$0 \leq \theta \leq \dfrac{\pi}{4}$）とおく。$dx = \sec^2\theta\,d\theta$。
+  </div>
+  <div class="step">
+    <span class="step-num">2</span>
+    $(1+x^2)^2 = \sec^4\theta$ より：
+    $$\frac{dx}{(1+x^2)^2} = \frac{\sec^2\theta\,d\theta}{\sec^4\theta} = \cos^2\theta\,d\theta$$
+  </div>
+  <div class="step">
+    <span class="step-num">3</span>
+    半角公式 $\cos^2\theta = \dfrac{1+\cos 2\theta}{2}$ を使う：
+    $$\int_0^{\pi/4}\cos^2\theta\,d\theta = \int_0^{\pi/4}\frac{1+\cos 2\theta}{2}\,d\theta
+    = \left[\frac{\theta}{2} + \frac{\sin 2\theta}{4}\right]_0^{\pi/4}$$
+  </div>
+  <div class="step">
+    <span class="step-num">4</span>
+    $$= \left(\frac{\pi/4}{2} + \frac{\sin(\pi/2)}{4}\right) - 0 = \frac{\pi}{8} + \frac{1}{4}$$
+  </div>
+
+  <div class="slide-footer"></div>
+</section>
+
+<!-- スライド 5：答え -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge green">答え</span>
+    <span class="slide-title">解答まとめ</span>
+  </div>
+
+  <div class="cases">
+    <div class="case-card">
+      <div class="case-cond">置換</div>
+      $x = \tan\theta$<br>
+      $dx = \sec^2\theta\,d\theta$<br>
+      $(1+x^2)^2 = \sec^4\theta$
+    </div>
+    <div class="case-card">
+      <div class="case-cond">変換後</div>
+      $$\int_0^{\pi/4}\cos^2\theta\,d\theta$$
+      半角公式を使う
+    </div>
+    <div class="case-card">
+      <div class="case-cond">答え</div>
+      $$\frac{\pi}{8} + \frac{1}{4}$$
+    </div>
+  </div>
+
+  <div class="answer-label">答　え</div>
+  <div class="answer-box">
+    $$\int_0^1 \frac{dx}{(1+x^2)^2} = \frac{\pi}{8} + \frac{1}{4}$$
+  </div>
+
+  <div class="slide-footer"></div>
+</section>
+
+<!-- スライド 6：落とし穴 -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge-yt">落とし穴</span>
+    <span class="slide-title">ここで間違えやすい</span>
+  </div>
+
+  <div class="trap-box" style="margin-bottom:12px;">
+    <div class="trap-title">⚠ 落とし穴①：$dx$ を忘れる</div>
+    置換後に $dx = \sec^2\theta\,d\theta$ の $\sec^2\theta$ を忘れて<br>
+    「$\cos^4\theta\,d\theta$」と書いてしまうミスが多い。<br>
+    <strong>被積分関数 × $dx$ 全体を変換</strong> することを意識する。
+  </div>
+
+  <div class="trap-box">
+    <div class="trap-title">⚠ 落とし穴②：$\sin(\pi/2) = 1$ を忘れる</div>
+    最後の計算 $\left[\dfrac{\theta}{2} + \dfrac{\sin 2\theta}{4}\right]_0^{\pi/4}$ で<br>
+    $\theta = \pi/4$ のとき $\sin(2 \cdot \pi/4) = \sin(\pi/2) = 1$。<br>
+    $\sin(\pi/2) = 1$ であることをしっかり確認しよう。
+  </div>
+
+  <div class="key-box" style="font-size:16px;">
+    💡 $\int \dfrac{1}{1+x^2}\,dx = \arctan x + C$（これは暗記）<br>
+    2乗版は $x = \tan\theta$ で $\cos^2\theta$ に落ちる。この流れを覚えよう！
+  </div>
+
+  <div class="slide-footer"></div>
+</section>
+
+<!-- スライド 7：一般化 -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge green">一般化</span>
+    <span class="slide-title">この発想はどこでも使える</span>
+  </div>
+
+  <div class="section-title">一般化</div>
+  <div class="step">
+    $\int \dfrac{1}{(a^2+x^2)^n}\,dx$ の形は $x = a\tan\theta$ で置換すると<br>
+    $a^2 + x^2 = a^2\sec^2\theta$ となり、次数が下がる。<br>
+    特に $n=1$ のとき $\dfrac{1}{a}\arctan\dfrac{x}{a} + C$。
+  </div>
+
+  <div class="section-title">類題</div>
+  <div class="problem-box" style="font-size:16px;">
+    $\displaystyle\int_0^{\sqrt{3}} \frac{1}{(1+x^2)^2}\,dx$ を求めよ。
+  </div>
+  <div class="step" style="font-size:15px;">
+    $x = \tan\theta$、範囲 $\theta: 0 \to \dfrac{\pi}{3}$：
+    $\displaystyle\int_0^{\pi/3}\cos^2\theta\,d\theta = \left[\dfrac{\theta}{2}+\dfrac{\sin 2\theta}{4}\right]_0^{\pi/3} = \dfrac{\pi}{6}+\dfrac{\sqrt{3}}{8}$
+  </div>
+
+  <div class="slide-footer"></div>
+</section>
+
+<!-- スライド 8：模範解答 -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge" style="background:#2d3748;">模範解答</span>
+    <span class="slide-title">記述答案例</span>
+    <div class="meta"><span>三角置換・定積分</span></div>
+  </div>
+
+  <div class="answer-sheet">
+    <div class="ans-block">
+      <div class="ans-line">$x = \tan\theta$（$0 \leq \theta \leq \dfrac{\pi}{4}$）とおくと $dx = \sec^2\theta\,d\theta$、$1+x^2 = \sec^2\theta$。</div>
+      <div class="ans-line">積分範囲：$x: 0 \to 1$ のとき $\theta: 0 \to \dfrac{\pi}{4}$。</div>
+    </div>
+    <div class="ans-block">
+      <div class="ans-line">
+        $$\int_0^1\frac{dx}{(1+x^2)^2} = \int_0^{\pi/4}\frac{\sec^2\theta}{\sec^4\theta}\,d\theta = \int_0^{\pi/4}\cos^2\theta\,d\theta$$
+      </div>
+    </div>
+    <div class="ans-block">
+      <div class="ans-line">半角公式 $\cos^2\theta = \dfrac{1+\cos 2\theta}{2}$ を用いると：</div>
+      <div class="ans-line">
+        $$= \int_0^{\pi/4}\frac{1+\cos 2\theta}{2}\,d\theta = \left[\frac{\theta}{2}+\frac{\sin 2\theta}{4}\right]_0^{\pi/4}$$
+      </div>
+      <div class="ans-line">
+        $$= \left(\frac{\pi}{8}+\frac{\sin(\pi/2)}{4}\right)-0 = \frac{\pi}{8}+\frac{1}{4}$$
+      </div>
+    </div>
+    <div class="ans-therefore">$$\int_0^1\frac{dx}{(1+x^2)^2} = \frac{\pi}{8}+\frac{1}{4}$$</div>
+  </div>
+
+  <div class="slide-footer"></div>
+</section>
+
+<div id="nav">
+  <button id="btn-prev">◀ 前へ</button>
+  <span class="page-info" id="pinfo">1 / 8</span>
+  <button id="btn-next">次へ ▶</button>
+  <button id="btn-pdf" onclick="window.print()">⬇ PDF保存</button>
+  <span class="hint">← → キーでも操作できます</span>
+</div>
+<script src="../slide.js"></script>
+</body>
+</html>

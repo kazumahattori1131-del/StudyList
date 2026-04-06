@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>【数学I】9割が判別式だけで考える二次不等式</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <link rel="stylesheet" href="../slide.css">
+  <style>
+    :root { --accent: #c05621; }
+    .hook-text { font-size: 28px; font-weight: 900; color: var(--accent); text-align: center; margin: 0.6rem 0; line-height: 1.4; }
+    .pause-box { background: #1a202c; color: #fff; border-radius: 12px; padding: 20px 32px; text-align: center; margin: 1rem 0; }
+    .pause-box .pause-title { font-size: 26px; font-weight: 900; letter-spacing: 0.05em; margin-bottom: 8px; }
+    .pause-box .pause-sub { font-size: 15px; color: #a0aec0; }
+    .trap-box { background: #fff5f5; border: 2px solid #fc8181; border-radius: 10px; padding: 14px 24px; margin: 10px 0; }
+    .trap-title { color: #c53030; font-weight: 800; font-size: 15px; margin-bottom: 6px; }
+    .key-box { background: #fffbeb; border-left: 6px solid #f6ad55; border-radius: 0 10px 10px 0; padding: 16px 24px; margin: 10px 0; font-size: 18px; font-weight: 700; }
+    .badge-yt { background: #c53030; color: #fff; font-size: 13px; font-weight: 700; padding: 4px 12px; border-radius: 4px; white-space: nowrap; }
+  </style>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]})"></script>
+</head>
+<body>
+<!--
+https://kazumahattori1131-del.github.io/StudyList/problems/modified/math1_quadratic_trap.html
+-->
+<div id="progress-bar"></div>
+
+<!-- スライド 1：フック + 問題 -->
+<section class="slide active">
+  <div class="slide-header">
+    <span class="badge-yt">9割が間違える</span>
+    <span class="badge">数学I</span>
+    <span class="slide-title">判別式だけで解こうとすると落とし穴</span>
+    <div class="meta"><span>★★★☆☆ 標準</span><span>目安 5 分</span></div>
+  </div>
+
+  <p class="hook-text">この問題、パッと見て解けそう？</p>
+
+  <div class="problem-label">問　題</div>
+  <div class="problem-box">
+    次の不等式がすべての実数 $x$ に対して成り立つような、定数 $a$ の値の範囲を求めよ。
+    $$ax^2 + 2x + a > 0$$
+  </div>
+
+  <div class="step" style="font-size:17px;">
+    💬 「判別式を使えばすぐ解ける」と思った人は要注意！<br>
+    実はほとんどの人が <span class="highlight">ある条件を見落として</span> 間違えます。
+  </div>
+
+  <p style="margin-top:auto;font-size:13px;color:#718096;">偏差値55〜70レベル｜共通テスト〜国公立2次</p>
+  <div class="slide-footer"></div>
+</section>
+
+<!-- スライド 2：考察タイム -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge orange">考察タイム</span>
+    <span class="slide-title">まず自分で考えてみよう</span>
+  </div>
+
+  <div class="pause-box">
+    <div class="pause-title">⏸ ここで一時停止！</div>
+    <div class="pause-sub">紙とペンを使って 3 分間考えてみよう</div>
+  </div>
+
+  <div class="section-title">ヒント（見たくない人はスキップ）</div>
+  <div class="step">
+    <span class="step-num">①</span>
+    $a = 0$ のとき、この不等式はどうなる？
+  </div>
+  <div class="step">
+    <span class="step-num">②</span>
+    $a \neq 0$ のとき、$ax^2 + 2x + a > 0$ がすべての $x$ で成立するには何が必要？
+  </div>
+  <div class="step">
+    <span class="step-num">③</span>
+    放物線が「常に $x$ 軸より上」にいるための条件を2つあげてみよう。
+  </div>
+
+  <div class="slide-footer"></div>
+</section>
+
+<!-- スライド 3：解法の核心 -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge green">解法の核心</span>
+    <span class="slide-title">落とし穴は「$a$ の符号」</span>
+  </div>
+
+  <div class="key-box">
+    🔑 二次不等式がすべての $x$ で成立する条件は、<br>
+    　　① 放物線が <span style="color:var(--accent);">上に開く</span>（$a > 0$）<br>
+    　　② $x$ 軸と <span style="color:var(--accent);">交わらない</span>（判別式 $< 0$）<br>
+    この 2 つを <strong>同時に</strong> 満たす必要がある！
+  </div>
+
+  <div class="trap-box">
+    <div class="trap-title">⚠ よくある間違い</div>
+    判別式 $D < 0$ だけを解いて「$a < -1$ または $a > 1$」と答えてしまう。<br>
+    でも $a < 0$ のとき放物線は下に開くので、どこかで必ず $x$ 軸より下になる！
+  </div>
+
+  <div class="step">
+    $a = 0$ のとき：$2x > 0$ はすべての $x$ で成り立たない → <strong>不適</strong>
+  </div>
+
+  <div class="slide-footer"></div>
+</section>
+
+<!-- スライド 4：解説 -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge">解説</span>
+    <span class="slide-title">場合分けして条件を整理する</span>
+  </div>
+
+  <div class="step">
+    <span class="step-num">1</span>
+    <strong>$a = 0$ のとき</strong>：$2x > 0$ はすべての $x$ で成立しない。→ <strong>不適</strong>
+  </div>
+
+  <div class="step">
+    <span class="step-num">2</span>
+    <strong>$a \neq 0$ のとき</strong>：$ax^2 + 2x + a > 0$ がすべての $x$ で成立するには<br>
+    　(i) $a > 0$（上に開く）<br>
+    　(ii) 判別式 $D = 4 - 4a^2 < 0$（$x$ 軸と交わらない）
+  </div>
+
+  <div class="step">
+    <span class="step-num">3</span>
+    条件 (ii) を解く：
+    $$4 - 4a^2 < 0 \;\Rightarrow\; a^2 > 1 \;\Rightarrow\; a < -1 \;\text{または}\; a > 1$$
+  </div>
+
+  <div class="step">
+    <span class="step-num">4</span>
+    条件 (i) と (ii) の共通部分：
+    $$a > 0 \;\text{かつ}\; (a < -1 \;\text{または}\; a > 1) \;\Rightarrow\; a > 1$$
+  </div>
+
+  <div class="slide-footer"></div>
+</section>
+
+<!-- スライド 5：答え -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge green">答え</span>
+    <span class="slide-title">解答まとめ</span>
+  </div>
+
+  <div class="cases">
+    <div class="case-card">
+      <div class="case-cond">$a = 0$ のとき</div>
+      $2x > 0$ は常に成立しない
+      <br><strong>不適</strong>
+    </div>
+    <div class="case-card">
+      <div class="case-cond">$a \neq 0$ の条件</div>
+      ① $a > 0$（上に開く）<br>
+      ② $D = 4-4a^2 < 0$
+      <br>→ $a > 1$ または $a < -1$
+    </div>
+    <div class="case-card">
+      <div class="case-cond">共通部分</div>
+      $a > 0$ かつ $a > 1$ または $a < -1$
+      $$\boxed{a > 1}$$
+    </div>
+  </div>
+
+  <div class="answer-label">答　え</div>
+  <div class="answer-box">
+    $$a > 1$$
+  </div>
+
+  <div class="slide-footer"></div>
+</section>
+
+<!-- スライド 6：落とし穴 -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge-yt">落とし穴</span>
+    <span class="slide-title">なぜ間違えるのか</span>
+  </div>
+
+  <div class="trap-box" style="margin-bottom:12px;">
+    <div class="trap-title">❌ 間違い答案例</div>
+    「$D = 4 - 4a^2 < 0$ を解いて $a < -1$ または $a > 1$」<br>
+    → <strong>$a < -1$ を含めてしまっている！</strong>
+  </div>
+
+  <div class="section-title">なぜ $a < -1$ が不適か</div>
+  <div class="step">
+    例：$a = -2$ のとき $-2x^2 + 2x - 2 > 0$、つまり $x^2 - x + 1 < 0$。<br>
+    $x^2 - x + 1$ の判別式 $= 1 - 4 = -3 < 0$、かつ最小値 $= 3/4 > 0$。<br>
+    よって $x^2 - x + 1 > 0$ が常に成立 → $-2x^2 + 2x - 2 < 0$ → <strong>不等式を満たさない</strong>。
+  </div>
+
+  <div class="key-box" style="font-size:16px;">
+    💡 「二次式がすべての $x$ で正」= <strong>上に凸でない</strong> ＋ <strong>$x$ 軸に触れない</strong><br>
+    この 2 条件はセットで考える習慣を！
+  </div>
+
+  <div class="slide-footer"></div>
+</section>
+
+<!-- スライド 7：一般化 -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge green">一般化</span>
+    <span class="slide-title">この発想はどこでも使える</span>
+  </div>
+
+  <div class="section-title">一般化</div>
+  <div class="step">
+    $f(x) = ax^2 + bx + c$ がすべての $x$ で $f(x) > 0$ となる条件：
+    $$a > 0 \;\text{かつ}\; D = b^2 - 4ac < 0$$
+    この 2 条件を <span class="highlight">必ずセットで確認</span> する。
+  </div>
+
+  <div class="section-title">類題</div>
+  <div class="problem-box" style="font-size:16px;">
+    $ax^2 - 4x + a - 3 > 0$ がすべての実数 $x$ で成立するような $a$ の範囲を求めよ。
+  </div>
+  <div class="step" style="font-size:15px;">
+    <strong>答え：</strong>$a > 0$ かつ $D = 16 - 4a(a-3) < 0$<br>
+    → $4 - a(a-3) < 0$ → $a^2 - 3a - 4 > 0$ → $(a-4)(a+1) > 0$<br>
+    → $a > 4$ または $a < -1$　かつ　$a > 0$　→ $\boxed{a > 4}$
+  </div>
+
+  <div class="slide-footer"></div>
+</section>
+
+<!-- スライド 8：模範解答 -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge" style="background:#2d3748;">模範解答</span>
+    <span class="slide-title">記述答案例</span>
+    <div class="meta"><span>二次不等式・恒等的成立</span></div>
+  </div>
+
+  <div class="answer-sheet">
+    <div class="ans-block">
+      <div class="ans-line"><strong>[i] $a = 0$ のとき</strong>：不等式は $2x > 0$ となり、$x = 0$ で成立しない。不適。</div>
+    </div>
+    <div class="ans-block">
+      <div class="ans-line"><strong>[ii] $a \neq 0$ のとき</strong>：$ax^2 + 2x + a > 0$ がすべての $x$ で成立するための必要十分条件は、</div>
+      <div class="ans-line">（条件①）$a > 0$（上に開く放物線）</div>
+      <div class="ans-line">（条件②）判別式 $D = 4 - 4a^2 < 0$（$x$ 軸と交わらない）</div>
+      <div class="ans-line">条件②を解くと：$a^2 > 1$、すなわち $a < -1$ または $a > 1$。</div>
+      <div class="ans-line">条件①②の共通部分：$a > 0$ かつ $(a < -1$ または $a > 1)$ より $a > 1$。</div>
+    </div>
+    <div class="ans-therefore">$$a > 1$$</div>
+  </div>
+
+  <div class="slide-footer"></div>
+</section>
+
+<div id="nav">
+  <button id="btn-prev">◀ 前へ</button>
+  <span class="page-info" id="pinfo">1 / 8</span>
+  <button id="btn-next">次へ ▶</button>
+  <button id="btn-pdf" onclick="window.print()">⬇ PDF保存</button>
+  <span class="hint">← → キーでも操作できます</span>
+</div>
+<script src="../slide.js"></script>
+</body>
+</html>
