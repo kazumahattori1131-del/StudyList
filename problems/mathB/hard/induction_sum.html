@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>【数学B】数学的帰納法（$\sum k\cdot2^k$ の証明）</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <link rel="stylesheet" href="../../slide.css">
+  <style> :root { --accent: #b7791f; } </style>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]})"></script>
+</head>
+<body>
+<!--
+https://kazumahattori1131-del.github.io/StudyList/problems/mathB/hard/induction_sum.html
+-->
+<div id="progress-bar"></div>
+
+<!-- Slide 1: 問題 -->
+<div class="slide">
+  <h1 class="slide-title">【数学B】数学的帰納法</h1>
+  <div class="meta-row">
+    <span class="badge badge-level">★★★★☆ 上級</span>
+    <span class="badge badge-time">⏱ 目安：15分</span>
+  </div>
+  <p class="problem-label">問題</p>
+  <div class="problem-box">
+    <p>すべての自然数 $n$ に対して、次の等式が成り立つことを数学的帰納法で証明せよ。</p>
+    $$\sum_{k=1}^{n} k\cdot2^k = (n-1)\cdot2^{n+1}+2$$
+  </div>
+  <div class="point-list" style="margin-top:1.2rem;">
+    <strong>解法のヒント</strong>
+    <ul>
+      <li>数学的帰納法の2ステップ：① $n=1$ の確認　② $n=m$ を仮定して $n=m+1$ を示す</li>
+      <li>$\sum_{k=1}^{m+1}$ を $\sum_{k=1}^{m}$ と第 $(m+1)$ 項に分割するのが変形の鍵</li>
+    </ul>
+  </div>
+  <p style="margin-top:auto;font-size:13px;color:#718096;">（参考：大阪大学 数学B 入試問題（類題））</p>
+</div>
+
+<!-- Slide 2: 数学的帰納法の構造 -->
+<div class="slide">
+  <h1 class="slide-title">数学的帰納法の構造</h1>
+  <p class="section-title">数学的帰納法とは</p>
+  <p style="margin-bottom:1rem;">自然数に関する命題 $P(n)$ を証明する手法。以下の2ステップで「すべての自然数で成立」を示す。</p>
+  <div class="step">
+    <span class="step-num">1</span>
+    <div>
+      <strong>[1] $n=1$ のとき成立を確認</strong>
+      <p style="margin:.4rem 0 0;">$P(1)$ が真であることを直接計算で示す。</p>
+    </div>
+  </div>
+  <div class="step">
+    <span class="step-num">2</span>
+    <div>
+      <strong>[2] $n=m$ で成立と仮定し、$n=m+1$ でも成立を導く</strong>
+      <p style="margin:.4rem 0 0;">$P(m)$ を仮定（帰納法の仮定）として $P(m+1)$ を証明する。</p>
+    </div>
+  </div>
+  <div style="background:#fef3c7;border-left:4px solid #b7791f;padding:.9rem 1.2rem;border-radius:6px;margin-top:1.2rem;">
+    <strong>この問題での目標</strong>
+    <p style="margin:.4rem 0 0;">
+      [1] $n=1$：左辺 $=1\cdot2=2$、右辺 $=(1-1)\cdot4+2=2$ ✓<br>
+      [2] $n=m$ 仮定 $\Rightarrow$ $n=m+1$ も成立を代数的変形で示す
+    </p>
+  </div>
+</div>
+
+<!-- Slide 3: [1] n=1 の確認 -->
+<div class="slide">
+  <h1 class="slide-title">[1] $n=1$ のとき</h1>
+  <p class="section-title">初期確認（Base Case）</p>
+  <div class="step">
+    <span class="step-num">左辺</span>
+    <div>
+      $$\sum_{k=1}^{1}k\cdot2^k = 1\cdot2^1 = 2$$
+    </div>
+  </div>
+  <div class="step">
+    <span class="step-num">右辺</span>
+    <div>
+      $$(1-1)\cdot2^{1+1}+2 = 0\cdot2^{2}+2 = 0\cdot4+2 = 2$$
+    </div>
+  </div>
+  <div class="answer-box" style="margin-top:1rem;">
+    左辺 $=$ 右辺 $= 2$ &ensp;✓
+  </div>
+  <p style="margin-top:1rem;">$n=1$ のとき等式は成立する。</p>
+</div>
+
+<!-- Slide 4: [2] 帰納法の仮定 -->
+<div class="slide">
+  <h1 class="slide-title">[2] 帰納法の仮定</h1>
+  <p class="section-title">Inductive Hypothesis</p>
+  <p>$n=m$（$m$ は自然数）のとき等式が成り立つと仮定する：</p>
+  $$\sum_{k=1}^{m}k\cdot2^k=(m-1)\cdot2^{m+1}+2 \quad \cdots (*)$$
+  <div style="background:#fef3c7;border-left:4px solid #b7791f;padding:.9rem 1.2rem;border-radius:6px;margin-top:1.2rem;">
+    <strong>示したいこと：$n=m+1$ のとき</strong>
+    $$\sum_{k=1}^{m+1}k\cdot2^k=m\cdot2^{m+2}+2$$
+    <p style="margin:.4rem 0 0;font-size:.92rem;">右辺は $(n-1)\cdot2^{n+1}+2$ に $n=m+1$ を代入した値：$m\cdot2^{m+2}+2$</p>
+  </div>
+</div>
+
+<!-- Slide 5: [2] n=m+1 の証明 -->
+<div class="slide">
+  <h1 class="slide-title">[2] $n=m+1$ の証明</h1>
+  <p class="section-title">Inductive Step</p>
+  <p>$\sum_{k=1}^{m+1}k\cdot2^k$ を $\sum_{k=1}^{m}k\cdot2^k$ と第 $(m+1)$ 項に分割する：</p>
+  $$\sum_{k=1}^{m+1}k\cdot2^k = \underbrace{\sum_{k=1}^{m}k\cdot2^k}_{(*)を代入} + (m+1)\cdot2^{m+1}$$
+  $$= (m-1)\cdot2^{m+1}+2+(m+1)\cdot2^{m+1}$$
+  $$= \{(m-1)+(m+1)\}\cdot2^{m+1}+2$$
+  $$= 2m\cdot2^{m+1}+2$$
+  $$= m\cdot2^{m+2}+2 \quad \checkmark$$
+  <p style="margin-top:.8rem;">これは $n=m+1$ のときの等式に一致する。</p>
+</div>
+
+<!-- Slide 6: 結論 + 検証 -->
+<div class="slide">
+  <h1 class="slide-title">結論と検証</h1>
+  <p class="section-title">結論</p>
+  <div class="answer-box">
+    [1][2] より、すべての自然数 $n$ に対して $\displaystyle\sum_{k=1}^{n}k\cdot2^k=(n-1)\cdot2^{n+1}+2$ が成立する。&ensp;□
+  </div>
+  <p class="section-title" style="margin-top:1.4rem;">検証（具体値）</p>
+  <table>
+    <thead>
+      <tr><th>$n$</th><th>左辺</th><th>右辺</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>$2$</td>
+        <td>$1\cdot2+2\cdot4=2+8=10$</td>
+        <td>$(2-1)\cdot2^3+2=8+2=10$ ✓</td>
+      </tr>
+      <tr>
+        <td>$3$</td>
+        <td>$10+3\cdot8=10+24=34$</td>
+        <td>$(3-1)\cdot2^4+2=32+2=34$ ✓</td>
+      </tr>
+      <tr>
+        <td>$4$</td>
+        <td>$34+4\cdot16=34+64=98$</td>
+        <td>$(4-1)\cdot2^5+2=96+2=98$ ✓</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Slide 7: ポイント -->
+<div class="slide">
+  <h1 class="slide-title">解法のポイント</h1>
+  <div class="point-list">
+    <ul>
+      <li>
+        <strong>数学的帰納法の3つのチェック</strong><br>
+        ① 初期確認（$n=1$）　② 仮定を明示する（$(*)$ と番号をつける）　③ 変形の見通しを立てる
+      </li>
+      <li>
+        <strong>和の分割が鍵</strong><br>
+        $\displaystyle\sum_{k=1}^{m+1} = \sum_{k=1}^{m} + \text{（}m+1\text{番目の項）}$ という分割を使って帰納法の仮定を適用する
+      </li>
+      <li>
+        <strong>指数の整理</strong><br>
+        $2m\cdot2^{m+1} = m\cdot2\cdot2^{m+1} = m\cdot2^{m+2}$ の変形を忘れずに
+      </li>
+      <li>
+        <strong>証明の締め方</strong><br>
+        最後に「∴ すべての自然数 $n$ で成立 □」と明記し、証明終了を示す
+      </li>
+    </ul>
+  </div>
+  <div style="background:#fef3c7;border-left:4px solid #b7791f;padding:.8rem 1.1rem;border-radius:6px;margin-top:.8rem;">
+    <strong>類似問題</strong>：$\displaystyle\sum_{k=1}^{n}k\cdot3^k$ や $\displaystyle\sum_{k=1}^{n}k^2$ の帰納法証明も同じ手順で解ける。
+  </div>
+</div>
+
+<!-- Slide 8: 模範解答 -->
+<div class="slide">
+  <h1 class="slide-title">模範解答</h1>
+  <p class="answer-label">解答</p>
+  <div class="answer-sheet">
+    <div class="ans-block">
+      <div class="ans-line">すべての自然数 $n$ に対して $\displaystyle\sum_{k=1}^{n}k\cdot2^k=(n-1)\cdot2^{n+1}+2$ …… $(\star)$ を数学的帰納法で証明する。</div>
+    </div>
+    <div class="ans-block">
+      <div class="ans-line"><strong>[1] $n=1$ のとき：</strong></div>
+      <div class="ans-line">（左辺）$= 1\cdot2^1 = 2$</div>
+      <div class="ans-line">（右辺）$= (1-1)\cdot2^{2}+2 = 2$</div>
+      <div class="ans-line">左辺 $=$ 右辺 より、$n=1$ のとき $(\star)$ は成立する。</div>
+    </div>
+    <div class="ans-block">
+      <div class="ans-line"><strong>[2] $n=m$（$m$ は自然数）のとき $(\star)$ が成立すると仮定する：</strong></div>
+      <div class="ans-line">$$\sum_{k=1}^{m}k\cdot2^k=(m-1)\cdot2^{m+1}+2 \quad \cdots (*)$$</div>
+      <div class="ans-line">$n=m+1$ のとき：</div>
+      <div class="ans-line">
+        $$\sum_{k=1}^{m+1}k\cdot2^k = \sum_{k=1}^{m}k\cdot2^k + (m+1)\cdot2^{m+1}$$
+      </div>
+      <div class="ans-line">
+        $$(*)より = (m-1)\cdot2^{m+1}+2+(m+1)\cdot2^{m+1}$$
+      </div>
+      <div class="ans-line">
+        $$= \{(m-1)+(m+1)\}\cdot2^{m+1}+2 = 2m\cdot2^{m+1}+2$$
+      </div>
+      <div class="ans-line">
+        $$= m\cdot2^{m+2}+2 = \{(m+1)-1\}\cdot2^{(m+1)+1}+2$$
+      </div>
+      <div class="ans-line">これは $n=m+1$ のとき $(\star)$ が成立することを示す。</div>
+    </div>
+    <div class="ans-therefore">[1][2] より、すべての自然数 $n$ に対して $(\star)$ が成立する。&ensp;□</div>
+  </div>
+</div>
+
+<!-- Slide 9: 類題 -->
+<div class="slide">
+  <h1 class="slide-title">類題：積の和の数学的帰納法</h1>
+  <div class="meta-row">
+    <span class="badge badge-level">★★★★☆ 上級</span>
+    <span class="badge badge-time">⏱ 目安：12分</span>
+  </div>
+  <p class="problem-label">類　題</p>
+  <div class="problem-box">
+    <p>すべての自然数 $n$ に対して、次の等式が成り立つことを数学的帰納法で証明せよ。</p>
+    $$\sum_{k=1}^{n} k(k+1) = \frac{n(n+1)(n+2)}{3}$$
+  </div>
+  <div class="point-list" style="margin-top:1rem;">
+    <strong>解法のヒント</strong>
+    <ul>
+      <li>[1] $n=1$：左辺 $= 1\cdot2 = 2$、右辺 $= \dfrac{1\cdot2\cdot3}{3} = 2$ ✓</li>
+      <li>[2] 仮定 $\displaystyle\sum_{k=1}^{m}k(k+1)=\dfrac{m(m+1)(m+2)}{3}$ を用いて、$(m+1)$ 番目の項を加える</li>
+      <li>$(m+1)(m+2)$ を共通因数としてくくり出すのが整理のコツ</li>
+    </ul>
+  </div>
+</div>
+
+<!-- Slide 10: 類題の模範解答 -->
+<div class="slide">
+  <h1 class="slide-title">類題 模範解答</h1>
+  <p class="answer-label">解答</p>
+  <div class="answer-sheet">
+    <div class="ans-block">
+      <div class="ans-line">$\displaystyle\sum_{k=1}^{n}k(k+1)=\dfrac{n(n+1)(n+2)}{3}$ …… $(\star)$ を数学的帰納法で証明する。</div>
+    </div>
+    <div class="ans-block">
+      <div class="ans-line"><strong>[1] $n=1$ のとき：</strong></div>
+      <div class="ans-line">（左辺）$= 1\cdot2 = 2$</div>
+      <div class="ans-line">（右辺）$= \dfrac{1\cdot2\cdot3}{3} = 2$</div>
+      <div class="ans-line">左辺 $=$ 右辺 より $n=1$ のとき $(\star)$ は成立する。</div>
+    </div>
+    <div class="ans-block">
+      <div class="ans-line"><strong>[2] $n=m$ のとき $(\star)$ が成立すると仮定する：</strong></div>
+      <div class="ans-line">$$\sum_{k=1}^{m}k(k+1)=\frac{m(m+1)(m+2)}{3} \quad \cdots (*)$$</div>
+      <div class="ans-line">$n=m+1$ のとき：</div>
+      <div class="ans-line">
+        $$\sum_{k=1}^{m+1}k(k+1) = \sum_{k=1}^{m}k(k+1) + (m+1)(m+2)$$
+      </div>
+      <div class="ans-line">
+        $$(*)より = \frac{m(m+1)(m+2)}{3} + (m+1)(m+2)$$
+      </div>
+      <div class="ans-line">
+        $$= (m+1)(m+2)\left(\frac{m}{3}+1\right) = (m+1)(m+2)\cdot\frac{m+3}{3}$$
+      </div>
+      <div class="ans-line">
+        $$= \frac{(m+1)(m+2)(m+3)}{3}$$
+      </div>
+      <div class="ans-line">これは $n=m+1$ のとき $(\star)$ が成立することを示す。</div>
+    </div>
+    <div class="ans-therefore">[1][2] より、すべての自然数 $n$ に対して $(\star)$ が成立する。&ensp;□</div>
+  </div>
+</div>
+
+<div id="nav">
+  <button id="btn-prev">◀ 前へ</button>
+  <span class="page-info" id="pinfo">1 / 10</span>
+  <button id="btn-next">次へ ▶</button>
+  <button id="btn-pdf" onclick="window.print()">⬇ PDF保存</button>
+  <span class="hint">← → キーでも操作できます</span>
+</div>
+<script src="../../slide.js"></script>
+</body>
+</html>

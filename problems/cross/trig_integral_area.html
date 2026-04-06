@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>【融合問題】三角関数と積分・面積（数学II）</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <link rel="stylesheet" href="../slide.css">
+  <style> :root { --accent: #6e2954; } </style>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]})"></script>
+</head>
+<body>
+<!--
+https://kazumahattori1131-del.github.io/StudyList/problems/cross/trig_integral_area.html
+-->
+<div id="progress-bar"></div>
+
+<!-- スライド 1：問題 -->
+<section class="slide active">
+  <div class="slide-header">
+    <span class="badge">数学II 融合</span>
+    <span class="badge orange">三角関数×積分</span>
+    <span class="slide-title">三角関数の交点と囲む面積</span>
+    <div class="meta"><span>★★★★★ 発展</span><span>目安 20 分</span></div>
+  </div>
+
+  <div class="problem-label">問　題</div>
+  <div class="problem-box">
+    $0 \leq x \leq \pi$ において、曲線 $y = \sin x$ と曲線 $y = \cos 2x$ について答えよ。
+    <br><br>
+    <strong>(1)</strong>　2つの曲線の交点の $x$ 座標をすべて求めよ。
+    <br><br>
+    <strong>(2)</strong>　2つの曲線で囲まれた図形の面積 $S$ を求めよ。
+  </div>
+
+  <div class="section-title">なぜこの問題が重要か</div>
+  <div class="step">
+    「三角方程式」「上下関係の符号判定」「複数区間への積分分割」を一気に使う融合問題。<br>
+    <span class="highlight">$\cos 2x = 1 - 2\sin^2 x$ の変換</span>が鍵で、二重角公式と二次方程式の技術が試される。
+  </div>
+
+  <p style="margin-top:auto;font-size:13px;color:#718096;">（参考：京都大学 文系数学 2016年 入試問題 類題）</p>
+  <div class="slide-footer"></div>
+</section>
+
+<!-- スライド 2：(1) 交点を求める -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge">解説</span>
+    <span class="slide-title">(1) Step 1：交点の $x$ 座標を求める</span>
+  </div>
+
+  <div class="step">
+    <span class="step-num">1</span>
+    <div>
+      $\sin x = \cos 2x$ を解く。<span class="highlight">$\cos 2x = 1 - 2\sin^2 x$</span> を代入：
+      $$\sin x = 1 - 2\sin^2 x$$
+    </div>
+  </div>
+
+  <div class="step">
+    <span class="step-num">2</span>
+    <div>
+      整理して $\sin x$ の二次方程式にする：
+      $$2\sin^2 x + \sin x - 1 = 0$$
+      因数分解：$(2\sin x - 1)(\sin x + 1) = 0$
+    </div>
+  </div>
+
+  <div class="step">
+    <span class="step-num">3</span>
+    <div>
+      $\sin x = \dfrac{1}{2}$ または $\sin x = -1$<br><br>
+      $0 \leq x \leq \pi$ の範囲では：<br>
+      $\sin x = \dfrac{1}{2}$ → $x = \dfrac{\pi}{6},\; \dfrac{5\pi}{6}$<br>
+      $\sin x = -1$ → $x = \dfrac{3\pi}{2}$（範囲外）
+    </div>
+  </div>
+
+  <div class="answer-box">
+    交点の $x$ 座標：$x = \dfrac{\pi}{6},\quad x = \dfrac{5\pi}{6}$
+  </div>
+
+  <div class="slide-footer"></div>
+</section>
+
+<!-- スライド 3：上下関係の確認 -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge">解説</span>
+    <span class="slide-title">(2) Step 2：各区間での上下関係を確認する</span>
+  </div>
+
+  <div class="section-title">区間ごとに代表点で確認</div>
+
+  <div class="cases">
+    <div class="case-card">
+      <div class="case-cond">$0 \leq x \leq \dfrac{\pi}{6}$</div>
+      $x=0$ で試す：<br>$\sin 0 = 0$<br>$\cos 0 = 1$<br><br>
+      $\cos 2x > \sin x$
+    </div>
+    <div class="case-card">
+      <div class="case-cond">$\dfrac{\pi}{6} \leq x \leq \dfrac{5\pi}{6}$</div>
+      $x=\dfrac{\pi}{2}$ で試す：<br>$\sin\dfrac{\pi}{2} = 1$<br>$\cos\pi = -1$<br><br>
+      $\sin x > \cos 2x$
+    </div>
+    <div class="case-card">
+      <div class="case-cond">$\dfrac{5\pi}{6} \leq x \leq \pi$</div>
+      $x=\pi$ で試す：<br>$\sin\pi = 0$<br>$\cos 2\pi = 1$<br><br>
+      $\cos 2x > \sin x$
+    </div>
+  </div>
+
+  <div class="step" style="margin-top:1rem;">
+    <span class="step-num">方針</span>
+    <div>
+      面積は 3 つの区間に分けて積分する：
+      $$S = \underbrace{\int_0^{\pi/6}(\cos 2x - \sin x)\,dx}_{I_1}
+          + \underbrace{\int_{\pi/6}^{5\pi/6}(\sin x - \cos 2x)\,dx}_{I_2}
+          + \underbrace{\int_{5\pi/6}^{\pi}(\cos 2x - \sin x)\,dx}_{I_3}$$
+    </div>
+  </div>
+
+  <div class="slide-footer"></div>
+</section>
+
+<!-- スライド 4：I₁ と I₃ の計算 -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge">解説</span>
+    <span class="slide-title">(2) Step 3：$I_1$ と $I_3$ を計算する</span>
+  </div>
+
+  <div class="section-title">原始関数の準備</div>
+  <div class="step">
+    <span class="step-num">1</span>
+    <div>
+      $$\int(\cos 2x - \sin x)\,dx = \frac{\sin 2x}{2} + \cos x + C$$
+    </div>
+  </div>
+
+  <div class="step">
+    <span class="step-num">$I_1$</span>
+    <div>
+      $$I_1 = \left[\frac{\sin 2x}{2} + \cos x\right]_0^{\pi/6}
+      = \left(\frac{\sin(\pi/3)}{2} + \cos\frac{\pi}{6}\right) - \left(0 + 1\right)$$
+      $$= \left(\frac{\sqrt{3}/2}{2} + \frac{\sqrt{3}}{2}\right) - 1
+      = \left(\frac{\sqrt{3}}{4} + \frac{2\sqrt{3}}{4}\right) - 1 = \frac{3\sqrt{3}}{4} - 1$$
+    </div>
+  </div>
+
+  <div class="step">
+    <span class="step-num">$I_3$</span>
+    <div>
+      $$I_3 = \left[\frac{\sin 2x}{2} + \cos x\right]_{5\pi/6}^{\pi}
+      = \left(0 + (-1)\right) - \left(\frac{\sin(5\pi/3)}{2} + \cos\frac{5\pi}{6}\right)$$
+      $$= -1 - \left(\frac{-\sqrt{3}/2}{2} + \left(-\frac{\sqrt{3}}{2}\right)\right)
+      = -1 + \frac{\sqrt{3}}{4} + \frac{\sqrt{3}}{2} = \frac{3\sqrt{3}}{4} - 1$$
+    </div>
+  </div>
+
+  <div class="slide-footer"></div>
+</section>
+
+<!-- スライド 5：I₂ と合計の計算 -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge">解説</span>
+    <span class="slide-title">(2) Step 4：$I_2$ を計算して合計する</span>
+  </div>
+
+  <div class="step">
+    <span class="step-num">$I_2$</span>
+    <div>
+      $$\int(\sin x - \cos 2x)\,dx = -\cos x - \frac{\sin 2x}{2} + C$$
+      $$I_2 = \left[-\cos x - \frac{\sin 2x}{2}\right]_{\pi/6}^{5\pi/6}$$
+      上端（$x = 5\pi/6$）：$-\cos\dfrac{5\pi}{6} - \dfrac{\sin(5\pi/3)}{2} = \dfrac{\sqrt{3}}{2} - \dfrac{-\sqrt{3}/2}{2} = \dfrac{\sqrt{3}}{2}+\dfrac{\sqrt{3}}{4} = \dfrac{3\sqrt{3}}{4}$<br>
+      下端（$x = \pi/6$）：$-\cos\dfrac{\pi}{6} - \dfrac{\sin(\pi/3)}{2} = -\dfrac{\sqrt{3}}{2}-\dfrac{\sqrt{3}}{4} = -\dfrac{3\sqrt{3}}{4}$
+      $$I_2 = \frac{3\sqrt{3}}{4} - \left(-\frac{3\sqrt{3}}{4}\right) = \frac{3\sqrt{3}}{2}$$
+    </div>
+  </div>
+
+  <div class="step">
+    <span class="step-num">合計</span>
+    <div>
+      $$S = I_1 + I_2 + I_3 = \left(\frac{3\sqrt{3}}{4} - 1\right) + \frac{3\sqrt{3}}{2} + \left(\frac{3\sqrt{3}}{4} - 1\right)$$
+      $$= \frac{3\sqrt{3}}{4} + \frac{6\sqrt{3}}{4} + \frac{3\sqrt{3}}{4} - 2 = \frac{12\sqrt{3}}{4} - 2$$
+    </div>
+  </div>
+
+  <div class="answer-box">
+    $$S = 3\sqrt{3} - 2$$
+  </div>
+
+  <div class="slide-footer"></div>
+</section>
+
+<!-- スライド 6：答え -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge green">答え</span>
+    <span class="slide-title">解答のまとめ</span>
+  </div>
+
+  <div class="cases">
+    <div class="case-card">
+      <div class="case-cond">(1) 交点</div>
+      $\cos 2x=1-2\sin^2 x$ を利用<br>
+      二次方程式に帰着
+      $$x = \frac{\pi}{6},\quad \frac{5\pi}{6}$$
+    </div>
+    <div class="case-card">
+      <div class="case-cond">区間分割</div>
+      3区間で上下が変わる<br>
+      $I_1+I_2+I_3$
+      $$I_1 = I_3 = \frac{3\sqrt{3}}{4}-1$$
+    </div>
+    <div class="case-card">
+      <div class="case-cond">(2) 面積 $S$</div>
+      $I_1+I_2+I_3$ を合計
+      $$S = 3\sqrt{3} - 2$$
+    </div>
+  </div>
+
+  <div class="answer-label">答　え</div>
+  <div class="answer-box">
+    (1)　$x = \dfrac{\pi}{6},\; \dfrac{5\pi}{6}$<br><br>
+    (2)　$S = 3\sqrt{3} - 2$
+  </div>
+
+  <div class="slide-footer"></div>
+</section>
+
+<!-- スライド 7：ポイント -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge green">ポイント</span>
+    <span class="slide-title">受験テクニック・確認事項</span>
+  </div>
+
+  <ul class="point-list">
+    <li>
+      <strong>$\cos 2x$ の変換を使い分ける</strong><br>
+      $\sin x$ と比べるときは $\cos 2x = 1-2\sin^2 x$（$\sin x$ だけの式に）。<br>
+      $\cos x$ と比べるときは $\cos 2x = 2\cos^2 x - 1$（$\cos x$ だけの式に）。
+    </li>
+    <li>
+      <strong>交点の符号（$\sin x = -1$）の処理</strong><br>
+      $0 \leq x \leq \pi$ では $\sin x \geq 0$ なので $\sin x = -1$ は解なし。<br>
+      <span class="highlight">範囲外の解を除く</span>ことを忘れずに。
+    </li>
+    <li>
+      <strong>上下関係は必ず「代表点」で確認</strong><br>
+      符号から判断するのではなく、具体的な代表値（$x=0,\, \pi/2,\, \pi$ など）を代入して確認する習慣を。
+    </li>
+    <li>
+      <strong>対称性を活かす</strong><br>
+      $I_1 = I_3$ になることは計算後でも確認できる。このような<span class="highlight">対称性チェック</span>が計算ミス発見に役立つ。
+    </li>
+    <li>
+      <strong>答えの数値確認</strong><br>
+      $3\sqrt{3}-2 \approx 5.196-2 = 3.196$。面積の大きさとして妥当か（幅 $\pi$、高さ最大 2 程度のグラフなら数値的に合理的）確認する。
+    </li>
+  </ul>
+
+  <div class="slide-footer"></div>
+</section>
+
+<!-- スライド 8：模範解答 -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge" style="background:#2d3748;">模範解答</span>
+    <span class="slide-title">記述答案例</span>
+    <div class="meta"><span>三角関数と積分・面積</span></div>
+  </div>
+
+  <div class="answer-sheet">
+    <div class="ans-block">
+      <div class="ans-line"><strong>(1)</strong> $\cos 2x = 1-2\sin^2 x$ を利用して $\sin x = \cos 2x$ を整理する：</div>
+      <div class="ans-line">$2\sin^2 x + \sin x - 1 = 0 \;\Rightarrow\; (2\sin x-1)(\sin x+1)=0$</div>
+      <div class="ans-line">$0\leq x\leq\pi$ では $\sin x\geq 0$ なので $\sin x=-1$ は不適。</div>
+    </div>
+    <div class="ans-case">$$\sin x = \frac{1}{2} \;\Rightarrow\; x = \frac{\pi}{6},\quad \frac{5\pi}{6}$$</div>
+    <div class="ans-block">
+      <div class="ans-line"><strong>(2)</strong> 各区間の上下関係を代表点で確認すると、</div>
+      <div class="ans-line">$0\leq x\leq\tfrac{\pi}{6}$：$\cos 2x \geq \sin x$，　$\tfrac{\pi}{6}\leq x\leq\tfrac{5\pi}{6}$：$\sin x \geq \cos 2x$，　$\tfrac{5\pi}{6}\leq x\leq\pi$：$\cos 2x \geq \sin x$。</div>
+      <div class="ans-line">
+        $$S = \int_0^{\pi/6}(\cos 2x-\sin x)\,dx + \int_{\pi/6}^{5\pi/6}(\sin x-\cos 2x)\,dx + \int_{5\pi/6}^{\pi}(\cos 2x-\sin x)\,dx$$
+      </div>
+      <div class="ans-line">
+        $I_1 = \left[\dfrac{\sin 2x}{2}+\cos x\right]_0^{\pi/6} = \dfrac{3\sqrt{3}}{4}-1$，　$I_3 = \left[\dfrac{\sin 2x}{2}+\cos x\right]_{5\pi/6}^{\pi} = \dfrac{3\sqrt{3}}{4}-1$
+      </div>
+      <div class="ans-line">
+        $I_2 = \left[-\cos x-\dfrac{\sin 2x}{2}\right]_{\pi/6}^{5\pi/6} = \dfrac{3\sqrt{3}}{4}-\left(-\dfrac{3\sqrt{3}}{4}\right) = \dfrac{3\sqrt{3}}{2}$
+      </div>
+    </div>
+    <div class="ans-therefore">
+      $$S = \left(\frac{3\sqrt{3}}{4}-1\right)+\frac{3\sqrt{3}}{2}+\left(\frac{3\sqrt{3}}{4}-1\right) = 3\sqrt{3}-2$$
+    </div>
+  </div>
+
+  <div class="slide-footer"></div>
+</section>
+
+<!-- スライド 9：類題 -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge orange">類　題</span>
+    <span class="badge">数学II 融合</span>
+    <span class="slide-title">$\cos x$ と $\cos 2x$ が囲む面積</span>
+    <div class="meta"><span>★★★★★ 発展</span><span>目安 18 分</span></div>
+  </div>
+
+  <div class="problem-label">類　題</div>
+  <div class="problem-box">
+    $0 \leq x \leq \pi$ において、曲線 $y = \cos x$ と曲線 $y = \cos 2x$ で囲まれた図形の面積 $S$ を求めよ。
+  </div>
+
+  <div class="section-title">解法のヒント</div>
+  <div class="step">
+    $\cos 2x = 2\cos^2 x - 1$ を代入して $\cos x$ の二次方程式に帰着させる。<br><br>
+    $2\cos^2 x - \cos x - 1 = 0 \;\Rightarrow\; (2\cos x + 1)(\cos x - 1) = 0$<br><br>
+    $0 \leq x \leq \pi$ での解：$\cos x = -\dfrac{1}{2} \;\Rightarrow\; x = \dfrac{2\pi}{3}$、$\cos x = 1 \;\Rightarrow\; x = 0$（境界点）<br><br>
+    区間 $(0, \tfrac{2\pi}{3})$ では $\cos x > \cos 2x$、$(\tfrac{2\pi}{3}, \pi)$ では $\cos 2x > \cos x$ になることを代表点で確認する。
+  </div>
+
+  <div class="slide-footer"></div>
+</section>
+
+<!-- スライド 10：類題の模範解答 -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge" style="background:#2d3748;">類題 模範解答</span>
+    <span class="slide-title">記述答案例（類題）</span>
+    <div class="meta"><span>三角関数と積分・面積</span></div>
+  </div>
+
+  <div class="answer-sheet">
+    <div class="ans-block">
+      <div class="ans-line">$\cos 2x = 2\cos^2 x - 1$ を代入して $\cos x = \cos 2x$ を整理する：</div>
+      <div class="ans-line">$2\cos^2 x - \cos x - 1 = 0 \;\Rightarrow\; (2\cos x+1)(\cos x-1)=0$</div>
+      <div class="ans-line">$0\leq x\leq\pi$ での解：$\cos x = -\dfrac{1}{2}$（$x=\dfrac{2\pi}{3}$）、$\cos x=1$（$x=0$、境界点）。</div>
+      <div class="ans-line">代表点で上下を確認：</div>
+      <div class="ans-line">$x=\dfrac{\pi}{2}$：$\cos\dfrac{\pi}{2}=0$、$\cos\pi=-1$ → $\cos x > \cos 2x$（$0 < x < \dfrac{2\pi}{3}$）</div>
+      <div class="ans-line">$x=\dfrac{5\pi}{6}$：$\cos\dfrac{5\pi}{6}=-\dfrac{\sqrt{3}}{2}$、$\cos\dfrac{5\pi}{3}=\dfrac{1}{2}$ → $\cos 2x > \cos x$（$\dfrac{2\pi}{3} < x \leq \pi$）</div>
+    </div>
+    <div class="ans-block">
+      <div class="ans-line">
+        $$S = \int_0^{2\pi/3}(\cos x - \cos 2x)\,dx + \int_{2\pi/3}^{\pi}(\cos 2x - \cos x)\,dx$$
+      </div>
+      <div class="ans-line">
+        $\left[\sin x - \dfrac{\sin 2x}{2}\right]_0^{2\pi/3} = \dfrac{\sqrt{3}}{2} - \dfrac{\sin(4\pi/3)}{2} - 0 = \dfrac{\sqrt{3}}{2}+\dfrac{\sqrt{3}}{4} = \dfrac{3\sqrt{3}}{4}$
+      </div>
+      <div class="ans-line">
+        $\left[\dfrac{\sin 2x}{2} - \sin x\right]_{2\pi/3}^{\pi} = (0-0) - \left(\dfrac{\sin(4\pi/3)}{2}-\dfrac{\sqrt{3}}{2}\right) = 0 - \left(-\dfrac{\sqrt{3}}{4}-\dfrac{\sqrt{3}}{2}\right) ... $
+      </div>
+      <div class="ans-line">
+        $= \dfrac{\sqrt{3}}{4}+\dfrac{\sqrt{3}}{2} = \dfrac{3\sqrt{3}}{4}$
+      </div>
+    </div>
+    <div class="ans-therefore">
+      $$S = \frac{3\sqrt{3}}{4} + \frac{3\sqrt{3}}{4} = \frac{3\sqrt{3}}{2}$$
+    </div>
+  </div>
+
+  <div class="slide-footer"></div>
+</section>
+
+<div id="nav">
+  <button id="btn-prev">◀ 前へ</button>
+  <span class="page-info" id="pinfo">1 / 10</span>
+  <button id="btn-next">次へ ▶</button>
+  <button id="btn-pdf" onclick="window.print()">⬇ PDF保存</button>
+  <span class="hint">← → キーでも操作できます</span>
+</div>
+<script src="../slide.js"></script>
+</body>
+</html>

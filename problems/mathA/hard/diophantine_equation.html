@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>【数学A】整数の性質・不定方程式</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <link rel="stylesheet" href="../../slide.css">
+  <style> :root { --accent: #553c9a; } </style>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]})"></script>
+</head>
+<body>
+<!--
+https://kazumahattori1131-del.github.io/StudyList/problems/mathA/hard/diophantine_equation.html
+-->
+<div id="progress-bar"></div>
+
+<!-- ========== スライド 1：問題 ========== -->
+<section class="slide active">
+  <div class="slide-header">
+    <span class="badge">数学 A</span>
+    <span class="badge orange">整数の性質</span>
+    <span class="slide-title">不定方程式の整数解</span>
+    <div class="meta"><span>★★★★☆ 上級</span><span>目安 15 分</span></div>
+  </div>
+
+  <div class="problem-label">問　題</div>
+  <div class="problem-box">
+    <strong>(1)</strong> $3x + 5y = 1$ の整数解をすべて求めよ。<br><br>
+    <strong>(2)</strong> $3x + 5y = 100$ を満たす正の整数解 $(x,\,y)$ の個数を求めよ。
+  </div>
+
+  <div class="section-title">考え方のヒント</div>
+  <div class="step">
+    不定方程式の解法の基本手順：<br>
+    <span class="highlight">① 特殊解を1つ見つける</span> → ② 特殊解との差をとる → ③ 互いに素の性質を用いて整数パラメータ $k$ を導入し一般解を得る
+  </div>
+
+  <p style="margin-top:auto;font-size:13px;color:#718096;">（参考：センター試験 数学A 整数の性質 類題）</p>
+
+  <div class="slide-footer"></div>
+</section>
+
+<!-- ========== スライド 2：(1) Step 1 特殊解 ========== -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge">解説</span>
+    <span class="slide-title">(1) Step 1：特殊解を求める</span>
+  </div>
+
+  <div class="step">
+    <span class="step-num">1</span>
+    $3x + 5y = 1$ を満たす整数の組 $(x, y)$ を1つ探す。
+    <table style="font-size:17px;margin-top:12px;">
+      <thead><tr><th>試す値</th><th>計算</th><th>結果</th></tr></thead>
+      <tbody>
+        <tr><td>$x=2,\;y=-1$</td><td>$3 \cdot 2 + 5 \cdot (-1)$</td><td>$= 6 - 5 = 1$ ✓</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="step">
+    <span class="step-num">2</span>
+    <span class="highlight">特殊解</span>：$(x, y) = (2,\,-1)$
+  </div>
+
+  <div class="step">
+    <span class="step-num">3</span>
+    （参考）特殊解が見つからない場合は<strong>拡張ユークリッドアルゴリズム</strong>で系統的に求めることができる。$\gcd(3,5)=1$ なので必ず整数解が存在する。
+  </div>
+
+  <div class="slide-footer"></div>
+</section>
+
+<!-- ========== スライド 3：(1) Step 2 一般解 ========== -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge">解説</span>
+    <span class="slide-title">(1) Step 2：一般解を導く</span>
+  </div>
+
+  <div class="step">
+    <span class="step-num">4</span>
+    $(x,y)=(2,-1)$ が特殊解なので、元の式と特殊解の式を並べる：
+    $$3x + 5y = 1 \quad \cdots \textcircled{1}$$
+    $$3 \cdot 2 + 5 \cdot (-1) = 1 \quad \cdots \textcircled{2}$$
+  </div>
+
+  <div class="step">
+    <span class="step-num">5</span>
+    $\textcircled{1} - \textcircled{2}$（辺々引く）：
+    $$3(x-2) + 5(y+1) = 0$$
+    $$3(x-2) = -5(y+1)$$
+  </div>
+
+  <div class="step">
+    <span class="step-num">6</span>
+    $\gcd(3,5)=1$ より、3 と 5 は互いに素。したがって<span class="highlight">$3 \mid (y+1)$</span>。<br>
+    $y + 1 = 3k$（$k$ は整数）とおくと $y = -1 + 3k$、
+    $x - 2 = -5k$ より $x = 2 - 5k$。
+  </div>
+
+  <div class="answer-label">答え (1)</div>
+  <div class="answer-box">
+    $x = 2 - 5k,\quad y = -1 + 3k \quad (k \in \mathbb{Z})$
+  </div>
+
+  <div class="slide-footer"></div>
+</section>
+
+<!-- ========== スライド 4：(2) Step 1 一般解を立てる ========== -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge">解説</span>
+    <span class="slide-title">(2) Step 1：$3x+5y=100$ の一般解</span>
+  </div>
+
+  <div class="step">
+    <span class="step-num">7</span>
+    (1) の結果 $3 \cdot 2 + 5 \cdot (-1) = 1$ の両辺を $\times 100$：
+    $$3 \cdot 200 + 5 \cdot (-100) = 100$$
+    よって特殊解は $(x, y) = (200,\,-100)$。
+  </div>
+
+  <div class="step">
+    <span class="step-num">8</span>
+    (1) と同じ手順で一般解を求めると：
+    $$x = 200 - 5k, \quad y = -100 + 3k \quad (k \in \mathbb{Z})$$
+  </div>
+
+  <div class="step">
+    <span class="step-num">9</span>
+    次のスライドで $x > 0$ かつ $y > 0$ となる $k$ の範囲を絞る。
+  </div>
+
+  <div class="slide-footer"></div>
+</section>
+
+<!-- ========== スライド 5：(2) Step 2 正の整数条件 ========== -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge">解説</span>
+    <span class="slide-title">(2) Step 2：正の整数条件で $k$ を絞る</span>
+  </div>
+
+  <div class="step">
+    <span class="step-num">10</span>
+    $x > 0$ の条件：
+    $$200 - 5k > 0 \;\Rightarrow\; k < 40$$
+  </div>
+
+  <div class="step">
+    <span class="step-num">11</span>
+    $y > 0$ の条件：
+    $$-100 + 3k > 0 \;\Rightarrow\; k > \frac{100}{3} \approx 33.33\ldots \;\Rightarrow\; k \geq 34$$
+  </div>
+
+  <div class="step">
+    <span class="step-num">12</span>
+    両条件の共通部分：$34 \leq k \leq 39$（$k$ は整数）<br><br>
+    $k = 34, 35, 36, 37, 38, 39$ の <span class="highlight">6 個</span>
+  </div>
+
+  <div class="slide-footer"></div>
+</section>
+
+<!-- ========== スライド 6：答え + 検証 ========== -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge green">答え + 検証</span>
+    <span class="slide-title">(2) 端点の確認</span>
+  </div>
+
+  <div class="section-title">端点 $k=34$ と $k=39$ で検算する</div>
+
+  <div class="cases">
+    <div class="case-card">
+      <div class="case-cond">$k = 34$</div>
+      $x = 200 - 170 = 30$<br>
+      $y = -100 + 102 = 2$<br><br>
+      $3 \cdot 30 + 5 \cdot 2 = 90 + 10 = 100$ ✓
+    </div>
+    <div class="case-card">
+      <div class="case-cond">$34 \leq k \leq 39$</div>
+      $k$ は整数で 6 個存在<br><br>
+      それぞれ $(x,y)$ はすべて正の整数になることを確認
+    </div>
+    <div class="case-card">
+      <div class="case-cond">$k = 39$</div>
+      $x = 200 - 195 = 5$<br>
+      $y = -100 + 117 = 17$<br><br>
+      $3 \cdot 5 + 5 \cdot 17 = 15 + 85 = 100$ ✓
+    </div>
+  </div>
+
+  <div class="answer-label">答え (2)</div>
+  <div class="answer-box">
+    正の整数解 $(x, y)$ は <strong>6 組</strong>
+  </div>
+
+  <div class="slide-footer"></div>
+</section>
+
+<!-- ========== スライド 7：ポイント ========== -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge green">ポイント</span>
+    <span class="slide-title">不定方程式の解法まとめ</span>
+  </div>
+
+  <ul class="point-list">
+    <li><strong>一般解の手順：</strong>①特殊解を1つ見つける　②差をとって $a(x-x_0)+b(y-y_0)=0$ の形に変形　③互いに素の性質でパラメータ $k$ を導入</li>
+    <li>$\gcd(a,b)=1$ のとき「$a \mid bc$ ならば $a \mid c$」が<span class="highlight">鍵となる性質</span></li>
+    <li><strong>正整数条件：</strong>$x > 0$, $y > 0$ をそれぞれ不等式にして $k$ の範囲を求める。$k$ は整数なので天井・床関数で範囲を整数に丸める</li>
+    <li><strong>個数の確認：</strong>端点の $k$ 値で $(x,y)$ を実際に計算して検算する習慣をつける</li>
+    <li>$3x+5y=100$ の解は $3\times100 \div \gcd(3,5)=100$ 個の候補から絞られる——整数論の視点で問題を捉えると見通しがよくなる</li>
+  </ul>
+
+  <div class="slide-footer"></div>
+</section>
+
+<!-- ========== スライド 8：模範解答 ========== -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge" style="background:#2d3748;">模範解答</span>
+    <span class="slide-title">記述答案例（そのまま使えるレベル）</span>
+    <div class="meta"><span>不定方程式の整数解</span></div>
+  </div>
+
+  <div class="answer-sheet">
+    <div class="ans-block">
+      <div class="ans-line"><strong>(1)</strong> $x=2,\;y=-1$ は $3 \cdot 2 + 5 \cdot (-1) = 1$ を満たすので特殊解である。</div>
+    </div>
+    <div class="ans-block">
+      <div class="ans-line">元の式との差をとると $3(x-2)+5(y+1)=0$、すなわち $3(x-2)=-5(y+1)$。</div>
+    </div>
+    <div class="ans-block">
+      <div class="ans-line">$\gcd(3,5)=1$ より $3 \mid (y+1)$。$y+1=3k$（$k \in \mathbb{Z}$）とおくと $x-2=-5k$。</div>
+    </div>
+    <div class="ans-case">
+      $$x = 2-5k,\quad y = -1+3k \quad (k \in \mathbb{Z})$$
+    </div>
+    <div class="ans-block">
+      <div class="ans-line"><strong>(2)</strong> $3 \cdot 200 + 5 \cdot(-100)=100$ なので一般解は $x=200-5k,\;y=-100+3k$（$k \in \mathbb{Z}$）。</div>
+    </div>
+    <div class="ans-block">
+      <div class="ans-line">$x>0$：$200-5k>0 \Rightarrow k<40$</div>
+      <div class="ans-line">$y>0$：$-100+3k>0 \Rightarrow k \geq 34$</div>
+    </div>
+    <div class="ans-block">
+      <div class="ans-line">共通範囲：$34 \leq k \leq 39$（整数）</div>
+    </div>
+    <div class="ans-therefore">
+      正の整数解 $(x,y)$ の個数は $\boldsymbol{6}$ 組
+    </div>
+  </div>
+
+  <div class="slide-footer"></div>
+</section>
+
+<!-- ========== スライド 9：類題 ========== -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge orange">類　題</span>
+    <span class="badge">数学 A</span>
+    <span class="slide-title">不定方程式の整数解（係数の違う問題）</span>
+    <div class="meta"><span>★★★★☆ 上級</span><span>目安 12 分</span></div>
+  </div>
+
+  <div class="problem-label">類　題</div>
+  <div class="problem-box">
+    <strong>(1)</strong> $7x + 3y = 1$ の整数解をすべて求めよ。<br><br>
+    <strong>(2)</strong> $7x + 3y = 100$ を満たす正の整数解 $(x,\,y)$ の個数を求めよ。
+  </div>
+
+  <div class="section-title">解法のヒント</div>
+  <div class="step">
+    $\gcd(7,3)=1$ なので整数解は必ず存在する。特殊解を目算で探す：<br>
+    $x=1,\; y=-2$：$7-6=1$ ✓　→　$(1,\,-2)$ が特殊解。
+  </div>
+  <div class="step">
+    一般解の手順：$7(x-1)+3(y+2)=0$ → $7(x-1)=-3(y+2)$ → $7\mid(y+2)$ を利用。<br>
+    正整数条件：$x&gt;0$ と $y&gt;0$ をそれぞれ不等式で表し、$k$ の整数範囲を求める。
+  </div>
+
+  <div class="slide-footer"></div>
+</section>
+
+<!-- ========== スライド 10：類題の模範解答 ========== -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge" style="background:#2d3748;">類題 模範解答</span>
+    <span class="slide-title">記述答案例（類題）</span>
+    <div class="meta"><span>不定方程式の整数解</span></div>
+  </div>
+
+  <div class="answer-sheet">
+    <div class="ans-block">
+      <div class="ans-line"><strong>(1)</strong> $x=1,\;y=-2$ は $7\cdot1+3\cdot(-2)=1$ を満たすので特殊解である。</div>
+    </div>
+    <div class="ans-block">
+      <div class="ans-line">元の式との差をとると $7(x-1)+3(y+2)=0$、すなわち $7(x-1)=-3(y+2)$。</div>
+      <div class="ans-line">$\gcd(7,3)=1$ より $7\mid(y+2)$。$y+2=7k$（$k\in\mathbb{Z}$）とおくと $x-1=-3k$。</div>
+    </div>
+    <div class="ans-case">
+      $$x = 1-3k,\quad y = -2+7k \quad (k\in\mathbb{Z})$$
+    </div>
+    <div class="ans-block">
+      <div class="ans-line"><strong>(2)</strong> $7\cdot100+3\cdot(-200)=700-600=100$ なので特殊解は $(100,\,-200)$。</div>
+      <div class="ans-line">一般解：$x=100-3k,\;y=-200+7k$（$k\in\mathbb{Z}$）。</div>
+      <div class="ans-line">$x&gt;0$：$100-3k&gt;0 \;\Rightarrow\; k&lt;\dfrac{100}{3}\approx33.3 \;\Rightarrow\; k\leq33$</div>
+      <div class="ans-line">$y&gt;0$：$-200+7k&gt;0 \;\Rightarrow\; k&gt;\dfrac{200}{7}\approx28.6 \;\Rightarrow\; k\geq29$</div>
+      <div class="ans-line">共通範囲：$29\leq k\leq33$（整数）</div>
+      <div class="ans-line" style="font-size:14px;color:#4a5568;">
+        端点確認：$k=29$：$(x,y)=(13,3)$、$7\cdot13+3\cdot3=91+9=100$ ✓　　$k=33$：$(x,y)=(1,31)$、$7+93=100$ ✓
+      </div>
+    </div>
+    <div class="ans-therefore">
+      正の整数解 $(x,y)$ の個数は $\boldsymbol{5}$ 組
+    </div>
+  </div>
+
+  <div class="slide-footer"></div>
+</section>
+
+<div id="nav">
+  <button id="btn-prev">◀ 前へ</button>
+  <span class="page-info" id="pinfo">1 / 10</span>
+  <button id="btn-next">次へ ▶</button>
+  <button id="btn-pdf" onclick="window.print()">⬇ PDF保存</button>
+  <span class="hint">← → キーでも操作できます</span>
+</div>
+<script src="../../slide.js"></script>
+</body>
+</html>

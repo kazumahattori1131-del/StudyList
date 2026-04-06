@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>【数学II】接線と曲線が囲む面積</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <link rel="stylesheet" href="../../slide.css">
+  <style> :root { --accent: #c05621; } </style>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]})"></script>
+</head>
+<body>
+<!--
+https://kazumahattori1131-del.github.io/StudyList/problems/math2/hard/tangent_area.html
+-->
+<div id="progress-bar"></div>
+
+<!-- スライド 1：問題 -->
+<section class="slide active">
+  <div class="slide-header">
+    <span class="badge">数学 II</span>
+    <span class="badge orange">積分・面積</span>
+    <span class="slide-title">接線と曲線が囲む面積</span>
+    <div class="meta"><span>★★★★☆ 上級</span><span>目安 15 分</span></div>
+  </div>
+
+  <div class="problem-label">問　題</div>
+  <div class="problem-box">
+    曲線 $C\colon y = x^3 - 3x$ 上の点 $(1,\ -2)$ における接線 $\ell$ の方程式を求めよ。<br>
+    また、接線 $\ell$ と曲線 $C$ で囲まれた部分の面積 $S$ を求めよ。
+  </div>
+
+  <div class="section-title">考え方のヒント</div>
+  <div class="step">
+    $y'$ で接線の傾きを求め、接線の方程式を立てる。<br>
+    次に接線と曲線の交点を<span class="highlight">因数分解</span>で求め、定積分で面積を計算する。
+  </div>
+
+  <p style="margin-top:auto;font-size:13px;color:#718096;">（参考：京都大学 2001年 文系数学 第2問 類題）</p>
+  <div class="slide-footer"></div>
+</section>
+
+<!-- スライド 2：Step 1 接線の方程式 -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge">解説</span>
+    <span class="slide-title">Step 1：接線の方程式を求める</span>
+  </div>
+
+  <div class="step">
+    <span class="step-num">1</span> 導関数を求める：
+    $$y' = 3x^2 - 3$$
+  </div>
+  <div class="step">
+    <span class="step-num">2</span> $x = 1$ における傾きを計算する：
+    $$y'\big|_{x=1} = 3(1)^2 - 3 = 3 - 3 = 0$$
+    傾き $0$ の<span class="highlight">水平な接線</span>である。
+  </div>
+  <div class="step">
+    <span class="step-num">3</span> 点 $(1, -2)$ を通り傾き $0$ の直線：
+    $$\ell\colon y = -2$$
+  </div>
+
+  <div class="answer-label">接線の方程式</div>
+  <div class="answer-box">
+    $$y = -2$$
+  </div>
+
+  <div class="slide-footer"></div>
+</section>
+
+<!-- スライド 3：Step 2 交点を求める -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge">解説</span>
+    <span class="slide-title">Step 2：接線と曲線の交点を求める</span>
+  </div>
+
+  <div class="step">
+    <span class="step-num">1</span> 交点は $x^3 - 3x = -2$ を解けばよい：
+    $$x^3 - 3x + 2 = 0$$
+  </div>
+  <div class="step">
+    <span class="step-num">2</span> $x = 1$ を代入して確認：$1 - 3 + 2 = 0$ ✓　→ $(x-1)$ が因子。
+  </div>
+  <div class="step">
+    <span class="step-num">3</span> 因数分解する：
+    $$x^3 - 3x + 2 = (x-1)(x^2 + x - 2) = (x-1)(x-1)(x+2) = (x-1)^2(x+2)$$
+  </div>
+  <div class="step">
+    <span class="step-num">4</span>
+    $(x-1)^2(x+2) = 0$ より $x = 1$（重解）または $x = -2$。<br>
+    交点は $x = -2$ と $x = 1$。<br>
+    <span class="highlight">$x=1$ が重解 ⟺ 曲線 $C$ と接線 $\ell$ はここで接触</span>している。
+  </div>
+
+  <div class="slide-footer"></div>
+</section>
+
+<!-- スライド 4：Step 3 積分の準備 -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge">解説</span>
+    <span class="slide-title">Step 3：積分の準備（上下関係の確認）</span>
+  </div>
+
+  <div class="step">
+    <span class="step-num">1</span>
+    $-2 < x < 1$ の範囲で曲線と接線の上下を確認する：
+    $$(\text{曲線}) - (\text{接線}) = (x^3 - 3x) - (-2) = x^3 - 3x + 2 = (x-1)^2(x+2)$$
+  </div>
+  <div class="step">
+    <span class="step-num">2</span>
+    $-2 < x < 1$ において $(x-1)^2 > 0$、$(x+2) > 0$ なので：
+    $$(x-1)^2(x+2) > 0$$
+    よって<span class="highlight">曲線 $C$ が接線 $\ell$ の上側</span>にある。
+  </div>
+  <div class="step">
+    <span class="step-num">3</span>
+    面積は次の定積分で求められる：
+    $$S = \int_{-2}^{1} \bigl\{(x^3-3x) - (-2)\bigr\}\,dx = \int_{-2}^{1}(x^3-3x+2)\,dx$$
+  </div>
+
+  <div class="slide-footer"></div>
+</section>
+
+<!-- スライド 5：Step 4 積分の計算 -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge">解説</span>
+    <span class="slide-title">Step 4：定積分の計算</span>
+  </div>
+
+  <div class="step">
+    <span class="step-num">1</span> 不定積分を求める：
+    $$\int(x^3-3x+2)\,dx = \frac{x^4}{4} - \frac{3x^2}{2} + 2x + C$$
+  </div>
+  <div class="step">
+    <span class="step-num">2</span> 各端点での値を計算する：<br>
+    $x = 1$ のとき：
+    $$\frac{1}{4} - \frac{3}{2} + 2 = \frac{1 - 6 + 8}{4} = \frac{3}{4}$$
+    $x = -2$ のとき：
+    $$\frac{16}{4} - \frac{12}{2} + 2(-2) = 4 - 6 - 4 = -6$$
+  </div>
+  <div class="step">
+    <span class="step-num">3</span> 面積を求める：
+    $$S = \frac{3}{4} - (-6) = \frac{3}{4} + 6 = \frac{3}{4} + \frac{24}{4} = \frac{27}{4}$$
+  </div>
+
+  <div class="slide-footer"></div>
+</section>
+
+<!-- スライド 6：答え -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge">まとめ</span>
+    <span class="slide-title">解答のまとめ</span>
+  </div>
+
+  <div class="cases">
+    <div class="case-card">
+      <div class="case-cond">接線 $\ell$ の方程式</div>
+      点 $(1,-2)$ での傾き $= 0$<br>水平接線
+      $$y = -2$$
+    </div>
+    <div class="case-card">
+      <div class="case-cond">交点の $x$ 座標</div>
+      $(x-1)^2(x+2)=0$ より<br>重解に注意
+      $$x = -2,\quad x = 1$$
+    </div>
+    <div class="case-card">
+      <div class="case-cond">囲まれた面積 $S$</div>
+      $\displaystyle\int_{-2}^{1}(x-1)^2(x+2)\,dx$
+      $$S = \dfrac{27}{4}$$
+    </div>
+  </div>
+
+  <div class="answer-label">答　え</div>
+  <div class="answer-box">
+    接線：$y = -2$　　面積：$\displaystyle S = \dfrac{27}{4}$
+  </div>
+
+  <div class="slide-footer"></div>
+</section>
+
+<!-- スライド 7：ポイント -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge green">ポイント</span>
+    <span class="slide-title">受験テクニック・確認事項</span>
+  </div>
+
+  <ul class="point-list">
+    <li>
+      <span class="highlight">「重解をもつ ⟹ 接している」</span>が面積計算の鍵。交点方程式を因数分解すると重解 $(x=1)$ と単解 $(x=-2)$ が現れ、積分区間が決まる。
+    </li>
+    <li>
+      $(x-\alpha)^2(x-\beta)$ 型の定積分には次の公式が使える：
+      $$\left|\int_{\alpha}^{\beta}(x-\alpha)^2(x-\beta)\,dx\right| = \frac{|\beta - \alpha|^4}{12}$$
+      ここでは $\alpha = -2$、$\beta = 1$（積分は $\int_{-2}^{1}(x+2)(x-1)^2\,dx$）：
+      $$\frac{|1-(-2)|^4}{12} = \frac{3^4}{12} = \frac{81}{12} = \frac{27}{4} \quad\checkmark$$
+    </li>
+    <li>この $\dfrac{1}{12}$ 公式は「接線と曲線が囲む面積」問題で頻出。<span class="highlight">「三乗型」面積の公式</span>として覚えておくと大幅な時間短縮になる。</li>
+    <li>符号確認：積分区間内で（曲線）$-$（接線）$= (x-1)^2(x+2) > 0$ を必ず確認すること。</li>
+    <li>
+      連続性チェック（接点での一致）：$x=1$ で $y = 1-3 = -2$、接線 $y=-2$ ✓。$x=-2$ で $y = -8+6 = -2$、接線 $y=-2$ ✓。
+    </li>
+  </ul>
+
+  <div class="slide-footer"></div>
+</section>
+
+<!-- スライド 8：模範解答 -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge" style="background:#2d3748;">模範解答</span>
+    <span class="slide-title">記述答案例（そのまま使えるレベル）</span>
+    <div class="meta"><span>接線と曲線が囲む面積</span></div>
+  </div>
+
+  <div class="answer-sheet">
+    <div class="ans-block">
+      <div class="ans-line">
+        $y = x^3 - 3x$ を微分すると $y' = 3x^2 - 3$。
+        $x = 1$ での傾きは $y'\big|_{x=1} = 3 - 3 = 0$。
+      </div>
+      <div class="ans-line">
+        点 $(1, -2)$ を通り傾き $0$ の接線は
+        $$\ell\colon y = -2$$
+      </div>
+    </div>
+
+    <div class="ans-block">
+      <div class="ans-line">
+        次に接線 $\ell$ と曲線 $C$ の交点を求める。$x^3 - 3x = -2$ より
+        $$x^3 - 3x + 2 = 0$$
+        $x=1$ が解であるから $(x-1)$ で因数分解すると
+        $$(x-1)^2(x+2) = 0$$
+        ゆえに $x = -2$ または $x = 1$（重解）。
+      </div>
+    </div>
+
+    <div class="ans-block">
+      <span class="ans-case">面積の計算</span>
+      <div class="ans-line">
+        $-2 < x < 1$ において $(x-1)^2(x+2) > 0$ より、曲線 $C$ は接線 $\ell$ の上側にある。よって
+        $$S = \int_{-2}^{1}(x^3-3x+2)\,dx = \int_{-2}^{1}(x-1)^2(x+2)\,dx$$
+      </div>
+      <div class="ans-line">
+        $$= \left[\frac{x^4}{4} - \frac{3x^2}{2} + 2x\right]_{-2}^{1}$$
+        $$= \left(\frac{1}{4} - \frac{3}{2} + 2\right) - \left(4 - 6 - 4\right)$$
+        $$= \frac{3}{4} - (-6) = \frac{3}{4} + 6$$
+      </div>
+    </div>
+
+    <div class="ans-therefore">
+      $$S = \dfrac{27}{4}$$
+    </div>
+  </div>
+
+  <div class="slide-footer"></div>
+</section>
+
+<!-- スライド 9：類題 -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge orange">類　題</span>
+    <span class="badge">数学 II</span>
+    <span class="slide-title">接線と曲線が囲む面積（別の接点）</span>
+    <div class="meta"><span>★★★★☆ 上級</span><span>目安 12 分</span></div>
+  </div>
+
+  <div class="problem-label">類　題</div>
+  <div class="problem-box">
+    曲線 $C\colon y = x^3 - 3x$ 上の点 $(-1,\ 2)$ における接線 $\ell$ の方程式を求めよ。<br>
+    また、接線 $\ell$ と曲線 $C$ で囲まれた部分の面積 $S$ を求めよ。
+  </div>
+
+  <div class="section-title">解法のヒント</div>
+  <div class="step">
+    $y' = 3x^2-3$。$x=-1$ での傾き $= 3(-1)^2 - 3 = 0$（水平接線）。
+  </div>
+  <div class="step">
+    交点：$x^3-3x=2 \;\Rightarrow\; x^3-3x-2=0$。<br>
+    $x=-1$ が解なので $(x+1)$ で因数分解 → $(x+1)^2(x-2)=0$。<br>
+    交点は $x=-1$（重解・接点）と $x=2$。
+  </div>
+  <div class="step">
+    $-1&lt;x&lt;2$ で $(x+1)^2(x-2) &lt; 0$、つまり曲線が接線の下側。<br>
+    $\displaystyle S = \int_{-1}^{2}\bigl\{2-(x^3-3x)\bigr\}\,dx$
+  </div>
+
+  <div class="slide-footer"></div>
+</section>
+
+<!-- スライド 10：類題の模範解答 -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge" style="background:#2d3748;">類題 模範解答</span>
+    <span class="slide-title">記述答案例（類題）</span>
+    <div class="meta"><span>接線と曲線が囲む面積</span></div>
+  </div>
+
+  <div class="answer-sheet">
+    <div class="ans-block">
+      <div class="ans-line">
+        $y' = 3x^2-3$。$x=-1$ での傾きは $3(-1)^2-3=0$。点 $(-1,\,2)$ を通り傾き $0$ の接線は
+        $$\ell\colon y = 2$$
+      </div>
+    </div>
+
+    <div class="ans-block">
+      <div class="ans-line">
+        接線と曲線の交点：$x^3-3x=2 \;\Rightarrow\; x^3-3x-2=0$。$x=-1$ が解なので
+        $$(x+1)(x^2-x-2)=(x+1)^2(x-2)=0$$
+        ゆえに $x=-1$（重解）または $x=2$。
+      </div>
+    </div>
+
+    <div class="ans-block">
+      <span class="ans-case">面積の計算</span>
+      <div class="ans-line">
+        $-1&lt;x&lt;2$ において $(x+1)^2(x-2)&lt;0$、よって曲線は接線の下側。
+        $$S = \int_{-1}^{2}\bigl\{2-(x^3-3x)\bigr\}\,dx = \int_{-1}^{2}(x+1)^2(2-x)\,dx$$
+        $\dfrac{1}{12}$ 公式（$\alpha=-1$、$\beta=2$）を利用すると：
+        $$S = \frac{|\beta-\alpha|^4}{12} = \frac{3^4}{12} = \frac{81}{12}$$
+      </div>
+    </div>
+
+    <div class="ans-therefore">
+      接線：$y=2$　　面積：$\displaystyle S = \dfrac{27}{4}$
+    </div>
+  </div>
+
+  <div class="slide-footer"></div>
+</section>
+
+<div id="nav">
+  <button id="btn-prev">◀ 前へ</button>
+  <span class="page-info" id="pinfo">1 / 10</span>
+  <button id="btn-next">次へ ▶</button>
+  <button id="btn-pdf" onclick="window.print()">⬇ PDF保存</button>
+  <span class="hint">← → キーでも操作できます</span>
+</div>
+<script src="../../slide.js"></script>
+</body>
+</html>

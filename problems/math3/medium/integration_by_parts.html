@@ -106,7 +106,7 @@ https://kazumahattori1131-del.github.io/StudyList/problems/math3/medium/integrat
   <ul class="point-list">
     <li><strong>部分積分の使いどころ：</strong>「多項式 × 指数関数」「多項式 × 三角関数」「対数関数 × 多項式」の積</li>
     <li><strong>割り当ての原則：</strong>微分して次数が下がる方（多項式・対数関数）を $g(x)$ にとる</li>
-    <li>$\int \ln x \, dx$ は $f'=1$, $g=\ln x$ として同じ手法が使える（類題で確認）</li>
+    <li>$\int \log x \, dx$ は $f'=1$, $g=\log x$ として同じ手法が使える（類題で確認）</li>
     <li><span class="highlight">答えが $1$ という整数</span>になることが多い入試問題。計算ミスのチェックに役立てる</li>
   </ul>
 
@@ -157,7 +157,7 @@ https://kazumahattori1131-del.github.io/StudyList/problems/math3/medium/integrat
   <div class="problem-label">類　題</div>
   <div class="problem-box">
     次の定積分を求めよ。
-    $$\int_1^e \ln x \, dx$$
+    $$\int_1^e \log x \, dx$$
   </div>
 
   <div class="section-title">元問題との違いを確認</div>
@@ -165,12 +165,12 @@ https://kazumahattori1131-del.github.io/StudyList/problems/math3/medium/integrat
     <table style="font-size:16px;">
       <thead><tr><th></th><th>元問題</th><th>類題</th></tr></thead>
       <tbody>
-        <tr><td>被積分関数</td><td>$xe^x$（多項式×指数）</td><td>$\ln x$（対数のみ）</td></tr>
+        <tr><td>被積分関数</td><td>$xe^x$（多項式×指数）</td><td>$\log x$（対数のみ）</td></tr>
         <tr><td>$f'(x)$（積分する方）</td><td>$e^x$</td><td><span class="highlight">$1$（定数として扱う）</span></td></tr>
-        <tr><td>$g(x)$（微分する方）</td><td>$x$</td><td>$\ln x$</td></tr>
+        <tr><td>$g(x)$（微分する方）</td><td>$x$</td><td>$\log x$</td></tr>
       </tbody>
     </table>
-    <div style="margin-top:10px;">$\ln x$ は直接積分できないため、<span class="highlight">$1 \cdot \ln x$ と見て $f'=1$ とおく</span>のが定石</div>
+    <div style="margin-top:10px;">$\log x$ は直接積分できないため、<span class="highlight">$1 \cdot \log x$ と見て $f'=1$ とおく</span>のが定石</div>
   </div>
 
   <div class="slide-footer"></div>
@@ -184,21 +184,21 @@ https://kazumahattori1131-del.github.io/StudyList/problems/math3/medium/integrat
   </div>
 
   <div class="step">
-    <span class="step-num">1</span> $f'(x) = 1 \Rightarrow f(x) = x$、$g(x) = \ln x \Rightarrow g'(x) = \dfrac{1}{x}$ とおく。
+    <span class="step-num">1</span> $f'(x) = 1 \Rightarrow f(x) = x$、$g(x) = \log x \Rightarrow g'(x) = \dfrac{1}{x}$ とおく。
   </div>
   <div class="step">
     <span class="step-num">2</span> 部分積分を適用：
-    $$\int_1^e \ln x \, dx = \Bigl[x \ln x\Bigr]_1^e - \int_1^e x \cdot \frac{1}{x} \, dx = \Bigl[x \ln x\Bigr]_1^e - \int_1^e 1 \, dx$$
+    $$\int_1^e \log x \, dx = \Bigl[x \log x\Bigr]_1^e - \int_1^e x \cdot \frac{1}{x} \, dx = \Bigl[x \log x\Bigr]_1^e - \int_1^e 1 \, dx$$
   </div>
   <div class="step">
     <span class="step-num">3</span> 各項を計算：
-    $$\Bigl[x \ln x\Bigr]_1^e = e \ln e - 1 \cdot \ln 1 = e \cdot 1 - 0 = e$$
+    $$\Bigl[x \log x\Bigr]_1^e = e \ln e - 1 \cdot \ln 1 = e \cdot 1 - 0 = e$$
     $$\int_1^e 1 \, dx = \Bigl[x\Bigr]_1^e = e - 1$$
   </div>
 
   <div class="answer-label">答　え</div>
   <div class="answer-box">
-    $$\int_1^e \ln x \, dx = e - (e - 1) = 1$$
+    $$\int_1^e \log x \, dx = e - (e - 1) = 1$$
   </div>
 
   <div class="slide-footer"></div>
@@ -209,16 +209,16 @@ https://kazumahattori1131-del.github.io/StudyList/problems/math3/medium/integrat
   <div class="slide-header">
     <span class="badge" style="background:#2d3748;">類題 模範解答</span>
     <span class="slide-title">記述答案例（類題）</span>
-    <div class="meta"><span>$\int \ln x\,dx$ の部分積分</span></div>
+    <div class="meta"><span>$\int \log x\,dx$ の部分積分</span></div>
   </div>
 
   <div class="answer-sheet">
     <div class="ans-block">
-      <div class="ans-line">部分積分法を用いる。$f'(x) = 1$, $g(x) = \ln x$ とおくと $f(x) = x$, $g'(x) = \dfrac{1}{x}$ より、</div>
+      <div class="ans-line">部分積分法を用いる。$f'(x) = 1$, $g(x) = \log x$ とおくと $f(x) = x$, $g'(x) = \dfrac{1}{x}$ より、</div>
     </div>
     <div class="ans-block">
       <div class="ans-line">
-        $$\int_1^e \ln x \, dx = \Bigl[x \ln x\Bigr]_1^e - \int_1^e x \cdot \frac{1}{x} \, dx = \Bigl[x \ln x\Bigr]_1^e - \int_1^e 1 \, dx$$
+        $$\int_1^e \log x \, dx = \Bigl[x \log x\Bigr]_1^e - \int_1^e x \cdot \frac{1}{x} \, dx = \Bigl[x \log x\Bigr]_1^e - \int_1^e 1 \, dx$$
       </div>
     </div>
     <div class="ans-block">
@@ -227,7 +227,7 @@ https://kazumahattori1131-del.github.io/StudyList/problems/math3/medium/integrat
       </div>
     </div>
     <div class="ans-therefore">
-      $$\int_1^e \ln x \, dx = 1$$
+      $$\int_1^e \log x \, dx = 1$$
     </div>
   </div>
 
@@ -238,6 +238,7 @@ https://kazumahattori1131-del.github.io/StudyList/problems/math3/medium/integrat
   <button id="btn-prev">◀ 前へ</button>
   <span class="page-info" id="pinfo">1 / 8</span>
   <button id="btn-next">次へ ▶</button>
+  <button id="btn-pdf" onclick="window.print()">⬇ PDF保存</button>
   <span class="hint">← → キーでも操作できます</span>
 </div>
 <script src="../../slide.js"></script>

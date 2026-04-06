@@ -51,4 +51,33 @@
   });
 
   update(); // 初期状態を設定
+
+  // ── ビューポートに合わせてスライドをスケーリング ──
+  function scaleToFit() {
+    const vw = document.documentElement.clientWidth;
+    const vh = document.documentElement.clientHeight;
+    const scale = Math.min(vw / 1280, vh / 720, 1);
+    const val = scale < 0.999 ? scale.toFixed(4) : '';
+    slides.forEach(function (s) { s.style.zoom = val; });
+  }
+  window.addEventListener('resize', scaleToFit);
+  scaleToFit();
+
+  // ── 印刷前: zoom+幅補正で全スライドを339mm幅・文字切れなしに ──
+  // zoom=0.9にすることで最大800pxのコンテンツを191mm以内に収める
+  // widthを1280/0.9≈1423pxにすることでzoom後の幅が339mmになる
+  var PRINT_ZOOM = 0.9;
+  window.addEventListener('beforeprint', function () {
+    slides.forEach(function (s) {
+      s.style.zoom = PRINT_ZOOM.toFixed(2);
+      s.style.width = Math.round(1280 / PRINT_ZOOM) + 'px';
+    });
+  });
+  window.addEventListener('afterprint', function () {
+    slides.forEach(function (s) {
+      s.style.zoom = '';
+      s.style.width = '';
+    });
+    scaleToFit();
+  });
 })();
