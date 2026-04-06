@@ -38,6 +38,7 @@ PAGE_WIDTH  = "339mm"
 PAGE_HEIGHT = "191mm"
 
 
+<<<<<<< Updated upstream
 # ── ユーティリティ ──────────────────────────────────────────────────────────
 
 def check_dependencies() -> None:
@@ -65,6 +66,19 @@ def check_dependencies() -> None:
         import pypdf  # noqa: F401
     except ImportError:
         _die("pypdf がインストールされていません。\n  pip install pypdf")
+=======
+from typing import Optional
+def find_chrome() -> Optional[str]:
+    for candidate in CHROME_CANDIDATES:
+        if os.path.isabs(candidate):
+            if os.path.isfile(candidate):
+                return candidate
+        else:
+            found = shutil.which(candidate)
+            if found:
+                return found
+    return None
+>>>>>>> Stashed changes
 
 
 def _die(msg: str) -> None:
