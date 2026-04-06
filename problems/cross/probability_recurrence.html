@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>【融合問題】確率漸化式（数学A×B）</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <link rel="stylesheet" href="../slide.css">
+  <style> :root { --accent: #1a5276; } </style>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]})"></script>
+</head>
+<body>
+<div id="progress-bar"></div>
+
+<!-- スライド 1：問題 -->
+<section class="slide active">
+  <div class="slide-header">
+    <span class="badge">数学A・B 融合</span>
+    <span class="badge orange">確率漸化式</span>
+    <span class="slide-title">サイコロと確率漸化式</span>
+    <div class="meta"><span>★★★★★ 発展</span><span>目安 20 分</span></div>
+  </div>
+
+  <div class="problem-label">問　題</div>
+  <div class="problem-box">
+    サイコロを繰り返し振る。$n$ 回目までに「3 の倍数の目（3 または 6）」が出た回数が<strong>奇数回</strong>である確率を $p_n$ とおく。
+    <br><br>
+    <strong>(1)</strong>　$p_1$ を求めよ。
+    <br><br>
+    <strong>(2)</strong>　$p_n$ を $n$ で表せ。
+  </div>
+
+  <div class="section-title">なぜこの問題が重要か</div>
+  <div class="step">
+    「確率」と「数列（漸化式）」を組み合わせた<span class="highlight">確率漸化式</span>は、東大・京大・一橋大など難関大で頻出の融合テーマ。
+    「現在の状態」→「次の状態」の遷移を図式化し、漸化式を立てる思考法が核心。
+  </div>
+
+  <p style="margin-top:auto;font-size:13px;color:#718096;">（参考：東京大学 理系数学 確率の問題 類題）</p>
+  <div class="slide-footer"></div>
+</section>
+
+<!-- スライド 2：解法の全体像 -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge">解説</span>
+    <span class="slide-title">解法の全体像：状態の定義と遷移</span>
+  </div>
+
+  <div class="section-title">「状態」を定義する</div>
+  <div class="step">
+    <span class="step-num">定義</span>
+    <div>
+      $n$ 回目まで終えた時点で、3の倍数の目が<strong>奇数回</strong>出ている確率 $= p_n$<br>
+      3の倍数の目が<strong>偶数回</strong>（0回含む）出ている確率 $= 1 - p_n$
+    </div>
+  </div>
+
+  <div class="section-title">1回の試行の確率</div>
+  <div class="cases">
+    <div class="case-card">
+      <div class="case-cond">3の倍数の目（3, 6）</div>
+      2通り / 6通り
+      $$P = \frac{1}{3}$$
+    </div>
+    <div class="case-card">
+      <div class="case-cond">その他の目（1, 2, 4, 5）</div>
+      4通り / 6通り
+      $$P = \frac{2}{3}$$
+    </div>
+  </div>
+
+  <div class="section-title" style="margin-top:1rem;">状態遷移の図</div>
+  <div class="step" style="font-family:monospace;font-size:15px;color:#2d3748;">
+    <span class="highlight">奇数回</span>（$p_n$）　← $\dfrac{2}{3}$（外れ）　← 奇数回（$p_{n-1}$）<br>
+    <span style="margin-left:80px;">← $\dfrac{1}{3}$（当たり）　← 偶数回（$1-p_{n-1}$）</span>
+  </div>
+
+  <div class="slide-footer"></div>
+</section>
+
+<!-- スライド 3：(1) p₁ の計算 -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge">解説</span>
+    <span class="slide-title">(1) $p_1$ を求める</span>
+  </div>
+
+  <div class="step">
+    <span class="step-num">考え方</span>
+    <div>
+      1回だけ振って、3の倍数が「奇数回（＝1回）」出る確率を求める。<br>
+      → 1回目に 3 または 6 が出ればよい。
+    </div>
+  </div>
+
+  <div class="step">
+    <span class="step-num">計算</span>
+    <div>
+      $$p_1 = \frac{2}{6} = \frac{1}{3}$$
+    </div>
+  </div>
+
+  <div class="answer-box" style="margin-top:1.5rem;">
+    $$p_1 = \frac{1}{3}$$
+  </div>
+
+  <div class="slide-footer"></div>
+</section>
+
+<!-- スライド 4：(2) 漸化式を立てる -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge">解説</span>
+    <span class="slide-title">(2) Step 1：漸化式を立てる</span>
+  </div>
+
+  <div class="section-title">$p_n$ と $p_{n-1}$ の関係を考える</div>
+
+  <div class="step">
+    <span class="step-num">場合①</span>
+    <div>
+      <strong>$n-1$ 回目まで奇数回</strong>（確率 $p_{n-1}$）かつ $n$ 回目に<strong>3の倍数でない</strong>（確率 $\dfrac{2}{3}$）<br>
+      → 奇数回のまま → $p_{n-1} \cdot \dfrac{2}{3}$
+    </div>
+  </div>
+
+  <div class="step">
+    <span class="step-num">場合②</span>
+    <div>
+      <strong>$n-1$ 回目まで偶数回</strong>（確率 $1-p_{n-1}$）かつ $n$ 回目に<strong>3の倍数が出る</strong>（確率 $\dfrac{1}{3}$）<br>
+      → 奇数回になる → $(1-p_{n-1}) \cdot \dfrac{1}{3}$
+    </div>
+  </div>
+
+  <div class="step">
+    <span class="step-num">漸化式</span>
+    <div>
+      $$p_n = \frac{2}{3}p_{n-1} + \frac{1}{3}(1-p_{n-1}) = \frac{1}{3}p_{n-1} + \frac{1}{3}$$
+    </div>
+  </div>
+
+  <div class="slide-footer"></div>
+</section>
+
+<!-- スライド 5：(2) 漸化式を解く -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge">解説</span>
+    <span class="slide-title">(2) Step 2：漸化式を解く</span>
+  </div>
+
+  <div class="step">
+    <span class="step-num">1</span>
+    <div>
+      漸化式：$p_n = \dfrac{1}{3}p_{n-1} + \dfrac{1}{3}$<br><br>
+      不動点 $\alpha$ を求める（$\alpha = \dfrac{1}{3}\alpha + \dfrac{1}{3}$）：
+      $$\frac{2}{3}\alpha = \frac{1}{3} \;\Rightarrow\; \alpha = \frac{1}{2}$$
+    </div>
+  </div>
+
+  <div class="step">
+    <span class="step-num">2</span>
+    <div>
+      $p_n - \dfrac{1}{2} = \dfrac{1}{3}\left(p_{n-1} - \dfrac{1}{2}\right)$ と変形できる。<br><br>
+      $\left\{p_n - \dfrac{1}{2}\right\}$ は公比 $\dfrac{1}{3}$ の等比数列。
+    </div>
+  </div>
+
+  <div class="step">
+    <span class="step-num">3</span>
+    <div>
+      初項 $p_1 - \dfrac{1}{2} = \dfrac{1}{3} - \dfrac{1}{2} = -\dfrac{1}{6}$ より：
+      $$p_n - \frac{1}{2} = -\frac{1}{6} \cdot \left(\frac{1}{3}\right)^{n-1} = -\frac{1}{2 \cdot 3^n}$$
+    </div>
+  </div>
+
+  <div class="answer-box">
+    $$p_n = \frac{1}{2} - \frac{1}{2\cdot 3^n} = \frac{3^n - 1}{2 \cdot 3^n}$$
+  </div>
+
+  <div class="slide-footer"></div>
+</section>
+
+<!-- スライド 6：答え -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge green">答え</span>
+    <span class="slide-title">解答のまとめ</span>
+  </div>
+
+  <div class="cases">
+    <div class="case-card">
+      <div class="case-cond">(1) $p_1$</div>
+      1回目に 3 または 6
+      $$p_1 = \frac{1}{3}$$
+    </div>
+    <div class="case-card">
+      <div class="case-cond">漸化式</div>
+      状態遷移から導く
+      $$p_n = \frac{1}{3}p_{n-1} + \frac{1}{3}$$
+    </div>
+    <div class="case-card">
+      <div class="case-cond">(2) $p_n$</div>
+      等比数列に帰着
+      $$p_n = \frac{3^n - 1}{2\cdot 3^n}$$
+    </div>
+  </div>
+
+  <div class="answer-label">答　え</div>
+  <div class="answer-box">
+    (1)　$p_1 = \dfrac{1}{3}$<br><br>
+    (2)　$p_n = \dfrac{3^n - 1}{2\cdot 3^n}$
+  </div>
+
+  <div class="section-title" style="margin-top:1rem;">検算</div>
+  <div class="step" style="font-size:15px;">
+    $n=2$ のとき：$\dfrac{9-1}{18} = \dfrac{8}{18} = \dfrac{4}{9}$<br>
+    直接計算：$P(\text{奇数回}) = \binom{2}{1}\dfrac{1}{3}\cdot\dfrac{2}{3} = \dfrac{4}{9}$ ✓
+  </div>
+
+  <div class="slide-footer"></div>
+</section>
+
+<!-- スライド 7：ポイント -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge green">ポイント</span>
+    <span class="slide-title">確率漸化式の解法パターン</span>
+  </div>
+
+  <ul class="point-list">
+    <li>
+      <strong>ステップ①：状態を定義する</strong><br>
+      「奇数回の確率 $p_n$」と「偶数回の確率 $1-p_n$」を明示。<span class="highlight">互いに補事象</span>になるように設定するのがポイント。
+    </li>
+    <li>
+      <strong>ステップ②：1回分の遷移を書き出す</strong><br>
+      「前の状態 × 今の試行の確率」を場合分けして加える。木（ツリー）図を描くと見通しがよい。
+    </li>
+    <li>
+      <strong>ステップ③：$\alpha = f(\alpha)$ で不動点を求める</strong><br>
+      $p_n = r\,p_{n-1} + c$ の形なら $\alpha = c/(1-r)$。変形して等比数列に帰着させる。
+    </li>
+    <li>
+      <strong>よくあるミス</strong><br>
+      「奇数回から偶数回になる」遷移を漏らしやすい。<span class="highlight">全パターンを書き出す</span>習慣を。
+    </li>
+    <li>
+      <strong>答えの確認</strong><br>
+      $n \to \infty$ で $p_n \to \dfrac{1}{2}$ になるか確認（長期的に奇偶はほぼ半々に収束するはず）。
+    </li>
+  </ul>
+
+  <div class="slide-footer"></div>
+</section>
+
+<!-- スライド 8：模範解答 -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge" style="background:#2d3748;">模範解答</span>
+    <span class="slide-title">記述答案例</span>
+    <div class="meta"><span>確率漸化式</span></div>
+  </div>
+
+  <div class="answer-sheet">
+    <div class="ans-block">
+      <div class="ans-line"><strong>(1)</strong> 1回のサイコロで 3 の倍数の目（3 または 6）が出る確率は $\dfrac{2}{6}=\dfrac{1}{3}$。</div>
+      <div class="ans-line">$n=1$ のとき、3の倍数が奇数回（＝1回）出る確率は</div>
+    </div>
+    <div class="ans-case">$$p_1 = \frac{1}{3}$$</div>
+    <div class="ans-block">
+      <div class="ans-line"><strong>(2)</strong> $n-1$ 回目まで終わった時点で 3 の倍数が奇数回出ている確率は $p_{n-1}$、偶数回（0回含む）出ている確率は $1-p_{n-1}$。</div>
+      <div class="ans-line">$n$ 回目を終えて奇数回になるのは次の2通り：</div>
+      <div class="ans-line">（i）$n-1$ 回目まで奇数回、$n$ 回目が3の倍数でない：$p_{n-1} \cdot \dfrac{2}{3}$</div>
+      <div class="ans-line">（ii）$n-1$ 回目まで偶数回、$n$ 回目が3の倍数：$(1-p_{n-1}) \cdot \dfrac{1}{3}$</div>
+      <div class="ans-line">
+        $$p_n = \frac{2}{3}p_{n-1} + \frac{1}{3}(1-p_{n-1}) = \frac{1}{3}p_{n-1} + \frac{1}{3}$$
+      </div>
+      <div class="ans-line">変形すると $p_n - \dfrac{1}{2} = \dfrac{1}{3}\!\left(p_{n-1} - \dfrac{1}{2}\right)$。</div>
+      <div class="ans-line">よって $\left\{p_n - \dfrac{1}{2}\right\}$ は初項 $p_1 - \dfrac{1}{2} = -\dfrac{1}{6}$、公比 $\dfrac{1}{3}$ の等比数列。</div>
+      <div class="ans-line">
+        $$p_n - \frac{1}{2} = -\frac{1}{6}\cdot\left(\frac{1}{3}\right)^{n-1} = -\frac{1}{2\cdot 3^n}$$
+      </div>
+    </div>
+    <div class="ans-therefore">$$p_n = \frac{1}{2} - \frac{1}{2\cdot 3^n} = \frac{3^n - 1}{2\cdot 3^n}$$</div>
+  </div>
+
+  <div class="slide-footer"></div>
+</section>
+
+<!-- スライド 9：類題 -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge orange">類　題</span>
+    <span class="badge">数学A・B 融合</span>
+    <span class="slide-title">カードを引く確率漸化式</span>
+    <div class="meta"><span>★★★★★ 発展</span><span>目安 18 分</span></div>
+  </div>
+
+  <div class="problem-label">類　題</div>
+  <div class="problem-box">
+    袋の中に 1, 2, 3, 4, 5 の番号が書かれたカードが 1 枚ずつ計 5 枚ある。カードを 1 枚引いて番号を確認してから元に戻す操作を $n$ 回繰り返す。<br><br>
+    $n$ 回引いた後、<strong>偶数番号（2 または 4）のカードを引いた回数が奇数回</strong>である確率を $q_n$ とおく。$q_n$ を $n$ で表せ。
+  </div>
+
+  <div class="section-title">解法のヒント</div>
+  <div class="step">
+    偶数番号が出る確率：$\dfrac{2}{5}$　　奇数番号（1, 3, 5）が出る確率：$\dfrac{3}{5}$<br><br>
+    漸化式：$q_n = \dfrac{3}{5}q_{n-1} + \dfrac{2}{5}(1-q_{n-1}) = \dfrac{1}{5}q_{n-1} + \dfrac{2}{5}$<br><br>
+    不動点：$\alpha = \dfrac{1}{5}\alpha + \dfrac{2}{5}$ → $\alpha = \dfrac{1}{2}$
+  </div>
+
+  <div class="slide-footer"></div>
+</section>
+
+<!-- スライド 10：類題の模範解答 -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge" style="background:#2d3748;">類題 模範解答</span>
+    <span class="slide-title">記述答案例（類題）</span>
+    <div class="meta"><span>確率漸化式</span></div>
+  </div>
+
+  <div class="answer-sheet">
+    <div class="ans-block">
+      <div class="ans-line">偶数番号（2, 4）が出る確率 $= \dfrac{2}{5}$、奇数番号（1, 3, 5）が出る確率 $= \dfrac{3}{5}$。</div>
+      <div class="ans-line">$q_1 = \dfrac{2}{5}$（1回目に偶数が出る確率）。</div>
+    </div>
+    <div class="ans-block">
+      <div class="ans-line">$n$ 回目を終えて偶数回数が奇数になるのは次の2通り：</div>
+      <div class="ans-line">（i）$n-1$ 回まで奇数回、$n$ 回目が奇数番号：$q_{n-1}\cdot\dfrac{3}{5}$</div>
+      <div class="ans-line">（ii）$n-1$ 回まで偶数回、$n$ 回目が偶数番号：$(1-q_{n-1})\cdot\dfrac{2}{5}$</div>
+      <div class="ans-line">
+        $$q_n = \frac{3}{5}q_{n-1} + \frac{2}{5}(1-q_{n-1}) = \frac{1}{5}q_{n-1} + \frac{2}{5}$$
+      </div>
+      <div class="ans-line">変形すると $q_n - \dfrac{1}{2} = \dfrac{1}{5}\!\left(q_{n-1} - \dfrac{1}{2}\right)$。</div>
+      <div class="ans-line">初項 $q_1 - \dfrac{1}{2} = \dfrac{2}{5}-\dfrac{1}{2} = -\dfrac{1}{10}$、公比 $\dfrac{1}{5}$ の等比数列なので：</div>
+      <div class="ans-line">
+        $$q_n - \frac{1}{2} = -\frac{1}{10}\cdot\left(\frac{1}{5}\right)^{n-1} = -\frac{1}{2\cdot 5^n}$$
+      </div>
+    </div>
+    <div class="ans-therefore">
+      $$q_n = \frac{1}{2} - \frac{1}{2\cdot 5^n} = \frac{5^n - 1}{2\cdot 5^n}$$
+    </div>
+  </div>
+
+  <div class="slide-footer"></div>
+</section>
+
+<div id="nav">
+  <button id="btn-prev">◀ 前へ</button>
+  <span class="page-info" id="pinfo">1 / 10</span>
+  <button id="btn-next">次へ ▶</button>
+  <button id="btn-pdf" onclick="window.print()">⬇ PDF保存</button>
+  <span class="hint">← → キーでも操作できます</span>
+</div>
+<script src="../slide.js"></script>
+</body>
+</html>
