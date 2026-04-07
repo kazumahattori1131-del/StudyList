@@ -52,7 +52,35 @@ https://kazumahattori1131-del.github.io/StudyList/problems/modified/mathB_recurr
   <div class="slide-footer"></div>
 </section>
 
-<!-- スライド 2：考察タイム -->
+<!-- スライド 2：ありがちなミス -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge-yt">ありがちなミス</span>
+    <span class="slide-title">ここで間違えやすい</span>
+  </div>
+
+  <div class="trap-box" style="margin-bottom:12px;">
+    <div class="trap-title">⚠ 落とし穴①：特性方程式を使おうとする</div>
+    $a_{n+1} = 2a_n + 2^n$ に特性方程式を当てはめようとすると<br>
+    「$a_{n+1} - \alpha\cdot 2^{n+1} = ?$」の形で詰まりやすい。<br>
+    右辺に「$2^n$（底が係数と同じ）」があるときは<strong>両辺割り算</strong>の方が早い。
+  </div>
+
+  <div class="trap-box">
+    <div class="trap-title">⚠ 落とし穴②：$b_n$ の初項を間違える</div>
+    $b_1 = \dfrac{a_1}{2^1} = \dfrac{1}{2}$ を正確に計算すること。<br>
+    $b_1 = a_1 = 1$ とそのまま書いてしまうミスが多い。
+  </div>
+
+  <div class="key-box" style="font-size:16px;">
+    💡 $a_{n+1} = pa_n + q\cdot p^n$ の形（右辺の底 $= p^n$）は<br>
+    　<strong>両辺を $p^{n+1}$ で割る</strong>と等差数列に帰着！
+  </div>
+
+  <div class="slide-footer"></div>
+</section>
+
+<!-- スライド 3：考察タイム -->
 <section class="slide">
   <div class="slide-header">
     <span class="badge orange">考察タイム</span>
@@ -81,7 +109,7 @@ https://kazumahattori1131-del.github.io/StudyList/problems/modified/mathB_recurr
   <div class="slide-footer"></div>
 </section>
 
-<!-- スライド 3：解法の核心 -->
+<!-- スライド 4：解法の核心 -->
 <section class="slide">
   <div class="slide-header">
     <span class="badge green">解法の核心</span>
@@ -101,7 +129,7 @@ https://kazumahattori1131-del.github.io/StudyList/problems/modified/mathB_recurr
   <div class="slide-footer"></div>
 </section>
 
-<!-- スライド 4：解説 -->
+<!-- スライド 5：解説 -->
 <section class="slide">
   <div class="slide-header">
     <span class="badge">解説</span>
@@ -132,7 +160,7 @@ https://kazumahattori1131-del.github.io/StudyList/problems/modified/mathB_recurr
   <div class="slide-footer"></div>
 </section>
 
-<!-- スライド 5：答え -->
+<!-- スライド 6：答え -->
 <section class="slide">
   <div class="slide-header">
     <span class="badge green">答え</span>
@@ -161,34 +189,6 @@ https://kazumahattori1131-del.github.io/StudyList/problems/modified/mathB_recurr
   <div class="answer-label">答　え</div>
   <div class="answer-box">
     $$a_n = n \cdot 2^{n-1}$$
-  </div>
-
-  <div class="slide-footer"></div>
-</section>
-
-<!-- スライド 6：落とし穴 -->
-<section class="slide">
-  <div class="slide-header">
-    <span class="badge-yt">落とし穴</span>
-    <span class="slide-title">ここで間違えやすい</span>
-  </div>
-
-  <div class="trap-box" style="margin-bottom:12px;">
-    <div class="trap-title">⚠ 落とし穴①：特性方程式を使おうとする</div>
-    $a_{n+1} = 2a_n + 2^n$ に特性方程式を当てはめようとすると<br>
-    「$a_{n+1} - \alpha\cdot 2^{n+1} = ?$」の形で詰まりやすい。<br>
-    右辺に「$2^n$（底が係数と同じ）」があるときは<strong>両辺割り算</strong>の方が早い。
-  </div>
-
-  <div class="trap-box">
-    <div class="trap-title">⚠ 落とし穴②：$b_n$ の初項を間違える</div>
-    $b_1 = \dfrac{a_1}{2^1} = \dfrac{1}{2}$ を正確に計算すること。<br>
-    $b_1 = a_1 = 1$ とそのまま書いてしまうミスが多い。
-  </div>
-
-  <div class="key-box" style="font-size:16px;">
-    💡 $a_{n+1} = pa_n + q\cdot p^n$ の形（右辺の底 $= p^n$）は<br>
-    　<strong>両辺を $p^{n+1}$ で割る</strong>と等差数列に帰着！
   </div>
 
   <div class="slide-footer"></div>

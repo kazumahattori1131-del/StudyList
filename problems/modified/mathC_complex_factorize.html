@@ -51,7 +51,37 @@ https://kazumahattori1131-del.github.io/StudyList/problems/modified/mathC_comple
   <div class="slide-footer"></div>
 </section>
 
-<!-- スライド 2：考察タイム -->
+<!-- スライド 2：ありがちなミス -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge-yt">ありがちなミス</span>
+    <span class="slide-title">ここで間違えやすい</span>
+  </div>
+
+  <div class="trap-box" style="margin-bottom:12px;">
+    <div class="trap-title">⚠ 落とし穴①：$z = x + yi$ で直接計算</div>
+    $z = x + yi$、$|z-1|^2 = (x-1)^2 + y^2 = 1$ として<br>
+    $z^2-1 = x^2 - y^2 - 1 + 2xyi$ と展開するととても複雑になる。<br>
+    <strong>$z^2 - 1$ を因数分解することで計算を劇的に簡略化</strong>できる。
+  </div>
+
+  <div class="trap-box">
+    <div class="trap-title">⚠ 落とし穴②：最大を「距離」で考えない</div>
+    $|z+1|$ は「複素平面上で $z$ と $-1$ の距離」。<br>
+    円の中心 $(1, 0)$ と点 $(-1, 0)$ の距離は $2$、半径 $1$ を足して<br>
+    最大距離 $= 3$ とも考えられる（三角不等式の活用）。
+  </div>
+
+  <div class="key-box" style="font-size:16px;">
+    💡 複素数の絶対値問題は<br>
+    　① まず<strong>因数分解</strong>できないか確認<br>
+    　② $|z \cdot w| = |z|\cdot|w|$ を使って既知の条件に帰着させる
+  </div>
+
+  <div class="slide-footer"></div>
+</section>
+
+<!-- スライド 3：考察タイム -->
 <section class="slide">
   <div class="slide-header">
     <span class="badge orange">考察タイム</span>
@@ -80,7 +110,7 @@ https://kazumahattori1131-del.github.io/StudyList/problems/modified/mathC_comple
   <div class="slide-footer"></div>
 </section>
 
-<!-- スライド 3：解法の核心 -->
+<!-- スライド 4：解法の核心 -->
 <section class="slide">
   <div class="slide-header">
     <span class="badge green">解法の核心</span>
@@ -101,7 +131,7 @@ https://kazumahattori1131-del.github.io/StudyList/problems/modified/mathC_comple
   <div class="slide-footer"></div>
 </section>
 
-<!-- スライド 4：解説 -->
+<!-- スライド 5：解説 -->
 <section class="slide">
   <div class="slide-header">
     <span class="badge">解説</span>
@@ -130,7 +160,7 @@ https://kazumahattori1131-del.github.io/StudyList/problems/modified/mathC_comple
   <div class="slide-footer"></div>
 </section>
 
-<!-- スライド 5：答え -->
+<!-- スライド 6：答え -->
 <section class="slide">
   <div class="slide-header">
     <span class="badge green">答え</span>
@@ -160,36 +190,6 @@ https://kazumahattori1131-del.github.io/StudyList/problems/modified/mathC_comple
   <div class="answer-label">答　え</div>
   <div class="answer-box">
     $|z^2 - 1|$ の最大値 $= 3$　（$z = 2$ のとき）
-  </div>
-
-  <div class="slide-footer"></div>
-</section>
-
-<!-- スライド 6：落とし穴 -->
-<section class="slide">
-  <div class="slide-header">
-    <span class="badge-yt">落とし穴</span>
-    <span class="slide-title">ここで間違えやすい</span>
-  </div>
-
-  <div class="trap-box" style="margin-bottom:12px;">
-    <div class="trap-title">⚠ 落とし穴①：$z = x + yi$ で直接計算</div>
-    $z = x + yi$、$|z-1|^2 = (x-1)^2 + y^2 = 1$ として<br>
-    $z^2-1 = x^2 - y^2 - 1 + 2xyi$ と展開するととても複雑になる。<br>
-    <strong>$z^2 - 1$ を因数分解することで計算を劇的に簡略化</strong>できる。
-  </div>
-
-  <div class="trap-box">
-    <div class="trap-title">⚠ 落とし穴②：最大を「距離」で考えない</div>
-    $|z+1|$ は「複素平面上で $z$ と $-1$ の距離」。<br>
-    円の中心 $(1, 0)$ と点 $(-1, 0)$ の距離は $2$、半径 $1$ を足して<br>
-    最大距離 $= 3$ とも考えられる（三角不等式の活用）。
-  </div>
-
-  <div class="key-box" style="font-size:16px;">
-    💡 複素数の絶対値問題は<br>
-    　① まず<strong>因数分解</strong>できないか確認<br>
-    　② $|z \cdot w| = |z|\cdot|w|$ を使って既知の条件に帰着させる
   </div>
 
   <div class="slide-footer"></div>

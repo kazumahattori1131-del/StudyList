@@ -52,7 +52,34 @@ https://kazumahattori1131-del.github.io/StudyList/problems/modified/math2_log_su
   <div class="slide-footer"></div>
 </section>
 
-<!-- スライド 2：考察タイム -->
+<!-- スライド 2：ありがちなミス -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge-yt">ありがちなミス</span>
+    <span class="slide-title">ここで間違えやすい</span>
+  </div>
+
+  <div class="trap-box" style="margin-bottom:12px;">
+    <div class="trap-title">⚠ 落とし穴①：$t = 0$ の確認忘れ</div>
+    $t \neq 0$ の確認をしないまま両辺に $t$ をかけると、余計な解を作る可能性がある。<br>
+    今回は解 $t = (3\pm\sqrt{5})/2$ のどちらも $0$ ではない（$\sqrt{5} \approx 2.24$ なので）。
+  </div>
+
+  <div class="trap-box">
+    <div class="trap-title">⚠ 落とし穴②：$x > 0$ の確認忘れ</div>
+    $x = 2^t$ は常に正なので問題ないが、底の変換を使う際に真数条件も忘れずに。<br>
+    $x > 0$, $x \neq 1$ は問題文に与えられているので確認済み。
+  </div>
+
+  <div class="key-box" style="font-size:16px;">
+    💡 $\log_x a \cdot \log_a x = 1$ は頻出の逆数関係。<br>
+    「片方の底が他方の真数になっている」対数式を見たら置き換えを疑おう！
+  </div>
+
+  <div class="slide-footer"></div>
+</section>
+
+<!-- スライド 3：考察タイム -->
 <section class="slide">
   <div class="slide-header">
     <span class="badge orange">考察タイム</span>
@@ -81,7 +108,7 @@ https://kazumahattori1131-del.github.io/StudyList/problems/modified/math2_log_su
   <div class="slide-footer"></div>
 </section>
 
-<!-- スライド 3：解法の核心 -->
+<!-- スライド 4：解法の核心 -->
 <section class="slide">
   <div class="slide-header">
     <span class="badge green">解法の核心</span>
@@ -102,7 +129,7 @@ https://kazumahattori1131-del.github.io/StudyList/problems/modified/math2_log_su
   <div class="slide-footer"></div>
 </section>
 
-<!-- スライド 4：解説 -->
+<!-- スライド 5：解説 -->
 <section class="slide">
   <div class="slide-header">
     <span class="badge">解説</span>
@@ -134,7 +161,7 @@ https://kazumahattori1131-del.github.io/StudyList/problems/modified/math2_log_su
   <div class="slide-footer"></div>
 </section>
 
-<!-- スライド 5：答え -->
+<!-- スライド 6：答え -->
 <section class="slide">
   <div class="slide-header">
     <span class="badge green">答え</span>
@@ -161,33 +188,6 @@ https://kazumahattori1131-del.github.io/StudyList/problems/modified/math2_log_su
   <div class="answer-label">答　え</div>
   <div class="answer-box">
     $$x = 2^{\dfrac{3+\sqrt{5}}{2}},\quad x = 2^{\dfrac{3-\sqrt{5}}{2}}$$
-  </div>
-
-  <div class="slide-footer"></div>
-</section>
-
-<!-- スライド 6：落とし穴 -->
-<section class="slide">
-  <div class="slide-header">
-    <span class="badge-yt">落とし穴</span>
-    <span class="slide-title">ここで間違えやすい</span>
-  </div>
-
-  <div class="trap-box" style="margin-bottom:12px;">
-    <div class="trap-title">⚠ 落とし穴①：$t = 0$ の確認忘れ</div>
-    $t \neq 0$ の確認をしないまま両辺に $t$ をかけると、余計な解を作る可能性がある。<br>
-    今回は解 $t = (3\pm\sqrt{5})/2$ のどちらも $0$ ではない（$\sqrt{5} \approx 2.24$ なので）。
-  </div>
-
-  <div class="trap-box">
-    <div class="trap-title">⚠ 落とし穴②：$x > 0$ の確認忘れ</div>
-    $x = 2^t$ は常に正なので問題ないが、底の変換を使う際に真数条件も忘れずに。<br>
-    $x > 0$, $x \neq 1$ は問題文に与えられているので確認済み。
-  </div>
-
-  <div class="key-box" style="font-size:16px;">
-    💡 $\log_x a \cdot \log_a x = 1$ は頻出の逆数関係。<br>
-    「片方の底が他方の真数になっている」対数式を見たら置き換えを疑おう！
   </div>
 
   <div class="slide-footer"></div>

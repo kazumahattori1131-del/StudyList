@@ -52,7 +52,36 @@ https://kazumahattori1131-del.github.io/StudyList/problems/modified/math3_integr
   <div class="slide-footer"></div>
 </section>
 
-<!-- スライド 2：考察タイム -->
+<!-- スライド 2：ありがちなミス -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge-yt">ありがちなミス</span>
+    <span class="slide-title">ここで間違えやすい</span>
+  </div>
+
+  <div class="trap-box" style="margin-bottom:12px;">
+    <div class="trap-title">⚠ 落とし穴①：$dx$ を忘れる</div>
+    置換後に $dx = \sec^2\theta\,d\theta$ の $\sec^2\theta$ を忘れて<br>
+    「$\cos^4\theta\,d\theta$」と書いてしまうミスが多い。<br>
+    <strong>被積分関数 × $dx$ 全体を変換</strong> することを意識する。
+  </div>
+
+  <div class="trap-box">
+    <div class="trap-title">⚠ 落とし穴②：$\sin(\pi/2) = 1$ を忘れる</div>
+    最後の計算 $\left[\dfrac{\theta}{2} + \dfrac{\sin 2\theta}{4}\right]_0^{\pi/4}$ で<br>
+    $\theta = \pi/4$ のとき $\sin(2 \cdot \pi/4) = \sin(\pi/2) = 1$。<br>
+    $\sin(\pi/2) = 1$ であることをしっかり確認しよう。
+  </div>
+
+  <div class="key-box" style="font-size:16px;">
+    💡 $\int \dfrac{1}{1+x^2}\,dx = \arctan x + C$（これは暗記）<br>
+    2乗版は $x = \tan\theta$ で $\cos^2\theta$ に落ちる。この流れを覚えよう！
+  </div>
+
+  <div class="slide-footer"></div>
+</section>
+
+<!-- スライド 3：考察タイム -->
 <section class="slide">
   <div class="slide-header">
     <span class="badge orange">考察タイム</span>
@@ -81,7 +110,7 @@ https://kazumahattori1131-del.github.io/StudyList/problems/modified/math3_integr
   <div class="slide-footer"></div>
 </section>
 
-<!-- スライド 3：解法の核心 -->
+<!-- スライド 4：解法の核心 -->
 <section class="slide">
   <div class="slide-header">
     <span class="badge green">解法の核心</span>
@@ -102,7 +131,7 @@ https://kazumahattori1131-del.github.io/StudyList/problems/modified/math3_integr
   <div class="slide-footer"></div>
 </section>
 
-<!-- スライド 4：解説 -->
+<!-- スライド 5：解説 -->
 <section class="slide">
   <div class="slide-header">
     <span class="badge">解説</span>
@@ -132,7 +161,7 @@ https://kazumahattori1131-del.github.io/StudyList/problems/modified/math3_integr
   <div class="slide-footer"></div>
 </section>
 
-<!-- スライド 5：答え -->
+<!-- スライド 6：答え -->
 <section class="slide">
   <div class="slide-header">
     <span class="badge green">答え</span>
@@ -160,35 +189,6 @@ https://kazumahattori1131-del.github.io/StudyList/problems/modified/math3_integr
   <div class="answer-label">答　え</div>
   <div class="answer-box">
     $$\int_0^1 \frac{dx}{(1+x^2)^2} = \frac{\pi}{8} + \frac{1}{4}$$
-  </div>
-
-  <div class="slide-footer"></div>
-</section>
-
-<!-- スライド 6：落とし穴 -->
-<section class="slide">
-  <div class="slide-header">
-    <span class="badge-yt">落とし穴</span>
-    <span class="slide-title">ここで間違えやすい</span>
-  </div>
-
-  <div class="trap-box" style="margin-bottom:12px;">
-    <div class="trap-title">⚠ 落とし穴①：$dx$ を忘れる</div>
-    置換後に $dx = \sec^2\theta\,d\theta$ の $\sec^2\theta$ を忘れて<br>
-    「$\cos^4\theta\,d\theta$」と書いてしまうミスが多い。<br>
-    <strong>被積分関数 × $dx$ 全体を変換</strong> することを意識する。
-  </div>
-
-  <div class="trap-box">
-    <div class="trap-title">⚠ 落とし穴②：$\sin(\pi/2) = 1$ を忘れる</div>
-    最後の計算 $\left[\dfrac{\theta}{2} + \dfrac{\sin 2\theta}{4}\right]_0^{\pi/4}$ で<br>
-    $\theta = \pi/4$ のとき $\sin(2 \cdot \pi/4) = \sin(\pi/2) = 1$。<br>
-    $\sin(\pi/2) = 1$ であることをしっかり確認しよう。
-  </div>
-
-  <div class="key-box" style="font-size:16px;">
-    💡 $\int \dfrac{1}{1+x^2}\,dx = \arctan x + C$（これは暗記）<br>
-    2乗版は $x = \tan\theta$ で $\cos^2\theta$ に落ちる。この流れを覚えよう！
   </div>
 
   <div class="slide-footer"></div>

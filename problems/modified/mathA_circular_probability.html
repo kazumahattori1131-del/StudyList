@@ -52,7 +52,36 @@ https://kazumahattori1131-del.github.io/StudyList/problems/modified/mathA_circul
   <div class="slide-footer"></div>
 </section>
 
-<!-- スライド 2：考察タイム -->
+<!-- スライド 2：ありがちなミス -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge-yt">ありがちなミス</span>
+    <span class="slide-title">ここで間違えやすい</span>
+  </div>
+
+  <div class="trap-box" style="margin-bottom:12px;">
+    <div class="trap-title">⚠ 落とし穴①：直線順列で考えてしまう</div>
+    「直線に並べた場合の数 $6!$」を分母にしてしまうミス。<br>
+    円順列では<strong>「回転して同じ」は1通り</strong>として数えるため $(6-1)!$ が正しい。
+  </div>
+
+  <div class="trap-box">
+    <div class="trap-title">⚠ 落とし穴②：交互の数え方</div>
+    「男女の選び方 $\binom{3}{1} \times \binom{3}{1} \times \ldots$」と組み合わせで数えようとするミス。<br>
+    <strong>固定した男子に対して隣の座席が自動的に決まる</strong>ので、並べ方で数えるのが正解。
+  </div>
+
+  <div class="key-box" style="font-size:16px;">
+    💡 円順列の確率問題は<br>
+    　分母：$(n-1)!$（全体の円順列）<br>
+    　分子：特定の条件を満たす円順列（1人固定）<br>
+    この形で必ず整理しよう！
+  </div>
+
+  <div class="slide-footer"></div>
+</section>
+
+<!-- スライド 3：考察タイム -->
 <section class="slide">
   <div class="slide-header">
     <span class="badge orange">考察タイム</span>
@@ -81,7 +110,7 @@ https://kazumahattori1131-del.github.io/StudyList/problems/modified/mathA_circul
   <div class="slide-footer"></div>
 </section>
 
-<!-- スライド 3：解法の核心 -->
+<!-- スライド 4：解法の核心 -->
 <section class="slide">
   <div class="slide-header">
     <span class="badge green">解法の核心</span>
@@ -102,7 +131,7 @@ https://kazumahattori1131-del.github.io/StudyList/problems/modified/mathA_circul
   <div class="slide-footer"></div>
 </section>
 
-<!-- スライド 4：解説 -->
+<!-- スライド 5：解説 -->
 <section class="slide">
   <div class="slide-header">
     <span class="badge">解説</span>
@@ -134,7 +163,7 @@ https://kazumahattori1131-del.github.io/StudyList/problems/modified/mathA_circul
   <div class="slide-footer"></div>
 </section>
 
-<!-- スライド 5：答え -->
+<!-- スライド 6：答え -->
 <section class="slide">
   <div class="slide-header">
     <span class="badge green">答え</span>
@@ -162,35 +191,6 @@ https://kazumahattori1131-del.github.io/StudyList/problems/modified/mathA_circul
   <div class="answer-label">答　え</div>
   <div class="answer-box">
     $$P = \frac{1}{10}$$
-  </div>
-
-  <div class="slide-footer"></div>
-</section>
-
-<!-- スライド 6：落とし穴 -->
-<section class="slide">
-  <div class="slide-header">
-    <span class="badge-yt">落とし穴</span>
-    <span class="slide-title">ここで間違えやすい</span>
-  </div>
-
-  <div class="trap-box" style="margin-bottom:12px;">
-    <div class="trap-title">⚠ 落とし穴①：直線順列で考えてしまう</div>
-    「直線に並べた場合の数 $6!$」を分母にしてしまうミス。<br>
-    円順列では<strong>「回転して同じ」は1通り</strong>として数えるため $(6-1)!$ が正しい。
-  </div>
-
-  <div class="trap-box">
-    <div class="trap-title">⚠ 落とし穴②：交互の数え方</div>
-    「男女の選び方 $\binom{3}{1} \times \binom{3}{1} \times \ldots$」と組み合わせで数えようとするミス。<br>
-    <strong>固定した男子に対して隣の座席が自動的に決まる</strong>ので、並べ方で数えるのが正解。
-  </div>
-
-  <div class="key-box" style="font-size:16px;">
-    💡 円順列の確率問題は<br>
-    　分母：$(n-1)!$（全体の円順列）<br>
-    　分子：特定の条件を満たす円順列（1人固定）<br>
-    この形で必ず整理しよう！
   </div>
 
   <div class="slide-footer"></div>
