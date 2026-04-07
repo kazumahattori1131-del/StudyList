@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>【数学II】指数方程式 — 4^x と 2^x の関係</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <link rel="stylesheet" href="../slide.css">
+  <style>
+    :root { --accent: #276749; }
+    .hook-text { font-size: 26px; font-weight: 900; color: var(--accent); text-align: center; margin: 0.6rem 0; line-height: 1.4; }
+    .pause-box { background: #1a202c; color: #fff; border-radius: 12px; padding: 20px 32px; text-align: center; margin: 1rem 0; }
+    .pause-box .pause-title { font-size: 26px; font-weight: 900; letter-spacing: 0.05em; margin-bottom: 8px; }
+    .pause-box .pause-sub { font-size: 15px; color: #a0aec0; }
+    .trap-box { background: #fff5f5; border: 2px solid #fc8181; border-radius: 10px; padding: 14px 24px; margin: 10px 0; }
+    .trap-title { color: #c53030; font-weight: 800; font-size: 15px; margin-bottom: 6px; }
+    .key-box { background: #f0fff4; border-left: 6px solid #276749; border-radius: 0 10px 10px 0; padding: 16px 24px; margin: 10px 0; font-size: 18px; font-weight: 700; }
+    .badge-yt { background: #c53030; color: #fff; font-size: 13px; font-weight: 700; padding: 4px 12px; border-radius: 4px; white-space: nowrap; }
+  </style>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]})"></script>
+</head>
+<body>
+<!--
+https://kazumahattori1131-del.github.io/StudyList/problems/modified/math2_exponential_substitution.html
+-->
+<div id="progress-bar"></div>
+
+<!-- スライド 1：フック + 問題 -->
+<section class="slide active">
+  <div class="slide-header">
+    <span class="badge-yt">$4^x$ と $2^x$ が混在</span>
+    <span class="badge">数学II</span>
+    <span class="slide-title">指数方程式の整理</span>
+    <div class="meta"><span>★★★☆☆ 標準+</span><span>目安 5 分</span></div>
+  </div>
+
+  <p class="hook-text">$4^x - 3 \cdot 2^x - 4 = 0$<br>この指数方程式、どう整理する？</p>
+
+  <div class="problem-label">問　題</div>
+  <div class="problem-box">
+    次の方程式を解け。
+    $$4^x - 3 \cdot 2^x - 4 = 0$$
+  </div>
+
+  <div class="step" style="font-size:17px;">
+    💬 「$4^x$ と $2^x$ の間にどんな関係がある？」<br>
+    指数の性質に着目して式を整理してみよう。
+  </div>
+
+  <p style="margin-top:auto;font-size:13px;color:#718096;">偏差値55〜65レベル｜共通テスト〜MARCH</p>
+  <div class="slide-footer"></div>
+</section>
+
+<!-- スライド 2：ありがちなミス -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge-yt">ありがちなミス</span>
+    <span class="slide-title">ここで間違えやすい</span>
+  </div>
+
+  <div class="trap-box" style="margin-bottom:12px;">
+    <div class="trap-title">⚠ 落とし穴①：$4^x = 2 \cdot 2^x$ と誤変形する</div>
+    $4^x = 4 \cdot 4^{x-1}$ や $4^x = 2 \cdot 2^x$ は誤り。<br>
+    正しくは $4^x = (2^2)^x = (2^x)^2$。<br>
+    <strong>底を揃えるのではなく、$2^x$ を1つの文字として扱う</strong>のがポイント。
+  </div>
+
+  <div class="trap-box">
+    <div class="trap-title">⚠ 落とし穴②：負の解を採用してしまう</div>
+    2次方程式を解くと2つの解が出てくるが、<strong>$2^x > 0$ （指数は必ず正）</strong>なので<br>
+    負の値の解は捨てなければならない。この確認を忘れると余分な解を答えてしまう。
+  </div>
+
+  <div class="key-box" style="font-size:16px;">
+    💡 $4^x = (2^x)^2$ に気づけば、$2^x$ を1つの文字（$t$）に置き換えて<br>
+    　<strong>$t$ の2次方程式</strong>に帰着できる！（$t > 0$ に注意）
+  </div>
+
+  <div class="slide-footer"></div>
+</section>
+
+<!-- スライド 3：考察タイム -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge orange">考察タイム</span>
+    <span class="slide-title">まず自分で考えてみよう</span>
+  </div>
+
+  <div class="pause-box">
+    <div class="pause-title">⏸ ここで一時停止！</div>
+    <div class="pause-sub">紙とペンを使って 3 分間考えてみよう</div>
+  </div>
+
+  <div class="section-title">ヒント</div>
+  <div class="step">
+    <span class="step-num">①</span>
+    $4^x = (2^2)^x = (2^x)^2$ に変形する。
+  </div>
+  <div class="step">
+    <span class="step-num">②</span>
+    $t = 2^x$ とおくと（$t > 0$）、方程式はどんな形になる？
+  </div>
+  <div class="step">
+    <span class="step-num">③</span>
+    $t$ についての2次方程式を解いた後、$t > 0$ を確認してから $x$ を求めよう。
+  </div>
+
+  <div class="slide-footer"></div>
+</section>
+
+<!-- スライド 4：解法の核心 -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge green">解法の核心</span>
+    <span class="slide-title">$t = 2^x$ とおいて2次方程式に帰着</span>
+  </div>
+
+  <div class="key-box">
+    🔑 $4^x = (2^x)^2$ を利用して $t = 2^x$（$t > 0$）とおくと：
+    $$t^2 - 3t - 4 = 0$$
+    これは <strong>$t$ の2次方程式</strong> — 因数分解で解ける！<br>
+    解いた後 $t > 0$ を満たすものだけを採用する。
+  </div>
+
+  <div class="step">
+    $t > 0$ の条件が鍵。2次方程式の解のうち正のものだけが $x$ の解に対応する。
+  </div>
+
+  <div class="slide-footer"></div>
+</section>
+
+<!-- スライド 5：解説 -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge">解説</span>
+    <span class="slide-title">方程式を解く</span>
+  </div>
+
+  <div class="step">
+    <span class="step-num">1</span>
+    $4^x = (2^x)^2$ より、$t = 2^x$（$t > 0$）とおく。方程式は：
+    $$t^2 - 3t - 4 = 0$$
+  </div>
+  <div class="step">
+    <span class="step-num">2</span>
+    因数分解：
+    $$(t-4)(t+1) = 0$$
+    $$t = 4 \quad \text{または} \quad t = -1$$
+  </div>
+  <div class="step">
+    <span class="step-num">3</span>
+    $t = 2^x > 0$ より $t = -1$ は不適。$t = 4$ のみ採用：
+    $$2^x = 4 = 2^2$$
+  </div>
+  <div class="step">
+    <span class="step-num">4</span>
+    底が等しいので指数を比較：
+    $$x = 2$$
+  </div>
+
+  <div class="slide-footer"></div>
+</section>
+
+<!-- スライド 6：答え -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge green">答え</span>
+    <span class="slide-title">解答まとめ</span>
+  </div>
+
+  <div class="cases">
+    <div class="case-card">
+      <div class="case-cond">置き換え</div>
+      $t = 2^x$（$t > 0$）<br>
+      $4^x = t^2$
+    </div>
+    <div class="case-card">
+      <div class="case-cond">2次方程式</div>
+      $t^2 - 3t - 4 = 0$<br>
+      $(t-4)(t+1) = 0$<br>
+      $t > 0$ より $t = 4$
+    </div>
+    <div class="case-card">
+      <div class="case-cond">答え</div>
+      $2^x = 4 = 2^2$
+      $$x = 2$$
+    </div>
+  </div>
+
+  <div class="answer-label">答　え</div>
+  <div class="answer-box">
+    $$x = 2$$
+  </div>
+
+  <div class="slide-footer"></div>
+</section>
+
+<!-- スライド 7：一般化 -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge green">一般化</span>
+    <span class="slide-title">この発想はどこでも使える</span>
+  </div>
+
+  <div class="section-title">一般化</div>
+  <div class="step">
+    $p^{2x} + a \cdot p^x + b = 0$（$p > 0$, $p \neq 1$）の形は $t = p^x$（$t > 0$）で<br>
+    $t^2 + at + b = 0$ という2次方程式に帰着する。<br>
+    解いた後は必ず <strong>$t > 0$ を確認</strong>してから $x = \log_p t$ で戻す。
+  </div>
+
+  <div class="section-title">類題</div>
+  <div class="problem-box" style="font-size:16px;">
+    $9^x - 4 \cdot 3^x - 5 = 0$ を解け。
+  </div>
+  <div class="step" style="font-size:15px;">
+    $t = 3^x$（$t > 0$）とおく：$t^2 - 4t - 5 = 0$<br>
+    $(t-5)(t+1) = 0$ → $t = 5$（$t = -1$ は不適）<br>
+    $3^x = 5$ より $x = \log_3 5$
+  </div>
+
+  <div class="slide-footer"></div>
+</section>
+
+<!-- スライド 8：模範解答 -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge" style="background:#2d3748;">模範解答</span>
+    <span class="slide-title">記述答案例</span>
+    <div class="meta"><span>指数方程式・置き換え</span></div>
+  </div>
+
+  <div class="answer-sheet">
+    <div class="ans-block">
+      <div class="ans-line">$t = 2^x$ とおく（$t > 0$）。$4^x = (2^x)^2 = t^2$ より：</div>
+      <div class="ans-line">$$t^2 - 3t - 4 = 0$$</div>
+      <div class="ans-line">$(t-4)(t+1) = 0$ より $t = 4$ または $t = -1$。</div>
+    </div>
+    <div class="ans-block">
+      <div class="ans-line">$t = 2^x > 0$ より $t = -1$ は不適。$t = 4$ を採用すると：</div>
+      <div class="ans-line">$2^x = 4 = 2^2$</div>
+    </div>
+    <div class="ans-therefore">$$x = 2$$</div>
+  </div>
+
+  <div class="slide-footer"></div>
+</section>
+
+<div id="nav">
+  <button id="btn-prev">◀ 前へ</button>
+  <span class="page-info" id="pinfo">1 / 8</span>
+  <button id="btn-next">次へ ▶</button>
+  <button id="btn-pdf" onclick="window.print()">⬇ PDF保存</button>
+  <span class="hint">← → キーでも操作できます</span>
+</div>
+<script src="../slide.js"></script>
+</body>
+</html>

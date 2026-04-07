@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>【数学A】隣り合わない！円順列×余事象</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <link rel="stylesheet" href="../slide.css">
+  <style>
+    :root { --accent: #553c9a; }
+    .hook-text { font-size: 26px; font-weight: 900; color: var(--accent); text-align: center; margin: 0.6rem 0; line-height: 1.4; }
+    .pause-box { background: #1a202c; color: #fff; border-radius: 12px; padding: 20px 32px; text-align: center; margin: 1rem 0; }
+    .pause-box .pause-title { font-size: 26px; font-weight: 900; letter-spacing: 0.05em; margin-bottom: 8px; }
+    .pause-box .pause-sub { font-size: 15px; color: #a0aec0; }
+    .trap-box { background: #fff5f5; border: 2px solid #fc8181; border-radius: 10px; padding: 14px 24px; margin: 10px 0; }
+    .trap-title { color: #c53030; font-weight: 800; font-size: 15px; margin-bottom: 6px; }
+    .key-box { background: #faf5ff; border-left: 6px solid #553c9a; border-radius: 0 10px 10px 0; padding: 16px 24px; margin: 10px 0; font-size: 18px; font-weight: 700; }
+    .badge-yt { background: #c53030; color: #fff; font-size: 13px; font-weight: 700; padding: 4px 12px; border-radius: 4px; white-space: nowrap; }
+  </style>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]})"></script>
+</head>
+<body>
+<!--
+https://kazumahattori1131-del.github.io/StudyList/problems/modified/mathA_circular_nonadjacent.html
+-->
+<div id="progress-bar"></div>
+
+<!-- スライド 1：フック + 問題 -->
+<section class="slide active">
+  <div class="slide-header">
+    <span class="badge-yt">隣り合わない条件</span>
+    <span class="badge">数学A</span>
+    <span class="slide-title">円順列 × 余事象</span>
+    <div class="meta"><span>★★★☆☆ 標準</span><span>目安 5 分</span></div>
+  </div>
+
+  <p class="hook-text">5人が円形に並ぶとき、<br>A と B が <span style="color:var(--accent);">隣り合わない</span> 確率は？</p>
+
+  <div class="problem-label">問　題</div>
+  <div class="problem-box">
+    A, B, C, D, E の5人が円形のテーブルに等確率で座るとき、<br>
+    A と B が <strong>隣り合わない</strong> 確率を求めよ。
+  </div>
+
+  <div class="step" style="font-size:17px;">
+    💬 「隣り合わない場合を直接数えるのは大変そう…<br>
+    別の方法で考えられないか？」
+  </div>
+
+  <p style="margin-top:auto;font-size:13px;color:#718096;">偏差値50〜60レベル｜共通テスト〜MARCH</p>
+  <div class="slide-footer"></div>
+</section>
+
+<!-- スライド 2：ありがちなミス -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge-yt">ありがちなミス</span>
+    <span class="slide-title">ここで間違えやすい</span>
+  </div>
+
+  <div class="trap-box" style="margin-bottom:12px;">
+    <div class="trap-title">⚠ 落とし穴①：AとBが隣り合う場合の数え忘れ</div>
+    AとBをひとかたまりとして数えるとき、<strong>A・B の並び順（AB と BA）の2通り</strong>を忘れがち。<br>
+    「AとBがひとまとまり = 1通り」と思い込んでしまうと答えが半分になる。
+  </div>
+
+  <div class="trap-box">
+    <div class="trap-title">⚠ 落とし穴②：全体を直線順列で考えてしまう</div>
+    分母を $5!$ としてしまうミス。円順列では<strong>「回転して同じ配置は1通り」</strong>なので<br>
+    全体は $(5-1)! = 4! = 24$ 通り。
+  </div>
+
+  <div class="key-box" style="font-size:16px;">
+    💡 「〜しない確率」は余事象が有効。<br>
+    　$P(\text{隣り合わない}) = 1 - P(\text{隣り合う})$<br>
+    　AとBが隣り合う場合：（A,B）を1人として $(4-1)!\times 2!$
+  </div>
+
+  <div class="slide-footer"></div>
+</section>
+
+<!-- スライド 3：考察タイム -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge orange">考察タイム</span>
+    <span class="slide-title">まず自分で考えてみよう</span>
+  </div>
+
+  <div class="pause-box">
+    <div class="pause-title">⏸ ここで一時停止！</div>
+    <div class="pause-sub">紙とペンを使って 3 分間考えてみよう</div>
+  </div>
+
+  <div class="section-title">ヒント</div>
+  <div class="step">
+    <span class="step-num">①</span>
+    全体の円順列の数：$(5-1)! = 4! = ?$
+  </div>
+  <div class="step">
+    <span class="step-num">②</span>
+    余事象「AとBが隣り合う場合」を数えよう。<br>
+    A と B をひとかたまり（1人）とみると、4人の円順列。さらに A・B の並び順は何通り？
+  </div>
+  <div class="step">
+    <span class="step-num">③</span>
+    $P(\text{隣り合わない}) = 1 - P(\text{隣り合う})$ で求める。
+  </div>
+
+  <div class="slide-footer"></div>
+</section>
+
+<!-- スライド 4：解法の核心 -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge green">解法の核心</span>
+    <span class="slide-title">余事象「隣り合う」を数える</span>
+  </div>
+
+  <div class="key-box">
+    🔑 余事象：A と B が<strong>隣り合う</strong>場合を数える<br><br>
+    （A,B）をひとまとまりにすると → 4人の円順列 $(4-1)! = 6$ 通り<br>
+    A と B の内部順列 $\times 2! = 2$ 通り<br>
+    → 合計 $6 \times 2 = 12$ 通り
+  </div>
+
+  <div class="step">
+    全体 $24$ 通りのうち隣り合う場合が $12$ 通り → $P(\text{隣り合う}) = \dfrac{12}{24} = \dfrac{1}{2}$
+  </div>
+
+  <div class="slide-footer"></div>
+</section>
+
+<!-- スライド 5：解説 -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge">解説</span>
+    <span class="slide-title">余事象を使って計算する</span>
+  </div>
+
+  <div class="step">
+    <span class="step-num">1</span>
+    <strong>全体の場合の数</strong>：5人の円順列 $(5-1)! = 4! = 24$（通り）
+  </div>
+  <div class="step">
+    <span class="step-num">2</span>
+    <strong>A と B が隣り合う場合</strong>：(A,B) を1人とみなして4人の円順列
+    $$(4-1)! \times 2! = 6 \times 2 = 12 \text{（通り）}$$
+  </div>
+  <div class="step">
+    <span class="step-num">3</span>
+    A と B が隣り合う確率：
+    $$P(\text{隣り合う}) = \frac{12}{24} = \frac{1}{2}$$
+  </div>
+  <div class="step">
+    <span class="step-num">4</span>
+    余事象より：
+    $$P(\text{隣り合わない}) = 1 - \frac{1}{2} = \frac{1}{2}$$
+  </div>
+
+  <div class="slide-footer"></div>
+</section>
+
+<!-- スライド 6：答え -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge green">答え</span>
+    <span class="slide-title">解答まとめ</span>
+  </div>
+
+  <div class="cases">
+    <div class="case-card">
+      <div class="case-cond">全体</div>
+      $(5-1)!$
+      $$= 24 \text{通り}$$
+    </div>
+    <div class="case-card">
+      <div class="case-cond">隣り合う場合</div>
+      $(4-1)! \times 2!$<br>
+      $= 6 \times 2$
+      $$= 12 \text{通り}$$
+    </div>
+    <div class="case-card">
+      <div class="case-cond">答え</div>
+      $1 - \dfrac{12}{24}$
+      $$= \frac{1}{2}$$
+    </div>
+  </div>
+
+  <div class="answer-label">答　え</div>
+  <div class="answer-box">
+    $$P = \frac{1}{2}$$
+  </div>
+
+  <div class="slide-footer"></div>
+</section>
+
+<!-- スライド 7：一般化 -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge green">一般化</span>
+    <span class="slide-title">この発想はどこでも使える</span>
+  </div>
+
+  <div class="section-title">一般化</div>
+  <div class="step">
+    $n$ 人の円順列で特定の2人が隣り合う確率：
+    $$P(\text{隣り合う}) = \frac{(n-2)! \times 2}{(n-1)!} = \frac{2}{n-1}$$
+    → $P(\text{隣り合わない}) = 1 - \dfrac{2}{n-1} = \dfrac{n-3}{n-1}$<br>
+    $n=5$：$P = \dfrac{2}{4} = \dfrac{1}{2}$ ✓
+  </div>
+
+  <div class="section-title">類題</div>
+  <div class="problem-box" style="font-size:16px;">
+    A〜F の6人が円形に並ぶとき、A と B が隣り合わない確率を求めよ。
+  </div>
+  <div class="step" style="font-size:15px;">
+    全体：$(6-1)! = 120$、隣り合う：$(5-1)! \times 2 = 48$<br>
+    $P(\text{隣り合う}) = \dfrac{48}{120} = \dfrac{2}{5}$<br>
+    $P(\text{隣り合わない}) = 1 - \dfrac{2}{5} = \dfrac{3}{5}$
+  </div>
+
+  <div class="slide-footer"></div>
+</section>
+
+<!-- スライド 8：模範解答 -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge" style="background:#2d3748;">模範解答</span>
+    <span class="slide-title">記述答案例</span>
+    <div class="meta"><span>円順列・余事象</span></div>
+  </div>
+
+  <div class="answer-sheet">
+    <div class="ans-block">
+      <div class="ans-line">5人が円形に並ぶ場合の数は $(5-1)! = 24$（通り）。</div>
+    </div>
+    <div class="ans-block">
+      <div class="ans-line">余事象として A と B が隣り合う場合を数える。</div>
+      <div class="ans-line">(A,B) をひとまとまり（1人）とみると4人の円順列：$(4-1)! = 6$（通り）</div>
+      <div class="ans-line">A と B の内部の並び方：$2! = 2$（通り）</div>
+      <div class="ans-line">隣り合う場合の数：$6 \times 2 = 12$（通り）</div>
+    </div>
+    <div class="ans-therefore">
+      $$P(\text{隣り合わない}) = 1 - \frac{12}{24} = \frac{1}{2}$$
+    </div>
+  </div>
+
+  <div class="slide-footer"></div>
+</section>
+
+<div id="nav">
+  <button id="btn-prev">◀ 前へ</button>
+  <span class="page-info" id="pinfo">1 / 8</span>
+  <button id="btn-next">次へ ▶</button>
+  <button id="btn-pdf" onclick="window.print()">⬇ PDF保存</button>
+  <span class="hint">← → キーでも操作できます</span>
+</div>
+<script src="../slide.js"></script>
+</body>
+</html>

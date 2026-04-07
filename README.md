@@ -69,11 +69,17 @@
 | 科目 | 難易度 | タイトル | URL |
 |------|--------|---------|-----|
 | 数学I | ★★★☆☆ | 9割が判別式だけで考える二次不等式 | https://kazumahattori1131-del.github.io/StudyList/problems/modified/math1_quadratic_trap.html |
+| 数学I | ★★★☆☆ | 放物線とx軸の交点 — 判別式の使い方 | https://kazumahattori1131-del.github.io/StudyList/problems/modified/math1_quadratic_discriminant.html |
 | 数学II | ★★★☆☆ | 底が変数の対数方程式 — 置き換え1発 | https://kazumahattori1131-del.github.io/StudyList/problems/modified/math2_log_substitution.html |
+| 数学II | ★★★☆☆ | 指数方程式 — 4^x と 2^x の関係 | https://kazumahattori1131-del.github.io/StudyList/problems/modified/math2_exponential_substitution.html |
 | 数学III | ★★★★☆ | ∫1/(1+x²)² — 三角置換の発展 | https://kazumahattori1131-del.github.io/StudyList/problems/modified/math3_integral_squared.html |
+| 数学III | ★★★★☆ | ∫e^x sinx dx — 部分積分の連鎖 | https://kazumahattori1131-del.github.io/StudyList/problems/modified/math3_integration_by_parts.html |
 | 数学A | ★★★☆☆ | 直感と違う！円順列×確率 | https://kazumahattori1131-del.github.io/StudyList/problems/modified/mathA_circular_probability.html |
+| 数学A | ★★★☆☆ | 隣り合わない！円順列×余事象 | https://kazumahattori1131-del.github.io/StudyList/problems/modified/mathA_circular_nonadjacent.html |
 | 数学B | ★★★☆☆ | 両辺を割るだけ — 漸化式の発想 | https://kazumahattori1131-del.github.io/StudyList/problems/modified/mathB_recurrence_divide.html |
+| 数学B | ★★★☆☆ | S_n = 2a_n - n — 和と一般項の関係 | https://kazumahattori1131-del.github.io/StudyList/problems/modified/mathB_sum_recurrence.html |
 | 数学C | ★★★★☆ | 因数分解したら一瞬！複素数の最大値 | https://kazumahattori1131-del.github.io/StudyList/problems/modified/mathC_complex_factorize.html |
+| 数学C | ★★★★☆ | z + 1/z = 1 — 複素数の恒等式 | https://kazumahattori1131-del.github.io/StudyList/problems/modified/mathC_complex_identity.html |
 
 ---
 
