@@ -35,7 +35,7 @@ https://kazumahattori1131-del.github.io/StudyList/problems/modified/math3_integr
     <div class="meta"><span>★★★★☆ 発展</span><span>目安 8 分</span></div>
   </div>
 
-  <p class="hook-text">$\int\!\dfrac{1}{1+x^2}dx = \arctan x + C$ は知ってる。<br>分母が <span style="color:var(--accent);">2乗</span>になったら？</p>
+  <p class="hook-text">$\dfrac{1}{(1+x^2)^2}$ を積分せよ。<br>分母の <span style="color:var(--accent);">2乗</span>、どう崩す？</p>
 
   <div class="problem-label">問　題</div>
   <div class="problem-box">
@@ -74,8 +74,8 @@ https://kazumahattori1131-del.github.io/StudyList/problems/modified/math3_integr
   </div>
 
   <div class="key-box" style="font-size:16px;">
-    💡 $\int \dfrac{1}{1+x^2}\,dx = \arctan x + C$（これは暗記）<br>
-    2乗版は $x = \tan\theta$ で $\cos^2\theta$ に落ちる。この流れを覚えよう！
+    💡 分母に $(1+x^2)$ が現れたら $x = \tan\theta$ の三角置換が有効。<br>
+    2乗版は置換後に $\cos^2\theta$ に落ちる。この流れを押さえよう！
   </div>
 
   <div class="slide-footer"></div>
@@ -205,7 +205,8 @@ https://kazumahattori1131-del.github.io/StudyList/problems/modified/math3_integr
   <div class="step">
     $\int \dfrac{1}{(a^2+x^2)^n}\,dx$ の形は $x = a\tan\theta$ で置換すると<br>
     $a^2 + x^2 = a^2\sec^2\theta$ となり、次数が下がる。<br>
-    特に $n=1$ のとき $\dfrac{1}{a}\arctan\dfrac{x}{a} + C$。
+    $n=1$ のとき：$x = a\tan\theta$ で置換すると $\displaystyle\int \frac{a\sec^2\theta}{a^2\sec^2\theta}\,d\theta = \frac{1}{a}\int 1\,d\theta = \frac{\theta}{a} + C$。<br>
+    $\theta = \arctan(x/a)$（大学数学）だが、高校では不定積分として用いることは少ない。
   </div>
 
   <div class="section-title">類題</div>

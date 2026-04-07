@@ -60,15 +60,17 @@ https://kazumahattori1131-del.github.io/StudyList/problems/modified/math2_log_su
   </div>
 
   <div class="trap-box" style="margin-bottom:12px;">
-    <div class="trap-title">⚠ 落とし穴①：$t = 0$ の確認忘れ</div>
-    $t \neq 0$ の確認をしないまま両辺に $t$ をかけると、余計な解を作る可能性がある。<br>
-    今回は解 $t = (3\pm\sqrt{5})/2$ のどちらも $0$ ではない（$\sqrt{5} \approx 2.24$ なので）。
+    <div class="trap-title">⚠ 落とし穴①：$\log_x 2$ と $\log_2 x$ を同じものと思ってしまう</div>
+    底と真数が入れ替わった $\log_x 2$ と $\log_2 x$ を区別できず、<br>
+    「同じ文字だから足して $2\log_2 x = 3$」と解いてしまうミスが多い。<br>
+    <strong>底が変数のときは底の変換公式で統一</strong>することが必須。
   </div>
 
   <div class="trap-box">
-    <div class="trap-title">⚠ 落とし穴②：$x > 0$ の確認忘れ</div>
-    $x = 2^t$ は常に正なので問題ないが、底の変換を使う際に真数条件も忘れずに。<br>
-    $x > 0$, $x \neq 1$ は問題文に与えられているので確認済み。
+    <div class="trap-title">⚠ 落とし穴②：底の変換の方向を間違える</div>
+    $\log_x 2 = \dfrac{\log_2 x}{\log_2 2}$ と逆向きに変換してしまうミス。<br>
+    底の変換公式は $\log_a b = \dfrac{\log_c b}{\log_c a}$ — <strong>変換先の底 $c$ が分母</strong>にくる。<br>
+    $\log_x 2 = \dfrac{\log_2 2}{\log_2 x} = \dfrac{1}{\log_2 x}$ が正しい。
   </div>
 
   <div class="key-box" style="font-size:16px;">
