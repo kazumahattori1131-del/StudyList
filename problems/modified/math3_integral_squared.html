@@ -61,7 +61,7 @@ https://kazumahattori1131-del.github.io/StudyList/problems/modified/math3_integr
 
   <div class="trap-box" style="margin-bottom:12px;">
     <div class="trap-title">⚠ 落とし穴①：$dx$ を忘れる</div>
-    置換後に $dx = \sec^2\theta\,d\theta$ の $\sec^2\theta$ を忘れて<br>
+    置換後に $dx = \dfrac{1}{\cos^2\theta}\,d\theta$ の $\dfrac{1}{\cos^2\theta}$ を忘れて<br>
     「$\cos^4\theta\,d\theta$」と書いてしまうミスが多い。<br>
     <strong>被積分関数 × $dx$ 全体を変換</strong> することを意識する。
   </div>
@@ -96,7 +96,7 @@ https://kazumahattori1131-del.github.io/StudyList/problems/modified/math3_integr
   <div class="section-title">ヒント</div>
   <div class="step">
     <span class="step-num">①</span>
-    $x = \tan\theta$ とおくと $1 + x^2 = 1 + \tan^2\theta = \dfrac{1}{\cos^2\theta}$（$= \sec^2\theta$）
+    $x = \tan\theta$ とおくと $1 + x^2 = 1 + \tan^2\theta = \dfrac{1}{\cos^2\theta}$
   </div>
   <div class="step">
     <span class="step-num">②</span>
@@ -118,14 +118,14 @@ https://kazumahattori1131-del.github.io/StudyList/problems/modified/math3_integr
   </div>
 
   <div class="key-box">
-    🔑 $x = \tan\theta$ とおくと
-    $$\frac{1}{(1+x^2)^2} = \frac{1}{\sec^4\theta} = \cos^4\theta,\quad dx = \sec^2\theta\,d\theta$$
-    かけ合わせると <strong>$\cos^4\theta \cdot \sec^2\theta\,d\theta = \cos^2\theta\,d\theta$</strong><br>
+    🔑 $x = \tan\theta$ とおくと $1+x^2 = \dfrac{1}{\cos^2\theta}$ なので
+    $$\frac{1}{(1+x^2)^2} = \cos^4\theta,\quad dx = \frac{d\theta}{\cos^2\theta}$$
+    かけ合わせると <strong>$\cos^4\theta \cdot \dfrac{d\theta}{\cos^2\theta} = \cos^2\theta\,d\theta$</strong><br>
     → 半角公式で簡単に積分できる形になる！
   </div>
 
   <div class="step">
-    $\sec^2\theta$（分母）と $dx$（分子の $\sec^2\theta$）が<span class="highlight">約分</span>されるのがポイント。
+    $\dfrac{1}{\cos^2\theta}$（$dx$ の変換）と分母の $\cos^4\theta$ が<span class="highlight">約分</span>されるのがポイント。
   </div>
 
   <div class="slide-footer"></div>
@@ -140,12 +140,12 @@ https://kazumahattori1131-del.github.io/StudyList/problems/modified/math3_integr
 
   <div class="step">
     <span class="step-num">1</span>
-    $x = \tan\theta$（$0 \leq \theta \leq \dfrac{\pi}{4}$）とおく。$dx = \sec^2\theta\,d\theta$。
+    $x = \tan\theta$（$0 \leq \theta \leq \dfrac{\pi}{4}$）とおく。$dx = \dfrac{d\theta}{\cos^2\theta}$。
   </div>
   <div class="step">
     <span class="step-num">2</span>
-    $(1+x^2)^2 = \sec^4\theta$ より：
-    $$\frac{dx}{(1+x^2)^2} = \frac{\sec^2\theta\,d\theta}{\sec^4\theta} = \cos^2\theta\,d\theta$$
+    $1+x^2 = \dfrac{1}{\cos^2\theta}$ なので $(1+x^2)^2 = \dfrac{1}{\cos^4\theta}$ より：
+    $$\frac{dx}{(1+x^2)^2} = \frac{\frac{1}{\cos^2\theta}\,d\theta}{\frac{1}{\cos^4\theta}} = \cos^2\theta\,d\theta$$
   </div>
   <div class="step">
     <span class="step-num">3</span>
@@ -172,8 +172,8 @@ https://kazumahattori1131-del.github.io/StudyList/problems/modified/math3_integr
     <div class="case-card">
       <div class="case-cond">置換</div>
       $x = \tan\theta$<br>
-      $dx = \sec^2\theta\,d\theta$<br>
-      $(1+x^2)^2 = \sec^4\theta$
+      $dx = \dfrac{d\theta}{\cos^2\theta}$<br>
+      $(1+x^2)^2 = \dfrac{1}{\cos^4\theta}$
     </div>
     <div class="case-card">
       <div class="case-cond">変換後</div>
@@ -204,9 +204,8 @@ https://kazumahattori1131-del.github.io/StudyList/problems/modified/math3_integr
   <div class="section-title">一般化</div>
   <div class="step">
     $\int \dfrac{1}{(a^2+x^2)^n}\,dx$ の形は $x = a\tan\theta$ で置換すると<br>
-    $a^2 + x^2 = a^2\sec^2\theta$ となり、次数が下がる。<br>
-    $n=1$ のとき：$x = a\tan\theta$ で置換すると $\displaystyle\int \frac{a\sec^2\theta}{a^2\sec^2\theta}\,d\theta = \frac{1}{a}\int 1\,d\theta = \frac{\theta}{a} + C$。<br>
-    $\theta = \arctan(x/a)$（大学数学）だが、高校では不定積分として用いることは少ない。
+    $a^2 + x^2 = \dfrac{a^2}{\cos^2\theta}$ となり、次数が下がる。<br>
+    $n=1$ のとき：$\displaystyle\int \frac{\frac{a}{\cos^2\theta}\,d\theta}{\frac{a^2}{\cos^2\theta}} = \frac{1}{a}\int 1\,d\theta = \frac{\theta}{a} + C$（定積分として用いる）。
   </div>
 
   <div class="section-title">類題</div>
@@ -231,12 +230,12 @@ https://kazumahattori1131-del.github.io/StudyList/problems/modified/math3_integr
 
   <div class="answer-sheet">
     <div class="ans-block">
-      <div class="ans-line">$x = \tan\theta$（$0 \leq \theta \leq \dfrac{\pi}{4}$）とおくと $dx = \sec^2\theta\,d\theta$、$1+x^2 = \sec^2\theta$。</div>
+      <div class="ans-line">$x = \tan\theta$（$0 \leq \theta \leq \dfrac{\pi}{4}$）とおくと $dx = \dfrac{d\theta}{\cos^2\theta}$、$1+x^2 = \dfrac{1}{\cos^2\theta}$。</div>
       <div class="ans-line">積分範囲：$x: 0 \to 1$ のとき $\theta: 0 \to \dfrac{\pi}{4}$。</div>
     </div>
     <div class="ans-block">
       <div class="ans-line">
-        $$\int_0^1\frac{dx}{(1+x^2)^2} = \int_0^{\pi/4}\frac{\sec^2\theta}{\sec^4\theta}\,d\theta = \int_0^{\pi/4}\cos^2\theta\,d\theta$$
+        $$\int_0^1\frac{dx}{(1+x^2)^2} = \int_0^{\pi/4}\frac{\frac{1}{\cos^2\theta}}{\frac{1}{\cos^4\theta}}\,d\theta = \int_0^{\pi/4}\cos^2\theta\,d\theta$$
       </div>
     </div>
     <div class="ans-block">
