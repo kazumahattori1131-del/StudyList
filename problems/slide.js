@@ -102,6 +102,31 @@
     });
   }
 
+  // html2canvas は color-mix() を解釈できないため、
+  // キャプチャ前に getComputedStyle で解決した具体的な色値を inline に適用する
+  var COLOR_PROPS = [
+    'color', 'backgroundColor',
+    'borderTopColor', 'borderRightColor', 'borderBottomColor', 'borderLeftColor',
+    'outlineColor', 'textDecorationColor',
+  ];
+  function freezeColors(root) {
+    var nodes = [root].concat(Array.from(root.querySelectorAll('*')));
+    return nodes.map(function (node) {
+      var cs = window.getComputedStyle(node);
+      var orig = {};
+      COLOR_PROPS.forEach(function (p) {
+        orig[p] = node.style[p];
+        node.style[p] = cs[p];
+      });
+      return { node: node, orig: orig };
+    });
+  }
+  function thawColors(saved) {
+    saved.forEach(function (item) {
+      COLOR_PROPS.forEach(function (p) { item.node.style[p] = item.orig[p]; });
+    });
+  }
+
   btnImg.addEventListener('click', async function () {
     btnImg.disabled = true;
     var allSlides = Array.from(document.querySelectorAll('.slide'));
@@ -119,13 +144,18 @@
           display: slide.style.display, opacity: slide.style.opacity,
           zoom: slide.style.zoom, width: slide.style.width,
           height: slide.style.height, minHeight: slide.style.minHeight,
+          boxShadow: slide.style.boxShadow,
         };
         slide.style.display = 'flex'; slide.style.opacity = '1';
         slide.style.zoom = '1'; slide.style.width = '1280px';
         slide.style.height = '720px'; slide.style.minHeight = '720px';
+        slide.style.boxShadow = 'none';
 
         await new Promise(function (r) { setTimeout(r, 80); });
         await new Promise(function (r) { requestAnimationFrame(function () { requestAnimationFrame(r); }); });
+
+        // color-mix() をブラウザ解決済みの rgb() 値で上書き
+        var colorSaved = freezeColors(slide);
 
         var canvas = await html2canvas(slide, {
           scale: 2,
@@ -135,8 +165,9 @@
           allowTaint: false,
           logging: false,
           ignoreElements: function (el) { return el.id === 'nav' || el.id === 'progress-bar'; },
-          onclone: function (_, el) { el.style.boxShadow = 'none'; },
         });
+
+        thawColors(colorSaved);
         Object.assign(slide.style, saved);
 
         var blob = await new Promise(function (r) { canvas.toBlob(r, 'image/png'); });
