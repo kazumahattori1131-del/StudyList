@@ -259,6 +259,20 @@ tr:last-child td { font-weight: 700; background: color-mix(in srgb, var(--accent
 }
 #btn-pdf:hover { background: #2563a7 !important; }
 
+#btn-img {
+  background: #7c3aed !important;
+  color: #fff !important;
+  border: none;
+  border-radius: 20px;
+  padding: 8px 22px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+#btn-img:hover    { background: #6d28d9 !important; }
+#btn-img:disabled { opacity: 0.6; cursor: wait; }
+
 .highlight { background: #fefcbf; padding: 1px 4px; border-radius: 3px; }
 
 /* ===== KaTeX 数式スタイル ===== */

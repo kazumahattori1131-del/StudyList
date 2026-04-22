@@ -81,3 +81,79 @@
     scaleToFit();
   });
 })();
+
+// ── Canva用画像エクスポート（16:9 PNG × 2560×1440 / ZIP一括保存） ──
+(function () {
+  const nav = document.getElementById('nav');
+  if (!nav) return;
+
+  const btnImg = document.createElement('button');
+  btnImg.id = 'btn-img';
+  btnImg.textContent = '🖼 画像保存';
+  const hint = nav.querySelector('.hint');
+  hint ? nav.insertBefore(btnImg, hint) : nav.appendChild(btnImg);
+
+  function loadScript(src) {
+    return new Promise(function (res, rej) {
+      if (document.querySelector('script[src="' + src + '"]')) { res(); return; }
+      var s = document.createElement('script');
+      s.src = src; s.onload = res; s.onerror = rej;
+      document.head.appendChild(s);
+    });
+  }
+
+  btnImg.addEventListener('click', async function () {
+    btnImg.disabled = true;
+    var allSlides = Array.from(document.querySelectorAll('.slide'));
+    try {
+      if (!window.html2canvas)
+        await loadScript('https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js');
+      if (!window.JSZip)
+        await loadScript('https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js');
+
+      var zip = new JSZip();
+      for (var i = 0; i < allSlides.length; i++) {
+        btnImg.textContent = '⏳ ' + (i + 1) + ' / ' + allSlides.length;
+        var slide = allSlides[i];
+        var saved = {
+          display: slide.style.display, opacity: slide.style.opacity,
+          zoom: slide.style.zoom, width: slide.style.width,
+          height: slide.style.height, minHeight: slide.style.minHeight,
+        };
+        slide.style.display = 'flex'; slide.style.opacity = '1';
+        slide.style.zoom = '1'; slide.style.width = '1280px';
+        slide.style.height = '720px'; slide.style.minHeight = '720px';
+
+        await new Promise(function (r) { setTimeout(r, 80); });
+        await new Promise(function (r) { requestAnimationFrame(function () { requestAnimationFrame(r); }); });
+
+        var canvas = await html2canvas(slide, {
+          scale: 2,
+          width: 1280, height: 720,
+          backgroundColor: '#ffffff',
+          useCORS: true,
+          allowTaint: false,
+          logging: false,
+          ignoreElements: function (el) { return el.id === 'nav' || el.id === 'progress-bar'; },
+          onclone: function (_, el) { el.style.boxShadow = 'none'; },
+        });
+        Object.assign(slide.style, saved);
+
+        var blob = await new Promise(function (r) { canvas.toBlob(r, 'image/png'); });
+        zip.file('slide_' + String(i + 1).padStart(2, '0') + '.png', blob);
+      }
+      var zipBlob = await zip.generateAsync({ type: 'blob' });
+      var fname = (document.title || 'slides') + '_canva.zip';
+      var a = Object.assign(document.createElement('a'),
+                            { href: URL.createObjectURL(zipBlob), download: fname });
+      document.body.appendChild(a); a.click();
+      document.body.removeChild(a); URL.revokeObjectURL(a.href);
+    } catch (err) {
+      console.error('Image export error:', err);
+      alert('画像の生成に失敗しました。ブラウザのコンソールでエラーを確認してください。');
+    } finally {
+      btnImg.disabled = false;
+      btnImg.textContent = '🖼 画像保存';
+    }
+  });
+})();
