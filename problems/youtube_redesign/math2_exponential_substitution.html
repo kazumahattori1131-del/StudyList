@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>【数学II】指数方程式 — 4^x と 2^x の関係</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <link rel="stylesheet" href="../slide.css">
+  <style>
+    :root { --accent: #276749; }
+    .key-box { background: #f0fff4; border-left: 6px solid #276749; border-radius: 0 10px 10px 0; padding: 16px 24px; margin: 10px 0; font-size: 18px; font-weight: 700; }
+    .hint-box { background: #ebf8ff; border: 2px solid #63b3ed; border-radius: 10px; padding: 14px 24px; margin: 10px 0; }
+  </style>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]})"></script>
+</head>
+<body>
+<!--
+https://kazumahattori1131-del.github.io/StudyList/problems/youtube_redesign/math2_exponential_substitution.html
+-->
+<div id="progress-bar"></div>
+
+<!-- ① 問題提示 -->
+<section class="slide active">
+  <div class="slide-header">
+    <span class="badge">数学II</span>
+    <span class="slide-title">指数方程式の整理</span>
+    <div class="meta"><span>★★★☆☆ 標準+</span><span>偏差値55〜65</span></div>
+  </div>
+  <div class="problem-label">問　題</div>
+  <div class="problem-box">
+    次の方程式を解け。
+    $$4^x - 3 \cdot 2^x - 4 = 0$$
+  </div>
+  <div class="step" style="font-size:18px; margin-top:1.2rem;">
+    💬 $4^x$ と $2^x$ の間には、どんな関係がある？
+  </div>
+  <div class="slide-footer"></div>
+</section>
+
+<!-- ② 思考誘導：ヒント -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge orange">ヒント</span>
+    <span class="slide-title">$4^x$ を $2^x$ で書き換えよう</span>
+  </div>
+  <div class="hint-box">
+    <strong>HINT：</strong> $4^x = (2^2)^x = (2^x)^2$<br><br>
+    $t = 2^x$（$t > 0$）とおくと、方程式はどんな形になる？<br><br>
+    ※ 解いた後、<strong>$t > 0$ の確認</strong>を忘れずに。
+  </div>
+  <div class="slide-footer"></div>
+</section>
+
+<!-- ③ 本質ポイント -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge green">本質ポイント</span>
+    <span class="slide-title">$t = 2^x$ で2次方程式に帰着</span>
+  </div>
+  <div class="key-box">
+    🔑 $4^x = (2^x)^2$ を利用して $t = 2^x$（$t > 0$）とおくと
+    $$t^2 - 3t - 4 = 0$$
+    → 因数分解で解ける2次方程式に変換！<br>
+    解いた後 <strong>$t > 0$（指数は常に正）</strong> を満たすものだけ採用する。
+  </div>
+  <div class="slide-footer"></div>
+</section>
+
+<!-- ④ 解説（模範解答） -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge">解説</span>
+    <span class="slide-title">方程式を解く</span>
+  </div>
+  <div class="step"><span class="step-num">1</span>
+    $t = 2^x$（$t > 0$）とおく。$4^x = t^2$ より：
+    $$t^2 - 3t - 4 = 0$$
+  </div>
+  <div class="step"><span class="step-num">2</span>
+    因数分解：$(t-4)(t+1) = 0$ → $t = 4$ または $t = -1$
+  </div>
+  <div class="step"><span class="step-num">3</span>
+    $t = 2^x > 0$ より $t = -1$ は不適。$t = 4$ を採用：
+    $$2^x = 4 = 2^2 \;\Rightarrow\; x = 2$$
+  </div>
+  <div class="answer-label">答　え</div>
+  <div class="answer-box">$$x = 2$$</div>
+  <div class="slide-footer"></div>
+</section>
+
+<!-- ⑤ 一般化 -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge green">一般化</span>
+    <span class="slide-title">$p^{2x} + a\cdot p^x + b = 0$ の型</span>
+  </div>
+  <div class="key-box" style="font-size:16px;">
+    $p^{2x} + a \cdot p^x + b = 0$（$p > 0$, $p \neq 1$）の形は<br>
+    $t = p^x$（$t > 0$）で $t^2 + at + b = 0$ に帰着。<br><br>
+    解いた後は必ず <strong>$t > 0$ を確認</strong>してから $x = \log_p t$ で戻す。
+  </div>
+  <div class="slide-footer"></div>
+</section>
+
+<!-- ⑥ 類題 -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge green">類題</span>
+    <span class="slide-title">同じ手順で解いてみよう</span>
+  </div>
+  <div class="problem-box" style="font-size:16px;">
+    $9^x - 4 \cdot 3^x - 5 = 0$ を解け。
+  </div>
+  <div class="step" style="font-size:15px; margin-top:1rem;">
+    <strong>解答：</strong>
+    $t = 3^x$（$t > 0$）とおく：$t^2 - 4t - 5 = 0$<br>
+    $(t-5)(t+1) = 0$ → $t = 5$（$t = -1$ は不適）<br>
+    $3^x = 5$ より $x = \log_3 5$
+  </div>
+  <div class="slide-footer"></div>
+</section>
+
+<div id="nav">
+  <button id="btn-prev">◀ 前へ</button>
+  <span class="page-info" id="pinfo">1 / 6</span>
+  <button id="btn-next">次へ ▶</button>
+  <button id="btn-pdf" onclick="window.print()">⬇ PDF保存</button>
+  <span class="hint">← → キーでも操作できます</span>
+</div>
+<script src="../slide.js"></script>
+</body>
+</html>
