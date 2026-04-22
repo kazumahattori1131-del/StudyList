@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>【数学A】円順列×確率 — 男女交互</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <link rel="stylesheet" href="../slide.css">
+  <style>
+    :root { --accent: #553c9a; }
+    .key-box { background: #faf5ff; border-left: 6px solid #553c9a; border-radius: 0 10px 10px 0; padding: 16px 24px; margin: 10px 0; font-size: 18px; font-weight: 700; }
+    .trap-box { background: #fff5f5; border: 2px solid #fc8181; border-radius: 10px; padding: 14px 24px; margin: 10px 0; }
+    .trap-title { color: #c53030; font-weight: 800; font-size: 15px; margin-bottom: 6px; }
+  </style>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]})"></script>
+</head>
+<body>
+<div id="progress-bar"></div>
+
+<!-- ① 問題提示 -->
+<section class="slide active">
+  <div class="slide-header">
+    <span class="badge">数学A</span>
+    <span class="slide-title">円順列と確率の組み合わせ</span>
+    <div class="meta"><span>★★★☆☆ 標準</span><span>偏差値55〜65</span></div>
+  </div>
+  <div class="problem-label">問　題</div>
+  <div class="problem-box">
+    男子 3 人・女子 3 人の計 6 人が円形のテーブルに等確率で座るとき、<br>
+    男女が <strong>交互に並ぶ</strong> 確率を求めよ。
+  </div>
+  <div class="step" style="font-size:18px; margin-top:1.2rem;">
+    💬 円形に並べるとき、全体の場合の数はどう数える？
+  </div>
+  <div class="slide-footer"></div>
+</section>
+
+<!-- ② 思考誘導：よくある間違い -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge orange">よくある間違い</span>
+    <span class="slide-title">分母を $6!$ にしてしまう</span>
+  </div>
+  <div class="trap-box">
+    <div class="trap-title">❌ 間違い答案例</div>
+    「直線に並べた場合の数 $6! = 720$ を分母にする」<br><br>
+    <strong>正しくは：</strong> 円順列では<strong>回転して同じ配置は1通り</strong>として数える。<br>
+    → 全体の場合の数 $= (6-1)! = 5! = 120$（通り）<br><br>
+    ※ 円順列の基本：1人を固定して残りを並べる。
+  </div>
+  <div class="slide-footer"></div>
+</section>
+
+<!-- ③ 本質ポイント -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge green">本質ポイント</span>
+    <span class="slide-title">男子1人固定 → 残りを並べる</span>
+  </div>
+  <div class="key-box">
+    🔑 男女交互の配置 = 「男・女・男・女・男・女」のパターン<br><br>
+    男子1人（Aとする）を固定すると：<br>
+    ・残り2人の男子の並び方：$2! = 2$ 通り<br>
+    ・3人の女子の並び方：$3! = 6$ 通り<br>
+    → 交互になる場合の数：$2 \times 6 = 12$ 通り
+  </div>
+  <div class="slide-footer"></div>
+</section>
+
+<!-- ④ 解説（模範解答） -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge">解説</span>
+    <span class="slide-title">交互になる場合の数を数える</span>
+  </div>
+  <div class="step"><span class="step-num">1</span>
+    全体の場合の数：6人の円順列 $= (6-1)! = 120$（通り）
+  </div>
+  <div class="step"><span class="step-num">2</span>
+    男女交互の場合：男子1人（A）を固定。<br>
+    残り男子の並び方 $2!$、女子の並び方 $3!$：
+    $$2! \times 3! = 2 \times 6 = 12 \text{（通り）}$$
+  </div>
+  <div class="answer-label">答　え</div>
+  <div class="answer-box">$$P = \frac{12}{120} = \frac{1}{10}$$</div>
+  <div class="slide-footer"></div>
+</section>
+
+<!-- ⑤ 一般化 -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge green">一般化</span>
+    <span class="slide-title">男女各 $m$ 人が円形に交互に並ぶ確率</span>
+  </div>
+  <div class="key-box" style="font-size:16px;">
+    男子 $m$ 人・女子 $m$ 人（計 $2m$ 人）の円順列で交互になる確率：
+    $$P = \frac{(m-1)!\cdot m!}{(2m-1)!}$$
+    $m=3$ のとき：$P = \dfrac{2!\cdot 3!}{5!} = \dfrac{12}{120} = \dfrac{1}{10}$ ✓<br><br>
+    <strong>円順列の確率：分母 $(n-1)!$、分子は1人固定して数える</strong>
+  </div>
+  <div class="slide-footer"></div>
+</section>
+
+<!-- ⑥ 類題 -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge green">類題</span>
+    <span class="slide-title">同じ手順で解いてみよう</span>
+  </div>
+  <div class="problem-box" style="font-size:16px;">
+    男子 4 人・女子 4 人の 8 人が円形に並ぶとき、男女が交互になる確率を求めよ。
+  </div>
+  <div class="step" style="font-size:15px; margin-top:1rem;">
+    <strong>解答：</strong>
+    全体：$7! = 5040$<br>
+    交互：$3! \times 4! = 6 \times 24 = 144$
+    $$P = \frac{144}{5040} = \frac{1}{35}$$
+  </div>
+  <div class="slide-footer"></div>
+</section>
+
+<div id="nav">
+  <button id="btn-prev">◀ 前へ</button>
+  <span class="page-info" id="pinfo">1 / 6</span>
+  <button id="btn-next">次へ ▶</button>
+  <button id="btn-pdf" onclick="window.print()">⬇ PDF保存</button>
+  <span class="hint">← → キーでも操作できます</span>
+</div>
+<script src="../slide.js"></script>
+</body>
+</html>

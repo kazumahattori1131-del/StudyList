@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>【数学I】放物線とx軸の交点 — 判別式の使い方</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <link rel="stylesheet" href="../slide.css">
+  <style>
+    :root { --accent: #c05621; }
+    .key-box { background: #fff8f0; border-left: 6px solid #c05621; border-radius: 0 10px 10px 0; padding: 16px 24px; margin: 10px 0; font-size: 18px; font-weight: 700; }
+    .trap-box { background: #fff5f5; border: 2px solid #fc8181; border-radius: 10px; padding: 14px 24px; margin: 10px 0; }
+    .trap-title { color: #c53030; font-weight: 800; font-size: 15px; margin-bottom: 6px; }
+  </style>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]})"></script>
+</head>
+<body>
+<div id="progress-bar"></div>
+
+<!-- ① 問題提示 -->
+<section class="slide active">
+  <div class="slide-header">
+    <span class="badge">数学I</span>
+    <span class="slide-title">放物線とx軸の交点条件</span>
+    <div class="meta"><span>★★★☆☆ 標準</span><span>偏差値50〜60</span></div>
+  </div>
+  <div class="problem-label">問　題</div>
+  <div class="problem-box">
+    放物線 $y = x^2 - 2ax + a + 2$ がx軸と<strong>2点で交わる</strong>ような<br>
+    定数 $a$ の値の範囲を求めよ。
+  </div>
+  <div class="step" style="font-size:18px; margin-top:1.2rem;">
+    💬 「接する」と「2点で交わる」―― $D$ の符号でどう違う？
+  </div>
+  <div class="slide-footer"></div>
+</section>
+
+<!-- ② 思考誘導：よくある間違い -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge orange">よくある間違い</span>
+    <span class="slide-title">$D \geq 0$ と $D > 0$ を混同する</span>
+  </div>
+  <div class="trap-box">
+    <div class="trap-title">❌ 間違い答案例</div>
+    「x軸と交わる条件だから $D \geq 0$」として解いてしまう。<br><br>
+    <strong>正しくは：</strong><br>
+    ・$D > 0$：2点で交わる<br>
+    ・$D = 0$：接する（1点のみ）<br>
+    ・$D < 0$：交点なし<br><br>
+    「2点で交わる」には <strong>$D > 0$（等号なし）</strong> が必要。
+  </div>
+  <div class="slide-footer"></div>
+</section>
+
+<!-- ③ 本質ポイント -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge green">本質ポイント</span>
+    <span class="slide-title">$D/4 = a^2 - a - 2 > 0$ に帰着させる</span>
+  </div>
+  <div class="key-box">
+    🔑 $y = x^2 - 2ax + (a+2)$ の判別式<br>
+    $$\frac{D}{4} = (-a)^2 - (a+2) = a^2 - a - 2$$
+    「2点で交わる」⟺ $D > 0$ ⟺ $a^2 - a - 2 > 0$<br>
+    → <strong>$a$ の2次不等式として因数分解して解く</strong>
+  </div>
+  <div class="step">
+    $D/4$ を使うと、$x$ の係数が偶数のとき計算がシンプルになる。
+  </div>
+  <div class="slide-footer"></div>
+</section>
+
+<!-- ④ 解説（模範解答） -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge">解説</span>
+    <span class="slide-title">不等式を解く</span>
+  </div>
+  <div class="step"><span class="step-num">1</span>
+    判別式を計算：
+    $$\frac{D}{4} = (-a)^2 - (a+2) = a^2 - a - 2$$
+  </div>
+  <div class="step"><span class="step-num">2</span>
+    「2点で交わる」条件 $D > 0$：
+    $$a^2 - a - 2 > 0$$
+  </div>
+  <div class="step"><span class="step-num">3</span>
+    因数分解：$(a-2)(a+1) > 0$
+  </div>
+  <div class="answer-label">答　え</div>
+  <div class="answer-box">$$a < -1 \quad \text{または} \quad a > 2$$</div>
+  <div class="slide-footer"></div>
+</section>
+
+<!-- ⑤ 一般化 -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge green">一般化</span>
+    <span class="slide-title">放物線とx軸の位置関係</span>
+  </div>
+  <div class="key-box" style="font-size:16px;">
+    $y = x^2 + bx + c$ とx軸の関係（$D = b^2 - 4c$）：<br>
+    ・2点で交わる：$D > 0$<br>
+    ・接する（1点）：$D = 0$<br>
+    ・共有点なし：$D < 0$<br><br>
+    パラメータが入っているときは <strong>$D$ をパラメータの式として整理</strong> して解く。
+  </div>
+  <div class="slide-footer"></div>
+</section>
+
+<!-- ⑥ 類題 -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge green">類題</span>
+    <span class="slide-title">同じ手順で解いてみよう</span>
+  </div>
+  <div class="problem-box" style="font-size:16px;">
+    放物線 $y = x^2 - 4ax + 2a + 6$ がx軸と2点で交わる条件を求めよ。
+  </div>
+  <div class="step" style="font-size:15px; margin-top:1rem;">
+    <strong>解答：</strong>
+    $\dfrac{D}{4} = 4a^2 - (2a+6) = 4a^2 - 2a - 6 > 0$<br>
+    $2a^2 - a - 3 > 0$：$(2a-3)(a+1) > 0$
+    $$a < -1 \quad \text{または} \quad a > \frac{3}{2}$$
+  </div>
+  <div class="slide-footer"></div>
+</section>
+
+<div id="nav">
+  <button id="btn-prev">◀ 前へ</button>
+  <span class="page-info" id="pinfo">1 / 6</span>
+  <button id="btn-next">次へ ▶</button>
+  <button id="btn-pdf" onclick="window.print()">⬇ PDF保存</button>
+  <span class="hint">← → キーでも操作できます</span>
+</div>
+<script src="../slide.js"></script>
+</body>
+</html>

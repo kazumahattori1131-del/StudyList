@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>【数学I】ax²+2x+a＞0 がすべてのxで成立する条件</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <link rel="stylesheet" href="../slide.css">
+  <style>
+    :root { --accent: #c05621; }
+    .key-box { background: #fff8f0; border-left: 6px solid #c05621; border-radius: 0 10px 10px 0; padding: 16px 24px; margin: 10px 0; font-size: 18px; font-weight: 700; }
+    .trap-box { background: #fff5f5; border: 2px solid #fc8181; border-radius: 10px; padding: 14px 24px; margin: 10px 0; }
+    .trap-title { color: #c53030; font-weight: 800; font-size: 15px; margin-bottom: 6px; }
+  </style>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]})"></script>
+</head>
+<body>
+<div id="progress-bar"></div>
+
+<!-- ① 問題提示 -->
+<section class="slide active">
+  <div class="slide-header">
+    <span class="badge">数学I</span>
+    <span class="slide-title">二次不等式の恒等的成立</span>
+    <div class="meta"><span>★★★☆☆ 標準</span><span>偏差値55〜70</span></div>
+  </div>
+  <div class="problem-label">問　題</div>
+  <div class="problem-box">
+    次の不等式がすべての実数 $x$ に対して成り立つような、定数 $a$ の値の範囲を求めよ。
+    $$ax^2 + 2x + a > 0$$
+  </div>
+  <div class="step" style="font-size:18px; margin-top:1.2rem;">
+    💬 「判別式を使えばすぐ解ける」と思った人 ―― ある条件を見落としていない？
+  </div>
+  <div class="slide-footer"></div>
+</section>
+
+<!-- ② 思考誘導：よくある間違い -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge orange">よくある間違い</span>
+    <span class="slide-title">$D < 0$ だけ解いてしまう落とし穴</span>
+  </div>
+  <div class="trap-box">
+    <div class="trap-title">❌ 間違い答案例</div>
+    「$D = 4 - 4a^2 < 0$ を解いて $a < -1$ または $a > 1$」<br>
+    → <strong>$a < -1$ を含めてしまっている！</strong><br><br>
+    例：$a = -2$ のとき $-2x^2 + 2x - 2 > 0$<br>
+    → 放物線が<strong>下に開く</strong>ので、どこかで必ず $x$ 軸より下になる。
+  </div>
+  <div class="key-box" style="font-size:16px; margin-top:12px;">
+    💡 「常に正」= <strong>上に凸でない（$a > 0$）</strong> ＋ <strong>x軸に触れない（$D < 0$）</strong>
+  </div>
+  <div class="slide-footer"></div>
+</section>
+
+<!-- ③ 本質ポイント -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge green">本質ポイント</span>
+    <span class="slide-title">2条件を同時に満たす必要がある</span>
+  </div>
+  <div class="key-box">
+    🔑 $f(x) = ax^2 + 2x + a$ がすべての $x$ で正になる条件：<br><br>
+    ① $a > 0$（上に開く）<br>
+    ② $D = 4 - 4a^2 < 0$（x軸と交わらない）<br><br>
+    この<strong>2条件の共通部分</strong>が答え。さらに $a = 0$ の場合も別途確認する。
+  </div>
+  <div class="slide-footer"></div>
+</section>
+
+<!-- ④ 解説（模範解答） -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge">解説</span>
+    <span class="slide-title">場合分けして共通部分を求める</span>
+  </div>
+  <div class="step"><span class="step-num">1</span>
+    $a = 0$ のとき：$2x > 0$ はすべての $x$ で成立しない。→ <strong>不適</strong>
+  </div>
+  <div class="step"><span class="step-num">2</span>
+    $a \neq 0$ のとき：条件①②を同時に満たす必要がある。<br>
+    条件②：$4 - 4a^2 < 0$ → $a^2 > 1$ → $a < -1$ または $a > 1$
+  </div>
+  <div class="step"><span class="step-num">3</span>
+    条件① $a > 0$ との共通部分：
+    $$a > 0 \;\text{かつ}\; (a < -1 \;\text{または}\; a > 1) \;\Rightarrow\; a > 1$$
+  </div>
+  <div class="answer-label">答　え</div>
+  <div class="answer-box">$$a > 1$$</div>
+  <div class="slide-footer"></div>
+</section>
+
+<!-- ⑤ 一般化 -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge green">一般化</span>
+    <span class="slide-title">「常に正」の2条件セット</span>
+  </div>
+  <div class="key-box" style="font-size:16px;">
+    $f(x) = ax^2 + bx + c$ がすべての $x$ で $f(x) > 0$ となる条件：
+    $$a > 0 \quad \text{かつ} \quad D = b^2 - 4ac < 0$$
+    この<strong>2条件を必ずセットで確認</strong>する。<br>
+    $a$ の符号の見落としが最大の落とし穴。
+  </div>
+  <div class="slide-footer"></div>
+</section>
+
+<!-- ⑥ 類題 -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge green">類題</span>
+    <span class="slide-title">同じ手順で解いてみよう</span>
+  </div>
+  <div class="problem-box" style="font-size:16px;">
+    $ax^2 - 4x + a - 3 > 0$ がすべての実数 $x$ で成立するような $a$ の範囲を求めよ。
+  </div>
+  <div class="step" style="font-size:15px; margin-top:1rem;">
+    <strong>解答：</strong>
+    $a > 0$ かつ $D = 16 - 4a(a-3) < 0$<br>
+    → $a^2 - 3a - 4 > 0$ → $(a-4)(a+1) > 0$<br>
+    → $a > 4$ または $a < -1$　かつ　$a > 0$
+    $$\boxed{a > 4}$$
+  </div>
+  <div class="slide-footer"></div>
+</section>
+
+<div id="nav">
+  <button id="btn-prev">◀ 前へ</button>
+  <span class="page-info" id="pinfo">1 / 6</span>
+  <button id="btn-next">次へ ▶</button>
+  <button id="btn-pdf" onclick="window.print()">⬇ PDF保存</button>
+  <span class="hint">← → キーでも操作できます</span>
+</div>
+<script src="../slide.js"></script>
+</body>
+</html>
