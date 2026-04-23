@@ -12,12 +12,12 @@ import os
 import re
 import time
 import wave
+import base64
 import argparse
+import requests
 from pathlib import Path
 
 from playwright.sync_api import sync_playwright
-from google import genai
-from google.genai import types
 from moviepy import VideoFileClip, concatenate_videoclips, ImageClip, AudioFileClip
 
 # ── 設定 ──────────────────────────────────────────────────────────────────
@@ -25,10 +25,10 @@ CHROME_PATH  = '/opt/pw-browsers/chromium-1194/chrome-linux/chrome'
 KATEX_BASE   = 'file:///home/user/StudyList/problems/katex'
 BASE_DIR     = Path('/home/user/StudyList/problems/youtube_redesign')
 OUTPUT_DIR   = BASE_DIR / 'output'
-TTS_MODEL    = 'gemini-2.5-flash-preview-tts'
-TTS_VOICE    = 'Leda'
-TTS_RATE     = 24000          # Gemini PCM サンプルレート
-GAP_SECONDS  = 0.8            # スライド切り替え後の無音 (秒)
+TTS_VOICE    = 'ja-JP-Neural2-B'   # Google Cloud TTS: 日本語Neural2男性
+TTS_RATE     = 24000               # Cloud TTS LINEAR16 出力サンプルレート
+GAP_SECONDS  = 0.5                 # スライド切り替え後の無音 (秒)
+CLOUD_TTS_URL = 'https://texttospeech.googleapis.com/v1/text:synthesize'
 VIDEO_W, VIDEO_H = 1280, 720
 VIDEO_FPS    = 24
 
@@ -91,7 +91,8 @@ def screenshot_slides(html_path: Path, out_dir: Path) -> list[Path]:
             browser = p.chromium.launch(
                 executable_path=CHROME_PATH,
                 headless=True,
-                args=['--no-sandbox', '--allow-file-access-from-files'],
+                args=['--no-sandbox', '--allow-file-access-from-files',
+                      '--lang=ja-JP', '--accept-lang=ja-JP'],
             )
             page = browser.new_page(viewport={'width': VIDEO_W, 'height': VIDEO_H})
             page.goto(f'file://{tmp_path.resolve()}')
@@ -146,34 +147,47 @@ def pcm_to_wav(pcm: bytes, wav_path: Path, rate: int = TTS_RATE,
         wf.writeframes(pcm + silence)
 
 
-def generate_audio(text: str, out_path: Path, client: genai.Client,
+def generate_audio(text: str, out_path: Path, api_key: str,
                    gap: float = GAP_SECONDS) -> None:
-    """Gemini TTS で音声生成 → WAV 保存（末尾に gap 秒の無音付き）。レート制限時はリトライ"""
-    for attempt in range(5):
+    """Google Cloud TTS で音声生成 → WAV 保存（末尾に gap 秒の無音付き）。レート制限時はリトライ"""
+    payload = {
+        'input': {'text': text},
+        'voice': {
+            'languageCode': 'ja-JP',
+            'name': TTS_VOICE,
+        },
+        'audioConfig': {
+            'audioEncoding': 'LINEAR16',
+            'sampleRateHertz': TTS_RATE,
+        },
+    }
+    max_retries = 12
+    for attempt in range(max_retries):
         try:
-            response = client.models.generate_content(
-                model=TTS_MODEL,
-                contents=text,
-                config=types.GenerateContentConfig(
-                    response_modalities=['AUDIO'],
-                    speech_config=types.SpeechConfig(
-                        voice_config=types.VoiceConfig(
-                            prebuilt_voice_config=types.PrebuiltVoiceConfig(voice_name=TTS_VOICE)
-                        )
-                    ),
-                ),
+            resp = requests.post(
+                CLOUD_TTS_URL,
+                params={'key': api_key},
+                json=payload,
+                timeout=60,
             )
-            pcm = response.candidates[0].content.parts[0].inline_data.data
+            if resp.status_code in (429, 503):
+                wait = 30 * (attempt + 1)
+                print(f' [待機{wait}秒]', end='', flush=True)
+                time.sleep(wait)
+                continue
+            resp.raise_for_status()
+            pcm = base64.b64decode(resp.json()['audioContent'])
             pcm_to_wav(pcm, out_path, gap_seconds=gap)
             return
-        except Exception as e:
+        except requests.exceptions.RequestException as e:
             msg = str(e)
-            if '429' in msg:
-                wait = 35 * (attempt + 1)
-                print(f' [レート制限: {wait}秒待機]', end='', flush=True)
+            if '429' in msg or '503' in msg:
+                wait = 30 * (attempt + 1)
+                print(f' [待機{wait}秒]', end='', flush=True)
                 time.sleep(wait)
             else:
                 raise
+    raise RuntimeError(f'音声生成: {max_retries}回リトライ後も失敗')
 
 
 def make_slide_clip(img_path: Path, audio_path: Path, clip_path: Path) -> None:
@@ -186,7 +200,7 @@ def make_slide_clip(img_path: Path, audio_path: Path, clip_path: Path) -> None:
     clip.close()
 
 
-def process_one(html_path: Path, client: genai.Client) -> Path | None:
+def process_one(html_path: Path, api_key: str) -> Path | None:
     """HTML 1 ファイル → MP4"""
     stem = html_path.stem
     voice_path = html_path.parent / f'{stem}_voice.md'
@@ -220,7 +234,7 @@ def process_one(html_path: Path, client: genai.Client) -> Path | None:
         audio_path = out_dir / f'audio_{i:02d}.wav'
         clip_path  = out_dir / f'clip_{i:02d}.mp4'
 
-        generate_audio(script, audio_path, client)
+        generate_audio(script, audio_path, api_key)
         print(' 音声✓', end='', flush=True)
 
         make_slide_clip(img, audio_path, clip_path)
@@ -232,7 +246,7 @@ def process_one(html_path: Path, client: genai.Client) -> Path | None:
     outro_text  = OUTRO_TEMPLATE.format(title=title)
     outro_audio = out_dir / 'audio_outro.wav'
     outro_clip  = out_dir / 'clip_outro.mp4'
-    generate_audio(outro_text, outro_audio, client, gap=0.0)
+    generate_audio(outro_text, outro_audio, api_key, gap=0.0)
     make_slide_clip(screenshots[-1], outro_audio, outro_clip)
     print(' 音声✓ 動画✓')
     clip_paths.append(outro_clip)
@@ -261,7 +275,6 @@ def main():
     if not api_key:
         raise SystemExit('エラー: 環境変数 GEMINI_API_KEY を設定してください。')
 
-    client = genai.Client(api_key=api_key)
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
     if args.file:
@@ -271,7 +284,7 @@ def main():
 
     results = []
     for html_path in html_files:
-        r = process_one(html_path, client)
+        r = process_one(html_path, api_key)
         if r:
             results.append(r)
 
