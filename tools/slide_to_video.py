@@ -28,7 +28,7 @@ OUTPUT_DIR   = BASE_DIR / 'output'
 TTS_MODEL    = 'gemini-2.5-flash-preview-tts'
 TTS_VOICE    = 'Leda'
 TTS_RATE     = 24000          # Gemini PCM サンプルレート
-GAP_SECONDS  = 0.8            # スライド切り替え後の無音 (秒)
+GAP_SECONDS  = 0.5            # スライド切り替え後の無音 (秒)
 VIDEO_W, VIDEO_H = 1280, 720
 VIDEO_FPS    = 24
 
