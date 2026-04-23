@@ -3,3 +3,7 @@
 problems/youtube_redesign/output/
 _tmp_preview.html
 *TEMP_MPY*.mp4
+
+# Python
+__pycache__/
+*.pyc
