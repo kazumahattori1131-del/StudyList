@@ -116,6 +116,44 @@ def extract_title(voice_path: Path) -> str:
     return first_line.lstrip('# ').strip()
 
 
+_DIGIT_JA = {'0': 'ゼロ', '1': 'いち', '2': 'に', '3': 'さん', '4': 'よん',
+             '5': 'ご', '6': 'ろく', '7': 'なな', '8': 'はち', '9': 'きゅう'}
+
+def normalize_for_tts(text: str) -> str:
+    """TTS に渡す前に発音問題を修正する"""
+    # --- 区切り線を除去（読み上げ対象外）
+    text = re.sub(r'^-{3,}\s*$', '', text, flags=re.MULTILINE)
+
+    # ※ 注記行を除去
+    text = re.sub(r'^※.*$', '', text, flags=re.MULTILINE)
+
+    # 数学記号の正「せい」: 正しく・正式・正規・正確 は対象外
+    text = re.sub(r'正(?!しく|式|規|確|解|直|午|月|論|比|弦|接|反|逆|面|答|法)',
+                  'せい', text)
+
+    # 0 → ゼロ（単独の 0、小数点・連続数字は除く）
+    text = re.sub(r'(?<![0-9])0(?![0-9.])', 'ゼロ', text)
+
+    # f(x) → エフエックス
+    text = text.replace('f(x)', 'エフエックス')
+
+    # 条件①② などの丸数字 → 条件いち・条件に
+    circled = {'①': 'いち', '②': 'に', '③': 'さん', '④': 'よん', '⑤': 'ご',
+               '⑥': 'ろく', '⑦': 'なな', '⑧': 'はち', '⑨': 'きゅう', '⑩': 'じゅう'}
+    for ch, reading in circled.items():
+        text = text.replace(f'条件{ch}', f'条件{reading}')
+
+    # 単独の算用数字 1-9 を日本語読みに変換（複数桁・小数点は除く）
+    # 例: 「プラス 2」→「プラス に」, 「xの2乗」→「xのに乗」
+    text = re.sub(r'(?<![0-9.])([1-9])(?![0-9.])',
+                  lambda m: _DIGIT_JA[m.group(1)], text)
+
+    # 連続する空行を1行に整理
+    text = re.sub(r'\n{3,}', '\n\n', text)
+
+    return text.strip()
+
+
 def pcm_to_wav(pcm: bytes, wav_path: Path, rate: int = TTS_RATE,
                gap_seconds: float = 0.0) -> None:
     """生 PCM (16bit mono) → WAV。gap_seconds 分の無音を末尾に追加"""
@@ -130,6 +168,7 @@ def pcm_to_wav(pcm: bytes, wav_path: Path, rate: int = TTS_RATE,
 def generate_audio(text: str, out_path: Path, api_key: str,
                    gap: float = GAP_SECONDS) -> None:
     """Google Cloud TTS で音声生成 → WAV 保存（末尾に gap 秒の無音付き）。レート制限時はリトライ"""
+    text = normalize_for_tts(text)
     payload = {
         'input': {'text': text},
         'voice': {
