@@ -150,7 +150,8 @@ def pcm_to_wav(pcm: bytes, wav_path: Path, rate: int = TTS_RATE,
 def generate_audio(text: str, out_path: Path, client: genai.Client,
                    gap: float = GAP_SECONDS) -> None:
     """Gemini TTS で音声生成 → WAV 保存（末尾に gap 秒の無音付き）。レート制限時はリトライ"""
-    for attempt in range(5):
+    max_retries = 12
+    for attempt in range(max_retries):
         try:
             response = client.models.generate_content(
                 model=TTS_MODEL,
@@ -169,12 +170,13 @@ def generate_audio(text: str, out_path: Path, client: genai.Client,
             return
         except Exception as e:
             msg = str(e)
-            if '429' in msg:
-                wait = 35 * (attempt + 1)
-                print(f' [レート制限: {wait}秒待機]', end='', flush=True)
+            if '429' in msg or '503' in msg:
+                wait = 30 * (attempt + 1)
+                print(f' [待機{wait}秒]', end='', flush=True)
                 time.sleep(wait)
             else:
                 raise
+    raise RuntimeError(f'音声生成: {max_retries}回リトライ後も失敗')
 
 
 def make_slide_clip(img_path: Path, audio_path: Path, clip_path: Path) -> None:
