@@ -149,12 +149,11 @@ def pcm_to_wav(pcm: bytes, wav_path: Path, rate: int = TTS_RATE,
 def generate_audio(text: str, out_path: Path, client: genai.Client,
                    gap: float = GAP_SECONDS) -> None:
     """Gemini TTS で音声生成 → WAV 保存（末尾に gap 秒の無音付き）。レート制限時はリトライ"""
-    prompt = f'{TTS_STYLE}\n\n{text}'
     for attempt in range(5):
         try:
             response = client.models.generate_content(
                 model=TTS_MODEL,
-                contents=prompt,
+                contents=text,
                 config=types.GenerateContentConfig(
                     response_modalities=['AUDIO'],
                     speech_config=types.SpeechConfig(
