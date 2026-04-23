@@ -25,6 +25,7 @@ CHROME_PATH  = '/opt/pw-browsers/chromium-1194/chrome-linux/chrome'
 KATEX_BASE   = 'file:///home/user/StudyList/problems/katex'
 BASE_DIR     = Path('/home/user/StudyList/problems/youtube_redesign')
 OUTPUT_DIR   = BASE_DIR / 'output'
+ENDING_SLIDE = BASE_DIR / 'ending_slide.png'
 TTS_MODEL    = 'gemini-3.1-flash-tts-preview'
 TTS_VOICE    = 'Leda'
 GAP_SECONDS  = 0.5
@@ -320,8 +321,10 @@ def make_slide_clip(img_path: Path, audio_path: Path, clip_path: Path) -> None:
     """画像 + 音声 → 動画クリップ (.mp4)"""
     audio = AudioFileClip(str(audio_path))
     clip  = ImageClip(str(img_path), duration=audio.duration).with_audio(audio)
+    tmp   = clip_path.with_suffix('.tmp_audio.mp4')
     clip.write_videofile(str(clip_path), fps=VIDEO_FPS, codec='libx264',
-                         audio_codec='aac', logger=None)
+                         audio_codec='aac', logger=None,
+                         temp_audiofile=str(tmp))
     audio.close()
     clip.close()
 
@@ -362,7 +365,7 @@ def process_one(html_path: Path, client: genai.Client) -> Path | None:
         print(f'        [{i}/{len(pairs)}]', end='', flush=True)
 
         if idx == ruidai_idx and ruidai_hidden is not None:
-            # 類題スライド: 問題提示 → 3秒無音 → 解答解説
+            # 類題スライド: 問題提示 → 3秒無音 → 解説開始ナレーション → 解答解説
             problem_script, solution_script = split_ruidai_script(script)
 
             # A: 問題提示（解答非表示）
@@ -379,14 +382,20 @@ def process_one(html_path: Path, client: genai.Client) -> Path | None:
             write_silence_wav(silence_wav, 3.0)
             make_slide_clip(ruidai_hidden, silence_wav, clip_b)
 
-            # C: 解答解説（解答表示）
+            # C: 解説開始ナレーション（解答非表示のまま）
             audio_c = out_dir / f'audio_{i:02d}c.wav'
-            clip_c  = out_dir / f'clip_{i:02d}.mp4'
-            generate_audio(solution_script, audio_c, client)
-            make_slide_clip(img, audio_c, clip_c)
+            clip_c  = out_dir / f'clip_{i:02d}c.mp4'
+            generate_audio('では、解説していきます。', audio_c, client)
+            make_slide_clip(ruidai_hidden, audio_c, clip_c)
+
+            # D: 解答解説（解答表示）
+            audio_d = out_dir / f'audio_{i:02d}d.wav'
+            clip_d  = out_dir / f'clip_{i:02d}.mp4'
+            generate_audio(solution_script, audio_d, client)
+            make_slide_clip(img, audio_d, clip_d)
             print(' 解答✓')
 
-            clip_paths.extend([clip_a, clip_b, clip_c])
+            clip_paths.extend([clip_a, clip_b, clip_c, clip_d])
         else:
             audio_path = out_dir / f'audio_{i:02d}.wav'
             clip_path  = out_dir / f'clip_{i:02d}.mp4'
@@ -401,7 +410,8 @@ def process_one(html_path: Path, client: genai.Client) -> Path | None:
     outro_audio = out_dir / 'audio_outro.wav'
     outro_clip  = out_dir / 'clip_outro.mp4'
     generate_audio(outro_text, outro_audio, client, gap=0.0)
-    make_slide_clip(screenshots[-1], outro_audio, outro_clip)
+    ending = ENDING_SLIDE if ENDING_SLIDE.exists() else screenshots[-1]
+    make_slide_clip(ending, outro_audio, outro_clip)
     print(' 音声✓ 動画✓')
     clip_paths.append(outro_clip)
 
@@ -444,7 +454,7 @@ def main():
 
     print(f'\n=== 完了: {len(results)} 本の動画を生成 ===')
     for r in results:
-        print(f'  {r}')
+        print(r)
 
 
 if __name__ == '__main__':

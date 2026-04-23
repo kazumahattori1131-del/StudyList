@@ -56,7 +56,7 @@ body {
 .badge {
   background: var(--accent);
   color: #fff;
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 700;
   padding: 4px 12px;
   border-radius: 4px;
@@ -64,13 +64,13 @@ body {
 }
 .badge.orange { background: #dd6b20; }
 .badge.green  { background: #276749; }
-.slide-title { font-size: 20px; font-weight: 800; color: #2d3748; flex: 1; }
+.slide-title { font-size: 24px; font-weight: 800; color: #2d3748; flex: 1; }
 .slide > .slide-title { flex: none; } /* タイトルがslideの直接子要素の場合は縦伸縮しない */
-.meta { font-size: 12px; color: #718096; display: flex; gap: 16px; }
+.meta { font-size: 14px; color: #718096; display: flex; gap: 16px; }
 
 /* 問題ボックス */
 .problem-label {
-  font-size: 13px;
+  font-size: 16px;
   font-weight: 700;
   letter-spacing: 0.1em;
   color: var(--accent);
@@ -81,7 +81,7 @@ body {
   border-left: 6px solid var(--accent);
   border-radius: 0 8px 8px 0;
   padding: 18px 28px;
-  font-size: 18px;
+  font-size: 21px;
   line-height: 1.8;
   margin-bottom: 16px;
 }
@@ -89,12 +89,12 @@ body {
   margin-top: 12px;
   padding: 10px 0;
   border-top: 1px dashed color-mix(in srgb, var(--accent) 30%, white);
-  font-size: 18px;
+  font-size: 21px;
 }
 
 /* セクションタイトル */
 .section-title {
-  font-size: 15px;
+  font-size: 18px;
   font-weight: 700;
   color: var(--accent);
   margin: 14px 0 8px;
@@ -118,19 +118,19 @@ body {
   border-radius: 8px;
   padding: 12px 22px;
   margin-bottom: 10px;
-  font-size: 17px;
+  font-size: 20px;
   line-height: 1.85;
 }
 .step-num {
   display: inline-block;
   background: var(--accent);
   color: #fff;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 700;
-  width: 22px; height: 22px;
+  width: 26px; height: 26px;
   border-radius: 50%;
   text-align: center;
-  line-height: 22px;
+  line-height: 26px;
   margin-right: 8px;
 }
 
@@ -141,11 +141,11 @@ body {
   border-radius: 10px;
   padding: 12px 16px;
   text-align: center;
-  font-size: 15px;
+  font-size: 18px;
   line-height: 1.75;
 }
 .case-cond {
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 700;
   color: var(--accent);
   background: color-mix(in srgb, var(--accent) 10%, white);
@@ -157,7 +157,7 @@ body {
 
 /* 答えボックス */
 .answer-label {
-  font-size: 13px;
+  font-size: 16px;
   font-weight: 700;
   color: #c53030;
   letter-spacing: 0.1em;
@@ -168,12 +168,12 @@ body {
   border: 2px solid #fc8181;
   border-radius: 10px;
   padding: 14px 28px;
-  font-size: 17px;
+  font-size: 20px;
   line-height: 1.9;
 }
 
 /* 表 */
-table { border-collapse: collapse; margin: 16px 0; font-size: 17px; width: 100%; }
+table { border-collapse: collapse; margin: 16px 0; font-size: 20px; width: 100%; }
 th { background: var(--accent); color: #fff; padding: 10px 20px; text-align: center; }
 td { border: 1px solid color-mix(in srgb, var(--accent) 30%, white); padding: 10px 20px; text-align: center; }
 tr:nth-child(even) td { background: color-mix(in srgb, var(--accent) 5%, white); }
@@ -185,13 +185,13 @@ tr:last-child td { font-weight: 700; background: color-mix(in srgb, var(--accent
   border: 2px solid color-mix(in srgb, var(--accent) 25%, white);
   border-radius: 8px;
   padding: 16px 28px;
-  font-size: 19px;
+  font-size: 22px;
   text-align: center;
   margin: 12px 0;
 }
 
 /* ポイントリスト */
-.point-list { list-style: none; font-size: 15px; line-height: 1.75; }
+.point-list { list-style: none; font-size: 18px; line-height: 1.75; }
 .point-list li {
   padding: 8px 0;
   border-bottom: 1px dashed #e2e8f0;
@@ -213,7 +213,7 @@ tr:last-child td { font-weight: 700; background: color-mix(in srgb, var(--accent
   flex-shrink: 0;
   display: flex;
   justify-content: space-between;
-  font-size: 12px;
+  font-size: 14px;
   color: #a0aec0;
   border-top: 1px solid #e2e8f0;
 }
@@ -316,7 +316,7 @@ tr:last-child td { font-weight: 700; background: color-mix(in srgb, var(--accent
 }
 .side-block { }
 .side-title {
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 700;
   letter-spacing: 0.08em;
   color: var(--accent);
@@ -325,7 +325,7 @@ tr:last-child td { font-weight: 700; background: color-mix(in srgb, var(--accent
   margin-bottom: 10px;
 }
 .side-body {
-  font-size: 15px;
+  font-size: 18px;
   line-height: 1.85;
   color: #2d3748;
 }
@@ -346,10 +346,10 @@ tr:last-child td { font-weight: 700; background: color-mix(in srgb, var(--accent
   border-left: 4px solid #f6ad55;
   border-radius: 0 6px 6px 0;
   padding: 10px 14px;
-  font-size: 14px;
+  font-size: 17px;
   line-height: 1.7;
 }
-.caution::before { content: '⚠ '; font-size: 13px; }
+.caution::before { content: '⚠ '; font-size: 16px; }
 
 /* ===== 模範解答：答案用紙スタイル ===== */
 .answer-sheet {
@@ -359,7 +359,7 @@ tr:last-child td { font-weight: 700; background: color-mix(in srgb, var(--accent
   border: 1px solid #d4c89a;
   border-radius: 8px;
   padding: 18px 32px;
-  font-size: 16px;
+  font-size: 19px;
   line-height: 1.95;
   position: relative;
   overflow: visible; /* hidden だと積分記号・分数の上下がクリップされる */
@@ -388,7 +388,7 @@ tr:last-child td { font-weight: 700; background: color-mix(in srgb, var(--accent
   display: inline-block;
   background: #2d3748;
   color: #fff;
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 700;
   padding: 2px 10px;
   border-radius: 4px;
@@ -403,14 +403,14 @@ tr:last-child td { font-weight: 700; background: color-mix(in srgb, var(--accent
   background: color-mix(in srgb, var(--accent) 12%, white);
   border: 1px solid color-mix(in srgb, var(--accent) 30%, white);
   border-radius: 4px;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 700;
   padding: 1px 10px;
   margin: 6px 0 4px;
   color: var(--accent);
 }
 .ans-therefore {
-  font-size: 15px;
+  font-size: 18px;
   color: #c53030;
   font-weight: 700;
   padding: 8px 0 0;
