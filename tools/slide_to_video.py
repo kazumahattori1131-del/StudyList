@@ -48,7 +48,7 @@ def screenshot_slides(html_path: Path, out_dir: Path) -> list[Path]:
         html = f.read()
 
     slide_count = len(re.findall(r'<section class="slide', html))
-    tmp_path = html_path.parent / '_tmp_preview.html'
+    tmp_path = html_path.resolve().parent / '_tmp_preview.html'
 
     try:
         with open(tmp_path, 'w') as f:
@@ -62,7 +62,7 @@ def screenshot_slides(html_path: Path, out_dir: Path) -> list[Path]:
                 args=['--no-sandbox', '--allow-file-access-from-files'],
             )
             page = browser.new_page(viewport={'width': VIDEO_W, 'height': VIDEO_H})
-            page.goto(f'file://{tmp_path}')
+            page.goto(f'file://{tmp_path.resolve()}')
             page.wait_for_timeout(3000)
             page.evaluate("document.getElementById('nav').style.display='none'")
 
