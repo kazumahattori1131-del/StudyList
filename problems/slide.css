@@ -4,7 +4,7 @@
 :root { --accent: #3182ce; }
 
 body {
-  font-family: 'Hiragino Kaku Gothic ProN', 'Meiryo', sans-serif;
+  font-family: 'Hiragino Kaku Gothic ProN', 'Meiryo', 'IPAGothic', 'IPAゴシック', 'Noto Sans CJK JP', sans-serif;
   background: #f0f4f8;
   color: #1a202c;
   min-height: 100vh;

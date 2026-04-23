@@ -91,7 +91,8 @@ def screenshot_slides(html_path: Path, out_dir: Path) -> list[Path]:
             browser = p.chromium.launch(
                 executable_path=CHROME_PATH,
                 headless=True,
-                args=['--no-sandbox', '--allow-file-access-from-files'],
+                args=['--no-sandbox', '--allow-file-access-from-files',
+                      '--lang=ja-JP', '--accept-lang=ja-JP'],
             )
             page = browser.new_page(viewport={'width': VIDEO_W, 'height': VIDEO_H})
             page.goto(f'file://{tmp_path.resolve()}')
