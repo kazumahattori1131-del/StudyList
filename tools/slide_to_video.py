@@ -124,19 +124,55 @@ def patch_html(html: str) -> str:
                  f'{KATEX_BASE}/auto-render.min.js'))
 
 
-def screenshot_slides(html_path: Path, out_dir: Path) -> list[Path]:
-    """HTML の全スライドをスクリーンショット → PNG リストを返す"""
+def find_ruidai_index(html: str) -> int | None:
+    """「類題」バッジを持つスライドの 0-based インデックスを返す"""
+    sections = re.split(r'(?=<section class="slide)', html)
+    count = 0
+    for section in sections:
+        if not section.startswith('<section class="slide'):
+            continue
+        # バッジ要素のテキストが「類題」であることを確認（コメント等の誤検知を防ぐ）
+        if re.search(r'class="badge[^"]*green[^"]*"[^>]*>\s*類題\s*<', section):
+            return count
+        count += 1
+    return None
+
+
+def split_ruidai_script(script: str) -> tuple[str, str]:
+    """類題台本を問題提示部分と解答部分に最初の空行で分割"""
+    parts = script.split('\n\n', 1)
+    problem  = parts[0].strip()
+    solution = parts[1].strip() if len(parts) > 1 else ''
+    return problem, solution
+
+
+def write_silence_wav(out_path: Path, duration: float, rate: int = 24000) -> None:
+    """指定秒数の無音 WAV を生成"""
+    import wave as _wave
+    silence = b'\x00\x00' * int(rate * duration)
+    with _wave.open(str(out_path), 'wb') as wf:
+        wf.setnchannels(1)
+        wf.setsampwidth(2)
+        wf.setframerate(rate)
+        wf.writeframes(silence)
+
+
+def screenshot_slides(html_path: Path, out_dir: Path) -> tuple[list[Path], Path | None]:
+    """HTML の全スライドをスクリーンショット → (PNG リスト, 類題解答非表示PNG)"""
     with open(html_path) as f:
         html = f.read()
 
-    slide_count = len(re.findall(r'<section class="slide', html))
-    tmp_path = html_path.resolve().parent / '_tmp_preview.html'
+    slide_count  = len(re.findall(r'<section class="slide', html))
+    ruidai_idx   = find_ruidai_index(html)
+    tmp_path     = html_path.resolve().parent / '_tmp_preview.html'
 
     try:
         with open(tmp_path, 'w') as f:
             f.write(patch_html(html))
 
         shots: list[Path] = []
+        ruidai_hidden: Path | None = None
+
         with sync_playwright() as p:
             browser = p.chromium.launch(
                 executable_path=CHROME_PATH,
@@ -153,9 +189,26 @@ def screenshot_slides(html_path: Path, out_dir: Path) -> list[Path]:
             page.evaluate("document.getElementById('nav').style.display='none'")
 
             for i in range(slide_count):
+                # 類題スライドは解答非表示版を先に撮る
+                if i == ruidai_idx:
+                    page.evaluate(
+                        "document.querySelectorAll('.slide.active .step,"
+                        " .slide.active .answer-label, .slide.active .answer-box')"
+                        ".forEach(el => el.style.display='none')"
+                    )
+                    hidden_png = out_dir / 'slide_ruidai_hidden.png'
+                    page.screenshot(path=str(hidden_png))
+                    ruidai_hidden = hidden_png
+                    page.evaluate(
+                        "document.querySelectorAll('.slide.active .step,"
+                        " .slide.active .answer-label, .slide.active .answer-box')"
+                        ".forEach(el => el.style.display='')"
+                    )
+
                 png = out_dir / f'slide_{i+1:02d}.png'
                 page.screenshot(path=str(png))
                 shots.append(png)
+
                 if i < slide_count - 1:
                     page.keyboard.press('ArrowRight')
                     page.wait_for_timeout(350)
@@ -165,7 +218,7 @@ def screenshot_slides(html_path: Path, out_dir: Path) -> list[Path]:
         if tmp_path.exists():
             tmp_path.unlink()
 
-    return shots
+    return shots, ruidai_hidden
 
 
 def parse_voice_scripts(voice_path: Path) -> list[str]:
@@ -288,11 +341,13 @@ def process_one(html_path: Path, client: genai.Client) -> Path | None:
     print(f'\n=== {stem} ===')
 
     print('  [1/3] スライドをキャプチャ中...')
-    screenshots = screenshot_slides(html_path, out_dir)
-    print(f'        {len(screenshots)} 枚取得')
+    screenshots, ruidai_hidden = screenshot_slides(html_path, out_dir)
+    print(f'        {len(screenshots)} 枚取得'
+          + (' / 類題非表示版あり' if ruidai_hidden else ''))
 
-    scripts = parse_voice_scripts(voice_path)
-    title   = extract_title(voice_path)
+    scripts    = parse_voice_scripts(voice_path)
+    title      = extract_title(voice_path)
+    ruidai_idx = find_ruidai_index(open(html_path).read())
     print(f'  [2/3] 台本解析完了: {len(scripts)} セクション / タイトル: {title}')
 
     if len(screenshots) != len(scripts):
@@ -302,17 +357,44 @@ def process_one(html_path: Path, client: genai.Client) -> Path | None:
 
     print('  [3/3] 音声生成 + クリップ作成...')
     clip_paths: list[Path] = []
-    for i, (img, script) in enumerate(pairs, 1):
+    for idx, (img, script) in enumerate(pairs):
+        i = idx + 1
         print(f'        [{i}/{len(pairs)}]', end='', flush=True)
-        audio_path = out_dir / f'audio_{i:02d}.wav'
-        clip_path  = out_dir / f'clip_{i:02d}.mp4'
 
-        generate_audio(script, audio_path, client)
-        print(' 音声✓', end='', flush=True)
+        if idx == ruidai_idx and ruidai_hidden is not None:
+            # 類題スライド: 問題提示 → 3秒無音 → 解答解説
+            problem_script, solution_script = split_ruidai_script(script)
 
-        make_slide_clip(img, audio_path, clip_path)
-        print(' 動画✓')
-        clip_paths.append(clip_path)
+            # A: 問題提示（解答非表示）
+            audio_a = out_dir / f'audio_{i:02d}a.wav'
+            clip_a  = out_dir / f'clip_{i:02d}a.mp4'
+            intro_text = problem_script + '\nでは一度、自分で解いてみてください。'
+            generate_audio(intro_text, audio_a, client)
+            make_slide_clip(ruidai_hidden, audio_a, clip_a)
+            print(' 問題✓', end='', flush=True)
+
+            # B: 3秒の無音（解答非表示のまま）
+            silence_wav = out_dir / f'audio_{i:02d}b.wav'
+            clip_b      = out_dir / f'clip_{i:02d}b.mp4'
+            write_silence_wav(silence_wav, 3.0)
+            make_slide_clip(ruidai_hidden, silence_wav, clip_b)
+
+            # C: 解答解説（解答表示）
+            audio_c = out_dir / f'audio_{i:02d}c.wav'
+            clip_c  = out_dir / f'clip_{i:02d}.mp4'
+            generate_audio(solution_script, audio_c, client)
+            make_slide_clip(img, audio_c, clip_c)
+            print(' 解答✓')
+
+            clip_paths.extend([clip_a, clip_b, clip_c])
+        else:
+            audio_path = out_dir / f'audio_{i:02d}.wav'
+            clip_path  = out_dir / f'clip_{i:02d}.mp4'
+            generate_audio(script, audio_path, client)
+            print(' 音声✓', end='', flush=True)
+            make_slide_clip(img, audio_path, clip_path)
+            print(' 動画✓')
+            clip_paths.append(clip_path)
 
     print('        [アウトロ]', end='', flush=True)
     outro_text  = OUTRO_TEMPLATE.format(title=title)
