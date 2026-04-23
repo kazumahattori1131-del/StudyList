@@ -10,6 +10,7 @@ Usage:
 
 import os
 import re
+import time
 import wave
 import argparse
 from pathlib import Path
@@ -20,14 +21,45 @@ from google.genai import types
 from moviepy import VideoFileClip, concatenate_videoclips, ImageClip, AudioFileClip
 
 # ── 設定 ──────────────────────────────────────────────────────────────────
-CHROME_PATH = '/opt/pw-browsers/chromium-1194/chrome-linux/chrome'
-KATEX_BASE  = 'file:///home/user/StudyList/problems/katex'
-BASE_DIR    = Path('/home/user/StudyList/problems/youtube_redesign')
-OUTPUT_DIR  = BASE_DIR / 'output'
-TTS_MODEL   = 'gemini-2.5-flash-preview-tts'
-TTS_VOICE   = 'Kore'
+CHROME_PATH  = '/opt/pw-browsers/chromium-1194/chrome-linux/chrome'
+KATEX_BASE   = 'file:///home/user/StudyList/problems/katex'
+BASE_DIR     = Path('/home/user/StudyList/problems/youtube_redesign')
+OUTPUT_DIR   = BASE_DIR / 'output'
+TTS_MODEL    = 'gemini-2.5-flash-preview-tts'
+TTS_VOICE    = 'Leda'
+TTS_RATE     = 24000          # Gemini PCM サンプルレート
+GAP_SECONDS  = 0.8            # スライド切り替え後の無音 (秒)
 VIDEO_W, VIDEO_H = 1280, 720
-VIDEO_FPS   = 24
+VIDEO_FPS    = 24
+
+# Gemini TTS へ渡すスタイル指示
+TTS_STYLE = """Scene: after-school quiet classroom (Japanese high school)
+solo narrator, thinking aloud while solving math problem
+calm, relaxed atmosphere
+
+Sample Context:
+high school math explanation
+not lecture, thinking process spoken aloud
+step-by-step reasoning
+small pauses, light reactions (hmm, oh, I see)
+answers unfold gradually
+
+Audio Profile:
+young Japanese voice (student-like)
+calm, soft, natural tone
+slightly informal, friendly
+medium-low pitch, stable
+natural pauses, slight hesitation OK
+not robotic, not exaggerated
+sounds like thinking aloud, not teaching"""
+
+OUTRO_TEMPLATE = """以上！いかがでしたでしょうか！
+今回は
+「{title}」
+について見ていきました！
+この動画が少しでも参考になった方、またこんな感じの高校数学の問題を今後も見たいよ！って方はチャンネル登録や高評価してくれると嬉しいです！
+また、この動画で疑問に思ったことやわからなかったこと、また解説して欲しいよって問題のある方はコメントで教えてもらえると助かります！
+それでは今日の動画はここまで！ばいば〜い！！"""
 # ─────────────────────────────────────────────────────────────────────────
 
 
@@ -91,31 +123,58 @@ def parse_voice_scripts(voice_path: Path) -> list[str]:
     return [p.strip() for p in parts[1:] if p.strip()]
 
 
-def pcm_to_wav(pcm: bytes, wav_path: Path, rate: int = 24000) -> None:
-    """Gemini が返す生 PCM (16bit mono) → WAV"""
+def extract_title(voice_path: Path) -> str:
+    """voice.md の1行目 `# 【音声台本】...` からタイトル部分を抽出"""
+    with open(voice_path) as f:
+        first_line = f.readline().strip()
+    # "# 【音声台本】数学I｜放物線とx軸の交点条件（判別式）" → "放物線とx軸の交点条件（判別式）"
+    m = re.search(r'[｜|](.+)$', first_line)
+    if m:
+        return m.group(1).strip()
+    # フォールバック: # 以降を全部返す
+    return first_line.lstrip('# ').strip()
+
+
+def pcm_to_wav(pcm: bytes, wav_path: Path, rate: int = TTS_RATE,
+               gap_seconds: float = 0.0) -> None:
+    """Gemini の生 PCM (16bit mono) → WAV。gap_seconds 分の無音を末尾に追加"""
+    silence = b'\x00\x00' * int(rate * gap_seconds)
     with wave.open(str(wav_path), 'wb') as wf:
         wf.setnchannels(1)
         wf.setsampwidth(2)
         wf.setframerate(rate)
-        wf.writeframes(pcm)
+        wf.writeframes(pcm + silence)
 
 
-def generate_audio(text: str, out_path: Path, client: genai.Client) -> None:
-    """Gemini TTS で音声生成 → WAV 保存"""
-    response = client.models.generate_content(
-        model=TTS_MODEL,
-        contents=text,
-        config=types.GenerateContentConfig(
-            response_modalities=['AUDIO'],
-            speech_config=types.SpeechConfig(
-                voice_config=types.VoiceConfig(
-                    prebuilt_voice_config=types.PrebuiltVoiceConfig(voice_name=TTS_VOICE)
-                )
-            ),
-        ),
-    )
-    pcm = response.candidates[0].content.parts[0].inline_data.data
-    pcm_to_wav(pcm, out_path)
+def generate_audio(text: str, out_path: Path, client: genai.Client,
+                   gap: float = GAP_SECONDS) -> None:
+    """Gemini TTS で音声生成 → WAV 保存（末尾に gap 秒の無音付き）。レート制限時はリトライ"""
+    prompt = f'{TTS_STYLE}\n\n{text}'
+    for attempt in range(5):
+        try:
+            response = client.models.generate_content(
+                model=TTS_MODEL,
+                contents=prompt,
+                config=types.GenerateContentConfig(
+                    response_modalities=['AUDIO'],
+                    speech_config=types.SpeechConfig(
+                        voice_config=types.VoiceConfig(
+                            prebuilt_voice_config=types.PrebuiltVoiceConfig(voice_name=TTS_VOICE)
+                        )
+                    ),
+                ),
+            )
+            pcm = response.candidates[0].content.parts[0].inline_data.data
+            pcm_to_wav(pcm, out_path, gap_seconds=gap)
+            return
+        except Exception as e:
+            msg = str(e)
+            if '429' in msg:
+                wait = 35 * (attempt + 1)
+                print(f' [レート制限: {wait}秒待機]', end='', flush=True)
+                time.sleep(wait)
+            else:
+                raise
 
 
 def make_slide_clip(img_path: Path, audio_path: Path, clip_path: Path) -> None:
@@ -147,7 +206,8 @@ def process_one(html_path: Path, client: genai.Client) -> Path | None:
     print(f'        {len(screenshots)} 枚取得')
 
     scripts = parse_voice_scripts(voice_path)
-    print(f'  [2/3] 台本解析完了: {len(scripts)} セクション')
+    title   = extract_title(voice_path)
+    print(f'  [2/3] 台本解析完了: {len(scripts)} セクション / タイトル: {title}')
 
     if len(screenshots) != len(scripts):
         print(f'  [WARN] スライド数({len(screenshots)}) ≠ 台本数({len(scripts)})、少ない方で処理')
@@ -167,6 +227,16 @@ def process_one(html_path: Path, client: genai.Client) -> Path | None:
         make_slide_clip(img, audio_path, clip_path)
         print(' 動画✓')
         clip_paths.append(clip_path)
+
+    # アウトロクリップ（最後のスライド画像 + アウトロ音声、無音なし）
+    print('        [アウトロ]', end='', flush=True)
+    outro_text  = OUTRO_TEMPLATE.format(title=title)
+    outro_audio = out_dir / 'audio_outro.wav'
+    outro_clip  = out_dir / 'clip_outro.mp4'
+    generate_audio(outro_text, outro_audio, client, gap=0.0)
+    make_slide_clip(screenshots[-1], outro_audio, outro_clip)
+    print(' 音声✓ 動画✓')
+    clip_paths.append(outro_clip)
 
     # 全クリップを結合
     final_path = OUTPUT_DIR / f'{stem}.mp4'
