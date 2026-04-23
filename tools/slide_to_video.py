@@ -25,6 +25,7 @@ CHROME_PATH  = '/opt/pw-browsers/chromium-1194/chrome-linux/chrome'
 KATEX_BASE   = 'file:///home/user/StudyList/problems/katex'
 BASE_DIR     = Path('/home/user/StudyList/problems/youtube_redesign')
 OUTPUT_DIR   = BASE_DIR / 'output'
+ENDING_SLIDE = BASE_DIR / 'ending_slide.png'
 TTS_MODEL    = 'gemini-3.1-flash-tts-preview'
 TTS_VOICE    = 'Leda'
 GAP_SECONDS  = 0.5
@@ -409,7 +410,8 @@ def process_one(html_path: Path, client: genai.Client) -> Path | None:
     outro_audio = out_dir / 'audio_outro.wav'
     outro_clip  = out_dir / 'clip_outro.mp4'
     generate_audio(outro_text, outro_audio, client, gap=0.0)
-    make_slide_clip(screenshots[-1], outro_audio, outro_clip)
+    ending = ENDING_SLIDE if ENDING_SLIDE.exists() else screenshots[-1]
+    make_slide_clip(ending, outro_audio, outro_clip)
     print(' 音声✓ 動画✓')
     clip_paths.append(outro_clip)
 
