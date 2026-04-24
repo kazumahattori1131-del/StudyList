@@ -235,29 +235,25 @@ StudyList/
 
 ## Step 3: 動画生成（slide_to_video.py）
 
+### 使用API
+**Google Cloud Text-to-Speech API**（`texttospeech.googleapis.com`）
+- GCPコンソールで発行したAPIキーを使用
+- GCPコンソール → 「APIとサービス」→「Cloud Text-to-Speech API」を有効化すること
+- 無料枠：月100万文字（Neural2音声）、事実上制限なしで利用可能
+- 声：`ja-JP-Neural2-B`（日本語Neural2）
+
 ### 必要な環境変数
 ```bash
-export GEMINI_API_KEY=your_api_key
+export GOOGLE_API_KEY=your_gcp_console_key  # GCPコンソール（Cloud TTS有効化済み）
 ```
-
-> **APIキーが複数ある場合の運用**
-> Gemini TTS APIはレート制限（429 RESOURCE_EXHAUSTED）や権限エラー（403 PERMISSION_DENIED）が発生することがある。
-> その場合は別のAPIキーに切り替えて再実行する。
->
-> ```bash
-> # キー1 が失敗した場合はキー2 で再実行
-> GEMINI_API_KEY=キー2 PLAYWRIGHT_BROWSERS_PATH=/opt/pw-browsers python3 tools/slide_to_video.py --file ...
-> ```
->
-> スクリプト内のリトライ（最大12回、指数バックオフ 30〜360秒）でも解消しない場合はキーを変更する。
 
 ### 実行方法
 ```bash
 # Linux環境（/opt/pw-browsers にChromiumがある場合）
-GEMINI_API_KEY=xxx PLAYWRIGHT_BROWSERS_PATH=/opt/pw-browsers python3 tools/slide_to_video.py
+GOOGLE_API_KEY=xxx PLAYWRIGHT_BROWSERS_PATH=/opt/pw-browsers python3 tools/slide_to_video.py
 
 # 特定の動画のみ
-GEMINI_API_KEY=xxx PLAYWRIGHT_BROWSERS_PATH=/opt/pw-browsers python3 tools/slide_to_video.py --file problems/youtube_redesign/{stem}.html
+GOOGLE_API_KEY=xxx PLAYWRIGHT_BROWSERS_PATH=/opt/pw-browsers python3 tools/slide_to_video.py --file problems/youtube_redesign/{stem}.html
 ```
 
 ### 動画生成の内部フロー
