@@ -43,17 +43,23 @@ https://kazumahattori1131-del.github.io/StudyList/problems/youtube_redesign/math
 <section class="slide">
   <div class="slide-header">
     <span class="badge orange">よくある間違い</span>
-    <span class="slide-title">$D < 0$ だけ解いてしまう落とし穴</span>
+    <span class="slide-title">「x軸と交わらない」だけでは足りない</span>
+  </div>
+  <div style="font-size:21px; margin-bottom:0.8rem;">
+    ❓ <strong>こんな発想をしていない？</strong><br>
+    「常に正」＝「グラフが常に x 軸より上」＝「x 軸と交わらない」→ $D < 0$<br><br>
+    $D = 4 - 4a^2 < 0$ を解くと $a < -1$ または $a > 1$
   </div>
   <div class="trap-box">
-    <div class="trap-title">❌ 間違い答案例</div>
-    「$D = 4 - 4a^2 < 0$ を解いて $a < -1$ または $a > 1$」<br>
-    → <strong>$a < -1$ を含めてしまっている！</strong><br><br>
-    例：$a = -2$ のとき $-2x^2 + 2x - 2 > 0$<br>
-    → 放物線が<strong>下に開く</strong>ので、どこかで必ず $x$ 軸より下になる。
+    <div class="trap-title">❌ でも $a = -2$ のとき…</div>
+    $f(x) = -2x^2 + 2x - 2$ は<strong>下に開く放物線</strong>。<br>
+    $D < 0$ で x 軸と交わらないが、グラフ全体が x 軸より<strong>下側</strong>にある。<br>
+    → 「常に正」ではなく「常に<strong>負</strong>」になっている！
   </div>
   <div class="key-box" style="font-size:20px; margin-top:12px;">
-    💡 「常に正」= <strong>上に凸でない（$a > 0$）</strong> ＋ <strong>x軸に触れない（$D < 0$）</strong>
+    💡 「x軸と交わらない」には2パターンある：<br>
+    ・<strong>上に開く（$a > 0$）</strong>なら x 軸より上 → 常に正 ✅<br>
+    ・<strong>下に開く（$a < 0$）</strong>なら x 軸より下 → 常に負 ✗
   </div>
   <div class="slide-footer"></div>
 </section>
@@ -65,10 +71,11 @@ https://kazumahattori1131-del.github.io/StudyList/problems/youtube_redesign/math
     <span class="slide-title">2条件を同時に満たす必要がある</span>
   </div>
   <div class="key-box">
-    🔑 $f(x) = ax^2 + 2x + a$ がすべての $x$ で正になる条件：<br><br>
-    ① $a > 0$（上に開く）<br>
+    🔑 $f(x) = ax^2 + 2x + a$ がすべての $x$ で正になるには：<br><br>
+    ① $a > 0$（上に開く ＝ グラフが下に逃げない）<br>
     ② $D = 4 - 4a^2 < 0$（x軸と交わらない）<br><br>
-    この<strong>2条件の共通部分</strong>が答え。さらに $a = 0$ の場合も別途確認する。
+    ①を先に確認してから②を使う。<strong>①なしに②だけでは不十分</strong>。<br>
+    また $a = 0$ のとき2次式でなくなるので、別途確認が必要。
   </div>
   <div class="slide-footer"></div>
 </section>
