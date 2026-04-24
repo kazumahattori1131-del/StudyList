@@ -4,62 +4,38 @@ slide_to_video.py
 HTML slides + _voice.md scripts → MP4 videos
 
 Usage:
-    GEMINI_API_KEY=xxx python3 tools/slide_to_video.py
-    GEMINI_API_KEY=xxx python3 tools/slide_to_video.py --file problems/youtube_redesign/math1_quadratic_discriminant.html
+    GOOGLE_API_KEY=xxx python3 tools/slide_to_video.py
+    GOOGLE_API_KEY=xxx python3 tools/slide_to_video.py --file problems/youtube_redesign/{stem}.html
+
+TTS: Google Cloud Text-to-Speech API (texttospeech.googleapis.com)
+     GCPコンソールで発行したAPIキーを使用。Cloud Text-to-Speech APIを有効化すること。
 """
 
 import os
 import re
 import time
-import struct
+import wave
+import base64
 import argparse
+import requests
 from pathlib import Path
 
 from playwright.sync_api import sync_playwright
-from google import genai
-from google.genai import types
 from moviepy import VideoFileClip, concatenate_videoclips, ImageClip, AudioFileClip
 
 # ── 設定 ──────────────────────────────────────────────────────────────────
-CHROME_PATH  = '/opt/pw-browsers/chromium-1194/chrome-linux/chrome'
-KATEX_BASE   = 'file:///home/user/StudyList/problems/katex'
-BASE_DIR     = Path('/home/user/StudyList/problems/youtube_redesign')
-OUTPUT_DIR   = BASE_DIR / 'output'
-ENDING_SLIDE = BASE_DIR / 'ending_slide.png'
-TTS_MODEL    = 'gemini-3.1-flash-tts-preview'
-TTS_VOICE    = 'Leda'
-GAP_SECONDS  = 0.5
+CHROME_PATH   = '/opt/pw-browsers/chromium-1194/chrome-linux/chrome'
+KATEX_BASE    = 'file:///home/user/StudyList/problems/katex'
+BASE_DIR      = Path('/home/user/StudyList/problems/youtube_redesign')
+OUTPUT_DIR    = BASE_DIR / 'output'
+ENDING_SLIDE  = BASE_DIR / 'ending_slide.png'
+CLOUD_TTS_URL = 'https://texttospeech.googleapis.com/v1/text:synthesize'
+TTS_VOICE     = 'ja-JP-Neural2-B'   # Google Cloud TTS: 日本語Neural2
+TTS_RATE      = 24000               # LINEAR16 出力サンプルレート
+GAP_SECONDS   = 0.5                 # スライド切り替え後の無音（秒）
 VIDEO_W, VIDEO_H = 1280, 720
-VIDEO_FPS    = 24
-
-TTS_PROMPT_PREFIX = """Read the following transcript based on the audio profile and director's note.
-
-# Audio Profile
-young Japanese voice (student-like)
-calm, soft, natural tone
-slightly informal, friendly
-medium-low pitch, stable
-natural pauses, slight hesitation OK
-not robotic, not exaggerated
-sounds like thinking aloud, not teaching
-
-# Director's note
-Style: The "Vocal Smile": The soft palate is raised to keep the tone bright, sunny, and explicitly inviting. Pace: Natural conversational pace. Accent: American (Gen).
-
-## Scene:
-after-school quiet classroom (Japanese high school)
-solo narrator, thinking aloud while solving math problem
-calm, relaxed atmosphere
-
-## Sample Context:
-high school math explanation
-not lecture, thinking process spoken aloud
-step-by-step reasoning
-small pauses, light reactions (hmm, oh, I see)
-answers unfold gradually
-
-## Transcript:
-"""
+VIDEO_FPS     = 24
+# ─────────────────────────────────────────────────────────────────────────
 
 OUTRO_TEMPLATE = """以上！いかがでしたでしょうか！
 今回は
@@ -68,50 +44,16 @@ OUTRO_TEMPLATE = """以上！いかがでしたでしょうか！
 この動画が少しでも参考になった方、またこんな感じの高校数学の問題を今後も見たいよ！って方はチャンネル登録や高評価してくれると嬉しいです！
 また、この動画で疑問に思ったことやわからなかったこと、また解説して欲しいよって問題のある方はコメントで教えてもらえると助かります！
 それでは今日の動画はここまで！ばいば〜い！！"""
-# ─────────────────────────────────────────────────────────────────────────
 
 
-def parse_audio_mime_type(mime_type: str) -> dict:
-    """audio/L16;rate=24000 形式から bits_per_sample と rate を取得"""
-    bits_per_sample = 16
-    rate = 24000
-    for param in mime_type.split(';'):
-        param = param.strip()
-        if param.lower().startswith('rate='):
-            try:
-                rate = int(param.split('=', 1)[1])
-            except (ValueError, IndexError):
-                pass
-        elif param.startswith('audio/L'):
-            try:
-                bits_per_sample = int(param.split('L', 1)[1])
-            except (ValueError, IndexError):
-                pass
-    return {'bits_per_sample': bits_per_sample, 'rate': rate}
-
-
-def convert_to_wav(audio_data: bytes, mime_type: str,
-                   gap_seconds: float = 0.0) -> bytes:
-    """生 PCM → WAV ヘッダ付き。末尾に gap_seconds 秒の無音を追加"""
-    params = parse_audio_mime_type(mime_type)
-    bits_per_sample = params['bits_per_sample']
-    sample_rate = params['rate']
-    num_channels = 1
-    bytes_per_sample = bits_per_sample // 8
-    silence = b'\x00' * bytes_per_sample * int(sample_rate * gap_seconds)
-    data = audio_data + silence
-    data_size = len(data)
-    block_align = num_channels * bytes_per_sample
-    byte_rate = sample_rate * block_align
-    chunk_size = 36 + data_size
-    header = struct.pack(
-        '<4sI4s4sIHHIIHH4sI',
-        b'RIFF', chunk_size, b'WAVE',
-        b'fmt ', 16, 1, num_channels,
-        sample_rate, byte_rate, block_align, bits_per_sample,
-        b'data', data_size,
-    )
-    return header + data
+def pcm_to_wav(pcm: bytes, out_path: Path, gap_seconds: float = 0.0) -> None:
+    """生 PCM（LINEAR16）→ WAV ファイル保存。末尾に gap_seconds 秒の無音を追加"""
+    silence = b'\x00\x00' * int(TTS_RATE * gap_seconds)
+    with wave.open(str(out_path), 'wb') as wf:
+        wf.setnchannels(1)
+        wf.setsampwidth(2)
+        wf.setframerate(TTS_RATE)
+        wf.writeframes(pcm + silence)
 
 
 def patch_html(html: str) -> str:
@@ -132,7 +74,6 @@ def find_ruidai_index(html: str) -> int | None:
     for section in sections:
         if not section.startswith('<section class="slide'):
             continue
-        # バッジ要素のテキストが「類題」であることを確認（コメント等の誤検知を防ぐ）
         if re.search(r'class="badge[^"]*green[^"]*"[^>]*>\s*類題\s*<', section):
             return count
         count += 1
@@ -147,14 +88,13 @@ def split_ruidai_script(script: str) -> tuple[str, str]:
     return problem, solution
 
 
-def write_silence_wav(out_path: Path, duration: float, rate: int = 24000) -> None:
+def write_silence_wav(out_path: Path, duration: float) -> None:
     """指定秒数の無音 WAV を生成"""
-    import wave as _wave
-    silence = b'\x00\x00' * int(rate * duration)
-    with _wave.open(str(out_path), 'wb') as wf:
+    silence = b'\x00\x00' * int(TTS_RATE * duration)
+    with wave.open(str(out_path), 'wb') as wf:
         wf.setnchannels(1)
         wf.setsampwidth(2)
-        wf.setframerate(rate)
+        wf.setframerate(TTS_RATE)
         wf.writeframes(silence)
 
 
@@ -163,13 +103,12 @@ def screenshot_slides(html_path: Path, out_dir: Path) -> tuple[list[Path], Path 
     with open(html_path) as f:
         html = f.read()
 
-    slide_count  = len(re.findall(r'<section class="slide', html))
-    ruidai_idx   = find_ruidai_index(html)
-    tmp_path     = html_path.resolve().parent / '_tmp_preview.html'
+    slide_count = len(re.findall(r'<section class="slide', html))
+    ruidai_idx  = find_ruidai_index(html)
+    tmp_path    = html_path.resolve().parent / '_tmp_preview.html'
 
     try:
-        with open(tmp_path, 'w') as f:
-            f.write(patch_html(html))
+        tmp_path.write_text(patch_html(html))
 
         shots: list[Path] = []
         ruidai_hidden: Path | None = None
@@ -190,7 +129,6 @@ def screenshot_slides(html_path: Path, out_dir: Path) -> tuple[list[Path], Path 
             page.evaluate("document.getElementById('nav').style.display='none'")
 
             for i in range(slide_count):
-                # 類題スライドは解答非表示版を先に撮る
                 if i == ruidai_idx:
                     page.evaluate(
                         "document.querySelectorAll('.slide.active .step,"
@@ -226,7 +164,6 @@ def parse_voice_scripts(voice_path: Path) -> list[str]:
     """_voice.md → スライドごとの台本リスト"""
     with open(voice_path) as f:
         content = f.read()
-
     parts = re.split(r'^##\s+スライド[①②③④⑤⑥⑦⑧⑨⑩].*$', content, flags=re.MULTILINE)
     return [p.strip() for p in parts[1:] if p.strip()]
 
@@ -248,67 +185,46 @@ def normalize_for_tts(text: str) -> str:
     """TTS に渡す前に発音問題を修正する"""
     text = re.sub(r'^-{3,}\s*$', '', text, flags=re.MULTILINE)
     text = re.sub(r'^※.*$', '', text, flags=re.MULTILINE)
-    text = re.sub(r'正(?!しく|式|規|確|解|直|午|月|論|比|弦|接|反|逆|面|答|法)',
-                  'せい', text)
+    text = re.sub(r'正(?!しく|式|規|確|解|直|午|月|論|比|弦|接|反|逆|面|答|法)', 'せい', text)
     text = re.sub(r'(?<![0-9])0(?![0-9.])', 'ゼロ', text)
     text = text.replace('f(x)', 'エフエックス')
     circled = {'①': 'いち', '②': 'に', '③': 'さん', '④': 'よん', '⑤': 'ご',
                '⑥': 'ろく', '⑦': 'なな', '⑧': 'はち', '⑨': 'きゅう', '⑩': 'じゅう'}
     for ch, reading in circled.items():
         text = text.replace(f'条件{ch}', f'条件{reading}')
-    text = re.sub(r'(?<![0-9.])([1-9])(?![0-9.])',
-                  lambda m: _DIGIT_JA[m.group(1)], text)
+    text = re.sub(r'(?<![0-9.])([1-9])(?![0-9.])', lambda m: _DIGIT_JA[m.group(1)], text)
     text = re.sub(r'\n{3,}', '\n\n', text)
     return text.strip()
 
 
-def generate_audio(text: str, out_path: Path, client: genai.Client,
+def generate_audio(text: str, out_path: Path, api_key: str,
                    gap: float = GAP_SECONDS) -> None:
-    """Gemini TTS (streaming) で音声生成 → WAV 保存"""
-    prompt = TTS_PROMPT_PREFIX + normalize_for_tts(text)
-    contents = [
-        types.Content(
-            role='user',
-            parts=[types.Part.from_text(text=prompt)],
-        )
-    ]
-    config = types.GenerateContentConfig(
-        temperature=1,
-        response_modalities=['audio'],
-        speech_config=types.SpeechConfig(
-            voice_config=types.VoiceConfig(
-                prebuilt_voice_config=types.PrebuiltVoiceConfig(voice_name=TTS_VOICE)
-            )
-        ),
-    )
-
+    """Google Cloud TTS で音声生成 → WAV 保存（レート制限時はリトライ）"""
+    payload = {
+        'input': {'text': normalize_for_tts(text)},
+        'voice': {'languageCode': 'ja-JP', 'name': TTS_VOICE},
+        'audioConfig': {'audioEncoding': 'LINEAR16', 'sampleRateHertz': TTS_RATE},
+    }
     max_retries = 12
     for attempt in range(max_retries):
         try:
-            audio_data = b''
-            mime_type = 'audio/L16;rate=24000'
-            for chunk in client.models.generate_content_stream(
-                model=TTS_MODEL,
-                contents=contents,
-                config=config,
-            ):
-                if chunk.parts is None:
-                    continue
-                part = chunk.parts[0]
-                if part.inline_data and part.inline_data.data:
-                    audio_data += part.inline_data.data
-                    mime_type = part.inline_data.mime_type or mime_type
-
-            if not audio_data:
-                raise RuntimeError('音声データが空です')
-
-            wav = convert_to_wav(audio_data, mime_type, gap_seconds=gap)
-            out_path.write_bytes(wav)
+            resp = requests.post(
+                CLOUD_TTS_URL,
+                params={'key': api_key},
+                json=payload,
+                timeout=60,
+            )
+            if resp.status_code in (429, 503):
+                wait = 30 * (attempt + 1)
+                print(f' [待機{wait}秒]', end='', flush=True)
+                time.sleep(wait)
+                continue
+            resp.raise_for_status()
+            pcm = base64.b64decode(resp.json()['audioContent'])
+            pcm_to_wav(pcm, out_path, gap_seconds=gap)
             return
-
-        except Exception as e:
-            msg = str(e)
-            if '429' in msg or '503' in msg or 'RESOURCE_EXHAUSTED' in msg:
+        except requests.exceptions.RequestException as e:
+            if attempt < max_retries - 1:
                 wait = 30 * (attempt + 1)
                 print(f' [待機{wait}秒]', end='', flush=True)
                 time.sleep(wait)
@@ -329,7 +245,7 @@ def make_slide_clip(img_path: Path, audio_path: Path, clip_path: Path) -> None:
     clip.close()
 
 
-def process_one(html_path: Path, client: genai.Client) -> Path | None:
+def process_one(html_path: Path, api_key: str) -> Path | None:
     """HTML 1 ファイル → MP4"""
     stem = html_path.stem
     voice_path = html_path.parent / f'{stem}_voice.md'
@@ -365,14 +281,13 @@ def process_one(html_path: Path, client: genai.Client) -> Path | None:
         print(f'        [{i}/{len(pairs)}]', end='', flush=True)
 
         if idx == ruidai_idx and ruidai_hidden is not None:
-            # 類題スライド: 問題提示 → 3秒無音 → 解説開始ナレーション → 解答解説
             problem_script, solution_script = split_ruidai_script(script)
 
             # A: 問題提示（解答非表示）
             audio_a = out_dir / f'audio_{i:02d}a.wav'
             clip_a  = out_dir / f'clip_{i:02d}a.mp4'
-            intro_text = problem_script + '\nでは一度、自分で解いてみてください。'
-            generate_audio(intro_text, audio_a, client)
+            generate_audio(problem_script + '\nでは一度、自分で解いてみてください。',
+                           audio_a, api_key)
             make_slide_clip(ruidai_hidden, audio_a, clip_a)
             print(' 問題✓', end='', flush=True)
 
@@ -385,13 +300,13 @@ def process_one(html_path: Path, client: genai.Client) -> Path | None:
             # C: 解説開始ナレーション（解答非表示のまま）
             audio_c = out_dir / f'audio_{i:02d}c.wav'
             clip_c  = out_dir / f'clip_{i:02d}c.mp4'
-            generate_audio('では、解説していきます。', audio_c, client)
+            generate_audio('では、解説していきます。', audio_c, api_key)
             make_slide_clip(ruidai_hidden, audio_c, clip_c)
 
             # D: 解答解説（解答表示）
             audio_d = out_dir / f'audio_{i:02d}d.wav'
             clip_d  = out_dir / f'clip_{i:02d}.mp4'
-            generate_audio(solution_script, audio_d, client)
+            generate_audio(solution_script, audio_d, api_key)
             make_slide_clip(img, audio_d, clip_d)
             print(' 解答✓')
 
@@ -399,17 +314,16 @@ def process_one(html_path: Path, client: genai.Client) -> Path | None:
         else:
             audio_path = out_dir / f'audio_{i:02d}.wav'
             clip_path  = out_dir / f'clip_{i:02d}.mp4'
-            generate_audio(script, audio_path, client)
+            generate_audio(script, audio_path, api_key)
             print(' 音声✓', end='', flush=True)
             make_slide_clip(img, audio_path, clip_path)
             print(' 動画✓')
             clip_paths.append(clip_path)
 
     print('        [アウトロ]', end='', flush=True)
-    outro_text  = OUTRO_TEMPLATE.format(title=title)
     outro_audio = out_dir / 'audio_outro.wav'
     outro_clip  = out_dir / 'clip_outro.mp4'
-    generate_audio(outro_text, outro_audio, client, gap=0.0)
+    generate_audio(OUTRO_TEMPLATE.format(title=title), outro_audio, api_key, gap=0.0)
     ending = ENDING_SLIDE if ENDING_SLIDE.exists() else screenshots[-1]
     make_slide_clip(ending, outro_audio, outro_clip)
     print(' 音声✓ 動画✓')
@@ -434,21 +348,18 @@ def main():
     parser.add_argument('--file', help='対象 HTML ファイル（省略時は全ファイル）')
     args = parser.parse_args()
 
-    api_key = os.environ.get('GEMINI_API_KEY')
+    api_key = os.environ.get('GOOGLE_API_KEY')
     if not api_key:
-        raise SystemExit('エラー: 環境変数 GEMINI_API_KEY を設定してください。')
+        raise SystemExit('エラー: 環境変数 GOOGLE_API_KEY を設定してください。'
+                         '（GCPコンソール発行キー、Cloud Text-to-Speech API を有効化済みのもの）')
 
-    client = genai.Client(api_key=api_key)
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
-    if args.file:
-        html_files = [Path(args.file)]
-    else:
-        html_files = sorted(BASE_DIR.glob('*.html'))
+    html_files = [Path(args.file)] if args.file else sorted(BASE_DIR.glob('*.html'))
 
     results = []
     for html_path in html_files:
-        r = process_one(html_path, client)
+        r = process_one(html_path, api_key)
         if r:
             results.append(r)
 

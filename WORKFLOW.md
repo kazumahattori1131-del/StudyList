@@ -235,18 +235,25 @@ StudyList/
 
 ## Step 3: 動画生成（slide_to_video.py）
 
+### 使用API
+**Google Cloud Text-to-Speech API**（`texttospeech.googleapis.com`）
+- GCPコンソールで発行したAPIキーを使用
+- GCPコンソール → 「APIとサービス」→「Cloud Text-to-Speech API」を有効化すること
+- 無料枠：月100万文字（Neural2音声）、事実上制限なしで利用可能
+- 声：`ja-JP-Neural2-B`（日本語Neural2）
+
 ### 必要な環境変数
 ```bash
-export GEMINI_API_KEY=your_api_key
+export GOOGLE_API_KEY=your_gcp_console_key  # GCPコンソール（Cloud TTS有効化済み）
 ```
 
 ### 実行方法
 ```bash
-# 全動画を生成
-python3 tools/slide_to_video.py
+# Linux環境（/opt/pw-browsers にChromiumがある場合）
+GOOGLE_API_KEY=xxx PLAYWRIGHT_BROWSERS_PATH=/opt/pw-browsers python3 tools/slide_to_video.py
 
 # 特定の動画のみ
-python3 tools/slide_to_video.py --file problems/youtube_redesign/{stem}.html
+GOOGLE_API_KEY=xxx PLAYWRIGHT_BROWSERS_PATH=/opt/pw-browsers python3 tools/slide_to_video.py --file problems/youtube_redesign/{stem}.html
 ```
 
 ### 動画生成の内部フロー
@@ -345,6 +352,7 @@ python3 tools/make_thumbnails.py
 | mathB_sum_recurrence | 数学B | Sn型漸化式 | ending_slide.png |
 | mathC_complex_factorize | 数学C | 複素数の絶対値最大値 | ending_slide.png |
 | mathC_complex_identity | 数学C | z+1/z=1 から z³+1/z³ | ending_slide.png |
+| math2_trig_compose | 数学II | 三角関数の合成（sinθ+√3cosθ の最大・最小） | ending_slide.png |
 
 > **旧スライドの4本**（discriminant, integral_squared, integration_by_parts, circular_nonadjacent）は次回再生成時に ending_slide.png が自動適用される。
 

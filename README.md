@@ -1,96 +1,75 @@
-# StudyList — 数学スライド問題集
+# 高校数学 YouTube 動画制作リポジトリ
 
-高校数学の問題をスライド形式で学習できるWebアプリです。
-各ページはブラウザで直接開けるほか、PDF保存ボタンで印刷用PDFを出力できます。
-
----
-
-## 問題一覧
-
-### 数学I
-
-| 難易度 | タイトル | URL |
-|--------|---------|-----|
-| 中級 | 二次不等式（連立不等式と整数解） | https://kazumahattori1131-del.github.io/StudyList/problems/math1/medium/quadratic_inequality.html |
-| 中級 | 二次関数の最小値（パラメータ場合分け） | https://kazumahattori1131-del.github.io/StudyList/problems/math1/medium/quadratic_min_max_param.html |
-| 発展 | 二次関数の最大・最小（軸の移動） | https://kazumahattori1131-del.github.io/StudyList/problems/math1/hard/quadratic_minmax_axis.html |
-
-### 数学II
-
-| 難易度 | タイトル | URL |
-|--------|---------|-----|
-| 中級 | 指数方程式（置換テクニック） | https://kazumahattori1131-del.github.io/StudyList/problems/math2/medium/exponential_equation.html |
-| 中級 | 対数方程式（真数条件の確認） | https://kazumahattori1131-del.github.io/StudyList/problems/math2/medium/logarithmic_equation.html |
-| 発展 | 接線と曲線が囲む面積 | https://kazumahattori1131-del.github.io/StudyList/problems/math2/hard/tangent_area.html |
-
-### 数学III
-
-| 難易度 | タイトル | URL |
-|--------|---------|-----|
-| 中級 | 置換積分法（基本テクニック） | https://kazumahattori1131-del.github.io/StudyList/problems/math3/medium/substitution_integral.html |
-| 中級 | 定積分（部分積分法） | https://kazumahattori1131-del.github.io/StudyList/problems/math3/medium/integration_by_parts.html |
-| 発展 | 三角置換による定積分 | https://kazumahattori1131-del.github.io/StudyList/problems/math3/hard/trig_substitution.html |
-
-### 数学A
-
-| 難易度 | タイトル | URL |
-|--------|---------|-----|
-| 中級 | 組合せ（余事象の利用） | https://kazumahattori1131-del.github.io/StudyList/problems/mathA/medium/combination_count.html |
-| 中級 | 条件付き確率と余事象の融合 | https://kazumahattori1131-del.github.io/StudyList/problems/mathA/medium/probability_conditional.html |
-| 発展 | 整数の性質・不定方程式 | https://kazumahattori1131-del.github.io/StudyList/problems/mathA/hard/diophantine_equation.html |
-
-### 数学B
-
-| 難易度 | タイトル | URL |
-|--------|---------|-----|
-| 中級 | 等差数列の和（和が初めてN超える項） | https://kazumahattori1131-del.github.io/StudyList/problems/mathB/medium/arithmetic_series.html |
-| 中級 | 漸化式（特性方程式による解法） | https://kazumahattori1131-del.github.io/StudyList/problems/mathB/medium/recurrence_relation.html |
-| 発展 | 数学的帰納法（Σk·2^k の証明） | https://kazumahattori1131-del.github.io/StudyList/problems/mathB/hard/induction_sum.html |
-
-### 数学C
-
-| 難易度 | タイトル | URL |
-|--------|---------|-----|
-| 中級 | 楕円と直線の接線 | https://kazumahattori1131-del.github.io/StudyList/problems/mathC/medium/conic_tangent.html |
-| 中級 | ベクトルの内積と垂線の足 | https://kazumahattori1131-del.github.io/StudyList/problems/mathC/medium/vector_inner_product.html |
-| 発展 | ド・モアブルの定理と三角関数の多倍角公式 | https://kazumahattori1131-del.github.io/StudyList/problems/mathC/hard/de_moivre_theorem.html |
-
-### 融合問題（単元横断）
-
-| 難易度 | タイトル | URL |
-|--------|---------|-----|
-| 発展 | 確率漸化式（数学A×B） | https://kazumahattori1131-del.github.io/StudyList/problems/cross/probability_recurrence.html |
-| 発展 | 三角関数と積分・面積（数学II） | https://kazumahattori1131-del.github.io/StudyList/problems/cross/trig_integral_area.html |
-
-### YouTube向け問題（解けそうで解けない）
-
-偏差値55〜70を対象とした「解けそうで解けない」設計の問題。「考察タイム（⏸）」「落とし穴」「一般化」スライドを含む。
-
-| 科目 | 難易度 | タイトル | URL |
-|------|--------|---------|-----|
-| 数学I | ★★★☆☆ | 9割が判別式だけで考える二次不等式 | https://kazumahattori1131-del.github.io/StudyList/problems/modified/math1_quadratic_trap.html |
-| 数学I | ★★★☆☆ | 放物線とx軸の交点 — 判別式の使い方 | https://kazumahattori1131-del.github.io/StudyList/problems/modified/math1_quadratic_discriminant.html |
-| 数学II | ★★★☆☆ | 底が変数の対数方程式 — 置き換え1発 | https://kazumahattori1131-del.github.io/StudyList/problems/modified/math2_log_substitution.html |
-| 数学II | ★★★☆☆ | 指数方程式 — 4^x と 2^x の関係 | https://kazumahattori1131-del.github.io/StudyList/problems/modified/math2_exponential_substitution.html |
-| 数学III | ★★★★☆ | ∫1/(1+x²)² — 三角置換の発展 | https://kazumahattori1131-del.github.io/StudyList/problems/modified/math3_integral_squared.html |
-| 数学III | ★★★★☆ | ∫e^x sinx dx — 部分積分の連鎖 | https://kazumahattori1131-del.github.io/StudyList/problems/modified/math3_integration_by_parts.html |
-| 数学A | ★★★☆☆ | 直感と違う！円順列×確率 | https://kazumahattori1131-del.github.io/StudyList/problems/modified/mathA_circular_probability.html |
-| 数学A | ★★★☆☆ | 隣り合わない！円順列×余事象 | https://kazumahattori1131-del.github.io/StudyList/problems/modified/mathA_circular_nonadjacent.html |
-| 数学B | ★★★☆☆ | 両辺を割るだけ — 漸化式の発想 | https://kazumahattori1131-del.github.io/StudyList/problems/modified/mathB_recurrence_divide.html |
-| 数学B | ★★★☆☆ | S_n = 2a_n - n — 和と一般項の関係 | https://kazumahattori1131-del.github.io/StudyList/problems/modified/mathB_sum_recurrence.html |
-| 数学C | ★★★★☆ | 因数分解したら一瞬！複素数の最大値 | https://kazumahattori1131-del.github.io/StudyList/problems/modified/mathC_complex_factorize.html |
-| 数学C | ★★★★☆ | z + 1/z = 1 — 複素数の恒等式 | https://kazumahattori1131-del.github.io/StudyList/problems/modified/mathC_complex_identity.html |
+高校数学のひっかけ問題・典型問題を解説するYouTube動画の制作素材をまとめたリポジトリ。
 
 ---
 
-## 開発メモ
+## ディレクトリ構造
 
-新しい HTML ファイルを追加するときは、以下を必ず行うこと：
+```
+StudyList/
+├── problems/
+│   ├── slide.css                      # 全スライド共通CSS
+│   ├── slide.js                       # スライドナビゲーションJS
+│   └── youtube_redesign/              # YouTube動画素材（本番）
+│       ├── {stem}.html                # スライドHTML（全6枚）
+│       ├── {stem}_voice.md            # 音声台本 + YouTubeメタデータ
+│       ├── {stem}_edit.md             # 動画編集指示
+│       ├── ending_slide.png           # 共通エンディングスライド
+│       ├── thumbnails/                # サムネイル画像（1280×720）
+│       └── output/                    # 生成物（MP4・中間ファイル）
+└── tools/
+    ├── slide_to_video.py              # メイン動画生成パイプライン
+    ├── make_thumbnails.py             # サムネイル生成
+    └── make_ending_slide.py           # エンディングスライド生成
+```
 
-1. HTML ファイル内の `<body>` 直後にURLコメントを記載する
-   ```html
-   <!--
-   https://kazumahattori1131-del.github.io/StudyList/problems/SUBJECT/LEVEL/FILENAME.html
-   -->
-   ```
-2. この README の問題一覧テーブルに行を追加する
+---
+
+## 動画一覧（全13本）
+
+| stem | 科目 | タイトル |
+|---|---|---|
+| math1_quadratic_discriminant | 数学I | 放物線とx軸の交点条件（判別式） |
+| math1_quadratic_trap | 数学I | 二次不等式の恒等的成立 |
+| math2_exponential_substitution | 数学II | 指数方程式（置換テクニック） |
+| math2_log_substitution | 数学II | 対数方程式（底の変換と置換） |
+| math2_trig_compose | 数学II | 三角関数の合成（sinθ+√3cosθ の最大・最小） |
+| math3_integral_squared | 数学III | 三角置換による定積分 |
+| math3_integration_by_parts | 数学III | 部分積分の連鎖（e^x sinx） |
+| mathA_circular_nonadjacent | 数学A | 円順列×余事象（隣り合わない） |
+| mathA_circular_probability | 数学A | 円順列×確率（男女交互） |
+| mathB_recurrence_divide | 数学B | 漸化式（両辺を割る） |
+| mathB_sum_recurrence | 数学B | Sn型漸化式 |
+| mathC_complex_factorize | 数学C | 複素数の絶対値最大値 |
+| mathC_complex_identity | 数学C | z+1/z=1 から z³+1/z³ |
+
+---
+
+## 動画生成方法
+
+詳細は [WORKFLOW.md](./WORKFLOW.md) を参照。
+
+```bash
+# 依存ライブラリのインストール
+pip3 install playwright google-genai moviepy pillow cryptography
+
+# Chromiumブラウザ（Linux環境 /opt/pw-browsers がある場合はスキップ）
+PLAYWRIGHT_BROWSERS_PATH=/opt/pw-browsers python3 -m playwright install chromium
+
+# 動画生成（特定ファイル）
+GEMINI_API_KEY=your_key PLAYWRIGHT_BROWSERS_PATH=/opt/pw-browsers \
+  python3 tools/slide_to_video.py --file problems/youtube_redesign/{stem}.html
+
+# サムネイル生成
+python3 tools/make_thumbnails.py
+```
+
+---
+
+## 難易度基準
+
+| 難易度 | 偏差値目安 |
+|--------|-----------|
+| ★★★☆☆ 標準 | 55〜65 |
+| ★★★★☆ 応用 | 65〜75 |
