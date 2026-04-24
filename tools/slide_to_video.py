@@ -20,6 +20,8 @@ import argparse
 import requests
 from pathlib import Path
 
+from google import genai
+from google.genai import types as genai_types
 from playwright.sync_api import sync_playwright
 from moviepy import VideoFileClip, concatenate_videoclips, ImageClip, AudioFileClip
 
@@ -31,11 +33,14 @@ OUTPUT_DIR    = BASE_DIR / 'output'
 ENDING_SLIDE  = BASE_DIR / 'ending_slide.png'
 THUMBNAILS_DIR = BASE_DIR / 'thumbnails'
 CLOUD_TTS_URL = 'https://texttospeech.googleapis.com/v1/text:synthesize'
-# 声の選択肢:
-#   'ja-JP-Chirp3-HD-Leda'  ← 以前使用、最も自然（Chirp3-HD 高品質）
-#   'ja-JP-Neural2-B'       ← 現在使用、Neural2 男性
-#   'ja-JP-Neural2-C'       ← Neural2 男性（別キャラクター）
-TTS_VOICE     = 'ja-JP-Chirp3-HD-Leda'   # Google Cloud TTS: Chirp3-HD（高品質）
+# Cloud TTS 声の選択肢:
+#   'ja-JP-Chirp3-HD-Leda'  ← Chirp3-HD 高品質（pitch非対応）
+#   'ja-JP-Neural2-B'       ← Neural2 男性
+TTS_VOICE     = 'ja-JP-Chirp3-HD-Leda'   # Cloud TTS フォールバック用
+# Gemini TTS（AI Studio キーがある場合に優先使用）
+# 声の選択肢: Kore / Aoede / Charon / Fenrir / Puck / Zephyr 等
+GEMINI_TTS_MODEL = 'gemini-2.5-flash-preview-tts'
+GEMINI_TTS_VOICE = 'Kore'          # 落ち着いた声、日本語教育コンテンツ向け
 TTS_RATE      = 24000               # LINEAR16 出力サンプルレート
 GAP_SECONDS   = 0.5                 # スライド切り替え後の無音（秒）
 VIDEO_W, VIDEO_H = 1280, 720
@@ -213,17 +218,56 @@ def normalize_for_tts(text: str) -> str:
     return text.strip()
 
 
+def generate_audio_gemini(text: str, out_path: Path, gemini_key: str,
+                          gap: float = GAP_SECONDS) -> None:
+    """Gemini TTS で音声生成 → WAV 保存（AI Studio キー使用、最も自然な声質）"""
+    client = genai.Client(api_key=gemini_key)
+    max_retries = 8
+    for attempt in range(max_retries):
+        try:
+            resp = client.models.generate_content(
+                model=GEMINI_TTS_MODEL,
+                contents=normalize_for_tts(text),
+                config=genai_types.GenerateContentConfig(
+                    response_modalities=['AUDIO'],
+                    speech_config=genai_types.SpeechConfig(
+                        voice_config=genai_types.VoiceConfig(
+                            prebuilt_voice_config=genai_types.PrebuiltVoiceConfig(
+                                voice_name=GEMINI_TTS_VOICE
+                            )
+                        )
+                    )
+                )
+            )
+            raw = resp.candidates[0].content.parts[0].inline_data.data
+            pcm = raw if isinstance(raw, bytes) else base64.b64decode(raw)
+            pcm_to_wav(pcm, out_path, gap_seconds=gap)
+            return
+        except Exception as e:
+            err = str(e)
+            if ('429' in err or '503' in err or 'RESOURCE_EXHAUSTED' in err):
+                wait = 30 * (attempt + 1)
+                print(f' [待機{wait}秒]', end='', flush=True)
+                time.sleep(wait)
+            else:
+                raise
+    raise RuntimeError(f'Gemini TTS: {max_retries}回リトライ後も失敗')
+
+
 def generate_audio(text: str, out_path: Path, api_key: str,
-                   gap: float = GAP_SECONDS) -> None:
-    """Google Cloud TTS で音声生成 → WAV 保存（レート制限時はリトライ）"""
+                   gap: float = GAP_SECONDS, gemini_key: str = None) -> None:
+    """音声生成 → WAV 保存。GEMINI_KEY があれば Gemini TTS を優先使用"""
+    if gemini_key:
+        generate_audio_gemini(text, out_path, gemini_key, gap)
+        return
+    # フォールバック: Cloud TTS
     payload = {
         'input': {'text': normalize_for_tts(text)},
         'voice': {'languageCode': 'ja-JP', 'name': TTS_VOICE},
         'audioConfig': {
             'audioEncoding': 'LINEAR16',
             'sampleRateHertz': TTS_RATE,
-            'speakingRate': 0.90,   # やや遅め → 思考中の自然なテンポ
-            # pitch: Chirp3-HD は非対応のため指定しない
+            'speakingRate': 0.90,
         },
     }
     max_retries = 12
@@ -241,7 +285,7 @@ def generate_audio(text: str, out_path: Path, api_key: str,
                 time.sleep(wait)
                 continue
             if resp.status_code >= 400:
-                raise RuntimeError(f'TTS APIエラー {resp.status_code}: {resp.text[:200]}')
+                raise RuntimeError(f'Cloud TTS APIエラー {resp.status_code}: {resp.text[:200]}')
             resp.raise_for_status()
             pcm = base64.b64decode(resp.json()['audioContent'])
             pcm_to_wav(pcm, out_path, gap_seconds=gap)
@@ -253,7 +297,7 @@ def generate_audio(text: str, out_path: Path, api_key: str,
                 time.sleep(wait)
             else:
                 raise
-    raise RuntimeError(f'音声生成: {max_retries}回リトライ後も失敗')
+    raise RuntimeError(f'Cloud TTS: {max_retries}回リトライ後も失敗')
 
 
 def make_slide_clip(img_path: Path, audio_path: Path, clip_path: Path) -> None:
@@ -268,7 +312,7 @@ def make_slide_clip(img_path: Path, audio_path: Path, clip_path: Path) -> None:
     clip.close()
 
 
-def process_one(html_path: Path, api_key: str) -> Path | None:
+def process_one(html_path: Path, api_key: str, gemini_key: str = None) -> Path | None:
     """HTML 1 ファイル → MP4"""
     stem = html_path.stem
     voice_path = html_path.parent / f'{stem}_voice.md'
@@ -306,7 +350,7 @@ def process_one(html_path: Path, api_key: str) -> Path | None:
         print('        [イントロ]', end='', flush=True)
         intro_audio = out_dir / 'audio_intro.wav'
         intro_clip  = out_dir / 'clip_intro.mp4'
-        generate_audio(INTRO_TEXT, intro_audio, api_key, gap=0.0)
+        generate_audio(INTRO_TEXT, intro_audio, api_key, gap=0.0, gemini_key=gemini_key)
         make_slide_clip(thumbnail, intro_audio, intro_clip)
         print(' 音声✓ 動画✓')
         clip_paths.append(intro_clip)
@@ -324,7 +368,7 @@ def process_one(html_path: Path, api_key: str) -> Path | None:
             audio_a = out_dir / f'audio_{i:02d}a.wav'
             clip_a  = out_dir / f'clip_{i:02d}a.mp4'
             generate_audio(problem_script + '\nでは一度、自分で解いてみてください。',
-                           audio_a, api_key)
+                           audio_a, api_key, gemini_key=gemini_key)
             make_slide_clip(ruidai_hidden, audio_a, clip_a)
             print(' 問題✓', end='', flush=True)
 
@@ -337,13 +381,13 @@ def process_one(html_path: Path, api_key: str) -> Path | None:
             # C: 解説開始ナレーション（解答非表示のまま）
             audio_c = out_dir / f'audio_{i:02d}c.wav'
             clip_c  = out_dir / f'clip_{i:02d}c.mp4'
-            generate_audio('では、解説していきます。', audio_c, api_key)
+            generate_audio('では、解説していきます。', audio_c, api_key, gemini_key=gemini_key)
             make_slide_clip(ruidai_hidden, audio_c, clip_c)
 
             # D: 解答解説（解答表示）
             audio_d = out_dir / f'audio_{i:02d}d.wav'
             clip_d  = out_dir / f'clip_{i:02d}.mp4'
-            generate_audio(solution_script, audio_d, api_key)
+            generate_audio(solution_script, audio_d, api_key, gemini_key=gemini_key)
             make_slide_clip(img, audio_d, clip_d)
             print(' 解答✓')
 
@@ -351,7 +395,7 @@ def process_one(html_path: Path, api_key: str) -> Path | None:
         else:
             audio_path = out_dir / f'audio_{i:02d}.wav'
             clip_path  = out_dir / f'clip_{i:02d}.mp4'
-            generate_audio(script, audio_path, api_key)
+            generate_audio(script, audio_path, api_key, gemini_key=gemini_key)
             print(' 音声✓', end='', flush=True)
             make_slide_clip(img, audio_path, clip_path)
             print(' 動画✓')
@@ -360,7 +404,7 @@ def process_one(html_path: Path, api_key: str) -> Path | None:
     print('        [アウトロ]', end='', flush=True)
     outro_audio = out_dir / 'audio_outro.wav'
     outro_clip  = out_dir / 'clip_outro.mp4'
-    generate_audio(OUTRO_TEMPLATE.format(title=title), outro_audio, api_key, gap=0.0)
+    generate_audio(OUTRO_TEMPLATE.format(title=title), outro_audio, api_key, gap=0.0, gemini_key=gemini_key)
     ending = ENDING_SLIDE if ENDING_SLIDE.exists() else screenshots[-1]
     make_slide_clip(ending, outro_audio, outro_clip)
     print(' 音声✓ 動画✓')
@@ -385,10 +429,14 @@ def main():
     parser.add_argument('--file', help='対象 HTML ファイル（省略時は全ファイル）')
     args = parser.parse_args()
 
-    api_key = os.environ.get('GOOGLE_API_KEY')
-    if not api_key:
-        raise SystemExit('エラー: 環境変数 GOOGLE_API_KEY を設定してください。'
-                         '（GCPコンソール発行キー、Cloud Text-to-Speech API を有効化済みのもの）')
+    gemini_key = os.environ.get('GEMINI_API_KEY')
+    api_key    = os.environ.get('GOOGLE_API_KEY')
+    if gemini_key:
+        print('TTS: Gemini TTS (AI Studio) を使用')
+    elif api_key:
+        print('TTS: Cloud TTS (GCP) を使用')
+    else:
+        raise SystemExit('エラー: GEMINI_API_KEY または GOOGLE_API_KEY を設定してください。')
 
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
@@ -396,7 +444,7 @@ def main():
 
     results = []
     for html_path in html_files:
-        r = process_one(html_path, api_key)
+        r = process_one(html_path, api_key, gemini_key=gemini_key)
         if r:
             results.append(r)
 
