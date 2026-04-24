@@ -194,7 +194,8 @@ def normalize_for_tts(text: str) -> str:
     """TTS に渡す前に発音問題を修正する"""
     text = re.sub(r'^-{3,}\s*$', '', text, flags=re.MULTILINE)
     text = re.sub(r'^※.*$', '', text, flags=re.MULTILINE)
-    text = re.sub(r'正(?!しく|式|規|確|解|直|午|月|論|比|弦|接|反|逆|面|答|法)', 'せい', text)
+    text = re.sub(r'正(?!し|式|規|確|解|直|午|月|論|比|弦|接|反|逆|面|答|法)', 'せい', text)
+    text = re.sub(r'問(?!い)', 'もん', text)
     text = re.sub(r'(?<![0-9])0(?![0-9.])', 'ゼロ', text)
     text = text.replace('f(x)', 'エフエックス')
     # 数学変数アルファベットの読み仮名（英字以外に囲まれた a/b/c を対象）
@@ -218,7 +219,12 @@ def generate_audio(text: str, out_path: Path, api_key: str,
     payload = {
         'input': {'text': normalize_for_tts(text)},
         'voice': {'languageCode': 'ja-JP', 'name': TTS_VOICE},
-        'audioConfig': {'audioEncoding': 'LINEAR16', 'sampleRateHertz': TTS_RATE},
+        'audioConfig': {
+            'audioEncoding': 'LINEAR16',
+            'sampleRateHertz': TTS_RATE,
+            'speakingRate': 0.90,   # やや遅め → 思考中の自然なテンポ
+            'pitch': -1.5,          # やや低め → 落ち着いた声
+        },
     }
     max_retries = 12
     for attempt in range(max_retries):

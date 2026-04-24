@@ -294,9 +294,13 @@ sounds like thinking aloud, not teaching
 
 **TTS設定への反映ポイント：**
 - 声：`ja-JP-Chirp3-HD-Leda`（Chirp3-HD 高品質、最も自然・人間ぽい）
-- speakingRate・pitch は **デフォルト値のまま**（調整すると逆に不自然になる）
-- SSML は **使用しない**（plain text モード：SSML タグが音読されたり 'a' が「あ」になる問題を避けるため）
-- 数学変数名の読み仮名変換（normalize_for_tts で実施）: `a(` → `エー(`、`b(` → `ビー(`、単独の `a` → `エー`、単独の `b` → `ビー`
+- `speakingRate`: 0.90（やや遅め → 思考中の自然なテンポ）
+- `pitch`: -1.5（やや低め → 落ち着いた自然な声）
+- SSML は **使用しない**（plain text モード：SSML を使うと 'a' が「あ」になるバグが発生するため）
+- 数学変数名の読み仮名変換（normalize_for_tts で実施）:
+  - `a(` → `エー(`、`b(` → `ビー(`、単独 `a`/`b` → `エー`/`ビー`
+  - `問` → `もん`（TTS が「とい」と読む誤読を防ぐ）
+  - `正` → `せい`（ただし「正し…」「正式」「正確」等は除外）
 
 ---
 
@@ -341,8 +345,8 @@ GOOGLE_API_KEY=xxx PLAYWRIGHT_BROWSERS_PATH=/opt/pw-browsers python3 tools/slide
 TTS_VOICE = 'ja-JP-Chirp3-HD-Leda'  # Chirp3-HD 高品質（最も自然）
 TTS_RATE  = 24000                    # サンプリングレート（LINEAR16）
 GAP_SECONDS = 0.5                    # スライド間の無音
-# ※ speakingRate・pitch は指定しない（デフォルトが最も自然）
-# ※ SSML は使わず plain text で渡す
+# audioConfig に speakingRate / pitch を指定（SSML は不使用）
+# speakingRate: 0.90、pitch: -1.5
 ```
 
 ### アウトロテンプレート（変数: `{title}`）
