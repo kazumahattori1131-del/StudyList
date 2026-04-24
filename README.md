@@ -26,7 +26,7 @@ StudyList/
 
 ---
 
-## 動画一覧（全13本）
+## 動画一覧（全15本）
 
 | stem | 科目 | タイトル |
 |---|---|---|
@@ -35,10 +35,12 @@ StudyList/
 | math2_exponential_substitution | 数学II | 指数方程式（置換テクニック） |
 | math2_log_substitution | 数学II | 対数方程式（底の変換と置換） |
 | math2_trig_compose | 数学II | 三角関数の合成（sinθ+√3cosθ の最大・最小） |
+| math2_derivative_maxmin | 数学II | 微分の最大・最小（端点を見落とす落とし穴） |
 | math3_integral_squared | 数学III | 三角置換による定積分 |
 | math3_integration_by_parts | 数学III | 部分積分の連鎖（e^x sinx） |
 | mathA_circular_nonadjacent | 数学A | 円順列×余事象（隣り合わない） |
 | mathA_circular_probability | 数学A | 円順列×確率（男女交互） |
+| mathA_conditional_prob | 数学A | 条件付き確率（P(A\|B)とP(B\|A)の取り違え） |
 | mathB_recurrence_divide | 数学B | 漸化式（両辺を割る） |
 | mathB_sum_recurrence | 数学B | Sn型漸化式 |
 | mathC_complex_factorize | 数学C | 複素数の絶対値最大値 |
@@ -58,7 +60,7 @@ pip3 install playwright google-genai moviepy pillow cryptography
 PLAYWRIGHT_BROWSERS_PATH=/opt/pw-browsers python3 -m playwright install chromium
 
 # 動画生成（特定ファイル）
-GEMINI_API_KEY=your_key PLAYWRIGHT_BROWSERS_PATH=/opt/pw-browsers \
+GOOGLE_API_KEY=your_gcp_key PLAYWRIGHT_BROWSERS_PATH=/opt/pw-browsers \
   python3 tools/slide_to_video.py --file problems/youtube_redesign/{stem}.html
 
 # サムネイル生成

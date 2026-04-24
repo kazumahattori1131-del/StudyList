@@ -260,7 +260,7 @@ GOOGLE_API_KEY=xxx PLAYWRIGHT_BROWSERS_PATH=/opt/pw-browsers python3 tools/slide
 1. Playwright でHTML全スライドをスクリーンショット（1280×720）
 2. 類題スライドは解答非表示版（`slide_ruidai_hidden.png`）も撮影
 3. 台本を`## スライド①〜⑥`で分割してスライドと対応付け
-4. Gemini TTS（`gemini-3.1-flash-tts-preview`、音声: `Leda`）で音声生成
+4. Cloud TTS API で音声生成（`texttospeech.googleapis.com/v1/text:synthesize`）
 5. ImageClip + AudioFileClip でクリップ作成
 6. 類題スライド（⑥）の特殊処理:
    - **A**: 問題スライド（非表示）+ 問題部分の音声 + 「自分で解いてみてください」
@@ -271,9 +271,9 @@ GOOGLE_API_KEY=xxx PLAYWRIGHT_BROWSERS_PATH=/opt/pw-browsers python3 tools/slide
 
 ### TTS設定
 ```python
-TTS_MODEL = 'gemini-3.1-flash-tts-preview'
-TTS_VOICE = 'Leda'   # 若い日本語女性風の声
-GAP_SECONDS = 0.5    # スライド間の無音
+TTS_VOICE = 'ja-JP-Neural2-B'  # 日本語Neural2音声
+TTS_RATE  = 24000               # サンプリングレート
+GAP_SECONDS = 0.5               # スライド間の無音
 ```
 
 ### アウトロテンプレート（変数: `{title}`）
@@ -336,7 +336,7 @@ python3 tools/make_thumbnails.py
 
 ---
 
-## 既存動画一覧（12本）
+## 既存動画一覧（15本）
 
 | stem | 科目 | タイトル | エンディング |
 |---|---|---|---|
@@ -353,6 +353,8 @@ python3 tools/make_thumbnails.py
 | mathC_complex_factorize | 数学C | 複素数の絶対値最大値 | ending_slide.png |
 | mathC_complex_identity | 数学C | z+1/z=1 から z³+1/z³ | ending_slide.png |
 | math2_trig_compose | 数学II | 三角関数の合成（sinθ+√3cosθ の最大・最小） | ending_slide.png |
+| math2_derivative_maxmin | 数学II | 微分の最大・最小（端点を見落とす落とし穴） | ending_slide.png |
+| mathA_conditional_prob | 数学A | 条件付き確率（P(A\|B)とP(B\|A)の取り違え） | ending_slide.png |
 
 > **旧スライドの4本**（discriminant, integral_squared, integration_by_parts, circular_nonadjacent）は次回再生成時に ending_slide.png が自動適用される。
 

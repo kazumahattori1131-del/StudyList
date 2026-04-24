@@ -280,6 +280,28 @@ THUMBNAILS = {
         badge_text    = '落とし穴あり',
         badge_color   = (200, 50, 50),
     ),
+    'math2_derivative_maxmin': dict(
+        bg_color      = (10, 30, 18),
+        accent        = (34, 197, 94),
+        subject_tag   = '数学II',
+        subject_color = (15, 130, 55),
+        main_text     = '端点を\n忘れると爆死！',
+        sub_text      = '微分の最大・最小 — 増減表だけでは不十分',
+        formula       = 'f(4)=16 を見落とすな',
+        badge_text    = '落とし穴あり',
+        badge_color   = (200, 50, 50),
+    ),
+    'mathA_conditional_prob': dict(
+        bg_color      = (10, 30, 15),
+        accent        = (74, 222, 128),
+        subject_tag   = '数学A',
+        subject_color = (20, 150, 60),
+        main_text     = '「〜のとき」\nに騙されるな！',
+        sub_text      = '条件付き確率 — P(A|B)とP(B|A)は別物',
+        formula       = 'P(A|B) = P(A∩B)/P(B)',
+        badge_text    = '落とし穴あり',
+        badge_color   = (200, 50, 50),
+    ),
 }
 
 
