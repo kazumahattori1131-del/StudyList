@@ -42,7 +42,7 @@ TTS_VOICE     = 'ja-JP-Chirp3-HD-Leda'   # Cloud TTS フォールバック用
 GEMINI_TTS_MODEL = 'gemini-2.5-flash-preview-tts'
 GEMINI_TTS_VOICE = 'Leda'          # 日本語教育コンテンツ向け
 TTS_RATE      = 24000               # LINEAR16 出力サンプルレート
-GAP_SECONDS   = 0.5                 # スライド切り替え後の無音（秒）
+GAP_SECONDS   = 1.2                 # スライド切り替え後の無音（秒）
 VIDEO_W, VIDEO_H = 1280, 720
 VIDEO_FPS     = 24
 # ─────────────────────────────────────────────────────────────────────────
@@ -404,7 +404,7 @@ def process_one(html_path: Path, api_key: str, gemini_key: str = None) -> Path |
     print('        [アウトロ]', end='', flush=True)
     outro_audio = out_dir / 'audio_outro.wav'
     outro_clip  = out_dir / 'clip_outro.mp4'
-    generate_audio(OUTRO_TEMPLATE.format(title=title), outro_audio, api_key, gap=0.0, gemini_key=gemini_key)
+    generate_audio(OUTRO_TEMPLATE.format(title=title), outro_audio, api_key, gap=2.5, gemini_key=gemini_key)
     ending = ENDING_SLIDE if ENDING_SLIDE.exists() else screenshots[-1]
     make_slide_clip(ending, outro_audio, outro_clip)
     print(' 音声✓ 動画✓')

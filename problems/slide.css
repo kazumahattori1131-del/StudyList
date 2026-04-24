@@ -121,6 +121,19 @@ body {
   font-size: 20px;
   line-height: 1.85;
 }
+.step-label {
+  display: inline-block;
+  background: var(--accent);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 3px 12px;
+  border-radius: 4px;
+  margin-right: 12px;
+  margin-bottom: 6px;
+  vertical-align: middle;
+  letter-spacing: 0.05em;
+}
 .step-num {
   display: inline-block;
   background: var(--accent);
