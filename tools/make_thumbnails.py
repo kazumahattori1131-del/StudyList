@@ -269,6 +269,17 @@ THUMBNAILS = {
         badge_text    = '発展レベル',
         badge_color   = (80, 50, 200),
     ),
+    'math2_trig_compose': dict(
+        bg_color      = (15, 28, 48),
+        accent        = (14, 165, 233),
+        subject_tag   = '数学II',
+        subject_color = (10, 110, 180),
+        main_text     = 'sinとcosを\n1つにまとめる！',
+        sub_text      = '三角関数の合成 — αの符号ミスに注意',
+        formula       = 'sinθ+√3cosθ=2sin(θ+π/3)',
+        badge_text    = '落とし穴あり',
+        badge_color   = (200, 50, 50),
+    ),
 }
 
 

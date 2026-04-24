@@ -345,6 +345,7 @@ python3 tools/make_thumbnails.py
 | mathB_sum_recurrence | 数学B | Sn型漸化式 | ending_slide.png |
 | mathC_complex_factorize | 数学C | 複素数の絶対値最大値 | ending_slide.png |
 | mathC_complex_identity | 数学C | z+1/z=1 から z³+1/z³ | ending_slide.png |
+| math2_trig_compose | 数学II | 三角関数の合成（sinθ+√3cosθ の最大・最小） | ending_slide.png |
 
 > **旧スライドの4本**（discriminant, integral_squared, integration_by_parts, circular_nonadjacent）は次回再生成時に ending_slide.png が自動適用される。
 
