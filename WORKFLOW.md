@@ -293,9 +293,10 @@ sounds like thinking aloud, not teaching
 ```
 
 **TTS設定への反映ポイント：**
-- `speakingRate`: 0.90（やや遅め → 思考中の自然なテンポ）
-- `pitch`: -1.5（やや低め → 落ち着いた自然な声）
-- SSML で句読点ごとに自然な間を挿入（`。` → 400ms、`、` → 150ms、`？` → 600ms）
+- 声：`ja-JP-Chirp3-HD-Leda`（Chirp3-HD 高品質、最も自然・人間ぽい）
+- speakingRate・pitch は **デフォルト値のまま**（調整すると逆に不自然になる）
+- SSML は **使用しない**（plain text モード：SSML タグが音読されたり 'a' が「あ」になる問題を避けるため）
+- 数学変数名の読み仮名変換（normalize_for_tts で実施）: `a(` → `エー(`、`b(` → `ビー(`、単独の `a` → `エー`、単独の `b` → `ビー`
 
 ---
 
@@ -306,7 +307,7 @@ sounds like thinking aloud, not teaching
 - GCPコンソールで発行したAPIキーを使用
 - GCPコンソール → 「APIとサービス」→「Cloud Text-to-Speech API」を有効化すること
 - 無料枠：月100万文字（Neural2音声）、事実上制限なしで利用可能
-- 声：`ja-JP-Neural2-B`（日本語Neural2）
+- 声：`ja-JP-Chirp3-HD-Leda`（Chirp3-HD 高品質、最も自然な日本語音声）
 
 ### 必要な環境変数
 ```bash
@@ -337,9 +338,11 @@ GOOGLE_API_KEY=xxx PLAYWRIGHT_BROWSERS_PATH=/opt/pw-browsers python3 tools/slide
 
 ### TTS設定
 ```python
-TTS_VOICE = 'ja-JP-Neural2-B'  # 日本語Neural2音声
-TTS_RATE  = 24000               # サンプリングレート
-GAP_SECONDS = 0.5               # スライド間の無音
+TTS_VOICE = 'ja-JP-Chirp3-HD-Leda'  # Chirp3-HD 高品質（最も自然）
+TTS_RATE  = 24000                    # サンプリングレート（LINEAR16）
+GAP_SECONDS = 0.5                    # スライド間の無音
+# ※ speakingRate・pitch は指定しない（デフォルトが最も自然）
+# ※ SSML は使わず plain text で渡す
 ```
 
 ### アウトロテンプレート（変数: `{title}`）

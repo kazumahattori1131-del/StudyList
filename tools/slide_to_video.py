@@ -31,11 +31,13 @@ OUTPUT_DIR    = BASE_DIR / 'output'
 ENDING_SLIDE  = BASE_DIR / 'ending_slide.png'
 THUMBNAILS_DIR = BASE_DIR / 'thumbnails'
 CLOUD_TTS_URL = 'https://texttospeech.googleapis.com/v1/text:synthesize'
-TTS_VOICE          = 'ja-JP-Neural2-B'  # Google Cloud TTS: 日本語Neural2
-TTS_RATE           = 24000              # LINEAR16 出力サンプルレート
-TTS_SPEAKING_RATE  = 0.90               # 発話速度（1.0=標準、0.90=やや遅め→思考中のテンポ）
-TTS_PITCH          = -1.5               # ピッチ（半音単位、-1.5=やや低め→落ち着いた自然な声）
-GAP_SECONDS        = 0.5               # スライド切り替え後の無音（秒）
+# 声の選択肢:
+#   'ja-JP-Chirp3-HD-Leda'  ← 以前使用、最も自然（Chirp3-HD 高品質）
+#   'ja-JP-Neural2-B'       ← 現在使用、Neural2 男性
+#   'ja-JP-Neural2-C'       ← Neural2 男性（別キャラクター）
+TTS_VOICE     = 'ja-JP-Chirp3-HD-Leda'   # Google Cloud TTS: Chirp3-HD（高品質）
+TTS_RATE      = 24000               # LINEAR16 出力サンプルレート
+GAP_SECONDS   = 0.5                 # スライド切り替え後の無音（秒）
 VIDEO_W, VIDEO_H = 1280, 720
 VIDEO_FPS     = 24
 # ─────────────────────────────────────────────────────────────────────────
@@ -195,6 +197,12 @@ def normalize_for_tts(text: str) -> str:
     text = re.sub(r'正(?!しく|式|規|確|解|直|午|月|論|比|弦|接|反|逆|面|答|法)', 'せい', text)
     text = re.sub(r'(?<![0-9])0(?![0-9.])', 'ゼロ', text)
     text = text.replace('f(x)', 'エフエックス')
+    # 数学変数アルファベットの読み仮名（英字以外に囲まれた a/b/c を対象）
+    text = re.sub(r'(?<![a-zA-Z])a\(', 'エー(', text)
+    text = re.sub(r'(?<![a-zA-Z])b\(', 'ビー(', text)
+    text = re.sub(r'(?<![a-zA-Z])c\(', 'シー(', text)
+    text = re.sub(r'(?<![a-zA-Zア-ン])a(?![a-zA-Z(])', 'エー', text)
+    text = re.sub(r'(?<![a-zA-Zア-ン])b(?![a-zA-Z(])', 'ビー', text)
     circled = {'①': 'いち', '②': 'に', '③': 'さん', '④': 'よん', '⑤': 'ご',
                '⑥': 'ろく', '⑦': 'なな', '⑧': 'はち', '⑨': 'きゅう', '⑩': 'じゅう'}
     for ch, reading in circled.items():
@@ -204,34 +212,13 @@ def normalize_for_tts(text: str) -> str:
     return text.strip()
 
 
-def text_to_ssml(text: str) -> str:
-    """プレーンテキストをSSML形式に変換（句読点に自然な間を追加）"""
-    # SSMLで特殊文字をエスケープ
-    text = text.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
-    # 句読点ごとに自然な間を挿入
-    text = text.replace('。', '。<break time="400ms"/>')
-    text = text.replace('、', '、<break time="150ms"/>')
-    text = text.replace('？', '？<break time="600ms"/>')
-    text = text.replace('！', '！<break time="300ms"/>')
-    text = text.replace('…', '<break time="700ms"/>')
-    text = text.replace('\n\n', '<break time="500ms"/>')
-    text = text.replace('\n', '<break time="200ms"/>')
-    return f'<speak>{text}</speak>'
-
-
 def generate_audio(text: str, out_path: Path, api_key: str,
                    gap: float = GAP_SECONDS) -> None:
     """Google Cloud TTS で音声生成 → WAV 保存（レート制限時はリトライ）"""
-    ssml = text_to_ssml(normalize_for_tts(text))
     payload = {
-        'input': {'ssml': ssml},
+        'input': {'text': normalize_for_tts(text)},
         'voice': {'languageCode': 'ja-JP', 'name': TTS_VOICE},
-        'audioConfig': {
-            'audioEncoding': 'LINEAR16',
-            'sampleRateHertz': TTS_RATE,
-            'speakingRate': TTS_SPEAKING_RATE,
-            'pitch': TTS_PITCH,
-        },
+        'audioConfig': {'audioEncoding': 'LINEAR16', 'sampleRateHertz': TTS_RATE},
     }
     max_retries = 12
     for attempt in range(max_retries):
