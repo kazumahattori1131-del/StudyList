@@ -223,7 +223,7 @@ def generate_audio(text: str, out_path: Path, api_key: str,
             'audioEncoding': 'LINEAR16',
             'sampleRateHertz': TTS_RATE,
             'speakingRate': 0.90,   # やや遅め → 思考中の自然なテンポ
-            'pitch': -1.5,          # やや低め → 落ち着いた声
+            # pitch: Chirp3-HD は非対応のため指定しない
         },
     }
     max_retries = 12
@@ -240,6 +240,8 @@ def generate_audio(text: str, out_path: Path, api_key: str,
                 print(f' [待機{wait}秒]', end='', flush=True)
                 time.sleep(wait)
                 continue
+            if resp.status_code >= 400:
+                raise RuntimeError(f'TTS APIエラー {resp.status_code}: {resp.text[:200]}')
             resp.raise_for_status()
             pcm = base64.b64decode(resp.json()['audioContent'])
             pcm_to_wav(pcm, out_path, gap_seconds=gap)

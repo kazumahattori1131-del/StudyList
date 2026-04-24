@@ -295,7 +295,7 @@ sounds like thinking aloud, not teaching
 **TTS設定への反映ポイント：**
 - 声：`ja-JP-Chirp3-HD-Leda`（Chirp3-HD 高品質、最も自然・人間ぽい）
 - `speakingRate`: 0.90（やや遅め → 思考中の自然なテンポ）
-- `pitch`: -1.5（やや低め → 落ち着いた自然な声）
+- `pitch`: Chirp3-HD は非対応のため **指定しない**（指定すると400エラー）
 - SSML は **使用しない**（plain text モード：SSML を使うと 'a' が「あ」になるバグが発生するため）
 - 数学変数名の読み仮名変換（normalize_for_tts で実施）:
   - `a(` → `エー(`、`b(` → `ビー(`、単独 `a`/`b` → `エー`/`ビー`
@@ -345,8 +345,8 @@ GOOGLE_API_KEY=xxx PLAYWRIGHT_BROWSERS_PATH=/opt/pw-browsers python3 tools/slide
 TTS_VOICE = 'ja-JP-Chirp3-HD-Leda'  # Chirp3-HD 高品質（最も自然）
 TTS_RATE  = 24000                    # サンプリングレート（LINEAR16）
 GAP_SECONDS = 0.5                    # スライド間の無音
-# audioConfig に speakingRate / pitch を指定（SSML は不使用）
-# speakingRate: 0.90、pitch: -1.5
+# audioConfig に speakingRate を指定（SSML 不使用、pitch は非対応）
+# speakingRate: 0.90
 ```
 
 ### アウトロテンプレート（変数: `{title}`）
