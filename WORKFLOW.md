@@ -265,6 +265,40 @@ StudyList/
 
 ---
 
+### 音声スタイルガイドライン（TTS向け）
+
+以下のイメージに沿った音声を目指す。TTS設定はこれを反映させること。
+
+```
+🎬 Scene
+after-school quiet classroom (Japanese high school)
+solo narrator, thinking aloud while solving math problem
+calm, relaxed atmosphere
+
+🧩 Sample Context
+high school math explanation
+not lecture, thinking process spoken aloud
+step-by-step reasoning
+small pauses, light reactions (hmm, oh, I see)
+answers unfold gradually
+
+🎧 Audio Profile
+young Japanese voice (student-like)
+calm, soft, natural tone
+slightly informal, friendly
+medium-low pitch, stable
+natural pauses, slight hesitation OK
+not robotic, not exaggerated
+sounds like thinking aloud, not teaching
+```
+
+**TTS設定への反映ポイント：**
+- `speakingRate`: 0.90（やや遅め → 思考中の自然なテンポ）
+- `pitch`: -1.5（やや低め → 落ち着いた自然な声）
+- SSML で句読点ごとに自然な間を挿入（`。` → 400ms、`、` → 150ms、`？` → 600ms）
+
+---
+
 ## Step 3: 動画生成（slide_to_video.py）
 
 ### 使用API
