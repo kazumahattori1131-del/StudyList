@@ -40,7 +40,7 @@ TTS_VOICE     = 'ja-JP-Chirp3-HD-Leda'   # Cloud TTS フォールバック用
 # Gemini TTS（AI Studio キーがある場合に優先使用）
 # 声の選択肢: Kore / Aoede / Charon / Fenrir / Puck / Zephyr 等
 GEMINI_TTS_MODEL = 'gemini-2.5-flash-preview-tts'
-GEMINI_TTS_VOICE = 'Kore'          # 落ち着いた声、日本語教育コンテンツ向け
+GEMINI_TTS_VOICE = 'Leda'          # 日本語教育コンテンツ向け
 TTS_RATE      = 24000               # LINEAR16 出力サンプルレート
 GAP_SECONDS   = 0.5                 # スライド切り替え後の無音（秒）
 VIDEO_W, VIDEO_H = 1280, 720
