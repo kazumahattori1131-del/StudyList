@@ -29,6 +29,7 @@ KATEX_BASE    = 'file:///home/user/StudyList/problems/katex'
 BASE_DIR      = Path('/home/user/StudyList/problems/youtube_redesign')
 OUTPUT_DIR    = BASE_DIR / 'output'
 ENDING_SLIDE  = BASE_DIR / 'ending_slide.png'
+THUMBNAILS_DIR = BASE_DIR / 'thumbnails'
 CLOUD_TTS_URL = 'https://texttospeech.googleapis.com/v1/text:synthesize'
 TTS_VOICE     = 'ja-JP-Neural2-B'   # Google Cloud TTS: 日本語Neural2
 TTS_RATE      = 24000               # LINEAR16 出力サンプルレート
@@ -36,6 +37,11 @@ GAP_SECONDS   = 0.5                 # スライド切り替え後の無音（秒
 VIDEO_W, VIDEO_H = 1280, 720
 VIDEO_FPS     = 24
 # ─────────────────────────────────────────────────────────────────────────
+
+INTRO_TEXT = """みなさんこんにちは！
+このチャンネルでは、高校数学の典型問題・ひっかかりやすい問題を解説しています。
+もしよろしければチャンネル登録よろしくお願いします！
+では、今日の問題はこちらです！"""
 
 OUTRO_TEMPLATE = """以上！いかがでしたでしょうか！
 今回は
@@ -276,6 +282,20 @@ def process_one(html_path: Path, api_key: str) -> Path | None:
 
     print('  [3/3] 音声生成 + クリップ作成...')
     clip_paths: list[Path] = []
+
+    # イントロクリップ（サムネイル画像 + 固定イントロ音声）
+    thumbnail = THUMBNAILS_DIR / f'{stem}.png'
+    if thumbnail.exists():
+        print('        [イントロ]', end='', flush=True)
+        intro_audio = out_dir / 'audio_intro.wav'
+        intro_clip  = out_dir / 'clip_intro.mp4'
+        generate_audio(INTRO_TEXT, intro_audio, api_key, gap=0.0)
+        make_slide_clip(thumbnail, intro_audio, intro_clip)
+        print(' 音声✓ 動画✓')
+        clip_paths.append(intro_clip)
+    else:
+        print(f'  [WARN] サムネイルなし: {thumbnail.name}、イントロをスキップ')
+
     for idx, (img, script) in enumerate(pairs):
         i = idx + 1
         print(f'        [{i}/{len(pairs)}]', end='', flush=True)

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>【数学II】微分の最大・最小 — 端点を見落とす落とし穴</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <link rel="stylesheet" href="../slide.css">
+  <style>
+    :root { --accent: #22C55E; }
+    .key-box { background: #f0fdf4; border-left: 6px solid #22C55E; border-radius: 0 10px 10px 0; padding: 16px 24px; margin: 10px 0; font-size: 22px; font-weight: 700; }
+    .trap-box { background: #fff5f5; border: 2px solid #fc8181; border-radius: 10px; padding: 14px 24px; margin: 10px 0; }
+    .trap-title { color: #c53030; font-weight: 800; font-size: 22px; margin-bottom: 6px; }
+    table.zogen { border-collapse: collapse; margin: 10px auto; font-size: 20px; }
+    table.zogen th, table.zogen td { border: 2px solid #444; padding: 8px 18px; text-align: center; }
+    table.zogen th { background: #e8f5e9; color: #1a202c; }
+    .endpoint-note { background: #fff9e6; border: 2px solid #f59e0b; border-radius: 10px; padding: 12px 20px; margin-top: 10px; font-size: 20px; }
+  </style>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]})"></script>
+</head>
+<body>
+<!--
+https://kazumahattori1131-del.github.io/StudyList/problems/youtube_redesign/math2-4_derivative_maxmin.html
+-->
+<div id="progress-bar"></div>
+
+<!-- ① 問題提示 -->
+<section class="slide active">
+  <div class="slide-header">
+    <span class="badge">数学II</span>
+    <span class="slide-title">微分の最大・最小（閉区間上での端点チェック）</span>
+    <div class="meta"><span>★★★☆☆ 標準</span><span>偏差値55〜65</span></div>
+  </div>
+  <div class="problem-label">問　題</div>
+  <div class="problem-box">
+    関数 $f(x) = x^3 - 3x^2 \quad (0 \leq x \leq 4)$ の最大値・最小値を求めよ。
+  </div>
+  <div class="step" style="font-size:22px; margin-top:1.2rem;">
+    💬 増減表を作れば終わり…と思っていませんか？<br>
+    <strong>閉区間では端点の値も必ず確認</strong>する必要があります！
+  </div>
+  <div class="slide-footer">出典：教科書例題・数学II（改題）</div>
+</section>
+
+<!-- ② よくある間違い -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge orange">よくある間違い</span>
+    <span class="slide-title">端点 $x=4$ の値を確認しない</span>
+  </div>
+  <div class="trap-box">
+    <div class="trap-title">❌ 間違いの典型パターン</div>
+    $f'(x) = 3x^2 - 6x = 3x(x-2)$ より $x=0$ で極大、$x=2$ で極小。<br><br>
+    <span style="color:#c53030;font-weight:700;">❌ 間違い：</span>
+    「増減表より 最大値 $= f(0) = 0$、最小値 $= f(2) = -4$」と答えてしまう。<br><br>
+    <span style="color:#276749;font-weight:700;">→ 端点 $x=4$ を忘れている！</span><br>
+    $f(4) = 64 - 48 = \boldsymbol{16}$ — これが本当の最大値！
+  </div>
+  <div style="margin-top:0.8rem; font-size:20px;">
+    <strong>ポイント：</strong>極値 ≠ 最大・最小値。閉区間では<strong>端点も候補</strong>に入れること。
+  </div>
+  <div class="slide-footer"></div>
+</section>
+
+<!-- ③ 本質ポイント -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge green">本質ポイント</span>
+    <span class="slide-title">閉区間の最大・最小は「極値 ＋ 端点」を比べる</span>
+  </div>
+  <div class="key-box">
+    🔑 閉区間 $[a,b]$ での最大・最小の求め方：<br>
+    <ol style="margin-top:0.8rem; font-size:20px; font-weight:400; line-height:2;">
+      <li>$f'(x)=0$ の解（臨界点）を求め、増減表を書く</li>
+      <li>極値（臨界点での値）を計算する</li>
+      <li><strong style="color:#c53030;">端点 $f(a)$・$f(b)$ も計算する</strong></li>
+      <li>極値と端点の値をすべて比べ、最大・最小を決定する</li>
+    </ol>
+  </div>
+  <div class="endpoint-note">
+    ⚠️ 端点は極値にならない（増減表で「極」と書かれない）ため見落としやすい。<br>
+    必ず別途代入して確認すること！
+  </div>
+  <div class="slide-footer"></div>
+</section>
+
+<!-- ④ 解説 -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge">解説</span>
+    <span class="slide-title">$f(x) = x^3 - 3x^2$ の最大・最小を正しく求める</span>
+  </div>
+  <div class="step"><span class="step-num">1</span>
+    $f'(x) = 3x^2 - 6x = 3x(x-2)$<br>
+    $0 \leq x \leq 4$ での増減表：
+    <table class="zogen">
+      <tr><th>$x$</th><th>$0$</th><th>$\cdots$</th><th>$2$</th><th>$\cdots$</th><th>$4$</th></tr>
+      <tr><th>$f'(x)$</th><td></td><td>$-$</td><td>$0$</td><td>$+$</td><td></td></tr>
+      <tr><th>$f(x)$</th><td>$0$</td><td>↘</td><td>$-4$（極小）</td><td>↗</td><td>$16$</td></tr>
+    </table>
+  </div>
+  <div class="step"><span class="step-num">2</span>
+    各候補の値を確認：<br>
+    $f(0) = 0$，　$f(2) = 8-12 = -4$（極小），　$f(4) = 64-48 = \boldsymbol{16}$（端点）
+  </div>
+  <div class="step"><span class="step-num">3</span>
+    比較すると：<br>
+    <strong>最大値 $\boldsymbol{16}$</strong>（$x=4$ のとき）<br>
+    <strong>最小値 $\boldsymbol{-4}$</strong>（$x=2$ のとき）
+  </div>
+  <div class="slide-footer"></div>
+</section>
+
+<!-- ⑤ 一般化 -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge green">一般化</span>
+    <span class="slide-title">閉区間上の最大・最小 — 手順まとめ</span>
+  </div>
+  <div class="key-box" style="font-size:20px;">
+    $$\text{閉区間} [a,b] \text{ での最大・最小} = \max\!\bigl(f(a),\;f(b),\;\text{区間内の極値}\bigr)$$
+    <ul style="margin-top:0.8rem; font-size:20px; font-weight:400; line-height:1.9;">
+      <li>$f'(x)=0$ の解が区間外なら、極値の候補から除外する</li>
+      <li>区間内の極値がなくても端点の大小で決まる場合がある</li>
+      <li>「極大 = 最大」は<strong style="color:#c53030;">開区間での話</strong>。閉区間では必ず端点チェック！</li>
+    </ul>
+  </div>
+  <div class="endpoint-note">
+    ⚠️ 定義域が $[a,b]$ か $(a,b)$ かによって話が変わる。問題文の括弧を確認しよう。
+  </div>
+  <div class="slide-footer"></div>
+</section>
+
+<!-- ⑥ 類題 -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge green">類題</span>
+    <span class="slide-title">端点も臨界点も多い場合</span>
+  </div>
+  <div class="problem-box" style="font-size:20px;">
+    $g(x) = x^3 - 3x + 2 \quad (-2 \leq x \leq 2)$ の最大値・最小値を求めよ。
+  </div>
+  <div class="answer-label">答　え</div>
+  <div class="answer-box">
+    $g'(x) = 3x^2 - 3 = 3(x+1)(x-1)$ より $x=-1$ で極大、$x=1$ で極小。<br>
+    各値：$g(-2)=0$，$g(-1)=4$（極大），$g(1)=0$（極小），$g(2)=4$（端点）<br><br>
+    <strong>最大値 $\boldsymbol{4}$</strong>（$x=-1$ または $x=2$ のとき）<br>
+    <strong>最小値 $\boldsymbol{0}$</strong>（$x=-2$ または $x=1$ のとき）
+  </div>
+  <div class="slide-footer"></div>
+</section>
+
+<div id="nav">
+  <button id="btn-prev">◀ 前へ</button>
+  <span class="page-info" id="pinfo">1 / 6</span>
+  <button id="btn-next">次へ ▶</button>
+  <button id="btn-pdf" onclick="window.print()">⬇ PDF保存</button>
+  <span class="hint">← → キーでも操作できます</span>
+</div>
+<script src="../slide.js"></script>
+</body>
+</html>

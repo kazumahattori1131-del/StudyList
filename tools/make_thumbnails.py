@@ -137,7 +137,7 @@ def make_thumbnail(stem, config):
 
 
 THUMBNAILS = {
-    'math1_quadratic_discriminant': dict(
+    'math1-1_quadratic_discriminant': dict(
         bg_color      = (18, 24, 48),
         accent        = (66, 133, 244),
         subject_tag   = '数学I',
@@ -148,7 +148,7 @@ THUMBNAILS = {
         badge_text    = '落とし穴あり',
         badge_color   = (200, 50, 50),
     ),
-    'math1_quadratic_trap': dict(
+    'math1-2_quadratic_trap': dict(
         bg_color      = (48, 18, 18),
         accent        = (234, 88, 12),
         subject_tag   = '数学I',
@@ -159,7 +159,7 @@ THUMBNAILS = {
         badge_text    = '超頻出の落とし穴',
         badge_color   = (180, 30, 30),
     ),
-    'math2_exponential_substitution': dict(
+    'math2-1_exponential_substitution': dict(
         bg_color      = (18, 40, 30),
         accent        = (34, 197, 94),
         subject_tag   = '数学II',
@@ -170,7 +170,7 @@ THUMBNAILS = {
         badge_text    = None,
         badge_color   = None,
     ),
-    'math2_log_substitution': dict(
+    'math2-2_log_substitution': dict(
         bg_color      = (20, 38, 48),
         accent        = (14, 165, 233),
         subject_tag   = '数学II',
@@ -181,7 +181,7 @@ THUMBNAILS = {
         badge_text    = None,
         badge_color   = None,
     ),
-    'math3_integral_squared': dict(
+    'math3-1_integral_squared': dict(
         bg_color      = (28, 18, 48),
         accent        = (168, 85, 247),
         subject_tag   = '数学III',
@@ -192,7 +192,7 @@ THUMBNAILS = {
         badge_text    = '発展レベル',
         badge_color   = (120, 40, 200),
     ),
-    'math3_integration_by_parts': dict(
+    'math3-2_integration_by_parts': dict(
         bg_color      = (28, 18, 48),
         accent        = (236, 72, 153),
         subject_tag   = '数学III',
@@ -203,7 +203,7 @@ THUMBNAILS = {
         badge_text    = '発展レベル',
         badge_color   = (160, 30, 100),
     ),
-    'mathA_circular_nonadjacent': dict(
+    'mathA-1_circular_nonadjacent': dict(
         bg_color      = (24, 36, 24),
         accent        = (74, 222, 128),
         subject_tag   = '数学A',
@@ -214,7 +214,7 @@ THUMBNAILS = {
         badge_text    = None,
         badge_color   = None,
     ),
-    'mathA_circular_probability': dict(
+    'mathA-2_circular_probability': dict(
         bg_color      = (24, 36, 24),
         accent        = (16, 185, 129),
         subject_tag   = '数学A',
@@ -225,7 +225,7 @@ THUMBNAILS = {
         badge_text    = None,
         badge_color   = None,
     ),
-    'mathB_recurrence_divide': dict(
+    'mathB-1_recurrence_divide': dict(
         bg_color      = (40, 28, 18),
         accent        = (251, 146, 60),
         subject_tag   = '数学B',
@@ -236,7 +236,7 @@ THUMBNAILS = {
         badge_text    = None,
         badge_color   = None,
     ),
-    'mathB_sum_recurrence': dict(
+    'mathB-2_sum_recurrence': dict(
         bg_color      = (40, 28, 18),
         accent        = (245, 158, 11),
         subject_tag   = '数学B',
@@ -247,7 +247,7 @@ THUMBNAILS = {
         badge_text    = '場合分け注意',
         badge_color   = (180, 80, 20),
     ),
-    'mathC_complex_factorize': dict(
+    'mathC-1_complex_factorize': dict(
         bg_color      = (18, 18, 40),
         accent        = (99, 102, 241),
         subject_tag   = '数学C',
@@ -258,7 +258,7 @@ THUMBNAILS = {
         badge_text    = '発展レベル',
         badge_color   = (80, 50, 200),
     ),
-    'mathC_complex_identity': dict(
+    'mathC-2_complex_identity': dict(
         bg_color      = (18, 18, 40),
         accent        = (129, 140, 248),
         subject_tag   = '数学C',
@@ -269,7 +269,7 @@ THUMBNAILS = {
         badge_text    = '発展レベル',
         badge_color   = (80, 50, 200),
     ),
-    'math2_trig_compose': dict(
+    'math2-3_trig_compose': dict(
         bg_color      = (15, 28, 48),
         accent        = (14, 165, 233),
         subject_tag   = '数学II',
@@ -277,6 +277,28 @@ THUMBNAILS = {
         main_text     = 'sinとcosを\n1つにまとめる！',
         sub_text      = '三角関数の合成 — αの符号ミスに注意',
         formula       = 'sinθ+√3cosθ=2sin(θ+π/3)',
+        badge_text    = '落とし穴あり',
+        badge_color   = (200, 50, 50),
+    ),
+    'math2-4_derivative_maxmin': dict(
+        bg_color      = (10, 30, 18),
+        accent        = (34, 197, 94),
+        subject_tag   = '数学II',
+        subject_color = (15, 130, 55),
+        main_text     = '端点を\n忘れると爆死！',
+        sub_text      = '微分の最大・最小 — 増減表だけでは不十分',
+        formula       = 'f(4)=16 を見落とすな',
+        badge_text    = '落とし穴あり',
+        badge_color   = (200, 50, 50),
+    ),
+    'mathA-3_conditional_prob': dict(
+        bg_color      = (10, 30, 15),
+        accent        = (74, 222, 128),
+        subject_tag   = '数学A',
+        subject_color = (20, 150, 60),
+        main_text     = '「〜のとき」\nに騙されるな！',
+        sub_text      = '条件付き確率 — P(A|B)とP(B|A)は別物',
+        formula       = 'P(A|B) = P(A∩B)/P(B)',
         badge_text    = '落とし穴あり',
         badge_color   = (200, 50, 50),
     ),

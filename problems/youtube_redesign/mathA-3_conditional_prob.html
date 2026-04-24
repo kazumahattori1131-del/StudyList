@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>【数学A】条件付き確率 — P(A|B)とP(B|A)の取り違え</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <link rel="stylesheet" href="../slide.css">
+  <style>
+    :root { --accent: #4ADE80; }
+    .key-box { background: #f0fdf4; border-left: 6px solid #4ADE80; border-radius: 0 10px 10px 0; padding: 16px 24px; margin: 10px 0; font-size: 22px; font-weight: 700; }
+    .trap-box { background: #fff5f5; border: 2px solid #fc8181; border-radius: 10px; padding: 14px 24px; margin: 10px 0; }
+    .trap-title { color: #c53030; font-weight: 800; font-size: 22px; margin-bottom: 6px; }
+    .prob-tree { font-size: 20px; margin: 10px 0 10px 20px; line-height: 2.0; }
+  </style>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]})"></script>
+</head>
+<body>
+<!--
+https://kazumahattori1131-del.github.io/StudyList/problems/youtube_redesign/mathA-3_conditional_prob.html
+-->
+<div id="progress-bar"></div>
+
+<!-- ① 問題提示 -->
+<section class="slide active">
+  <div class="slide-header">
+    <span class="badge">数学A</span>
+    <span class="slide-title">条件付き確率（$P(A|B)$ と $P(B|A)$ の違い）</span>
+    <div class="meta"><span>★★★☆☆ 標準</span><span>偏差値55〜65</span></div>
+  </div>
+  <div class="problem-label">問　題</div>
+  <div class="problem-box">
+    袋の中に赤玉4個・青玉2個がある。1個ずつ順に2個取り出す（非復元）。<br>
+    <strong>2個目が青玉だった</strong>とき、1個目が赤玉である確率を求めよ。
+  </div>
+  <div class="step" style="font-size:22px; margin-top:1.2rem;">
+    💬 「2個目が青という条件のもとで、1個目が赤」 — これは条件付き確率。<br>
+    条件が「後ろ」に来るのが紛らわしいポイントです！
+  </div>
+  <div class="slide-footer">出典：センター試験・数学A（改題）</div>
+</section>
+
+<!-- ② よくある間違い -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge orange">よくある間違い</span>
+    <span class="slide-title">$P(A|B)$ と $P(B|A)$ の混同、または単純確率で答える</span>
+  </div>
+  <div class="trap-box">
+    <div class="trap-title">❌ 間違いの典型パターン</div>
+    事象 $A$＝「1個目が赤」，事象 $B$＝「2個目が青」とする。<br><br>
+    <span style="color:#c53030;font-weight:700;">❌ 間違い①：</span>
+    「1個目が赤の確率は $\dfrac{4}{6}=\dfrac{2}{3}$」 — 条件（2個目が青）を無視している。<br><br>
+    <span style="color:#c53030;font-weight:700;">❌ 間違い②：</span>
+    「1個目が赤のとき2個目が青 → $P(B|A)=\dfrac{2}{5}$」 — 条件と求める事象が逆！<br><br>
+    <span style="color:#276749;font-weight:700;">✅ 正しくは $P(A|B) = \dfrac{P(A \cap B)}{P(B)}$ を使う。</span>
+  </div>
+  <div style="margin-top:0.8rem; font-size:20px;">
+    <strong>覚え方：</strong>「〜のとき」の後ろが条件 $B$、求めたいのが $A$ → $P(A|B)$
+  </div>
+  <div class="slide-footer"></div>
+</section>
+
+<!-- ③ 本質ポイント -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge green">本質ポイント</span>
+    <span class="slide-title">条件付き確率の定義と計算手順</span>
+  </div>
+  <div class="key-box">
+    🔑 条件付き確率の定義：
+    $$P(A|B) = \frac{P(A \cap B)}{P(B)} \quad (P(B) > 0)$$
+    計算手順：
+    <ol style="margin-top:0.8rem; font-size:20px; font-weight:400; line-height:2;">
+      <li>$P(A \cap B)$：両方同時に起きる確率を求める</li>
+      <li>$P(B)$：条件側の確率を求める（余事象・全確率の公式を使う場合も）</li>
+      <li>割り算して $P(A|B)$ を求める</li>
+    </ol>
+  </div>
+  <div class="slide-footer"></div>
+</section>
+
+<!-- ④ 解説 -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge">解説</span>
+    <span class="slide-title">条件付き確率を定義にしたがって計算する</span>
+  </div>
+  <div class="step"><span class="step-num">1</span>
+    $P(A \cap B)$：1個目が赤 かつ 2個目が青
+    $$P(A \cap B) = \frac{4}{6} \times \frac{2}{5} = \frac{8}{30} = \frac{4}{15}$$
+  </div>
+  <div class="step"><span class="step-num">2</span>
+    $P(B)$：2個目が青（全確率の公式）
+    $$P(B) = \underbrace{\frac{4}{6} \times \frac{2}{5}}_{1\text{個目赤}} + \underbrace{\frac{2}{6} \times \frac{1}{5}}_{1\text{個目青}}
+    = \frac{8}{30} + \frac{2}{30} = \frac{10}{30} = \frac{1}{3}$$
+  </div>
+  <div class="step"><span class="step-num">3</span>
+    条件付き確率：
+    $$P(A|B) = \frac{P(A \cap B)}{P(B)} = \frac{\dfrac{4}{15}}{\dfrac{1}{3}} = \frac{4}{15} \times 3 = \boldsymbol{\frac{4}{5}}$$
+  </div>
+  <div class="slide-footer"></div>
+</section>
+
+<!-- ⑤ 一般化 -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge green">一般化</span>
+    <span class="slide-title">条件付き確率のまとめ</span>
+  </div>
+  <div class="key-box" style="font-size:20px;">
+    $$P(A|B) = \frac{P(A \cap B)}{P(B)}, \quad P(B|A) = \frac{P(A \cap B)}{P(A)}$$
+    <ul style="margin-top:0.8rem; font-size:20px; font-weight:400; line-height:1.9;">
+      <li>$P(A|B) \neq P(B|A)$ — 条件と結果を入れ替えると値が変わる</li>
+      <li>$P(B)$ の計算には<strong>全確率の公式</strong>を使うことが多い</li>
+      <li>「〜のとき」＝条件側、「〜である」＝求める側 と読み分けること</li>
+    </ul>
+    ⚠️ 非復元抽出（引いた玉を戻さない）か復元抽出かで分母が変わることに注意！
+  </div>
+  <div class="slide-footer"></div>
+</section>
+
+<!-- ⑥ 類題 -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge green">類題</span>
+    <span class="slide-title">条件付き確率の練習</span>
+  </div>
+  <div class="problem-box" style="font-size:20px;">
+    袋の中に赤玉3個・青玉3個がある。1個ずつ順に2個取り出す（非復元）。<br>
+    <strong>2個目が赤玉だった</strong>とき、1個目も赤玉である確率を求めよ。
+  </div>
+  <div class="answer-label">答　え</div>
+  <div class="answer-box">
+    事象 $A$＝「1個目が赤」，$B$＝「2個目が赤」とする。<br>
+    $P(A \cap B) = \dfrac{3}{6} \times \dfrac{2}{5} = \dfrac{6}{30} = \dfrac{1}{5}$<br><br>
+    $P(B) = \dfrac{3}{6} \times \dfrac{2}{5} + \dfrac{3}{6} \times \dfrac{3}{5} = \dfrac{6}{30} + \dfrac{9}{30} = \dfrac{15}{30} = \dfrac{1}{2}$<br><br>
+    $P(A|B) = \dfrac{1/5}{1/2} = \boldsymbol{\dfrac{2}{5}}$
+  </div>
+  <div class="slide-footer"></div>
+</section>
+
+<div id="nav">
+  <button id="btn-prev">◀ 前へ</button>
+  <span class="page-info" id="pinfo">1 / 6</span>
+  <button id="btn-next">次へ ▶</button>
+  <button id="btn-pdf" onclick="window.print()">⬇ PDF保存</button>
+  <span class="hint">← → キーでも操作できます</span>
+</div>
+<script src="../slide.js"></script>
+</body>
+</html>

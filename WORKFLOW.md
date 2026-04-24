@@ -12,8 +12,8 @@ StudyList/
 │   ├── slide.css                         # 全スライド共通CSS
 │   └── youtube_redesign/                 # YouTube動画素材の置き場
 │       ├── {stem}.html                   # スライドHTML
-│       ├── {stem}_voice.md               # 音声台本 + YouTubeメタデータ
-│       ├── {stem}_edit.md                # 動画編集指示（強調・グラフ等）
+│       ├── {stem}_voice.md               # 音声台本（スライド①〜⑥の読み上げ原稿のみ）
+│       ├── {stem}_edit.md                # 動画編集指示（強調・グラフ・YouTubeメタデータ）
 │       ├── ending_slide.png              # 共通エンディングスライド
 │       └── output/                       # 生成物（.gitignore対象だが一部追跡）
 │           ├── {stem}/                   # 動画ごとの中間ファイル
@@ -51,8 +51,11 @@ StudyList/
 ## Step 1: スライドHTML
 
 ### ファイル命名規則
-`problems/youtube_redesign/{subject}_{topic}.html`
-例: `math1_quadratic_discriminant.html`
+`problems/youtube_redesign/{科目}{番号}_{トピック}.html`
+
+- 科目コード: `math1`（数学I）、`math2`（数学II）、`math3`（数学III）、`mathA`（数学A）、`mathB`（数学B）、`mathC`（数学C）
+- 番号: 科目内の通し番号（ハイフン区切り）
+- 例: `math1-1_quadratic_discriminant.html`、`mathA-3_conditional_prob.html`
 
 ### スライド構成（固定：全6枚）
 | スライド番号 | バッジ | 内容 |
@@ -199,30 +202,9 @@ StudyList/
 （空行で区切る）
 
 （解答解説部分）
-
----
-
-## YouTube メタデータ
-
-### 動画タイトル案（3案）
-1. ...
-2. ...
-3. ...
-
-### 説明欄
-{説明文}
-{タグ行（カンマ区切り）}
-例: #高校数学, #大学受験, #数学解説, #判別式, #数学I
-
-### サムネイル案
-- **メインコピー**：
-- **サブコピー**：
-- **数式表示**：
-- **配色イメージ**：
-
-### 固定コメント案
-（チャンネル登録・高評価の促し文 + 絵文字）
 ```
+
+> **注意**: 動画タイトル・説明欄・タグ・サムネイル案・固定コメントは `{stem}_edit.md` に記載すること（*_voice.md には含めない）。
 
 ### 台本執筆ルール
 - **数式は全て日本語読み**に変換する（TTS向け）
@@ -260,7 +242,7 @@ GOOGLE_API_KEY=xxx PLAYWRIGHT_BROWSERS_PATH=/opt/pw-browsers python3 tools/slide
 1. Playwright でHTML全スライドをスクリーンショット（1280×720）
 2. 類題スライドは解答非表示版（`slide_ruidai_hidden.png`）も撮影
 3. 台本を`## スライド①〜⑥`で分割してスライドと対応付け
-4. Gemini TTS（`gemini-3.1-flash-tts-preview`、音声: `Leda`）で音声生成
+4. Cloud TTS API で音声生成（`texttospeech.googleapis.com/v1/text:synthesize`）
 5. ImageClip + AudioFileClip でクリップ作成
 6. 類題スライド（⑥）の特殊処理:
    - **A**: 問題スライド（非表示）+ 問題部分の音声 + 「自分で解いてみてください」
@@ -271,9 +253,9 @@ GOOGLE_API_KEY=xxx PLAYWRIGHT_BROWSERS_PATH=/opt/pw-browsers python3 tools/slide
 
 ### TTS設定
 ```python
-TTS_MODEL = 'gemini-3.1-flash-tts-preview'
-TTS_VOICE = 'Leda'   # 若い日本語女性風の声
-GAP_SECONDS = 0.5    # スライド間の無音
+TTS_VOICE = 'ja-JP-Neural2-B'  # 日本語Neural2音声
+TTS_RATE  = 24000               # サンプリングレート
+GAP_SECONDS = 0.5               # スライド間の無音
 ```
 
 ### アウトロテンプレート（変数: `{title}`）
@@ -336,23 +318,25 @@ python3 tools/make_thumbnails.py
 
 ---
 
-## 既存動画一覧（12本）
+## 既存動画一覧（15本）
 
 | stem | 科目 | タイトル | エンディング |
 |---|---|---|---|
-| math1_quadratic_discriminant | 数学I | 放物線とx軸の交点条件（判別式） | 旧スライド |
-| math1_quadratic_trap | 数学I | 二次不等式の恒等的成立 | ending_slide.png |
-| math2_exponential_substitution | 数学II | 指数方程式（置換テクニック） | ending_slide.png |
-| math2_log_substitution | 数学II | 対数方程式（置換テクニック） | ending_slide.png |
-| math3_integral_squared | 数学III | 三角置換による定積分 | 旧スライド |
-| math3_integration_by_parts | 数学III | 部分積分の連鎖（e^x sinx） | 旧スライド |
-| mathA_circular_nonadjacent | 数学A | 円順列×余事象（隣り合わない） | 旧スライド |
-| mathA_circular_probability | 数学A | 円順列×確率（男女交互） | ending_slide.png |
-| mathB_recurrence_divide | 数学B | 漸化式（両辺を割る） | ending_slide.png |
-| mathB_sum_recurrence | 数学B | Sn型漸化式 | ending_slide.png |
-| mathC_complex_factorize | 数学C | 複素数の絶対値最大値 | ending_slide.png |
-| mathC_complex_identity | 数学C | z+1/z=1 から z³+1/z³ | ending_slide.png |
-| math2_trig_compose | 数学II | 三角関数の合成（sinθ+√3cosθ の最大・最小） | ending_slide.png |
+| math1-1_quadratic_discriminant | 数学I | 放物線とx軸の交点条件（判別式） | 旧スライド |
+| math1-2_quadratic_trap | 数学I | 二次不等式の恒等的成立 | ending_slide.png |
+| math2-1_exponential_substitution | 数学II | 指数方程式（置換テクニック） | ending_slide.png |
+| math2-2_log_substitution | 数学II | 対数方程式（置換テクニック） | ending_slide.png |
+| math3-1_integral_squared | 数学III | 三角置換による定積分 | 旧スライド |
+| math3-2_integration_by_parts | 数学III | 部分積分の連鎖（e^x sinx） | 旧スライド |
+| mathA-1_circular_nonadjacent | 数学A | 円順列×余事象（隣り合わない） | 旧スライド |
+| mathA-2_circular_probability | 数学A | 円順列×確率（男女交互） | ending_slide.png |
+| mathB-1_recurrence_divide | 数学B | 漸化式（両辺を割る） | ending_slide.png |
+| mathB-2_sum_recurrence | 数学B | Sn型漸化式 | ending_slide.png |
+| mathC-1_complex_factorize | 数学C | 複素数の絶対値最大値 | ending_slide.png |
+| mathC-2_complex_identity | 数学C | z+1/z=1 から z³+1/z³ | ending_slide.png |
+| math2-3_trig_compose | 数学II | 三角関数の合成（sinθ+√3cosθ の最大・最小） | ending_slide.png |
+| math2-4_derivative_maxmin | 数学II | 微分の最大・最小（端点を見落とす落とし穴） | ending_slide.png |
+| mathA-3_conditional_prob | 数学A | 条件付き確率（P(A\|B)とP(B\|A)の取り違え） | ending_slide.png |
 
 > **旧スライドの4本**（discriminant, integral_squared, integration_by_parts, circular_nonadjacent）は次回再生成時に ending_slide.png が自動適用される。
 
@@ -369,8 +353,8 @@ python3 tools/make_thumbnails.py
 ## ファイル追加時のチェックリスト
 
 - [ ] `{stem}.html` — スライド6枚構成、類題は `.answer-box` で解答囲む
-- [ ] `{stem}_voice.md` — 台本6セクション、類題は空行で問題/解答分割、YouTubeメタデータ付き
-- [ ] `{stem}_edit.md` — 編集指示（強調・グラフ・サムネ案）
+- [ ] `{stem}_voice.md` — 台本6セクション、類題は空行で問題/解答分割（YouTubeメタデータは含めない）
+- [ ] `{stem}_edit.md` — 編集指示（強調・グラフ・サムネ案）＋ YouTubeメタデータ（タイトル案・説明欄・タグ・固定コメント）
 - [ ] `make_thumbnails.py` の `THUMBNAILS` 辞書にエントリ追加
 - [ ] `README.md` の問題一覧テーブルに行追加
 - [ ] 動画生成後、`git add -f` で output/*.mp4 を含めてコミット・プッシュ
