@@ -240,13 +240,24 @@ StudyList/
 export GEMINI_API_KEY=your_api_key
 ```
 
+> **APIキーが複数ある場合の運用**
+> Gemini TTS APIはレート制限（429 RESOURCE_EXHAUSTED）や権限エラー（403 PERMISSION_DENIED）が発生することがある。
+> その場合は別のAPIキーに切り替えて再実行する。
+>
+> ```bash
+> # キー1 が失敗した場合はキー2 で再実行
+> GEMINI_API_KEY=キー2 PLAYWRIGHT_BROWSERS_PATH=/opt/pw-browsers python3 tools/slide_to_video.py --file ...
+> ```
+>
+> スクリプト内のリトライ（最大12回、指数バックオフ 30〜360秒）でも解消しない場合はキーを変更する。
+
 ### 実行方法
 ```bash
-# 全動画を生成
-python3 tools/slide_to_video.py
+# Linux環境（/opt/pw-browsers にChromiumがある場合）
+GEMINI_API_KEY=xxx PLAYWRIGHT_BROWSERS_PATH=/opt/pw-browsers python3 tools/slide_to_video.py
 
 # 特定の動画のみ
-python3 tools/slide_to_video.py --file problems/youtube_redesign/{stem}.html
+GEMINI_API_KEY=xxx PLAYWRIGHT_BROWSERS_PATH=/opt/pw-browsers python3 tools/slide_to_video.py --file problems/youtube_redesign/{stem}.html
 ```
 
 ### 動画生成の内部フロー
