@@ -247,6 +247,17 @@ THUMBNAILS = {
         badge_text    = '場合分け注意',
         badge_color   = (180, 80, 20),
     ),
+    'mathB-3_recurrence_char': dict(
+        bg_color      = (28, 16, 6),
+        accent        = (251, 146, 60),
+        subject_tag   = '数学B',
+        subject_color = (180, 80, 15),
+        main_text     = '等差でも等比でも\nない漸化式の解き方',
+        sub_text      = 'a(n+1)=3a(n)-4、特性方程式で一発！',
+        formula       = 'α = pα + q が鍵',
+        badge_text    = '入試頻出',
+        badge_color   = (180, 60, 10),
+    ),
     'mathC-1_complex_factorize': dict(
         bg_color      = (18, 18, 40),
         accent        = (99, 102, 241),

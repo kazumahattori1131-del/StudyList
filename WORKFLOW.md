@@ -368,7 +368,7 @@ python3 tools/make_thumbnails.py
 
 ---
 
-## 既存動画一覧（15本）
+## 既存動画一覧（16本）
 
 | stem | 科目 | タイトル | エンディング |
 |---|---|---|---|
@@ -382,6 +382,7 @@ python3 tools/make_thumbnails.py
 | mathA-2_circular_probability | 数学A | 円順列×確率（男女交互） | ending_slide.png |
 | mathB-1_recurrence_divide | 数学B | 漸化式（両辺を割る） | ending_slide.png |
 | mathB-2_sum_recurrence | 数学B | Sn型漸化式 | ending_slide.png |
+| mathB-3_recurrence_char | 数学B | 漸化式（特性方程式） | ending_slide.png |
 | mathC-1_complex_factorize | 数学C | 複素数の絶対値最大値 | ending_slide.png |
 | mathC-2_complex_identity | 数学C | z+1/z=1 から z³+1/z³ | ending_slide.png |
 | math2-3_trig_compose | 数学II | 三角関数の合成（sinθ+√3cosθ の最大・最小） | ending_slide.png |

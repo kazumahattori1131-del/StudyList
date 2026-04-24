@@ -26,7 +26,7 @@ StudyList/
 
 ---
 
-## 動画一覧（全15本）
+## 動画一覧（全16本）
 
 | stem | 科目 | タイトル |
 |---|---|---|
@@ -43,6 +43,7 @@ StudyList/
 | mathA-3_conditional_prob | 数学A | 条件付き確率（P(A\|B)とP(B\|A)の取り違え） |
 | mathB-1_recurrence_divide | 数学B | 漸化式（両辺を割る） |
 | mathB-2_sum_recurrence | 数学B | Sn型漸化式 |
+| mathB-3_recurrence_char | 数学B | 漸化式（特性方程式） |
 | mathC-1_complex_factorize | 数学C | 複素数の絶対値最大値 |
 | mathC-2_complex_identity | 数学C | z+1/z=1 から z³+1/z³ |
 
