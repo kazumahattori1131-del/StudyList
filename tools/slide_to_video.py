@@ -307,7 +307,8 @@ def make_slide_clip(img_path: Path, audio_path: Path, clip_path: Path) -> None:
     tmp   = clip_path.with_suffix('.tmp_audio.mp4')
     clip.write_videofile(str(clip_path), fps=VIDEO_FPS, codec='libx264',
                          audio_codec='aac', logger=None,
-                         temp_audiofile=str(tmp))
+                         temp_audiofile=str(tmp),
+                         ffmpeg_params=['-pix_fmt', 'yuv420p'])
     audio.close()
     clip.close()
 
@@ -415,7 +416,8 @@ def process_one(html_path: Path, api_key: str, gemini_key: str = None) -> Path |
     all_clips = [VideoFileClip(str(cp)) for cp in clip_paths]
     final = concatenate_videoclips(all_clips)
     final.write_videofile(str(final_path), fps=VIDEO_FPS, codec='libx264',
-                          audio_codec='aac', logger=None)
+                          audio_codec='aac', logger=None,
+                          ffmpeg_params=['-pix_fmt', 'yuv420p', '-movflags', '+faststart'])
     for c in all_clips:
         c.close()
     final.close()
