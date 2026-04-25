@@ -193,6 +193,59 @@ def parse_voice_scripts(voice_path: Path) -> list[str]:
     return [p.strip() for p in parts[1:] if p.strip()]
 
 
+def parse_slide_labels(voice_path: Path) -> list[str]:
+    """_voice.md のスライド見出し（例: 問題提示, よくある間違い）をリストで返す"""
+    with open(voice_path) as f:
+        content = f.read()
+    return re.findall(r'^##\s+スライド[①②③④⑤⑥⑦⑧⑨⑩]\s*[　\s]*(.+)$',
+                      content, flags=re.MULTILINE)
+
+
+def wav_duration(wav_path: Path) -> float:
+    """WAV ファイルの再生時間（秒）を返す"""
+    with wave.open(str(wav_path), 'rb') as wf:
+        return wf.getnframes() / wf.getframerate()
+
+
+def fmt_ts(seconds: float) -> str:
+    """秒数を M:SS または H:MM:SS 形式に変換"""
+    s = int(seconds)
+    h, rem = divmod(s, 3600)
+    m, sec = divmod(rem, 60)
+    if h > 0:
+        return f'{h}:{m:02d}:{sec:02d}'
+    return f'{m}:{sec:02d}'
+
+
+def write_timestamps_to_edit(edit_path: Path, timestamps: list[tuple[str, float]]) -> None:
+    """タイムスタンプを _edit.md の説明文とタグの間に書き込む（上書き更新）"""
+    if not edit_path.exists():
+        return
+
+    ts_block = '▼目次\n' + '\n'.join(
+        f'{fmt_ts(sec)} {label}' for label, sec in timestamps
+    )
+
+    text = edit_path.read_text()
+
+    # 既存タイムスタンプブロックがあれば置換
+    if '▼目次' in text:
+        text = re.sub(r'▼目次\n(?:[^\n]+\n)*', ts_block + '\n', text)
+    else:
+        # 説明文コードブロック内の末尾タグ行の直前に挿入
+        text = re.sub(
+            r'(#[^\n]+\n(?:[^\n]*\n)*?)(\*\*タグ\*\*)',
+            lambda m: m.group(1) + ts_block + '\n```\n\n---\n\n' + m.group(2),
+            text,
+            count=1,
+        )
+        # パターンに合わない場合は末尾に追記
+        if '▼目次' not in text:
+            text += f'\n---\n\n## タイムスタンプ\n\n```\n{ts_block}\n```\n'
+
+    edit_path.write_text(text)
+
+
 def extract_title(voice_path: Path) -> str:
     """voice.md の1行目からタイトルを抽出"""
     with open(voice_path) as f:
@@ -369,9 +422,10 @@ def process_one(html_path: Path, api_key: str, gemini_key: str = None) -> Path |
     print(f'        {len(screenshots)} 枚取得'
           + (' / 類題非表示版あり' if ruidai_hidden else ''))
 
-    scripts    = parse_voice_scripts(voice_path)
-    title      = extract_title(voice_path)
-    ruidai_idx = find_ruidai_index(open(html_path).read())
+    scripts      = parse_voice_scripts(voice_path)
+    slide_labels = parse_slide_labels(voice_path)
+    title        = extract_title(voice_path)
+    ruidai_idx   = find_ruidai_index(open(html_path).read())
     print(f'  [2/3] 台本解析完了: {len(scripts)} セクション / タイトル: {title}')
 
     if len(screenshots) != len(scripts):
@@ -381,6 +435,8 @@ def process_one(html_path: Path, api_key: str, gemini_key: str = None) -> Path |
 
     print('  [3/3] 音声生成 + クリップ作成...')
     clip_paths: list[Path] = []
+    timestamps: list[tuple[str, float]] = []   # (ラベル, 開始秒)
+    elapsed = 0.0
 
     # イントロクリップ（サムネイル画像 + 固定イントロ音声）
     thumbnail = THUMBNAILS_DIR / f'{stem}.png'
@@ -392,12 +448,15 @@ def process_one(html_path: Path, api_key: str, gemini_key: str = None) -> Path |
         make_slide_clip(thumbnail, intro_audio, intro_clip)
         print(' 音声✓ 動画✓')
         clip_paths.append(intro_clip)
+        elapsed += wav_duration(intro_audio)
     else:
         print(f'  [WARN] サムネイルなし: {thumbnail.name}、イントロをスキップ')
 
     for idx, (img, script) in enumerate(pairs):
         i = idx + 1
+        label = slide_labels[idx] if idx < len(slide_labels) else f'スライド{i}'
         print(f'        [{i}/{len(pairs)}]', end='', flush=True)
+        timestamps.append((label, elapsed))
 
         if idx == ruidai_idx and ruidai_hidden is not None:
             problem_script, solution_script = split_ruidai_script(script)
@@ -430,6 +489,8 @@ def process_one(html_path: Path, api_key: str, gemini_key: str = None) -> Path |
             print(' 解答✓')
 
             clip_paths.extend([clip_a, clip_b, clip_c, clip_d])
+            elapsed += (wav_duration(audio_a) + wav_duration(silence_wav)
+                        + wav_duration(audio_c) + wav_duration(audio_d))
         else:
             audio_path = out_dir / f'audio_{i:02d}.wav'
             clip_path  = out_dir / f'clip_{i:02d}.mp4'
@@ -438,6 +499,7 @@ def process_one(html_path: Path, api_key: str, gemini_key: str = None) -> Path |
             make_slide_clip(img, audio_path, clip_path)
             print(' 動画✓')
             clip_paths.append(clip_path)
+            elapsed += wav_duration(audio_path)
 
     print('        [アウトロ]', end='', flush=True)
     outro_audio = out_dir / 'audio_outro.wav'
@@ -459,6 +521,12 @@ def process_one(html_path: Path, api_key: str, gemini_key: str = None) -> Path |
         c.close()
     final.close()
     print(' 完了')
+
+    # タイムスタンプを _edit.md に書き込む
+    edit_path = BASE_DIR / f'{stem}_edit.md'
+    if edit_path.exists() and timestamps:
+        write_timestamps_to_edit(edit_path, timestamps)
+        print(f'  タイムスタンプ → {edit_path.name} に反映')
 
     return final_path
 
