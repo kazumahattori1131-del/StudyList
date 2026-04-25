@@ -16,6 +16,7 @@ import re
 import time
 import wave
 import base64
+import hashlib
 import argparse
 import requests
 from pathlib import Path
@@ -41,6 +42,16 @@ TTS_VOICE     = 'ja-JP-Chirp3-HD-Leda'   # Cloud TTS フォールバック用
 # 声の選択肢: Kore / Aoede / Charon / Fenrir / Puck / Zephyr 等
 GEMINI_TTS_MODEL = 'gemini-2.5-flash-preview-tts'
 GEMINI_TTS_VOICE = 'Leda'          # 日本語教育コンテンツ向け
+# Audio Profile: 若い日本語の声、落ち着いて自然、考えながら話す、ロボットっぽくない
+GEMINI_TTS_STYLE = (
+    "あなたは高校生・受験生に数学を解説する、若くて落ち着いた日本語の声です。"
+    "以下の特徴を守って話してください：\n"
+    "- 人間らしく自然な間とリズム（機械的・平坦にしない）\n"
+    "- 考えながら話すような、少し呼吸を感じるテンポ\n"
+    "- 親しみやすく、熱意が伝わるが押しつけがましくない口調\n"
+    "- ポイントを強調するときはわずかに力を込める\n"
+    "- 声の高さは中低程度で安定させる"
+)
 TTS_RATE      = 24000               # LINEAR16 出力サンプルレート
 GAP_SECONDS   = 1.2                 # スライド切り替え後の無音（秒）
 VIDEO_W, VIDEO_H = 1280, 720
@@ -201,6 +212,14 @@ def normalize_for_tts(text: str) -> str:
     text = re.sub(r'^※.*$', '', text, flags=re.MULTILINE)
     text = re.sub(r'正(?!し|式|規|確|解|直|午|月|論|比|弦|接|反|逆|面|答|法)', 'せい', text)
     text = re.sub(r'問(?!い)', 'もん', text)
+    # 助数詞「つ」の正しい読み（数字変換より先に処理）
+    for src, dst in [('1つ','ひとつ'),('2つ','ふたつ'),('3つ','みっつ'),
+                     ('4つ','よっつ'),('5つ','いつつ'),('6つ','むっつ')]:
+        text = text.replace(src, dst)
+    # 省略記号の読み（+ … + → プラスてんてんてんプラス 等）
+    text = re.sub(r'[＋+][\s　]*[…]{1}[\s　]*[＋+]', 'プラスてんてんてんプラス', text)
+    text = re.sub(r'[…](?:\s*(?:プラス|[＋+]))', 'てんてんてんプラス', text)
+    text = text.replace('…', 'てんてんてん')
     text = re.sub(r'(?<![0-9])0(?![0-9.])', 'ゼロ', text)
     text = text.replace('f(x)', 'エフエックス')
     # 数学変数アルファベットの読み仮名（英字以外に囲まれた a/b/c を対象）
@@ -245,22 +264,40 @@ def generate_audio_gemini(text: str, out_path: Path, gemini_key: str,
             return
         except Exception as e:
             err = str(e)
-            if ('429' in err or '503' in err or 'RESOURCE_EXHAUSTED' in err):
-                wait = 30 * (attempt + 1)
-                print(f' [待機{wait}秒]', end='', flush=True)
+            if ('429' in err or '503' in err or '500' in err or 'INTERNAL' in err or 'RESOURCE_EXHAUSTED' in err):
+                wait = min(30 * (attempt + 1), 120)
+                print(f' [Gemini TTS {type(e).__name__} 待機{wait}秒]', end='', flush=True)
                 time.sleep(wait)
             else:
                 raise
     raise RuntimeError(f'Gemini TTS: {max_retries}回リトライ後も失敗')
 
 
+def _audio_cache_key(text: str, gap: float) -> str:
+    """正規化済みテキスト + gap のハッシュ（キャッシュ判定用）"""
+    normalized = normalize_for_tts(text)
+    return hashlib.md5(f'{normalized}|gap={gap:.3f}'.encode()).hexdigest()
+
+
 def generate_audio(text: str, out_path: Path, api_key: str,
                    gap: float = GAP_SECONDS, gemini_key: str = None) -> None:
-    """音声生成 → WAV 保存。GEMINI_KEY があれば Gemini TTS を優先使用"""
+    """音声生成 → WAV 保存。同じテキストの WAV が既にあればスキップ（API 節約）"""
+    cache_file = out_path.with_suffix('.md5')
+    current_key = _audio_cache_key(text, gap)
+    if out_path.exists() and cache_file.exists():
+        if cache_file.read_text().strip() == current_key:
+            print(' [キャッシュ]', end='', flush=True)
+            return
     if gemini_key:
         generate_audio_gemini(text, out_path, gemini_key, gap)
-        return
-    # フォールバック: Cloud TTS
+    else:
+        _generate_audio_cloud(text, out_path, api_key, gap)
+    cache_file.write_text(current_key)
+
+
+def _generate_audio_cloud(text: str, out_path: Path, api_key: str,
+                          gap: float = GAP_SECONDS) -> None:
+    """Cloud TTS（GCP）で音声生成 → WAV 保存"""
     payload = {
         'input': {'text': normalize_for_tts(text)},
         'voice': {'languageCode': 'ja-JP', 'name': TTS_VOICE},
@@ -426,10 +463,28 @@ def process_one(html_path: Path, api_key: str, gemini_key: str = None) -> Path |
     return final_path
 
 
+def _show_preflight_checklist() -> None:
+    """PITFALLS.md からチェックリスト項目を抽出して表示"""
+    pitfalls = Path(__file__).parent.parent / 'PITFALLS.md'
+    if not pitfalls.exists():
+        return
+    lines = pitfalls.read_text().splitlines()
+    items = [l for l in lines if l.strip().startswith('- [ ]')]
+    if not items:
+        return
+    print('─' * 60)
+    print('【生成前チェックリスト】（PITFALLS.md より）')
+    for item in items:
+        print(f'  {item.strip()}')
+    print('─' * 60)
+
+
 def main():
     parser = argparse.ArgumentParser(description='HTML スライド → MP4 動画生成')
     parser.add_argument('--file', help='対象 HTML ファイル（省略時は全ファイル）')
     args = parser.parse_args()
+
+    _show_preflight_checklist()
 
     gemini_key = os.environ.get('GEMINI_API_KEY')
     api_key    = os.environ.get('GOOGLE_API_KEY')
