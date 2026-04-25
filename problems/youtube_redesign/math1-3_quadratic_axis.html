@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>2次関数の最大・最小（定義域が動く場合分け） | 数学I</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <link rel="stylesheet" href="../slide.css">
+  <style>
+    :root { --accent: #c05621; }
+    /* color-mix() 未サポート環境向けフォールバック */
+    .problem-box { background: #fff7f0; }
+    .key-formula  { background: #fff9f5; }
+    @supports (color: color-mix(in srgb, red 8%, white)) {
+      .problem-box { background: color-mix(in srgb, var(--accent) 8%, white); }
+      .key-formula  { background: color-mix(in srgb, var(--accent) 6%, white); }
+    }
+    .key-box {
+      background: #2a0f00;
+      border-left: 6px solid var(--accent);
+      border-radius: 0 10px 10px 0;
+      padding: 14px 22px;
+      margin: 10px 0;
+      font-size: 21px;
+      font-weight: 700;
+      color: #fff;
+    }
+    .calc-box {
+      background: #1e0c00;
+      border: 2px solid #c05621;
+      border-radius: 10px;
+      padding: 14px 28px;
+      margin: 10px 0;
+      font-size: 19px;
+      color: #fff;
+      line-height: 2;
+    }
+  </style>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]})"></script>
+</head>
+<body>
+<!-- https://kazumahattori1131-del.github.io/StudyList/problems/youtube_redesign/math1-3_quadratic_axis.html -->
+<div id="progress-bar"></div>
+
+<!-- ① 問題提示 -->
+<section class="slide active">
+  <div class="slide-header">
+    <span class="badge">数学I</span>
+    <span class="slide-title">2次関数の最大・最小（定義域が動く場合分け）</span>
+    <div class="meta"><span>★★★☆☆ 標準</span><span>偏差値55〜65</span></div>
+  </div>
+  <div class="problem-box" style="font-size:22px; margin: 20px 0 14px;">
+    $f(x) = x^2 - 2x$ の $a \leq x \leq a+2$ における最小値を求めよ。
+  </div>
+  <p style="font-size:19px; color:#aaa; margin: 8px 0 0 4px;">
+    定義域が文字 $a$ を含む…。軸との位置関係で場合分けが必要！
+  </p>
+  <div class="slide-footer"></div>
+</section>
+
+<!-- ② よくある間違い -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge orange">よくある間違い</span>
+    <span class="slide-title">場合分けせず「軸の値が最小」と答える</span>
+  </div>
+  <div class="step">
+    <p style="font-size:20px; margin: 0 0 6px;">❌ <strong>よくある間違い①</strong>：場合分けをしない</p>
+    $$f(x) = (x-1)^2 - 1 \;\Rightarrow\; \text{軸は } x=1 \;\Rightarrow\; \text{最小値は } f(1) = -1$$
+    <p style="font-size:19px; color:#f87171; margin:4px 0 0;">→ 軸 $x=1$ が区間 $[a,\, a+2]$ の外にある場合は成り立たない！</p>
+  </div>
+  <div class="step">
+    <p style="font-size:20px; margin: 0 0 6px;">❌ <strong>よくある間違い②</strong>：場合分けの境界を誤る</p>
+    <p style="font-size:19px;">「軸が区間内」の条件を $a \leq 1$ だけ（つまり $a < 1$）で終わらせ、<br>
+    右端の条件 $1 \leq a+2$ を見落とす。</p>
+    <p style="font-size:19px; color:#f87171; margin:4px 0 0;">→ 正しくは $a \leq 1$ <strong>かつ</strong> $1 \leq a+2$、つまり $-1 \leq a \leq 1$。</p>
+  </div>
+  <div class="key-box" style="font-size:19px; margin-top:12px;">
+    ⚠️ 定義域が文字を含む場合は、軸と定義域の位置関係で必ず3通り場合分け！
+  </div>
+  <div class="slide-footer"></div>
+</section>
+
+<!-- ③ 本質ポイント -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge green">本質ポイント</span>
+    <span class="slide-title">軸と区間の位置関係で3通りに分ける</span>
+  </div>
+  <p style="font-size:19px; margin: 6px 0 10px;">
+    まず $f(x) = (x-1)^2 - 1$ と平方完成。軸は $x = 1$。<br>
+    定義域 $[a,\, a+2]$ に対して軸の位置を3通りに分類する：
+  </p>
+  <div class="cases">
+    <div class="case-card">
+      <div class="case-cond">場合 1</div>
+      軸が区間の<strong>左外</strong><br>
+      $a + 2 < 1$<br>
+      $(a < -1)$
+    </div>
+    <div class="case-card">
+      <div class="case-cond">場合 2</div>
+      軸が区間の<strong>内側</strong><br>
+      $a \leq 1 \leq a+2$<br>
+      $(-1 \leq a \leq 1)$
+    </div>
+    <div class="case-card">
+      <div class="case-cond">場合 3</div>
+      軸が区間の<strong>右外</strong><br>
+      $1 < a$<br>
+      $(a > 1)$
+    </div>
+  </div>
+  <div class="key-box">
+    上に凸でないので「軸が区間内 → 最小」。<br>
+    軸が外なら、<strong style="color:#FB923C;">軸に近い端点</strong>が最小になる！
+  </div>
+  <div class="slide-footer"></div>
+</section>
+
+<!-- ④ 解説 -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge">解説</span>
+    <span class="slide-title">3つの場合ごとに最小値を求める</span>
+  </div>
+  <div class="step">
+    <span class="step-label">場合 1</span>$a < -1$：区間全体で単調減少 → 右端 $x = a+2$ が最小<br>
+    <span style="font-size:18px;">$f(a+2) = (a+2-1)^2 - 1 = (a+1)^2 - 1$</span>
+  </div>
+  <div class="step">
+    <span class="step-label">場合 2</span>$-1 \leq a \leq 1$：軸 $x=1$ が区間内 → 頂点が最小<br>
+    <span style="font-size:18px;">$f(1) = (1-1)^2 - 1 = -1$</span>
+  </div>
+  <div class="step">
+    <span class="step-label">場合 3</span>$a > 1$：区間全体で単調増加 → 左端 $x = a$ が最小<br>
+    <span style="font-size:18px;">$f(a) = (a-1)^2 - 1$</span>
+  </div>
+  <div class="key-formula" style="font-size:20px; text-align:left; padding:14px 22px; margin-top:10px;">
+    $$\text{最小値} = \begin{cases} (a+1)^2 - 1 & (a < -1) \\ -1 & (-1 \leq a \leq 1) \\ (a-1)^2 - 1 & (a > 1) \end{cases}$$
+  </div>
+  <div class="slide-footer"></div>
+</section>
+
+<!-- ⑤ 一般化 -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge green">一般化</span>
+    <span class="slide-title">「定義域が動く」問題の解き方パターン</span>
+  </div>
+  <div class="key-formula" style="font-size:20px; text-align:center; padding:14px; margin:8px 0;">
+    下に凸の $f(x)$、定義域 $[a,\, a+L]$（$L > 0$）、軸 $x = p$
+  </div>
+  <p class="section-title">手順</p>
+  <ul class="point-list">
+    <li>平方完成して軸 $x=p$ を求める</li>
+    <li>「軸が区間の左外・内側・右外」の3通りに場合分け</li>
+    <li>左外：右端 $f(a+L)$ が最小　／　内側：頂点 $f(p)$ が最小　／　右外：左端 $f(a)$ が最小</li>
+    <li>各境界条件（$a+L < p$, $a \leq p \leq a+L$, $p < a$）を $a$ の不等式に直す</li>
+  </ul>
+  <div class="key-box">
+    最大値を求めるとき（下に凸）は「軸から遠い端点」が最大 → 左右どちらが遠いか比較も必要！
+  </div>
+  <div class="slide-footer"></div>
+</section>
+
+<!-- ⑥ 類題 -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge green">類題</span>
+    <span class="slide-title">同じ手順で解いてみよう</span>
+  </div>
+  <div class="problem-box" style="font-size:21px;">
+    $g(x) = x^2 - 4x + 3$ の $a \leq x \leq a+2$ における最小値を求めよ。
+  </div>
+  <div class="answer-label">答　え</div>
+  <div class="answer-box" style="font-size:19px;">
+    $g(x) = (x-2)^2 - 1$ より軸は $x = 2$。<br><br>
+    <strong>場合 1</strong>　$a + 2 < 2$、すなわち $a < 0$：右端が最小<br>
+    $g(a+2) = (a+2-2)^2 - 1 = a^2 - 1$<br><br>
+    <strong>場合 2</strong>　$a \leq 2 \leq a+2$、すなわち $0 \leq a \leq 2$：頂点が最小<br>
+    $g(2) = -1$<br><br>
+    <strong>場合 3</strong>　$2 < a$、すなわち $a > 2$：左端が最小<br>
+    $g(a) = (a-2)^2 - 1$<br><br>
+    $\therefore\;\text{最小値} = \begin{cases} a^2 - 1 & (a < 0) \\ -1 & (0 \leq a \leq 2) \\ (a-2)^2 - 1 & (a > 2) \end{cases}$
+  </div>
+  <div class="slide-footer"></div>
+</section>
+
+<!-- ナビゲーション -->
+<div id="nav">
+  <button id="btn-prev" onclick="prevSlide()">◀</button>
+  <span id="slide-counter">1 / 6</span>
+  <button id="btn-next" onclick="nextSlide()">▶</button>
+</div>
+<script src="../slide.js"></script>
+</body>
+</html>
