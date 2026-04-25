@@ -4,7 +4,7 @@ set -e
 
 LOG="/home/user/StudyList/tools/regenerate_mathB4.log"
 REPO="/home/user/StudyList"
-KEY="AIzaSyDFO4MauGqtJm5so1HGsJK46ITFVOujyGM"
+KEY="${GEMINI_API_KEY:?'GEMINI_API_KEY が未設定です。export GEMINI_API_KEY=your_key を実行してください'}"
 
 echo "[$(date '+%Y-%m-%d %H:%M:%S')] スリープ開始（73800秒 = 約20.5時間）" | tee -a "$LOG"
 sleep 73800
@@ -14,9 +14,10 @@ echo "[$(date '+%Y-%m-%d %H:%M:%S')] スリープ終了。クォータ確認中.
 # クォータ確認（最大3回リトライ）
 for attempt in 1 2 3; do
     STATUS=$(python3 -c "
+import os
 from google import genai
 from google.genai import types as genai_types
-client = genai.Client(api_key='$KEY')
+client = genai.Client(api_key=os.environ['GEMINI_API_KEY'])
 try:
     resp = client.models.generate_content(
         model='gemini-2.5-flash-preview-tts',
