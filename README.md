@@ -26,7 +26,7 @@ StudyList/
 
 ---
 
-## 動画一覧（全16本）
+## 動画一覧（全17本）
 
 | stem | 科目 | タイトル |
 |---|---|---|
@@ -46,6 +46,7 @@ StudyList/
 | mathB-3_recurrence_char | 数学B | 漸化式（特性方程式） |
 | mathC-1_complex_factorize | 数学C | 複素数の絶対値最大値 |
 | mathC-2_complex_identity | 数学C | z+1/z=1 から z³+1/z³ |
+| mathB-4_sum_arithmetic_geometric | 数学B | 等差×等比型の和（差し引き法） |
 
 ---
 

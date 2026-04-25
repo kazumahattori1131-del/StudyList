@@ -313,6 +313,17 @@ THUMBNAILS = {
         badge_text    = '落とし穴あり',
         badge_color   = (200, 50, 50),
     ),
+    'mathB-4_sum_arithmetic_geometric': dict(
+        bg_color      = (40, 28, 18),
+        accent        = (251, 146, 60),
+        subject_tag   = '数学B',
+        subject_color = (180, 90, 20),
+        main_text     = 'k×2^kの和を\n一発で解く！',
+        sub_text      = 'Σk・2^k、差し引き法で攻略！',
+        formula       = 'S と 2S を並べて引く',
+        badge_text    = '入試頻出',
+        badge_color   = (180, 60, 10),
+    ),
 }
 
 
