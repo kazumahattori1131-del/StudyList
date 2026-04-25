@@ -265,6 +265,45 @@ StudyList/
 
 ---
 
+### 音声スタイルガイドライン（TTS向け）
+
+以下のイメージに沿った音声を目指す。TTS設定はこれを反映させること。
+
+```
+🎬 Scene
+after-school quiet classroom (Japanese high school)
+solo narrator, thinking aloud while solving math problem
+calm, relaxed atmosphere
+
+🧩 Sample Context
+high school math explanation
+not lecture, thinking process spoken aloud
+step-by-step reasoning
+small pauses, light reactions (hmm, oh, I see)
+answers unfold gradually
+
+🎧 Audio Profile
+young Japanese voice (student-like)
+calm, soft, natural tone
+slightly informal, friendly
+medium-low pitch, stable
+natural pauses, slight hesitation OK
+not robotic, not exaggerated
+sounds like thinking aloud, not teaching
+```
+
+**TTS設定への反映ポイント：**
+- 声：`ja-JP-Chirp3-HD-Leda`（Chirp3-HD 高品質、最も自然・人間ぽい）
+- `speakingRate`: 0.90（やや遅め → 思考中の自然なテンポ）
+- `pitch`: Chirp3-HD は非対応のため **指定しない**（指定すると400エラー）
+- SSML は **使用しない**（plain text モード：SSML を使うと 'a' が「あ」になるバグが発生するため）
+- 数学変数名の読み仮名変換（normalize_for_tts で実施）:
+  - `a(` → `エー(`、`b(` → `ビー(`、単独 `a`/`b` → `エー`/`ビー`
+  - `問` → `もん`（TTS が「とい」と読む誤読を防ぐ）
+  - `正` → `せい`（ただし「正し…」「正式」「正確」等は除外）
+
+---
+
 ## Step 3: 動画生成（slide_to_video.py）
 
 ### 使用API
@@ -272,7 +311,7 @@ StudyList/
 - GCPコンソールで発行したAPIキーを使用
 - GCPコンソール → 「APIとサービス」→「Cloud Text-to-Speech API」を有効化すること
 - 無料枠：月100万文字（Neural2音声）、事実上制限なしで利用可能
-- 声：`ja-JP-Neural2-B`（日本語Neural2）
+- 声：`ja-JP-Chirp3-HD-Leda`（Chirp3-HD 高品質、最も自然な日本語音声）
 
 ### 必要な環境変数
 ```bash
@@ -303,9 +342,11 @@ GOOGLE_API_KEY=xxx PLAYWRIGHT_BROWSERS_PATH=/opt/pw-browsers python3 tools/slide
 
 ### TTS設定
 ```python
-TTS_VOICE = 'ja-JP-Neural2-B'  # 日本語Neural2音声
-TTS_RATE  = 24000               # サンプリングレート
-GAP_SECONDS = 0.5               # スライド間の無音
+TTS_VOICE = 'ja-JP-Chirp3-HD-Leda'  # Chirp3-HD 高品質（最も自然）
+TTS_RATE  = 24000                    # サンプリングレート（LINEAR16）
+GAP_SECONDS = 0.5                    # スライド間の無音
+# audioConfig に speakingRate を指定（SSML 不使用、pitch は非対応）
+# speakingRate: 0.90
 ```
 
 ### アウトロテンプレート（変数: `{title}`）
