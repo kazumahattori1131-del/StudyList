@@ -16,6 +16,7 @@ import re
 import time
 import wave
 import base64
+import hashlib
 import argparse
 import requests
 from pathlib import Path
@@ -272,13 +273,31 @@ def generate_audio_gemini(text: str, out_path: Path, gemini_key: str,
     raise RuntimeError(f'Gemini TTS: {max_retries}回リトライ後も失敗')
 
 
+def _audio_cache_key(text: str, gap: float) -> str:
+    """正規化済みテキスト + gap のハッシュ（キャッシュ判定用）"""
+    normalized = normalize_for_tts(text)
+    return hashlib.md5(f'{normalized}|gap={gap:.3f}'.encode()).hexdigest()
+
+
 def generate_audio(text: str, out_path: Path, api_key: str,
                    gap: float = GAP_SECONDS, gemini_key: str = None) -> None:
-    """音声生成 → WAV 保存。GEMINI_KEY があれば Gemini TTS を優先使用"""
+    """音声生成 → WAV 保存。同じテキストの WAV が既にあればスキップ（API 節約）"""
+    cache_file = out_path.with_suffix('.md5')
+    current_key = _audio_cache_key(text, gap)
+    if out_path.exists() and cache_file.exists():
+        if cache_file.read_text().strip() == current_key:
+            print(' [キャッシュ]', end='', flush=True)
+            return
     if gemini_key:
         generate_audio_gemini(text, out_path, gemini_key, gap)
-        return
-    # フォールバック: Cloud TTS
+    else:
+        _generate_audio_cloud(text, out_path, api_key, gap)
+    cache_file.write_text(current_key)
+
+
+def _generate_audio_cloud(text: str, out_path: Path, api_key: str,
+                          gap: float = GAP_SECONDS) -> None:
+    """Cloud TTS（GCP）で音声生成 → WAV 保存"""
     payload = {
         'input': {'text': normalize_for_tts(text)},
         'voice': {'languageCode': 'ja-JP', 'name': TTS_VOICE},
@@ -444,10 +463,28 @@ def process_one(html_path: Path, api_key: str, gemini_key: str = None) -> Path |
     return final_path
 
 
+def _show_preflight_checklist() -> None:
+    """PITFALLS.md からチェックリスト項目を抽出して表示"""
+    pitfalls = Path(__file__).parent.parent / 'PITFALLS.md'
+    if not pitfalls.exists():
+        return
+    lines = pitfalls.read_text().splitlines()
+    items = [l for l in lines if l.strip().startswith('- [ ]')]
+    if not items:
+        return
+    print('─' * 60)
+    print('【生成前チェックリスト】（PITFALLS.md より）')
+    for item in items:
+        print(f'  {item.strip()}')
+    print('─' * 60)
+
+
 def main():
     parser = argparse.ArgumentParser(description='HTML スライド → MP4 動画生成')
     parser.add_argument('--file', help='対象 HTML ファイル（省略時は全ファイル）')
     args = parser.parse_args()
+
+    _show_preflight_checklist()
 
     gemini_key = os.environ.get('GEMINI_API_KEY')
     api_key    = os.environ.get('GOOGLE_API_KEY')
