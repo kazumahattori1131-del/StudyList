@@ -187,4 +187,41 @@ TTS: Gemini TTS (AI Studio) を使用
   [2/3] 台本解析完了: 6 セクション / タイトル: 統計的な推測（仮説検定の考え方）
   [3/3] 音声生成 + クリップ作成...
         [イントロ] [Gemini TTS ClientError 待機30秒] [Gemini TTS ClientError 待機60秒] [Gemini TTS ClientError 待機90秒] 音声✓ 動画✓
-        [1/6] [Gemini TTS ClientError 待機30秒] [Gemini TTS ClientError 待機60秒] [Gemini TTS ClientError 待機90秒] [Gemini TTS ClientError 待機120秒] [Gemini TTS ClientError 待機120秒] [Gemini TTS ClientError 待機120秒]
+        [1/6] [Gemini TTS ClientError 待機30秒] [Gemini TTS ClientError 待機60秒] [Gemini TTS ClientError 待機90秒] [Gemini TTS ClientError 待機120秒] [Gemini TTS ClientError 待機120秒] [Gemini TTS ClientError 待機120秒][2026-04-26 06:05:25] 生成失敗: mathB-6_hypothesis_test（スキップして続行）
+[2026-04-26 06:05:25] 生成開始: mathC-4_conic_sections
+────────────────────────────────────────────────────────────
+【生成前チェックリスト】（PITFALLS.md より）
+  - [ ] 類題スライド：問題文と解説が **空行1行** で正しく区切られているか（問題文は空行の前に入れる）
+  - [ ] 類題の変数名が HTML と一致しているか（HTML が $T$ なのに「エス」と読んでいないか）
+  - [ ] 数式の操作の言い方が正しいか（「割る」と「かける」を混同していないか）
+  - [ ] 数学用語の助詞が正しいか（「積**を**分解」ではなく「積**に**分解」など）
+  - [ ] 助数詞が正しく書かれているか（2つ/三つ NG → ふたつ/みっつ OK）
+  - [ ] 「+…+」ではなく「プラスてんてんてんプラス」と書いているか
+  - [ ] HTML 暗背景ボックスに `color: #fff` が付いているか
+  - [ ] HTML に `@supports` フォールバック色が書かれているか（color-mix() 非対応対策）
+────────────────────────────────────────────────────────────
+TTS: Gemini TTS (AI Studio) を使用
+
+=== mathC-4_conic_sections ===
+  [1/3] スライドをキャプチャ中...
+        6 枚取得 / 類題非表示版あり
+  [2/3] 台本解析完了: 6 セクション / タイトル: 二次曲線（楕円の方程式）
+  [3/3] 音声生成 + クリップ作成...
+        [イントロ] [Gemini TTS ClientError 待機30秒] [Gemini TTS ClientError 待機60秒] [Gemini TTS ServerError 待機90秒] [Gemini TTS ClientError 待機120秒] [Gemini TTS ClientError 待機120秒] [Gemini TTS ClientError 待機120秒] [Gemini TTS ClientError 待機120秒] [Gemini TTS ClientError 待機120秒]Traceback (most recent call last):
+  File "/home/user/StudyList/tools/slide_to_video.py", line 556, in <module>
+    main()
+  File "/home/user/StudyList/tools/slide_to_video.py", line 546, in main
+    r = process_one(html_path, api_key, gemini_key=gemini_key)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/StudyList/tools/slide_to_video.py", line 432, in process_one
+    generate_audio(INTRO_TEXT, intro_audio, api_key, gap=0.0, gemini_key=gemini_key)
+  File "/home/user/StudyList/tools/slide_to_video.py", line 308, in generate_audio
+    generate_audio_gemini(text, out_path, gemini_key, gap)
+  File "/home/user/StudyList/tools/slide_to_video.py", line 288, in generate_audio_gemini
+    raise RuntimeError(f'Gemini TTS: {max_retries}回リトライ後も失敗')
+RuntimeError: Gemini TTS: 8回リトライ後も失敗
+[2026-04-26 06:18:33] 生成失敗: mathC-4_conic_sections（スキップして続行）
+[2026-04-26 06:18:33] 生成完了: 3本
+[2026-04-26 06:18:33] コミット・プッシュ中...
+[2026-04-26 06:18:39] プッシュ完了
+[2026-04-26 06:18:39] === 全工程終了 ===
