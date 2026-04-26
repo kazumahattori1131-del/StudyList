@@ -54,6 +54,12 @@ GEMINI_TTS_STYLE = (
 )
 TTS_RATE      = 24000               # LINEAR16 出力サンプルレート
 GAP_SECONDS   = 1.2                 # スライド切り替え後の無音（秒）
+
+# ── API 使用量トラッキング ────────────────────────────────────────────────
+# Gemini 2.5 Flash TTS 推定単価（参考: https://ai.google.dev/gemini-api/docs/pricing）
+_COST_PER_1M_INPUT_TOKENS = 0.30   # $0.30/1M input tokens（概算）
+_JPY_PER_USD               = 150   # 参考レート（適宜更新）
+_usage: dict = {'api_calls': 0, 'cached_calls': 0, 'input_chars': 0, 'input_tokens': 0}
 VIDEO_W, VIDEO_H = 1280, 720
 VIDEO_FPS     = 24
 # ─────────────────────────────────────────────────────────────────────────
@@ -314,6 +320,15 @@ def generate_audio_gemini(text: str, out_path: Path, gemini_key: str,
             raw = resp.candidates[0].content.parts[0].inline_data.data
             pcm = raw if isinstance(raw, bytes) else base64.b64decode(raw)
             pcm_to_wav(pcm, out_path, gap_seconds=gap)
+            # 使用量を記録
+            _usage['api_calls'] += 1
+            chars = len(normalize_for_tts(text))
+            _usage['input_chars'] += chars
+            meta = getattr(resp, 'usage_metadata', None)
+            if meta and getattr(meta, 'prompt_token_count', None):
+                _usage['input_tokens'] += meta.prompt_token_count
+            else:
+                _usage['input_tokens'] += chars // 4  # 推定: 1 token ≈ 4 文字
             return
         except Exception as e:
             err = str(e)
@@ -340,6 +355,7 @@ def generate_audio(text: str, out_path: Path, api_key: str,
     if out_path.exists() and cache_file.exists():
         if cache_file.read_text().strip() == current_key:
             print(' [キャッシュ]', end='', flush=True)
+            _usage['cached_calls'] += 1
             return
     if gemini_key:
         generate_audio_gemini(text, out_path, gemini_key, gap)
@@ -403,8 +419,33 @@ def make_slide_clip(img_path: Path, audio_path: Path, clip_path: Path) -> None:
     clip.close()
 
 
+def _log_usage(stem: str) -> None:
+    """API 使用量をターミナルに表示し api_usage_log.jsonl に追記"""
+    import json, datetime
+    calls  = _usage['api_calls']
+    cached = _usage['cached_calls']
+    chars  = _usage['input_chars']
+    tokens = _usage['input_tokens']
+    cost_usd = tokens / 1_000_000 * _COST_PER_1M_INPUT_TOKENS
+    cost_jpy = cost_usd * _JPY_PER_USD
+    print(f'  📊 API使用: {calls}回呼び出し / {cached}回キャッシュ / '
+          f'{chars:,}文字 / {tokens:,}トークン(推定) / '
+          f'${cost_usd:.4f} ≈ ¥{cost_jpy:.1f}')
+    log_path = Path(__file__).parent / 'api_usage_log.jsonl'
+    record = {
+        'ts': datetime.datetime.now().isoformat(timespec='seconds'),
+        'stem': stem, 'api_calls': calls, 'cached_calls': cached,
+        'input_chars': chars, 'input_tokens_est': tokens,
+        'cost_usd_est': round(cost_usd, 6), 'cost_jpy_est': round(cost_jpy, 1),
+    }
+    with log_path.open('a') as f:
+        f.write(json.dumps(record, ensure_ascii=False) + '\n')
+
+
 def process_one(html_path: Path, api_key: str, gemini_key: str = None) -> Path | None:
     """HTML 1 ファイル → MP4"""
+    # 使用量カウンターをリセット
+    _usage['api_calls'] = _usage['cached_calls'] = _usage['input_chars'] = _usage['input_tokens'] = 0
     stem = html_path.stem
     voice_path = html_path.parent / f'{stem}_voice.md'
 
@@ -528,6 +569,7 @@ def process_one(html_path: Path, api_key: str, gemini_key: str = None) -> Path |
         write_timestamps_to_edit(edit_path, timestamps)
         print(f'  タイムスタンプ → {edit_path.name} に反映')
 
+    _log_usage(stem)
     return final_path
 
 

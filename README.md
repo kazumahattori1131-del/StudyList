@@ -26,27 +26,39 @@ StudyList/
 
 ---
 
-## 動画一覧（全17本）
+## 動画一覧（全29本）
 
 | stem | 科目 | タイトル |
 |---|---|---|
 | math1-1_quadratic_discriminant | 数学I | 放物線とx軸の交点条件（判別式） |
 | math1-2_quadratic_trap | 数学I | 二次不等式の恒等的成立 |
+| math1-3_quadratic_axis | 数学I | 2次関数の最大・最小（定義域が動く場合分け） |
+| math1-4_quadratic_complete | 数学I | 平方完成と頂点（計算ミスをなくす） |
+| math1-5_absolute_inequality | 数学I | 絶対値と不等式（場合分けの考え方） |
 | math2-1_exponential_substitution | 数学II | 指数方程式（置換テクニック） |
 | math2-2_log_substitution | 数学II | 対数方程式（底の変換と置換） |
 | math2-3_trig_compose | 数学II | 三角関数の合成（sinθ+√3cosθ の最大・最小） |
 | math2-4_derivative_maxmin | 数学II | 微分の最大・最小（端点を見落とす落とし穴） |
+| math2-5_integral_area | 数学II | 定積分と面積（1/12公式・符号ミス） |
+| math2-6_logarithm_concept | 数学II | 対数の概念（指数から対数へ） |
+| math2-7_trig_unit_circle | 数学II | 三角関数の定義と単位円 |
 | math3-1_integral_squared | 数学III | 三角置換による定積分 |
 | math3-2_integration_by_parts | 数学III | 部分積分の連鎖（e^x sinx） |
+| math3-3_riemann_integral | 数学III | 区分求積法（数列の極限を定積分に変換） |
 | mathA-1_circular_nonadjacent | 数学A | 円順列×余事象（隣り合わない） |
 | mathA-2_circular_probability | 数学A | 円順列×確率（男女交互） |
 | mathA-3_conditional_prob | 数学A | 条件付き確率（P(A\|B)とP(B\|A)の取り違え） |
+| mathA-4_repeated_trial | 数学A | 反復試行の確率（組み合わせの係数を忘れる落とし穴） |
 | mathB-1_recurrence_divide | 数学B | 漸化式（両辺を割る） |
 | mathB-2_sum_recurrence | 数学B | Sn型漸化式 |
 | mathB-3_recurrence_char | 数学B | 漸化式（特性方程式） |
+| mathB-4_sum_arithmetic_geometric | 数学B | 等差×等比型の和（差し引き法） |
+| mathB-5_vector_inner | 数学B | ベクトルの内積と大きさ（\|a+b\|の落とし穴） |
+| mathB-6_hypothesis_test | 数学B | 統計的な推測（仮説検定の考え方） |
 | mathC-1_complex_factorize | 数学C | 複素数の絶対値最大値 |
 | mathC-2_complex_identity | 数学C | z+1/z=1 から z³+1/z³ |
-| mathB-4_sum_arithmetic_geometric | 数学B | 等差×等比型の和（差し引き法） |
+| mathC-3_complex_rotation | 数学C | 複素数の累乗とド・モアブルの定理 |
+| mathC-4_conic_sections | 数学C | 二次曲線（楕円の方程式） |
 
 ---
 
