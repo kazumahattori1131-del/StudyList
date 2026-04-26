@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>絶対値と不等式（場合分けの考え方） | 数学I</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <link rel="stylesheet" href="../slide.css">
+  <style>
+    :root { --accent: #c05621; }
+    /* color-mix() 未サポート環境向けフォールバック */
+    .problem-box { background: #fff7f0; }
+    .key-formula  { background: #fff9f5; }
+    @supports (color: color-mix(in srgb, red 8%, white)) {
+      .problem-box { background: color-mix(in srgb, var(--accent) 8%, white); }
+      .key-formula  { background: color-mix(in srgb, var(--accent) 6%, white); }
+    }
+    .key-box {
+      background: #2a0f00;
+      border-left: 6px solid var(--accent);
+      border-radius: 0 10px 10px 0;
+      padding: 14px 22px;
+      margin: 10px 0;
+      font-size: 21px;
+      font-weight: 700;
+      color: #fff;
+    }
+    .calc-box {
+      background: #1e0c00;
+      border: 2px solid #c05621;
+      border-radius: 10px;
+      padding: 14px 28px;
+      margin: 10px 0;
+      font-size: 19px;
+      color: #fff;
+      line-height: 2;
+    }
+  </style>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]})"></script>
+</head>
+<body>
+<!-- GitHub Pages: problems/youtube_redesign/math1-5_absolute_inequality.html -->
+<div id="progress-bar"></div>
+
+<!-- ① 問題提示 -->
+<section class="slide active">
+  <div class="slide-header">
+    <span class="badge">数学I</span>
+    <span class="slide-title">絶対値と不等式（場合分けの考え方）</span>
+    <div class="meta"><span>★★☆☆☆ 基本〜標準</span><span>偏差値50〜60</span></div>
+  </div>
+  <div class="problem-box" style="font-size:22px; margin: 20px 0 14px;">
+    $|2x - 3| < 5$ を解け。
+  </div>
+  <p style="font-size:19px; color:#aaa; margin: 8px 0 0 4px;">
+    絶対値を「外す」だけではダメ！ 場合分けの意味を理解すれば一生使える。
+  </p>
+  <div class="slide-footer"></div>
+</section>
+
+<!-- ② よくある間違い -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge orange">よくある間違い</span>
+    <span class="slide-title">絶対値をそのまま外してしまう</span>
+  </div>
+  <div class="step">
+    <p style="font-size:20px; margin: 0 0 6px;">❌ <strong>よくある間違い①</strong>：絶対値を無視して解く</p>
+    $$|2x - 3| < 5 \;\overset{?}{\Rightarrow}\; 2x - 3 < 5 \;\Rightarrow\; x < 4$$
+    <p style="font-size:19px; color:#f87171; margin:4px 0 0;">→ 負の範囲を捨てている！ $x = -1$ は $|2(-1)-3| = 5$ で満たさないが $x = -10$ は？</p>
+  </div>
+  <div class="step">
+    <p style="font-size:20px; margin: 0 0 6px;">❌ <strong>よくある間違い②</strong>：$2x-3$ の正負で場合分けして連立し忘れる</p>
+    <p style="font-size:19px;">
+      $2x - 3 \geq 0$ のとき $2x - 3 < 5$ → $x < 4$、として場合分けと連立を忘れ $x < 4$ と答える。
+    </p>
+    <p style="font-size:19px; color:#f87171; margin:4px 0 0;">→ 連立条件 $x \geq \dfrac{3}{2}$ を忘れると不正確！</p>
+  </div>
+  <div class="key-box" style="font-size:19px; margin-top:12px;">
+    ⚠️ $|A| &lt; k$ は「$A$ の数直線上の距離が $k$ 未満」← 公式 $-k &lt; A &lt; k$ を使えば場合分け不要！
+  </div>
+  <div class="slide-footer"></div>
+</section>
+
+<!-- ③ 本質ポイント -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge green">本質ポイント</span>
+    <span class="slide-title">$|A| &lt; k \Leftrightarrow -k &lt; A &lt; k$ の図形的意味</span>
+  </div>
+  <p style="font-size:19px; margin: 6px 0 10px;">
+    絶対値 $|A|$ は「$A$ と $0$ の距離」。$|A| < k$ は「$A$ が $0$ から距離 $k$ 未満にある」ことを意味する。
+  </p>
+  <div class="calc-box">
+    数直線上のイメージ：<br>
+    $\longleftarrow \underbrace{\quad\quad\quad}_{-k \text{ から } k \text{ の範囲}} \longrightarrow$<br>
+    $|A| &lt; k \;\Longleftrightarrow\; -k &lt; A &lt; k$<br><br>
+    $|A| \geq k \;\Longleftrightarrow\; A \leq -k \;\text{ または }\; A \geq k$
+  </div>
+  <div class="key-box">
+    $k > 0$ のとき：$|A| &lt; k \Leftrightarrow -k &lt; A &lt; k$<br>
+    <span style="font-size:17px; font-weight:400;">この変換で絶対値を一気に外せる！</span>
+  </div>
+  <div class="slide-footer"></div>
+</section>
+
+<!-- ④ 解説 -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge">解説</span>
+    <span class="slide-title">公式で一発解答</span>
+  </div>
+  <div class="step">
+    <span class="step-label">STEP 1</span>公式 $|A| &lt; k \Leftrightarrow -k &lt; A &lt; k$ を適用<br>
+    <span style="font-size:18px;">$|2x - 3| &lt; 5 \;\Leftrightarrow\; -5 &lt; 2x - 3 &lt; 5$</span>
+  </div>
+  <div class="step">
+    <span class="step-label">STEP 2</span>各辺に $3$ を足す<br>
+    <span style="font-size:18px;">$-5 + 3 &lt; 2x &lt; 5 + 3 \;\Rightarrow\; -2 &lt; 2x &lt; 8$</span>
+  </div>
+  <div class="step">
+    <span class="step-label">STEP 3</span>各辺を $2$ で割る<br>
+    <span style="font-size:18px;">$-1 &lt; x &lt; 4$</span>
+  </div>
+  <div class="step">
+    <span class="step-label">答え</span>
+    <span class="key-formula" style="font-size:22px; display:inline-block; padding:6px 18px; margin-left:8px;">
+      $-1 &lt; x &lt; 4$
+    </span>
+  </div>
+  <div class="slide-footer"></div>
+</section>
+
+<!-- ⑤ 一般化 -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge green">一般化</span>
+    <span class="slide-title">絶対値不等式の変換パターン</span>
+  </div>
+  <div class="key-formula" style="font-size:21px; text-align:center; padding:14px; margin:8px 0;">
+    $k > 0$ のとき
+  </div>
+  <ul class="point-list">
+    <li>$|A| &lt; k \;\Longleftrightarrow\; -k &lt; A &lt; k$（絞り込む型）</li>
+    <li>$|A| \leq k \;\Longleftrightarrow\; -k \leq A \leq k$（等号あり）</li>
+    <li>$|A| > k \;\Longleftrightarrow\; A &lt; -k \;\text{ または }\; A > k$（広がる型）</li>
+    <li>$|A| \geq k \;\Longleftrightarrow\; A \leq -k \;\text{ または }\; A \geq k$（等号あり）</li>
+  </ul>
+  <div class="key-box">
+    不等号の向きで「絞り込むか（and）・広がるか（or）」が決まる！<br>
+    <span style="font-size:17px; font-weight:400;">$&lt;,\leq$ → 連立（and）　　$>,\geq$ → 「または」（or）</span>
+  </div>
+  <div class="slide-footer"></div>
+</section>
+
+<!-- ⑥ 類題 -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge green">類題</span>
+    <span class="slide-title">同じ手順で解いてみよう</span>
+  </div>
+  <div class="problem-box" style="font-size:21px;">
+    $|x + 1| \geq 3$ を解け。
+  </div>
+  <div class="answer-label">答　え</div>
+  <div class="answer-box" style="font-size:19px;">
+    $|A| \geq k \Leftrightarrow A \leq -k$ または $A \geq k$ を使う。<br><br>
+    $x + 1 \leq -3$ または $x + 1 \geq 3$<br><br>
+    $x \leq -4$ または $x \geq 2$
+  </div>
+  <div class="slide-footer"></div>
+</section>
+
+<!-- ナビゲーション -->
+<div id="nav">
+  <button id="btn-prev" onclick="prevSlide()">◀</button>
+  <span id="slide-counter">1 / 6</span>
+  <button id="btn-next" onclick="nextSlide()">▶</button>
+</div>
+<script src="../slide.js"></script>
+</body>
+</html>
