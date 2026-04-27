@@ -105,7 +105,7 @@ def parse_animations_from_edit(edit_path: Path) -> dict[int, list[dict]]:
         if not slide_num:
             continue
         anns = []
-        for ann_m in re.finditer(r'\*\*強調\d+\*\*\s*\n((?:- .+\n?)+)', block_m.group(2)):
+        for ann_m in re.finditer(r'\*\*強調[①②③④⑤⑥\d]+\*\*\s*\n((?:- .+\n?)+)', block_m.group(2)):
             spec: dict = {}
             for line in ann_m.group(1).splitlines():
                 line = line.lstrip('- ').strip()
@@ -638,7 +638,8 @@ def _log_usage(stem: str) -> None:
         f.write(json.dumps(record, ensure_ascii=False) + '\n')
 
 
-def process_one(html_path: Path, api_key: str, gemini_key: str = None) -> Path | None:
+def process_one(html_path: Path, api_key: str, gemini_key: str = None,
+                output_suffix: str = '') -> Path | None:
     """HTML 1 ファイル → MP4"""
     # 使用量カウンターをリセット
     _usage['api_calls'] = _usage['cached_calls'] = _usage['input_chars'] = _usage['input_tokens'] = 0
@@ -773,7 +774,7 @@ def process_one(html_path: Path, api_key: str, gemini_key: str = None) -> Path |
     print(' 音声✓ 動画✓')
     clip_paths.append(outro_clip)
 
-    final_path = OUTPUT_DIR / f'{stem}.mp4'
+    final_path = OUTPUT_DIR / f'{stem}{output_suffix}.mp4'
     print(f'  結合 → {final_path.name} ...', end='', flush=True)
     all_clips = [VideoFileClip(str(cp)) for cp in clip_paths]
     final = concatenate_videoclips(all_clips)
@@ -813,6 +814,7 @@ def _show_preflight_checklist() -> None:
 def main():
     parser = argparse.ArgumentParser(description='HTML スライド → MP4 動画生成')
     parser.add_argument('--file', help='対象 HTML ファイル（省略時は全ファイル）')
+    parser.add_argument('--suffix', default='', help='出力ファイル名のサフィックス（例: _animated）')
     args = parser.parse_args()
 
     _show_preflight_checklist()
@@ -832,7 +834,7 @@ def main():
 
     results = []
     for html_path in html_files:
-        r = process_one(html_path, api_key, gemini_key=gemini_key)
+        r = process_one(html_path, api_key, gemini_key=gemini_key, output_suffix=args.suffix)
         if r:
             results.append(r)
 
