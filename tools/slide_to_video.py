@@ -21,6 +21,8 @@ import argparse
 import requests
 from pathlib import Path
 
+import numpy as np
+from PIL import Image, ImageDraw
 from google import genai
 from google.genai import types as genai_types
 from playwright.sync_api import sync_playwright
@@ -64,6 +66,9 @@ VIDEO_W, VIDEO_H = 1280, 720
 VIDEO_FPS     = 24
 # ─────────────────────────────────────────────────────────────────────────
 
+# ── アノテーション（追い装飾）───────────────────────────────────────────────
+_CIRCLED = {'①':1,'②':2,'③':3,'④':4,'⑤':5,'⑥':6,'⑦':7,'⑧':8,'⑨':9,'⑩':10}
+
 INTRO_TEXT = """みなさんこんにちは！
 このチャンネルでは、高校数学の典型問題・ひっかかりやすい問題を解説しています。
 もしよろしければチャンネル登録よろしくお願いします！
@@ -75,6 +80,210 @@ OUTRO_TEMPLATE = """今回は「{title}」について解説しました。
 
 役に立ったと感じた方は、チャンネル登録と高評価で応援してください！次回も、入試で差がつく重要ポイントを解説します。
 疑問点や解説してほしい問題があれば、コメントで教えてもらえると助かります。それでは！"""
+
+
+def parse_animations_from_edit(edit_path: Path) -> dict[int, list[dict]]:
+    """_edit.md の「① 追い装飾指示」を解析 → {スライド番号(1-based): [spec, ...]}
+
+    spec keys: target(強調対象), method(方法), animation(種類), timing(タイミングテキスト)
+    """
+    if not edit_path.exists():
+        return {}
+    text = edit_path.read_text()
+
+    m = re.search(r'## ① 追い装飾指示(.+?)(?=\n## |\Z)', text, re.DOTALL)
+    if not m:
+        return {}
+    section = m.group(1)
+
+    result: dict[int, list[dict]] = {}
+    for block_m in re.finditer(
+        r'###\s+\[Slide([①②③④⑤⑥⑦⑧⑨⑩])[^\]]*\]\s*\n(.*?)(?=###\s+\[Slide|\Z)',
+        section, re.DOTALL
+    ):
+        slide_num = _CIRCLED.get(block_m.group(1), 0)
+        if not slide_num:
+            continue
+        anns = []
+        for ann_m in re.finditer(r'\*\*強調[①②③④⑤⑥\d]+\*\*\s*\n((?:- .+\n?)+)', block_m.group(2)):
+            spec: dict = {}
+            for line in ann_m.group(1).splitlines():
+                line = line.lstrip('- ').strip()
+                if line.startswith('強調対象：'):
+                    spec['target'] = line[5:].strip().strip('`')
+                elif line.startswith('方法：'):
+                    spec['method'] = line[3:].strip()
+                elif line.startswith('アニメーション：'):
+                    spec['animation'] = line[8:].strip()
+                elif line.startswith('タイミング：'):
+                    tm = re.search(r'「(.+?)」', line)
+                    spec['timing'] = tm.group(1) if tm else ''
+            if 'target' in spec and 'method' in spec:
+                anns.append(spec)
+        if anns:
+            result[slide_num] = anns
+    return result
+
+
+def _extract_plain_keywords(target: str) -> list[str]:
+    """強調対象から LaTeX($...$)を除いた検索キーワードを返す"""
+    plain = re.sub(r'\$[^$]+\$', ' ', target.strip('`'))
+    plain = re.sub(r'[※→（）「」！？。、＊\*]', ' ', plain)
+    words = plain.split()
+    return [w for w in words if len(w) >= 2]
+
+
+def _find_bbox_in_page(page, keywords: list[str]) -> dict | None:
+    """Playwright ページ内でキーワードに一致するテキストノードの親要素の bbox を返す"""
+    for kw in keywords:
+        safe_kw = kw.replace('\\', '\\\\').replace("'", "\\'")
+        bbox = page.evaluate(f"""(() => {{
+            const slide = document.querySelector('.slide.active');
+            if (!slide) return null;
+            const walker = document.createTreeWalker(slide, NodeFilter.SHOW_TEXT);
+            let node;
+            while (node = walker.nextNode()) {{
+                if (node.textContent.trim().includes('{safe_kw}')) {{
+                    let el = node.parentElement;
+                    const inline = ['SPAN','EM','STRONG','SUP','SUB','KBD','A','CODE'];
+                    while (el && inline.includes(el.tagName)) el = el.parentElement;
+                    if (!el) return null;
+                    const r = el.getBoundingClientRect();
+                    if (r.width < 4 || r.height < 4) return null;
+                    return {{x: Math.round(r.left), y: Math.round(r.top),
+                             w: Math.round(r.width), h: Math.round(r.height)}};
+                }}
+            }}
+            return null;
+        }})()""")
+        if bbox:
+            return bbox
+    return None
+
+
+def _find_timing_ratio(voice_script: str, timing_text: str) -> float:
+    """台本内でタイミングテキストが現れる相対位置 (0.0–1.0) を返す"""
+    if not timing_text:
+        return 0.5
+    idx = voice_script.find(timing_text)
+    if idx == -1:
+        for n in range(min(8, len(timing_text)), 2, -1):
+            idx = voice_script.find(timing_text[:n])
+            if idx != -1:
+                break
+    if idx == -1:
+        return 0.5
+    return idx / max(len(voice_script), 1)
+
+
+_UNDERLINE_ANIM_SECS = 0.5   # アンダーラインが左→右に伸びる時間
+_UNDERLINE_FPS      = 20     # アンダーラインアニメのフレームレート
+
+
+def _draw_annotation(img: Image.Image, bbox: dict, method: str,
+                     progress: float = 1.0) -> Image.Image:
+    """PIL Image にアノテーションを描画して返す。
+    progress は 0.0〜1.0 でアンダーラインの描画進捗を制御する。"""
+    img = img.copy().convert('RGBA')
+    overlay = Image.new('RGBA', img.size, (0, 0, 0, 0))
+    draw = ImageDraw.Draw(overlay)
+
+    x, y, w, h = bbox['x'], bbox['y'], bbox['w'], bbox['h']
+    pad = 10
+    color = (220, 20, 20, 235)
+    lw = 4
+    x0, y0, x1, y1 = x - pad, y - pad, x + w + pad, y + h + pad
+    x0, y0 = max(x0, 2), max(y0, 2)
+    x1, y1 = min(x1, VIDEO_W - 2), min(y1, VIDEO_H - 2)
+
+    m_lower = method.lower()
+    if 'アンダーライン' in method or 'underline' in m_lower:
+        # 左から右へ伸びるアンダーライン
+        x_end = int(x0 + (x1 - x0) * min(progress, 1.0))
+        y_line = y1 + 3
+        if x_end > x0:
+            draw.line([x0, y_line, x_end, y_line], fill=color, width=lw + 1)
+    elif '丸' in m_lower or '円' in m_lower:
+        draw.ellipse([x0, y0, x1, y1], outline=color, width=lw)
+    elif '矢印' in m_lower:
+        ax, ay = max(0, x0 - 55), max(0, y0 - 55)
+        draw.line([ax, ay, x0 + 12, y0 + 12], fill=color, width=lw)
+        dx, dy = (x0 + 12) - ax, (y0 + 12) - ay
+        length = (dx**2 + dy**2) ** 0.5
+        if length > 0:
+            ux, uy = dx / length, dy / length
+            px, py = -uy, ux
+            tip = (x0 + 12, y0 + 12)
+            p1 = (tip[0] - ux * 16 + px * 8, tip[1] - uy * 16 + py * 8)
+            p2 = (tip[0] - ux * 16 - px * 8, tip[1] - uy * 16 - py * 8)
+            draw.polygon([tip, p1, p2], fill=color)
+    else:
+        draw.rectangle([x0, y0, x1, y1], outline=color, width=lw)
+
+    return Image.alpha_composite(img, overlay).convert('RGB')
+
+
+def make_slide_clip_animated(img_path: Path, audio_path: Path, clip_path: Path,
+                              annotations: list[dict], voice_script: str) -> None:
+    """アノテーション付きスライドクリップを生成（アノテーションはタイミングで段階的に表示）"""
+    audio = AudioFileClip(str(audio_path))
+    total_dur = audio.duration
+
+    # タイミング計算してソート
+    timed = sorted(
+        [(max(0.0, _find_timing_ratio(voice_script, a.get('timing', '')) * total_dur), a)
+         for a in annotations],
+        key=lambda x: x[0]
+    )
+
+    # ベース画像から始まり、アノテーションを順次追加したセグメントを作る
+    # 各セグメントは (開始秒, PIL.Image) または (開始秒, [PIL.Image, ...]) のいずれか
+    # リストの場合はアンダーラインアニメーションフレーム列
+    base = Image.open(img_path).convert('RGB')
+    segments: list[tuple[float, 'Image.Image | list[Image.Image]']] = [(0.0, base)]
+    current = base
+    for t, ann in timed:
+        bbox = ann.get('bbox')
+        if not bbox:
+            continue
+        method = ann.get('method', '赤枠')
+        if 'アンダーライン' in method or 'underline' in method.lower():
+            # 左→右へ伸びるアニメーションフレームを生成
+            n_frames = max(2, int(_UNDERLINE_ANIM_SECS * _UNDERLINE_FPS))
+            frames = [
+                _draw_annotation(current.convert('RGBA'), bbox, method, (i + 1) / n_frames)
+                for i in range(n_frames)
+            ]
+            segments.append((t, frames))
+            current = frames[-1]  # 次のアノテーションのベースは最終フレーム
+        else:
+            current = _draw_annotation(current.convert('RGBA'), bbox, method)
+            segments.append((t, current))
+
+    clips = []
+    for i, (start_t, img_or_frames) in enumerate(segments):
+        end_t = segments[i + 1][0] if i + 1 < len(segments) else total_dur
+        dur = max(end_t - start_t, 0.05)
+        if isinstance(img_or_frames, list):
+            # アンダーラインアニメーション：短いアニメ + 残り静止
+            anim_dur = min(_UNDERLINE_ANIM_SECS, dur)
+            static_dur = max(dur - anim_dur, 0.0)
+            frame_dur = anim_dur / len(img_or_frames)
+            for frame in img_or_frames:
+                clips.append(ImageClip(np.array(frame), duration=max(frame_dur, 0.01)))
+            if static_dur > 0.01:
+                clips.append(ImageClip(np.array(img_or_frames[-1]), duration=static_dur))
+        else:
+            clips.append(ImageClip(np.array(img_or_frames), duration=dur))
+
+    combined = concatenate_videoclips(clips).with_audio(audio)
+    tmp = clip_path.with_suffix('.tmp_audio.mp4')
+    combined.write_videofile(str(clip_path), fps=VIDEO_FPS, codec='libx264',
+                             audio_codec='aac', logger=None,
+                             temp_audiofile=str(tmp),
+                             ffmpeg_params=['-pix_fmt', 'yuv420p'])
+    audio.close()
+    combined.close()
 
 
 def pcm_to_wav(pcm: bytes, out_path: Path, gap_seconds: float = 0.0) -> None:
@@ -129,8 +338,15 @@ def write_silence_wav(out_path: Path, duration: float) -> None:
         wf.writeframes(silence)
 
 
-def screenshot_slides(html_path: Path, out_dir: Path) -> tuple[list[Path], Path | None]:
-    """HTML の全スライドをスクリーンショット → (PNG リスト, 類題解答非表示PNG)"""
+def screenshot_slides(
+    html_path: Path, out_dir: Path,
+    animation_targets: dict[int, list[str]] | None = None,
+) -> tuple[list[Path], Path | None, dict[int, list[dict | None]]]:
+    """HTML の全スライドをスクリーンショット → (PNG リスト, 類題解答非表示PNG, bboxes)
+
+    animation_targets: {スライド番号(1-based): [強調対象テキスト, ...]}
+    bboxes: {スライド番号(1-based): [bbox_or_None, ...]}
+    """
     with open(html_path) as f:
         html = f.read()
 
@@ -143,6 +359,7 @@ def screenshot_slides(html_path: Path, out_dir: Path) -> tuple[list[Path], Path 
 
         shots: list[Path] = []
         ruidai_hidden: Path | None = None
+        bboxes: dict[int, list[dict | None]] = {}
 
         with sync_playwright() as p:
             browser = p.chromium.launch(
@@ -160,6 +377,8 @@ def screenshot_slides(html_path: Path, out_dir: Path) -> tuple[list[Path], Path 
             page.evaluate("document.getElementById('nav').style.display='none'")
 
             for i in range(slide_count):
+                slide_num = i + 1  # 1-based
+
                 if i == ruidai_idx:
                     page.evaluate(
                         "document.querySelectorAll('.slide.active .step,"
@@ -175,6 +394,15 @@ def screenshot_slides(html_path: Path, out_dir: Path) -> tuple[list[Path], Path 
                         ".forEach(el => el.style.display='')"
                     )
 
+                # bbox 取得（アニメーション対象が指定されている場合）
+                if animation_targets and slide_num in animation_targets:
+                    slide_bboxes = []
+                    for target in animation_targets[slide_num]:
+                        keywords = _extract_plain_keywords(target)
+                        bbox = _find_bbox_in_page(page, keywords) if keywords else None
+                        slide_bboxes.append(bbox)
+                    bboxes[slide_num] = slide_bboxes
+
                 png = out_dir / f'slide_{i+1:02d}.png'
                 page.screenshot(path=str(png))
                 shots.append(png)
@@ -188,7 +416,7 @@ def screenshot_slides(html_path: Path, out_dir: Path) -> tuple[list[Path], Path 
         if tmp_path.exists():
             tmp_path.unlink()
 
-    return shots, ruidai_hidden
+    return shots, ruidai_hidden, bboxes
 
 
 def parse_voice_scripts(voice_path: Path) -> list[str]:
@@ -317,7 +545,15 @@ def generate_audio_gemini(text: str, out_path: Path, gemini_key: str,
                     )
                 )
             )
-            raw = resp.candidates[0].content.parts[0].inline_data.data
+            # Search all parts for audio data (model may prepend a text part)
+            raw = None
+            for part in resp.candidates[0].content.parts:
+                idata = getattr(part, 'inline_data', None)
+                if idata and getattr(idata, 'data', None):
+                    raw = idata.data
+                    break
+            if raw is None:
+                raise ValueError('TTS response contained no audio data')
             pcm = raw if isinstance(raw, bytes) else base64.b64decode(raw)
             pcm_to_wav(pcm, out_path, gap_seconds=gap)
             # 使用量を記録
@@ -442,7 +678,8 @@ def _log_usage(stem: str) -> None:
         f.write(json.dumps(record, ensure_ascii=False) + '\n')
 
 
-def process_one(html_path: Path, api_key: str, gemini_key: str = None) -> Path | None:
+def process_one(html_path: Path, api_key: str, gemini_key: str = None,
+                output_suffix: str = '') -> Path | None:
     """HTML 1 ファイル → MP4"""
     # 使用量カウンターをリセット
     _usage['api_calls'] = _usage['cached_calls'] = _usage['input_chars'] = _usage['input_tokens'] = 0
@@ -458,10 +695,31 @@ def process_one(html_path: Path, api_key: str, gemini_key: str = None) -> Path |
 
     print(f'\n=== {stem} ===')
 
+    # アニメーション指示を解析
+    edit_path = BASE_DIR / f'{stem}_edit.md'
+    animations = parse_animations_from_edit(edit_path)
+    animation_targets = {
+        slide_num: [a['target'] for a in anns]
+        for slide_num, anns in animations.items()
+    }
+
     print('  [1/3] スライドをキャプチャ中...')
-    screenshots, ruidai_hidden = screenshot_slides(html_path, out_dir)
+    screenshots, ruidai_hidden, bboxes_by_slide = screenshot_slides(
+        html_path, out_dir, animation_targets=animation_targets or None
+    )
+    # bboxes を各 annotation spec に付与
+    for slide_num, anns in animations.items():
+        slide_bboxes = bboxes_by_slide.get(slide_num, [])
+        for ann, bbox in zip(anns, slide_bboxes):
+            ann['bbox'] = bbox
+            if bbox is None:
+                print(f'  [WARN] bbox 未検出: Slide{slide_num} 「{ann.get("target","")[:30]}」')
+    ann_count = sum(
+        1 for anns in animations.values() for a in anns if a.get('bbox')
+    )
     print(f'        {len(screenshots)} 枚取得'
-          + (' / 類題非表示版あり' if ruidai_hidden else ''))
+          + (' / 類題非表示版あり' if ruidai_hidden else '')
+          + (f' / アノテーション {ann_count}件' if ann_count else ''))
 
     scripts      = parse_voice_scripts(voice_path)
     slide_labels = parse_slide_labels(voice_path)
@@ -537,8 +795,13 @@ def process_one(html_path: Path, api_key: str, gemini_key: str = None) -> Path |
             clip_path  = out_dir / f'clip_{i:02d}.mp4'
             generate_audio(script, audio_path, api_key, gemini_key=gemini_key)
             print(' 音声✓', end='', flush=True)
-            make_slide_clip(img, audio_path, clip_path)
-            print(' 動画✓')
+            slide_anns = [a for a in animations.get(idx + 1, []) if a.get('bbox')]
+            if slide_anns:
+                make_slide_clip_animated(img, audio_path, clip_path, slide_anns, script)
+                print(f' 動画✓(アノテ{len(slide_anns)}件)')
+            else:
+                make_slide_clip(img, audio_path, clip_path)
+                print(' 動画✓')
             clip_paths.append(clip_path)
             elapsed += wav_duration(audio_path)
 
@@ -551,7 +814,7 @@ def process_one(html_path: Path, api_key: str, gemini_key: str = None) -> Path |
     print(' 音声✓ 動画✓')
     clip_paths.append(outro_clip)
 
-    final_path = OUTPUT_DIR / f'{stem}.mp4'
+    final_path = OUTPUT_DIR / f'{stem}{output_suffix}.mp4'
     print(f'  結合 → {final_path.name} ...', end='', flush=True)
     all_clips = [VideoFileClip(str(cp)) for cp in clip_paths]
     final = concatenate_videoclips(all_clips)
@@ -564,7 +827,6 @@ def process_one(html_path: Path, api_key: str, gemini_key: str = None) -> Path |
     print(' 完了')
 
     # タイムスタンプを _edit.md に書き込む
-    edit_path = BASE_DIR / f'{stem}_edit.md'
     if edit_path.exists() and timestamps:
         write_timestamps_to_edit(edit_path, timestamps)
         print(f'  タイムスタンプ → {edit_path.name} に反映')
@@ -592,6 +854,7 @@ def _show_preflight_checklist() -> None:
 def main():
     parser = argparse.ArgumentParser(description='HTML スライド → MP4 動画生成')
     parser.add_argument('--file', help='対象 HTML ファイル（省略時は全ファイル）')
+    parser.add_argument('--suffix', default='', help='出力ファイル名のサフィックス（例: _animated）')
     args = parser.parse_args()
 
     _show_preflight_checklist()
@@ -611,7 +874,7 @@ def main():
 
     results = []
     for html_path in html_files:
-        r = process_one(html_path, api_key, gemini_key=gemini_key)
+        r = process_one(html_path, api_key, gemini_key=gemini_key, output_suffix=args.suffix)
         if r:
             results.append(r)
 
