@@ -508,4 +508,26 @@ TTS: Gemini TTS (AI Studio) を使用
         [イントロ] [キャッシュ] 音声✓ 動画✓
         [1/6] [キャッシュ] 音声✓ 動画✓
         [2/6] [キャッシュ] 音声✓ 動画✓
-        [3/6] [キャッシュ] 音声✓
+        [3/6] [キャッシュ] 音声✓ 動画✓
+        [4/6] [キャッシュ] 音声✓ 動画✓
+        [5/6] [キャッシュ] 音声✓ 動画✓
+        [6/6] [キャッシュ] 問題✓ [キャッシュ] [キャッシュ] 解答✓
+        [アウトロ] [キャッシュ] 音声✓ 動画✓
+  結合 → math1-5_absolute_inequality.mp4 .../usr/local/lib/python3.11/dist-packages/moviepy/video/io/ffmpeg_reader.py:190: UserWarning: In file /home/user/StudyList/problems/youtube_redesign/output/math1-5_absolute_inequality/clip_intro.mp4, 2764800 bytes wanted but 0 bytes read at frame index 334 (out of a total 334 frames), at time 13.92/13.93 sec. Using the last valid frame instead.
+  warnings.warn(
+/usr/local/lib/python3.11/dist-packages/moviepy/video/io/ffmpeg_reader.py:190: UserWarning: In file /home/user/StudyList/problems/youtube_redesign/output/math1-5_absolute_inequality/clip_02.mp4, 2764800 bytes wanted but 0 bytes read at frame index 1859 (out of a total 1859 frames), at time 77.46/77.49 sec. Using the last valid frame instead.
+  warnings.warn(
+/usr/local/lib/python3.11/dist-packages/moviepy/video/io/ffmpeg_reader.py:190: UserWarning: In file /home/user/StudyList/problems/youtube_redesign/output/math1-5_absolute_inequality/clip_03.mp4, 2764800 bytes wanted but 0 bytes read at frame index 1337 (out of a total 1337 frames), at time 55.71/55.73 sec. Using the last valid frame instead.
+  warnings.warn(
+/usr/local/lib/python3.11/dist-packages/moviepy/video/io/ffmpeg_reader.py:190: UserWarning: In file /home/user/StudyList/problems/youtube_redesign/output/math1-5_absolute_inequality/clip_06a.mp4, 2764800 bytes wanted but 0 bytes read at frame index 414 (out of a total 414 frames), at time 17.25/17.29 sec. Using the last valid frame instead.
+  warnings.warn(
+/usr/local/lib/python3.11/dist-packages/moviepy/video/io/ffmpeg_reader.py:190: UserWarning: In file /home/user/StudyList/problems/youtube_redesign/output/math1-5_absolute_inequality/clip_06c.mp4, 2764800 bytes wanted but 0 bytes read at frame index 78 (out of a total 78 frames), at time 3.25/3.29 sec. Using the last valid frame instead.
+  warnings.warn(
+ 完了
+  タイムスタンプ → math1-5_absolute_inequality_edit.md に反映
+  📊 API使用: 0回呼び出し / 10回キャッシュ / 0文字 / 0トークン(推定) / $0.0000 ≈ ¥0.0
+
+=== 完了: 1 本の動画を生成 ===
+/home/user/StudyList/problems/youtube_redesign/output/math1-5_absolute_inequality.mp4
+[2026-04-28 12:14:27]   完了: math1-5_absolute_inequality
+[2026-04-28 12:14:27] === 全動画生成完了 ===
