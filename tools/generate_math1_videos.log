@@ -98,3 +98,9 @@ TTS: Gemini TTS (AI Studio) を使用
         [アウトロ] 音声✓ 動画✓
   結合 → math1-2_quadratic_trap.mp4 .../usr/local/lib/python3.11/dist-packages/moviepy/video/io/ffmpeg_reader.py:190: UserWarning: In file /home/user/StudyList/problems/youtube_redesign/output/math1-2_quadratic_trap/clip_intro.mp4, 2764800 bytes wanted but 0 bytes read at frame index 397 (out of a total 397 frames), at time 16.54/16.57 sec. Using the last valid frame instead.
   warnings.warn(
+/usr/local/lib/python3.11/dist-packages/moviepy/video/io/ffmpeg_reader.py:190: UserWarning: In file /home/user/StudyList/problems/youtube_redesign/output/math1-2_quadratic_trap/clip_01.mp4, 2764800 bytes wanted but 0 bytes read at frame index 2726 (out of a total 2726 frames), at time 113.58/113.61 sec. Using the last valid frame instead.
+  warnings.warn(
+/usr/local/lib/python3.11/dist-packages/moviepy/video/io/ffmpeg_reader.py:190: UserWarning: In file /home/user/StudyList/problems/youtube_redesign/output/math1-2_quadratic_trap/clip_02.mp4, 2764800 bytes wanted but 0 bytes read at frame index 2457 (out of a total 2457 frames), at time 102.38/102.41 sec. Using the last valid frame instead.
+  warnings.warn(
+/usr/local/lib/python3.11/dist-packages/moviepy/video/io/ffmpeg_reader.py:190: UserWarning: In file /home/user/StudyList/problems/youtube_redesign/output/math1-2_quadratic_trap/clip_04.mp4, 2764800 bytes wanted but 0 bytes read at frame index 1425 (out of a total 1425 frames), at time 59.38/59.41 sec. Using the last valid frame instead.
+  warnings.warn(
