@@ -16,3 +16,4 @@
 {"ts": "2026-04-28T12:10:20", "stem": "math1-3_quadratic_axis", "api_calls": 2, "cached_calls": 8, "input_chars": 646, "input_tokens_est": 549, "cost_usd_est": 0.000165, "cost_jpy_est": 0.0}
 {"ts": "2026-04-28T12:12:34", "stem": "math1-4_quadratic_complete", "api_calls": 0, "cached_calls": 10, "input_chars": 0, "input_tokens_est": 0, "cost_usd_est": 0.0, "cost_jpy_est": 0.0}
 {"ts": "2026-04-28T12:14:26", "stem": "math1-5_absolute_inequality", "api_calls": 0, "cached_calls": 10, "input_chars": 0, "input_tokens_est": 0, "cost_usd_est": 0.0, "cost_jpy_est": 0.0}
+{"ts": "2026-04-28T20:56:50", "stem": "math2-1_exponential_substitution", "api_calls": 10, "cached_calls": 0, "input_chars": 1644, "input_tokens_est": 1831, "cost_usd_est": 0.000549, "cost_jpy_est": 0.1}
