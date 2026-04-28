@@ -94,4 +94,7 @@ TTS: Gemini TTS (AI Studio) を使用
         [3/6] 音声✓ 動画✓(アノテ2件)
         [4/6] 音声✓ 動画✓
         [5/6] 音声✓ 動画✓
-        [6/6] 問題✓
+        [6/6] 問題✓ 解答✓
+        [アウトロ] 音声✓ 動画✓
+  結合 → math1-2_quadratic_trap.mp4 .../usr/local/lib/python3.11/dist-packages/moviepy/video/io/ffmpeg_reader.py:190: UserWarning: In file /home/user/StudyList/problems/youtube_redesign/output/math1-2_quadratic_trap/clip_intro.mp4, 2764800 bytes wanted but 0 bytes read at frame index 397 (out of a total 397 frames), at time 16.54/16.57 sec. Using the last valid frame instead.
+  warnings.warn(
