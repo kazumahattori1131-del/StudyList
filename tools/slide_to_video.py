@@ -43,16 +43,11 @@ TTS_VOICE     = 'ja-JP-Chirp3-HD-Leda'   # Cloud TTS フォールバック用
 # Gemini TTS（AI Studio キーがある場合に優先使用）
 # 声の選択肢: Kore / Aoede / Charon / Fenrir / Puck / Zephyr 等
 GEMINI_TTS_MODEL = 'gemini-2.5-flash-preview-tts'
-GEMINI_TTS_VOICE = 'Leda'          # 日本語教育コンテンツ向け
-# Audio Profile: 若い日本語の声、落ち着いて自然、考えながら話す、ロボットっぽくない
-GEMINI_TTS_STYLE = (
-    "あなたは高校生・受験生に数学を解説する、若くて落ち着いた日本語の声です。"
-    "以下の特徴を守って話してください：\n"
-    "- 人間らしく自然な間とリズム（機械的・平坦にしない）\n"
-    "- 考えながら話すような、少し呼吸を感じるテンポ\n"
-    "- 親しみやすく、熱意が伝わるが押しつけがましくない口調\n"
-    "- ポイントを強調するときはわずかに力を込める\n"
-    "- 声の高さは中低程度で安定させる"
+GEMINI_TTS_VOICE = 'Kore'           # 日本語教育コンテンツ向け（Leda より滑舌が明瞭）
+# TTS スタイル前置き：コンテンツ先頭に付加してモデルに読み方を伝える
+# ※ 命令形や「求めよ」系の文末は 400 エラーを誘発するため宣言形で記述する
+GEMINI_TTS_STYLE_PREFIX = (
+    "calm japanese math education narrator style, speak each formula clearly.\n"
 )
 TTS_RATE      = 24000               # LINEAR16 出力サンプルレート
 GAP_SECONDS   = 1.2                 # スライド切り替え後の無音（秒）
@@ -162,9 +157,22 @@ def _find_bbox_in_page(page, keywords: list[str]) -> dict | None:
 
 
 def _find_timing_ratio(voice_script: str, timing_text: str) -> float:
-    """台本内でタイミングテキストが現れる相対位置 (0.0–1.0) を返す"""
+    """台本内でタイミングテキストが現れる相対位置 (0.0–1.0) を返す。
+    TTS が実際に読む正規化テキストで検索することで時刻推定の精度を上げる。"""
     if not timing_text:
         return 0.5
+    # 正規化後のテキストで検索（TTS が読む文字列に合わせる）
+    norm_script = normalize_for_tts(voice_script)
+    norm_timing = normalize_for_tts(timing_text)
+    idx = norm_script.find(norm_timing)
+    if idx == -1:
+        for n in range(min(10, len(norm_timing)), 2, -1):
+            idx = norm_script.find(norm_timing[:n])
+            if idx != -1:
+                break
+    if idx != -1:
+        return idx / max(len(norm_script), 1)
+    # フォールバック：生テキストで検索
     idx = voice_script.find(timing_text)
     if idx == -1:
         for n in range(min(8, len(timing_text)), 2, -1):
@@ -531,9 +539,10 @@ def generate_audio_gemini(text: str, out_path: Path, gemini_key: str,
     max_retries = 8
     for attempt in range(max_retries):
         try:
+            tts_text = GEMINI_TTS_STYLE_PREFIX + normalize_for_tts(text)
             resp = client.models.generate_content(
                 model=GEMINI_TTS_MODEL,
-                contents=normalize_for_tts(text),
+                contents=tts_text,
                 config=genai_types.GenerateContentConfig(
                     response_modalities=['AUDIO'],
                     speech_config=genai_types.SpeechConfig(
@@ -578,9 +587,11 @@ def generate_audio_gemini(text: str, out_path: Path, gemini_key: str,
 
 
 def _audio_cache_key(text: str, gap: float) -> str:
-    """正規化済みテキスト + gap のハッシュ（キャッシュ判定用）"""
+    """正規化済みテキスト + gap + 声名 + スタイルのハッシュ（キャッシュ判定用）。
+    声やスタイルを変更したときに自動でキャッシュ無効化される。"""
     normalized = normalize_for_tts(text)
-    return hashlib.md5(f'{normalized}|gap={gap:.3f}'.encode()).hexdigest()
+    key = f'{normalized}|gap={gap:.3f}|v={GEMINI_TTS_VOICE}|s={GEMINI_TTS_STYLE_PREFIX}'
+    return hashlib.md5(key.encode()).hexdigest()
 
 
 def generate_audio(text: str, out_path: Path, api_key: str,
