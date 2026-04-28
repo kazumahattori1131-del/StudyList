@@ -261,3 +261,12 @@ TTS: Gemini TTS (AI Studio) を使用
   warnings.warn(
 /usr/local/lib/python3.11/dist-packages/moviepy/video/io/ffmpeg_reader.py:190: UserWarning: In file /home/user/StudyList/problems/youtube_redesign/output/math1-5_absolute_inequality/clip_06c.mp4, 2764800 bytes wanted but 0 bytes read at frame index 78 (out of a total 78 frames), at time 3.25/3.29 sec. Using the last valid frame instead.
   warnings.warn(
+ 完了
+  タイムスタンプ → math1-5_absolute_inequality_edit.md に反映
+  📊 API使用: 10回呼び出し / 0回キャッシュ / 2,125文字 / 2,088トークン(推定) / $0.0006 ≈ ¥0.1
+
+=== 完了: 1 本の動画を生成 ===
+/home/user/StudyList/problems/youtube_redesign/output/math1-5_absolute_inequality.mp4
+[2026-04-28 11:37:09]   完了: math1-5_absolute_inequality
+[2026-04-28 11:37:09] === 全動画生成完了 ===
+[2026-04-28 11:37:21] === コミット・プッシュ完了 ===
