@@ -869,6 +869,24 @@ def process_one(html_path: Path, api_key: str, gemini_key: str = None,
     return final_path
 
 
+def _show_tts_settings_banner() -> None:
+    """TTS 設定の自己診断バナーを表示 — 新セッションで設定が壊れていないか即確認できる"""
+    import inspect
+    style_ok = bool(GEMINI_TTS_STYLE_PREFIX.strip())
+    # generate_audio_gemini のソースコード内に tts_text = GEMINI_TTS_STYLE_PREFIX が存在するか
+    src = inspect.getsource(generate_audio_gemini)
+    applied = 'GEMINI_TTS_STYLE_PREFIX' in src and 'tts_text' in src
+    print('─' * 60)
+    print('【TTS 設定確認】')
+    print(f'  声 (VOICE)        : {GEMINI_TTS_VOICE}  ← Leda 固定（変えない）')
+    style_head = GEMINI_TTS_STYLE_PREFIX[:30].replace('\n', '').strip()
+    print(f'  スタイル前置き     : {"OK（" + style_head + "…）" if style_ok else "⚠ 空！PITFALLS.md 3-8 参照"}')
+    print(f'  contents への適用  : {"OK（generate_audio_gemini 内で適用済み）" if applied else "⚠ 未適用！PITFALLS.md 3-8 参照"}')
+    if not style_ok or not applied:
+        print('  !! PITFALLS.md 3-8: 定義するだけでは TTS に反映されません !!')
+    print('─' * 60)
+
+
 def _show_preflight_checklist() -> None:
     """PITFALLS.md からチェックリスト項目を抽出して表示"""
     pitfalls = Path(__file__).parent.parent / 'PITFALLS.md'
@@ -892,6 +910,7 @@ def main():
     args = parser.parse_args()
 
     _show_preflight_checklist()
+    _show_tts_settings_banner()
 
     gemini_key = os.environ.get('GEMINI_API_KEY')
     api_key    = os.environ.get('GOOGLE_API_KEY')
