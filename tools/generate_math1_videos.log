@@ -146,4 +146,6 @@ TTS: Gemini TTS (AI Studio) を使用
         [4/6] 音声✓ 動画✓
         [5/6] 音声✓ 動画✓
         [6/6] 問題✓ [Gemini TTS ServerError 待機30秒] 解答✓
-        [アウトロ]
+        [アウトロ] 音声✓ 動画✓
+  結合 → math1-3_quadratic_axis.mp4 .../usr/local/lib/python3.11/dist-packages/moviepy/video/io/ffmpeg_reader.py:190: UserWarning: In file /home/user/StudyList/problems/youtube_redesign/output/math1-3_quadratic_axis/clip_intro.mp4, 2764800 bytes wanted but 0 bytes read at frame index 381 (out of a total 381 frames), at time 15.88/15.89 sec. Using the last valid frame instead.
+  warnings.warn(
