@@ -257,3 +257,7 @@ TTS: Gemini TTS (AI Studio) を使用
   warnings.warn(
 /usr/local/lib/python3.11/dist-packages/moviepy/video/io/ffmpeg_reader.py:190: UserWarning: In file /home/user/StudyList/problems/youtube_redesign/output/math1-5_absolute_inequality/clip_03.mp4, 2764800 bytes wanted but 0 bytes read at frame index 1337 (out of a total 1337 frames), at time 55.71/55.73 sec. Using the last valid frame instead.
   warnings.warn(
+/usr/local/lib/python3.11/dist-packages/moviepy/video/io/ffmpeg_reader.py:190: UserWarning: In file /home/user/StudyList/problems/youtube_redesign/output/math1-5_absolute_inequality/clip_06a.mp4, 2764800 bytes wanted but 0 bytes read at frame index 414 (out of a total 414 frames), at time 17.25/17.29 sec. Using the last valid frame instead.
+  warnings.warn(
+/usr/local/lib/python3.11/dist-packages/moviepy/video/io/ffmpeg_reader.py:190: UserWarning: In file /home/user/StudyList/problems/youtube_redesign/output/math1-5_absolute_inequality/clip_06c.mp4, 2764800 bytes wanted but 0 bytes read at frame index 78 (out of a total 78 frames), at time 3.25/3.29 sec. Using the last valid frame instead.
+  warnings.warn(
