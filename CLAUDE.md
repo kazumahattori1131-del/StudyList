@@ -1,5 +1,37 @@
 # このリポジトリでの作業ルール
 
+---
+
+## 新セッション開始時の必須確認（動画生成に関わる場合）
+
+動画生成タスクを開始する前に、**必ず以下を確認してから作業に入る**こと。
+
+### 1. PITFALLS.md を読む
+`PITFALLS.md` に過去のバグと対策がまとめられている。特にセクション 3（Gemini TTS）は必読。
+
+### 2. slide_to_video.py の TTS 設定を目視確認する
+以下の3点を `grep` またはファイル先頭付近で確認する。
+
+| 確認項目 | 正しい値 | 変えてはいけない理由 |
+|---|---|---|
+| `GEMINI_TTS_VOICE` | `'Leda'` | ユーザー指定。他の声に変えない |
+| `GEMINI_TTS_STYLE_PREFIX` | 非空文字列（カタカナ語発音指示を含む） | 空にするとβ→ベート等の誤読が起きる |
+| `generate_audio_gemini` 内の `contents=` | `GEMINI_TTS_STYLE_PREFIX + normalize_for_tts(text)` が入っている | **定義するだけでは反映されない（PITFALLS.md 3-8）** |
+
+**確認コマンド例:**
+```bash
+grep -n "GEMINI_TTS_VOICE\|tts_text\|contents=tts" tools/slide_to_video.py
+```
+`contents=tts_text` または `GEMINI_TTS_STYLE_PREFIX +` が `generate_audio_gemini` 内に存在することを確認する。
+
+### 3. アニメーション（_edit.md）の注意点
+- `強調対象` は HTML の**実際の日本語テキスト**から引用する（LaTeX のみは不可）
+- 対応する `方法`: `赤枠` / `丸枠` / `アンダーライン` / `矢印`
+- `タイミング`: `77%` 形式が使える（数式が多いスライドは比率より % 指定が正確）
+- 詳細は `PITFALLS.md` セクション 7 参照
+
+---
+
 ## 動画生成・長時間タスクの注意事項
 
 ### タイムアウト前の自動再開確認
@@ -27,7 +59,7 @@ Claude のコンテキスト制限に近づく可能性がある場合は、
 
 ## ブランチ
 
-開発ブランチ: `claude/math-problem-analysis-Hngj1`
+開発ブランチ: `claude/add-video-animations-7vYC4`
 
 ---
 
