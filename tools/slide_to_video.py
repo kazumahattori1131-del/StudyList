@@ -43,11 +43,17 @@ TTS_VOICE     = 'ja-JP-Chirp3-HD-Leda'   # Cloud TTS フォールバック用
 # Gemini TTS（AI Studio キーがある場合に優先使用）
 # 声の選択肢: Kore / Aoede / Charon / Fenrir / Puck / Zephyr 等
 GEMINI_TTS_MODEL = 'gemini-2.5-flash-preview-tts'
-GEMINI_TTS_VOICE = 'Kore'           # 日本語教育コンテンツ向け（Leda より滑舌が明瞭）
+GEMINI_TTS_VOICE = 'Leda'           # 日本語教育コンテンツ向け（ユーザー指定）
 # TTS スタイル前置き：コンテンツ先頭に付加してモデルに読み方を伝える
-# ※ 命令形や「求めよ」系の文末は 400 エラーを誘発するため宣言形で記述する
+# ※ PITFALLS.md 3-8 参照 — 定義するだけでなく contents に必ず付加すること
+# ※ カタカナ語（ベータ・アルファ等）が英語式発音（ベート等）になる問題への対策
 GEMINI_TTS_STYLE_PREFIX = (
-    "calm japanese math education narrator style, speak each formula clearly.\n"
+    # 宣言形で記述（命令形は 400 エラーの原因になるため。PITFALLS.md 3-6 参照）
+    "読み上げスタイル: 高校生・受験生向け数学解説の自然な日本語ナレーション。"
+    "若くて落ち着いた声で、人間らしい間とリズムを持つ。"
+    "カタカナ語（ベータ・アルファ・イコール・カッコ等）は日本語の発音で読む。"
+    "数式の各項をひとつひとつ丁寧に、やや遅めのテンポで区切って発音する。"
+    "ポイント強調時は声にわずかな力を込める。\n"
 )
 TTS_RATE      = 24000               # LINEAR16 出力サンプルレート
 GAP_SECONDS   = 1.2                 # スライド切り替え後の無音（秒）
@@ -158,9 +164,18 @@ def _find_bbox_in_page(page, keywords: list[str]) -> dict | None:
 
 def _find_timing_ratio(voice_script: str, timing_text: str) -> float:
     """台本内でタイミングテキストが現れる相対位置 (0.0–1.0) を返す。
-    TTS が実際に読む正規化テキストで検索することで時刻推定の精度を上げる。"""
+
+    タイミングは以下の形式を受け付ける:
+    - 「テキスト」    : 台本内でそのテキストが現れる位置（正規化テキストで検索）
+    - 「77%」や「77」 : クリップ全体に対するパーセント（手動微調整用）
+    """
     if not timing_text:
         return 0.5
+    # パーセント形式（例: "77%" / "77" / "0.77"）を直接数値として解釈
+    pct_m = re.match(r'^(\d+(?:\.\d+)?)\s*%?$', timing_text.strip())
+    if pct_m:
+        val = float(pct_m.group(1))
+        return (val / 100.0) if val > 1.0 else val  # 77 → 0.77, 0.77 → 0.77
     # 正規化後のテキストで検索（TTS が読む文字列に合わせる）
     norm_script = normalize_for_tts(voice_script)
     norm_timing = normalize_for_tts(timing_text)
@@ -554,9 +569,14 @@ def generate_audio_gemini(text: str, out_path: Path, gemini_key: str,
                     )
                 )
             )
+            # content が None（フィルタや空応答）はリトライ対象として扱う
+            cand = resp.candidates[0] if resp.candidates else None
+            if not cand or not cand.content:
+                reason = getattr(cand, 'finish_reason', 'unknown') if cand else 'no candidates'
+                raise ValueError(f'TTS response empty (finish_reason={reason})')
             # Search all parts for audio data (model may prepend a text part)
             raw = None
-            for part in resp.candidates[0].content.parts:
+            for part in cand.content.parts:
                 idata = getattr(part, 'inline_data', None)
                 if idata and getattr(idata, 'data', None):
                     raw = idata.data
@@ -577,7 +597,10 @@ def generate_audio_gemini(text: str, out_path: Path, gemini_key: str,
             return
         except Exception as e:
             err = str(e)
-            if ('429' in err or '503' in err or '500' in err or 'INTERNAL' in err or 'RESOURCE_EXHAUSTED' in err):
+            retriable = ('429' in err or '503' in err or '500' in err
+                         or 'INTERNAL' in err or 'RESOURCE_EXHAUSTED' in err
+                         or 'TTS response empty' in err)
+            if retriable:
                 wait = min(30 * (attempt + 1), 120)
                 print(f' [Gemini TTS {type(e).__name__} 待機{wait}秒]', end='', flush=True)
                 time.sleep(wait)

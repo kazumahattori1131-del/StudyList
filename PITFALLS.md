@@ -148,7 +148,29 @@ re.sub(r'[…](?:\s*(?:プラス|[＋+]))', 'てんてんてんプラス', text)
 
 **OK:** `system_instruction` を削除し、`response_modalities=['AUDIO']` のみ指定する。
 
-### 3-2. 500 エラーはリトライ対象に含める
+### 3-8. GEMINI_TTS_STYLE_PREFIX は定義するだけでは不十分（定義≠適用）
+
+`GEMINI_TTS_STYLE_PREFIX` などのスタイル定数を定義しても、
+`generate_audio_gemini` の `contents` に実際に付加しないと TTS に反映されない。
+別セッションで「定義されているから適用済み」と誤認されやすい典型的な落とし穴。
+
+**NG（定義するだけで使っていない）：**
+```python
+GEMINI_TTS_STYLE_PREFIX = "..."   # ← 定義はあるが使われていない
+resp = client.models.generate_content(
+    contents=normalize_for_tts(text),  # ← スタイル前置きなし
+    ...
+)
+```
+
+**OK（必ず contents に前置きする）：**
+```python
+contents = GEMINI_TTS_STYLE_PREFIX + normalize_for_tts(text)
+resp = client.models.generate_content(contents=contents, ...)
+```
+
+**再発防止策：** 新セッション開始時に `generate_audio_gemini` の `contents=` 行を
+読み、`GEMINI_TTS_STYLE_PREFIX` が実際に含まれているか必ず目視確認する。
 
 `'500' in err or 'INTERNAL' in err` もリトライ条件に追加する。
 
