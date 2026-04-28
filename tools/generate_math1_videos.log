@@ -250,4 +250,6 @@ TTS: Gemini TTS (AI Studio) を使用
         [4/6] 音声✓ 動画✓
         [5/6] 音声✓ 動画✓
         [6/6] 問題✓ [Gemini TTS ValueError 待機30秒] 解答✓
-        [アウトロ]
+        [アウトロ] 音声✓ 動画✓
+  結合 → math1-5_absolute_inequality.mp4 .../usr/local/lib/python3.11/dist-packages/moviepy/video/io/ffmpeg_reader.py:190: UserWarning: In file /home/user/StudyList/problems/youtube_redesign/output/math1-5_absolute_inequality/clip_intro.mp4, 2764800 bytes wanted but 0 bytes read at frame index 334 (out of a total 334 frames), at time 13.92/13.93 sec. Using the last valid frame instead.
+  warnings.warn(
