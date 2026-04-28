@@ -176,8 +176,14 @@ def _find_timing_ratio(voice_script: str, timing_text: str) -> float:
     return idx / max(len(voice_script), 1)
 
 
-def _draw_annotation(img: Image.Image, bbox: dict, method: str) -> Image.Image:
-    """PIL Image にアノテーション（赤枠/丸枠/矢印）を描画して返す"""
+_UNDERLINE_ANIM_SECS = 0.5   # アンダーラインが左→右に伸びる時間
+_UNDERLINE_FPS      = 20     # アンダーラインアニメのフレームレート
+
+
+def _draw_annotation(img: Image.Image, bbox: dict, method: str,
+                     progress: float = 1.0) -> Image.Image:
+    """PIL Image にアノテーションを描画して返す。
+    progress は 0.0〜1.0 でアンダーラインの描画進捗を制御する。"""
     img = img.copy().convert('RGBA')
     overlay = Image.new('RGBA', img.size, (0, 0, 0, 0))
     draw = ImageDraw.Draw(overlay)
@@ -187,12 +193,17 @@ def _draw_annotation(img: Image.Image, bbox: dict, method: str) -> Image.Image:
     color = (220, 20, 20, 235)
     lw = 4
     x0, y0, x1, y1 = x - pad, y - pad, x + w + pad, y + h + pad
-    # 画面内に収める
     x0, y0 = max(x0, 2), max(y0, 2)
     x1, y1 = min(x1, VIDEO_W - 2), min(y1, VIDEO_H - 2)
 
     m_lower = method.lower()
-    if '丸' in m_lower or '円' in m_lower:
+    if 'アンダーライン' in method or 'underline' in m_lower:
+        # 左から右へ伸びるアンダーライン
+        x_end = int(x0 + (x1 - x0) * min(progress, 1.0))
+        y_line = y1 + 3
+        if x_end > x0:
+            draw.line([x0, y_line, x_end, y_line], fill=color, width=lw + 1)
+    elif '丸' in m_lower or '円' in m_lower:
         draw.ellipse([x0, y0, x1, y1], outline=color, width=lw)
     elif '矢印' in m_lower:
         ax, ay = max(0, x0 - 55), max(0, y0 - 55)
@@ -207,7 +218,6 @@ def _draw_annotation(img: Image.Image, bbox: dict, method: str) -> Image.Image:
             p2 = (tip[0] - ux * 16 - px * 8, tip[1] - uy * 16 - py * 8)
             draw.polygon([tip, p1, p2], fill=color)
     else:
-        # デフォルト：赤枠（四角）
         draw.rectangle([x0, y0, x1, y1], outline=color, width=lw)
 
     return Image.alpha_composite(img, overlay).convert('RGB')
@@ -227,22 +237,44 @@ def make_slide_clip_animated(img_path: Path, audio_path: Path, clip_path: Path,
     )
 
     # ベース画像から始まり、アノテーションを順次追加したセグメントを作る
+    # 各セグメントは (開始秒, PIL.Image) または (開始秒, [PIL.Image, ...]) のいずれか
+    # リストの場合はアンダーラインアニメーションフレーム列
     base = Image.open(img_path).convert('RGB')
-    segments: list[tuple[float, Image.Image]] = [(0.0, base)]
+    segments: list[tuple[float, 'Image.Image | list[Image.Image]']] = [(0.0, base)]
     current = base
     for t, ann in timed:
         bbox = ann.get('bbox')
         if not bbox:
             continue
-        current = _draw_annotation(current.convert('RGBA'), bbox, ann.get('method', '赤枠'))
-        segments.append((t, current))
+        method = ann.get('method', '赤枠')
+        if 'アンダーライン' in method or 'underline' in method.lower():
+            # 左→右へ伸びるアニメーションフレームを生成
+            n_frames = max(2, int(_UNDERLINE_ANIM_SECS * _UNDERLINE_FPS))
+            frames = [
+                _draw_annotation(current.convert('RGBA'), bbox, method, (i + 1) / n_frames)
+                for i in range(n_frames)
+            ]
+            segments.append((t, frames))
+            current = frames[-1]  # 次のアノテーションのベースは最終フレーム
+        else:
+            current = _draw_annotation(current.convert('RGBA'), bbox, method)
+            segments.append((t, current))
 
-    # 重複タイミングがある場合は最後のもので上書き（同秒に2つ以上来ない前提）
     clips = []
-    for i, (start_t, img) in enumerate(segments):
+    for i, (start_t, img_or_frames) in enumerate(segments):
         end_t = segments[i + 1][0] if i + 1 < len(segments) else total_dur
         dur = max(end_t - start_t, 0.05)
-        clips.append(ImageClip(np.array(img), duration=dur))
+        if isinstance(img_or_frames, list):
+            # アンダーラインアニメーション：短いアニメ + 残り静止
+            anim_dur = min(_UNDERLINE_ANIM_SECS, dur)
+            static_dur = max(dur - anim_dur, 0.0)
+            frame_dur = anim_dur / len(img_or_frames)
+            for frame in img_or_frames:
+                clips.append(ImageClip(np.array(frame), duration=max(frame_dur, 0.01)))
+            if static_dur > 0.01:
+                clips.append(ImageClip(np.array(img_or_frames[-1]), duration=static_dur))
+        else:
+            clips.append(ImageClip(np.array(img_or_frames), duration=dur))
 
     combined = concatenate_videoclips(clips).with_audio(audio)
     tmp = clip_path.with_suffix('.tmp_audio.mp4')
