@@ -513,7 +513,15 @@ def generate_audio_gemini(text: str, out_path: Path, gemini_key: str,
                     )
                 )
             )
-            raw = resp.candidates[0].content.parts[0].inline_data.data
+            # Search all parts for audio data (model may prepend a text part)
+            raw = None
+            for part in resp.candidates[0].content.parts:
+                idata = getattr(part, 'inline_data', None)
+                if idata and getattr(idata, 'data', None):
+                    raw = idata.data
+                    break
+            if raw is None:
+                raise ValueError('TTS response contained no audio data')
             pcm = raw if isinstance(raw, bytes) else base64.b64decode(raw)
             pcm_to_wav(pcm, out_path, gap_seconds=gap)
             # 使用量を記録

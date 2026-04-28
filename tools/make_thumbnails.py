@@ -434,6 +434,17 @@ THUMBNAILS = {
         badge_text    = '定義から理解',
         badge_color   = (20, 100, 180),
     ),
+    'math2-8_vieta_formulas': dict(
+        bg_color      = (18, 16, 56),
+        accent        = (99, 102, 241),
+        subject_tag   = '数学II',
+        subject_color = (60, 60, 200),
+        main_text     = '解かなくていい！\n解と係数の関係',
+        sub_text      = 'α²+β² は係数から一行で求まる',
+        formula       = 'α²+β² = (α+β)² − 2αβ',
+        badge_text    = '受験頻出',
+        badge_color   = (80, 60, 220),
+    ),
     'mathB-6_hypothesis_test': dict(
         bg_color      = (38, 24, 10),
         accent        = (251, 146, 60),

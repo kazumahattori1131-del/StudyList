@@ -156,6 +156,38 @@ re.sub(r'[…](?:\s*(?:プラス|[＋+]))', 'てんてんてんプラス', text)
 
 テスト時は2文以上（「テスト。これはテストです。」）を使う。
 
+### 3-6. 命令文（〜求めよ）を日本語括弧で囲むと 400 エラーが出ることがある
+
+「〜の値を求めよ。」のように、数学問題の問題文が **「」で囲まれた命令形** になっていると
+TTS モデルがテキスト生成指示と誤認して `400 INVALID_ARGUMENT: Model tried to generate text` が返る。
+
+**NG:**
+```
+「2x²-5x+3=0 の2解を α,β とするとき、1/α + 1/β の値を求めよ。」
+```
+
+**OK（括弧なし、または宣言形に言い換え）：**
+```
+2x²-5x+3=0 の2解を α,β とするとき、1/α + 1/β の値を求める問題です。
+```
+
+### 3-7. TTS レスポンスの audio data が None になることがある
+
+モデルが text part を先頭に置いて audio part を後続させる場合、
+`resp.candidates[0].content.parts[0].inline_data.data` が `None` になる。
+
+**OK:** 全 parts を走査して最初に `inline_data.data` が存在するものを使う。
+```python
+raw = None
+for part in resp.candidates[0].content.parts:
+    idata = getattr(part, 'inline_data', None)
+    if idata and getattr(idata, 'data', None):
+        raw = idata.data
+        break
+if raw is None:
+    raise ValueError('TTS response contained no audio data')
+```
+
 ### 3-4. APIキーをコード・スクリプトに直接書かない
 
 シェルスクリプトや Python コードに APIキーをハードコードすると、
