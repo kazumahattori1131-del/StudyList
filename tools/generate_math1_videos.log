@@ -202,3 +202,5 @@ TTS: Gemini TTS (AI Studio) を使用
   warnings.warn(
 /usr/local/lib/python3.11/dist-packages/moviepy/video/io/ffmpeg_reader.py:190: UserWarning: In file /home/user/StudyList/problems/youtube_redesign/output/math1-4_quadratic_complete/clip_01.mp4, 2764800 bytes wanted but 0 bytes read at frame index 1164 (out of a total 1164 frames), at time 48.50/48.53 sec. Using the last valid frame instead.
   warnings.warn(
+/usr/local/lib/python3.11/dist-packages/moviepy/video/io/ffmpeg_reader.py:190: UserWarning: In file /home/user/StudyList/problems/youtube_redesign/output/math1-4_quadratic_complete/clip_02.mp4, 2764800 bytes wanted but 0 bytes read at frame index 1743 (out of a total 1743 frames), at time 72.62/72.65 sec. Using the last valid frame instead.
+  warnings.warn(
