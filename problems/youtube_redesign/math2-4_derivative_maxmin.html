@@ -25,8 +25,37 @@ https://kazumahattori1131-del.github.io/StudyList/problems/youtube_redesign/math
 -->
 <div id="progress-bar"></div>
 
-<!-- ① 問題提示 -->
+<!-- ① フック -->
 <section class="slide active">
+  <div class="slide-header">
+    <span class="badge orange">落とし穴</span>
+    <span class="slide-title">増減表だけで終わると、この問題で失点する</span>
+  </div>
+  <div style="text-align:center; margin-top:1.5rem;">
+    <div class="trap-box" style="display:inline-block; text-align:left; max-width:560px;">
+      <div class="trap-title">❌ よくある答え</div>
+      <div style="font-size:26px; margin:8px 0;">
+        最大値 $= f(0) = \boldsymbol{0}$
+      </div>
+      <div style="color:#c53030; font-size:18px;">← 増減表しか見ていない！</div>
+    </div>
+    <div style="font-size:48px; margin:0.6rem 0;">↓</div>
+    <div class="key-box" style="display:inline-block; text-align:left; max-width:560px;">
+      <div style="font-size:22px; color:#276749; font-weight:800;">✅ 本当の最大値</div>
+      <div style="font-size:32px; margin:8px 0;">
+        最大値 $= f(4) = \boldsymbol{16}$
+      </div>
+      <div style="font-size:18px; font-weight:400;">← 端点を確認すれば一発でわかる</div>
+    </div>
+  </div>
+  <div style="text-align:center; margin-top:1.2rem; font-size:20px;">
+    なぜ端点を見ないといけないのか——今から説明します。
+  </div>
+  <div class="slide-footer"></div>
+</section>
+
+<!-- ② 問題提示 -->
+<section class="slide">
   <div class="slide-header">
     <span class="badge">数学II</span>
     <span class="slide-title">微分の最大・最小（閉区間上での端点チェック）</span>
@@ -43,7 +72,7 @@ https://kazumahattori1131-del.github.io/StudyList/problems/youtube_redesign/math
   <div class="slide-footer">出典：教科書例題・数学II（改題）</div>
 </section>
 
-<!-- ② よくある間違い -->
+<!-- ③ よくある間違い -->
 <section class="slide">
   <div class="slide-header">
     <span class="badge orange">よくある間違い</span>
@@ -63,7 +92,7 @@ https://kazumahattori1131-del.github.io/StudyList/problems/youtube_redesign/math
   <div class="slide-footer"></div>
 </section>
 
-<!-- ③ 本質ポイント -->
+<!-- ④ 本質ポイント -->
 <section class="slide">
   <div class="slide-header">
     <span class="badge green">本質ポイント</span>
@@ -90,7 +119,7 @@ https://kazumahattori1131-del.github.io/StudyList/problems/youtube_redesign/math
   <div class="slide-footer"></div>
 </section>
 
-<!-- ④ 解説 -->
+<!-- ⑤ 解説 -->
 <section class="slide">
   <div class="slide-header">
     <span class="badge">解説</span>
@@ -121,7 +150,7 @@ https://kazumahattori1131-del.github.io/StudyList/problems/youtube_redesign/math
   <div class="slide-footer"></div>
 </section>
 
-<!-- ⑤ 一般化 -->
+<!-- ⑥ 一般化 -->
 <section class="slide">
   <div class="slide-header">
     <span class="badge green">一般化</span>
@@ -142,7 +171,7 @@ https://kazumahattori1131-del.github.io/StudyList/problems/youtube_redesign/math
   <div class="slide-footer"></div>
 </section>
 
-<!-- ⑥ 類題 -->
+<!-- ⑦ 類題 -->
 <section class="slide">
   <div class="slide-header">
     <span class="badge green">類題</span>
@@ -161,6 +190,28 @@ https://kazumahattori1131-del.github.io/StudyList/problems/youtube_redesign/math
     </table>
     <strong>最大値 $\boldsymbol{4}$</strong>（$x=-1$ または $x=2$ のとき）<br>
     <strong>最小値 $\boldsymbol{0}$</strong>（$x=-2$ または $x=1$ のとき）
+  </div>
+  <div class="slide-footer"></div>
+</section>
+
+<!-- ⑧ まとめ -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge green">まとめ</span>
+    <span class="slide-title">今日の一言</span>
+  </div>
+  <div style="text-align:center; margin-top:2.5rem;">
+    <div class="key-box" style="display:inline-block; text-align:left; max-width:620px; font-size:24px; line-height:1.9;">
+      🔑 閉区間の最大・最小は<br>
+      <strong>増減表 ＋ 端点の代入</strong>がセット。<br>
+      この2つを忘れずに確認すること！
+    </div>
+    <div class="endpoint-note" style="margin-top:1.4rem; max-width:620px; display:inline-block; text-align:left;">
+      ⚠️ 増減表だけで終わると、端点が最大・最小になるケースで必ず失点する。
+    </div>
+  </div>
+  <div style="text-align:center; margin-top:1.6rem; font-size:19px; color:#444;">
+    次回も、入試で差がつく重要ポイントを解説します。お楽しみに！
   </div>
   <div class="slide-footer"></div>
 </section>
