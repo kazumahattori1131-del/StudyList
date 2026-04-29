@@ -394,3 +394,51 @@ ffmpeg のデフォルト（yuv444p 等）は QuickTime で再生できない。
 ```python
 ffmpeg_params=['-pix_fmt', 'yuv420p', '-movflags', '+faststart']
 ```
+
+---
+
+## 8. Claude Code のストリームタイムアウト（"Stream idle timeout"）
+
+### 8-1. エラーの正体
+
+```
+API Error: Stream idle timeout - partial response received
+```
+
+Claude が一度のレスポンスで **巨大なファイル（数百行の HTML など）を生成しようとする**と、
+トークン生成に時間がかかりすぎてストリームがタイムアウトする。
+
+### 8-2. やってはいけないこと
+
+- 1回の応答で 200行超のファイルを `Write` ツールで書こうとする
+- `Agent` ツールに「HTMLを1ファイルまるごと書いて」と委任する
+  （サブエージェントも同じタイムアウトに引っかかる）
+
+### 8-3. 正しい対処：`cat >> file` の分割チャンク書き込み
+
+大きなファイルは Bash で小さなチャンクに分けて追記する。
+
+```bash
+# 1チャンク目（ヘッダ）
+cat > output.html << 'CHUNK1'
+  ... 30行程度 ...
+CHUNK1
+
+# 2チャンク目（スライド①）
+cat >> output.html << 'CHUNK2'
+  ... 30〜40行程度 ...
+CHUNK2
+
+# 以降、スライド1枚ずつ追記
+cat >> output.html << 'CHUNK3'
+  ...
+CHUNK3
+```
+
+**目安：1チャンクあたり 40〜50行以内**。各チャンクの後に
+`echo "OK: $(wc -l < output.html) lines"` で進捗確認すると安全。
+
+### 8-4. voice.md・edit.md は1回で書いてよい
+
+130行程度のテキストファイルなら `cat > file << 'EOF' ... EOF` で一括書き込みできる。
+タイムアウトが起きるのは主に HTML（SVG・KaTeX 入り）の生成時。
