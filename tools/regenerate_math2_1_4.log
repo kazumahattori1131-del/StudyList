@@ -76,4 +76,17 @@ TTS: Gemini TTS (AI Studio) を使用
   [2/3] 台本解析完了: 6 セクション / タイトル: 微分の最大・最小（端点を見落とす落とし穴）
   [3/3] 音声生成 + クリップ作成...
         [イントロ] [Gemini TTS ClientError 待機30秒] [Gemini TTS ClientError 待機60秒] 音声✓ 動画✓
-        [1/6] [Gemini TTS ClientError 待機30秒] [Gemini TTS ClientError 待機60秒] [Gemini TTS ClientError 待機90秒] [Gemini TTS ClientError 待機120秒] [Gemini TTS ClientError 待機120秒] [Gemini TTS ClientError 待機120秒] [Gemini TTS ClientError 待機120秒]
+        [1/6] [Gemini TTS ClientError 待機30秒] [Gemini TTS ClientError 待機60秒] [Gemini TTS ClientError 待機90秒] [Gemini TTS ClientError 待機120秒] [Gemini TTS ClientError 待機120秒] [Gemini TTS ClientError 待機120秒] [Gemini TTS ClientError 待機120秒] [Gemini TTS ClientError 待機120秒]Traceback (most recent call last):
+  File "/home/user/StudyList/tools/slide_to_video.py", line 940, in <module>
+    main()
+  File "/home/user/StudyList/tools/slide_to_video.py", line 930, in main
+    r = process_one(html_path, api_key, gemini_key=gemini_key, output_suffix=args.suffix)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/StudyList/tools/slide_to_video.py", line 830, in process_one
+    generate_audio(script, audio_path, api_key, gemini_key=gemini_key)
+  File "/home/user/StudyList/tools/slide_to_video.py", line 631, in generate_audio
+    generate_audio_gemini(text, out_path, gemini_key, gap)
+  File "/home/user/StudyList/tools/slide_to_video.py", line 609, in generate_audio_gemini
+    raise RuntimeError(f'Gemini TTS: {max_retries}回リトライ後も失敗')
+RuntimeError: Gemini TTS: 8回リトライ後も失敗
+[2026-04-29 02:58:18]   エラー: math2-4_derivative_maxmin
