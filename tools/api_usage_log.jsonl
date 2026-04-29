@@ -20,3 +20,4 @@
 {"ts": "2026-04-28T21:00:08", "stem": "math2-2_log_substitution", "api_calls": 10, "cached_calls": 0, "input_chars": 1607, "input_tokens_est": 1780, "cost_usd_est": 0.000534, "cost_jpy_est": 0.1}
 {"ts": "2026-04-28T21:06:54", "stem": "math2-3_trig_compose", "api_calls": 10, "cached_calls": 0, "input_chars": 2483, "input_tokens_est": 2230, "cost_usd_est": 0.000669, "cost_jpy_est": 0.1}
 {"ts": "2026-04-28T21:13:01", "stem": "math2-4_derivative_maxmin", "api_calls": 10, "cached_calls": 0, "input_chars": 2334, "input_tokens_est": 2203, "cost_usd_est": 0.000661, "cost_jpy_est": 0.1}
+{"ts": "2026-04-29T02:43:29", "stem": "math2-1_exponential_substitution", "api_calls": 2, "cached_calls": 8, "input_chars": 469, "input_tokens_est": 435, "cost_usd_est": 0.000131, "cost_jpy_est": 0.0}

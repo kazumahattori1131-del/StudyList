@@ -1,0 +1,79 @@
+[2026-04-29 02:40:34] === math2-1 / math2-4 再生成 開始 ===
+[2026-04-29 02:40:34]   生成開始: math2-1_exponential_substitution
+────────────────────────────────────────────────────────────
+【生成前チェックリスト】（PITFALLS.md より）
+  - [ ] `GEMINI_TTS_VOICE = 'Leda'` のまま変わっていないか・起動バナーの「TTS 設定確認」が全て OK になっているか（PITFALLS.md 3-8）
+  - [ ] 類題スライド：問題文と解説が **空行1行** で正しく区切られているか（問題文は空行の前に入れる）
+  - [ ] 類題の変数名が HTML と一致しているか（HTML が $T$ なのに「エス」と読んでいないか）
+  - [ ] 数式の操作の言い方が正しいか（「割る」と「かける」を混同していないか）
+  - [ ] 数学用語の助詞が正しいか（「積**を**分解」ではなく「積**に**分解」など）
+  - [ ] 助数詞が正しく書かれているか（2つ/三つ NG → ふたつ/みっつ OK）
+  - [ ] 「+…+」ではなく「プラスてんてんてんプラス」と書いているか
+  - [ ] HTML 暗背景ボックスに `color: #fff` が付いているか
+  - [ ] HTML に `@supports` フォールバック色が書かれているか（color-mix() 非対応対策）
+────────────────────────────────────────────────────────────
+────────────────────────────────────────────────────────────
+【TTS 設定確認】
+  声 (VOICE)        : Leda  ← Leda 固定（変えない）
+  スタイル前置き     : OK（読み上げスタイル: 高校生・受験生向け数学解説の自然な日本語…）
+  contents への適用  : OK（generate_audio_gemini 内で適用済み）
+────────────────────────────────────────────────────────────
+TTS: Gemini TTS (AI Studio) を使用
+
+=== math2-1_exponential_substitution ===
+  [1/3] スライドをキャプチャ中...
+  [WARN] bbox 未検出: Slide2 「の確認を忘れずに。」
+        6 枚取得 / 類題非表示版あり / アノテーション 2件
+  [2/3] 台本解析完了: 6 セクション / タイトル: 指数方程式（置換で2次方程式に帰着）
+  [3/3] 音声生成 + クリップ作成...
+        [イントロ] [キャッシュ] 音声✓ 動画✓
+        [1/6] [キャッシュ] 音声✓ 動画✓
+        [2/6] [キャッシュ] 音声✓ 動画✓
+        [3/6] [キャッシュ] 音声✓ 動画✓(アノテ1件)
+        [4/6] 音声✓ 動画✓(アノテ1件)
+        [5/6] 音声✓ 動画✓
+        [6/6] [キャッシュ] 問題✓ [キャッシュ] [キャッシュ] 解答✓
+        [アウトロ] [キャッシュ] 音声✓ 動画✓
+  結合 → math2-1_exponential_substitution.mp4 .../usr/local/lib/python3.11/dist-packages/moviepy/video/io/ffmpeg_reader.py:190: UserWarning: In file /home/user/StudyList/problems/youtube_redesign/output/math2-1_exponential_substitution/clip_intro.mp4, 2764800 bytes wanted but 0 bytes read at frame index 392 (out of a total 392 frames), at time 16.33/16.37 sec. Using the last valid frame instead.
+  warnings.warn(
+/usr/local/lib/python3.11/dist-packages/moviepy/video/io/ffmpeg_reader.py:190: UserWarning: In file /home/user/StudyList/problems/youtube_redesign/output/math2-1_exponential_substitution/clip_01.mp4, 2764800 bytes wanted but 0 bytes read at frame index 792 (out of a total 792 frames), at time 33.00/33.01 sec. Using the last valid frame instead.
+  warnings.warn(
+/usr/local/lib/python3.11/dist-packages/moviepy/video/io/ffmpeg_reader.py:190: UserWarning: In file /home/user/StudyList/problems/youtube_redesign/output/math2-1_exponential_substitution/clip_05.mp4, 2764800 bytes wanted but 0 bytes read at frame index 823 (out of a total 823 frames), at time 34.29/34.33 sec. Using the last valid frame instead.
+  warnings.warn(
+/usr/local/lib/python3.11/dist-packages/moviepy/video/io/ffmpeg_reader.py:190: UserWarning: In file /home/user/StudyList/problems/youtube_redesign/output/math2-1_exponential_substitution/clip_06c.mp4, 2764800 bytes wanted but 0 bytes read at frame index 70 (out of a total 70 frames), at time 2.92/2.93 sec. Using the last valid frame instead.
+  warnings.warn(
+ 完了
+  タイムスタンプ → math2-1_exponential_substitution_edit.md に反映
+  📊 API使用: 2回呼び出し / 8回キャッシュ / 469文字 / 435トークン(推定) / $0.0001 ≈ ¥0.0
+
+=== 完了: 1 本の動画を生成 ===
+/home/user/StudyList/problems/youtube_redesign/output/math2-1_exponential_substitution.mp4
+[2026-04-29 02:43:29]   完了: math2-1_exponential_substitution
+[2026-04-29 02:43:29]   生成開始: math2-4_derivative_maxmin
+────────────────────────────────────────────────────────────
+【生成前チェックリスト】（PITFALLS.md より）
+  - [ ] `GEMINI_TTS_VOICE = 'Leda'` のまま変わっていないか・起動バナーの「TTS 設定確認」が全て OK になっているか（PITFALLS.md 3-8）
+  - [ ] 類題スライド：問題文と解説が **空行1行** で正しく区切られているか（問題文は空行の前に入れる）
+  - [ ] 類題の変数名が HTML と一致しているか（HTML が $T$ なのに「エス」と読んでいないか）
+  - [ ] 数式の操作の言い方が正しいか（「割る」と「かける」を混同していないか）
+  - [ ] 数学用語の助詞が正しいか（「積**を**分解」ではなく「積**に**分解」など）
+  - [ ] 助数詞が正しく書かれているか（2つ/三つ NG → ふたつ/みっつ OK）
+  - [ ] 「+…+」ではなく「プラスてんてんてんプラス」と書いているか
+  - [ ] HTML 暗背景ボックスに `color: #fff` が付いているか
+  - [ ] HTML に `@supports` フォールバック色が書かれているか（color-mix() 非対応対策）
+────────────────────────────────────────────────────────────
+────────────────────────────────────────────────────────────
+【TTS 設定確認】
+  声 (VOICE)        : Leda  ← Leda 固定（変えない）
+  スタイル前置き     : OK（読み上げスタイル: 高校生・受験生向け数学解説の自然な日本語…）
+  contents への適用  : OK（generate_audio_gemini 内で適用済み）
+────────────────────────────────────────────────────────────
+TTS: Gemini TTS (AI Studio) を使用
+
+=== math2-4_derivative_maxmin ===
+  [1/3] スライドをキャプチャ中...
+        6 枚取得 / 類題非表示版あり / アノテーション 5件
+  [2/3] 台本解析完了: 6 セクション / タイトル: 微分の最大・最小（端点を見落とす落とし穴）
+  [3/3] 音声生成 + クリップ作成...
+        [イントロ] [Gemini TTS ClientError 待機30秒] [Gemini TTS ClientError 待機60秒] 音声✓ 動画✓
+        [1/6] [Gemini TTS ClientError 待機30秒] [Gemini TTS ClientError 待機60秒] [Gemini TTS ClientError 待機90秒] [Gemini TTS ClientError 待機120秒] [Gemini TTS ClientError 待機120秒] [Gemini TTS ClientError 待機120秒] [Gemini TTS ClientError 待機120秒]
