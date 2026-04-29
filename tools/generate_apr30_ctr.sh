@@ -1,6 +1,7 @@
 #!/bin/bash
 # 明日 09:00 JST に math2-10 → math2-1 → math2-4 の順で動画生成
 # CTR最適化アップデート適用済みバージョン（2026-04-29 作成）
+# 使い方: GEMINI_API_KEY=xxx nohup bash tools/generate_apr30_ctr.sh &
 
 REPO="/home/user/StudyList"
 BRANCH="claude/optimize-video-ctr-YCGRC"
@@ -11,12 +12,16 @@ log() {
   echo "[$(TZ=Asia/Tokyo date '+%Y-%m-%d %H:%M:%S JST')] $*" | tee -a "$LOG"
 }
 
-# APIキー読み込み
-if [ ! -f "$KEY_FILE" ]; then
-  log "エラー: ~/.gemini_api_key が見つかりません"
+# APIキー読み込み（環境変数優先、なければファイル）
+KEY="${GEMINI_API_KEY:-}"
+if [ -z "$KEY" ] && [ -f "$KEY_FILE" ]; then
+  KEY="$(cat "$KEY_FILE")"
+fi
+if [ -z "$KEY" ]; then
+  log "エラー: GEMINI_API_KEY 環境変数も ~/.gemini_api_key も見つかりません"
+  log "起動方法: GEMINI_API_KEY=xxx nohup bash tools/generate_apr30_ctr.sh &"
   exit 1
 fi
-KEY="$(cat "$KEY_FILE")"
 
 # 09:00 JST まで待機
 TARGET_EPOCH=$(TZ=Asia/Tokyo date -d 'tomorrow 09:00:00' +%s)
