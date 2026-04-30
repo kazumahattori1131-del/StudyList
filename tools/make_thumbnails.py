@@ -470,8 +470,156 @@ THUMBNAILS = {
 }
 
 
+def make_thumbnail_vs(stem, config):
+    """
+    「地獄 vs 天国」左右対比レイアウト（CTR最大化デザイン）
+
+    config keys:
+      bg_color      : 背景色 (R,G,B)
+      accent        : アクセント色（中央・装飾）
+      subject_tag   : 科目タグ
+      subject_color : タグ背景色
+      badge_text    : 右上バッジ
+      badge_color   : バッジ色
+      top_copy      : 上部メインコピー（≤10文字推奨）
+      hell_label    : 左ボックスの小ラベル（例「よくある誤答」）
+      hell_value    : 左ボックスのメイン値（例「x > 2」）
+      heaven_label  : 右ボックスの小ラベル（例「正しい答え」）
+      heaven_value  : 右ボックスのメイン値（例「0 < x < 2」）
+      bottom_copy   : 下部小テキスト
+    """
+    bg  = config['bg_color']
+    acc = config['accent']
+
+    img  = Image.new('RGB', (W, H), bg)
+    draw = ImageDraw.Draw(img)
+
+    # 背景グリッド
+    grid = tuple(min(255, c + 15) for c in bg)
+    for x in range(0, W, 80):
+        draw.line([(x, 0), (x, H)], fill=grid, width=1)
+    for y in range(0, H, 80):
+        draw.line([(0, y), (W, y)], fill=grid, width=1)
+
+    # 左帯
+    draw.rectangle([0, 0, 10, H], fill=acc)
+
+    # ── 科目タグ（左上）
+    tag_fnt = font(30)
+    tag_w   = draw.textlength(config['subject_tag'], font=tag_fnt) + 28
+    draw_rect_rounded(draw, [52, 36, 52 + tag_w, 36 + 48],
+                      radius=8, fill=config.get('subject_color', acc))
+    draw.text((52 + 14, 43), config['subject_tag'], font=tag_fnt, fill=(255, 255, 255))
+
+    # ── バッジ（右上）
+    if config.get('badge_text'):
+        b_fnt = font(28)
+        b_w   = draw.textlength(config['badge_text'], font=b_fnt) + 28
+        bx    = W - b_w - 36
+        draw_rect_rounded(draw, [bx, 32, bx + b_w, 32 + 48],
+                          radius=8, fill=config.get('badge_color', (200, 40, 40)))
+        draw.text((bx + 14, 40), config['badge_text'], font=b_fnt, fill=(255, 255, 255))
+
+    # ── トップコピー（中央）
+    tc_fnt = font(82)
+    tc     = config['top_copy']
+    tc_w   = draw.textlength(tc, font=tc_fnt)
+    draw.text(((W - tc_w) / 2 + 3, 103), tc, font=tc_fnt, fill=(0, 0, 0, 100))
+    draw.text(((W - tc_w) / 2,     100), tc, font=tc_fnt, fill=(255, 255, 255))
+
+    # ── 左ボックス（地獄）
+    BOX_Y0, BOX_Y1 = 218, 560
+    LX0, LX1 = 60, 570
+    draw_rect_rounded(draw, [LX0, BOX_Y0, LX1, BOX_Y1], radius=18,
+                      fill=(80, 10, 10), outline=(220, 50, 50), width=4)
+    # ❌ アイコン
+    x_fnt = font(64)
+    draw.text((LX0 + 24, BOX_Y0 + 18), '❌', font=x_fnt, fill=(255, 80, 80))
+    # 小ラベル
+    hl_fnt = font(30)
+    hl_w   = draw.textlength(config['hell_label'], font=hl_fnt)
+    draw.text(((LX0 + LX1) / 2 - hl_w / 2, BOX_Y0 + 20),
+              config['hell_label'], font=hl_fnt, fill=(255, 120, 120))
+    # メイン値
+    hv_fnt = font(68)
+    hv_w   = draw.textlength(config['hell_value'], font=hv_fnt)
+    draw.text(((LX0 + LX1) / 2 - hv_w / 2, BOX_Y0 + 80),
+              config['hell_value'], font=hv_fnt, fill=(255, 80, 80))
+    # 補足テキスト
+    if config.get('hell_note'):
+        hn_fnt = font(26)
+        hn_w   = draw.textlength(config['hell_note'], font=hn_fnt)
+        draw.text(((LX0 + LX1) / 2 - hn_w / 2, BOX_Y0 + 168),
+                  config['hell_note'], font=hn_fnt, fill=(200, 100, 100))
+
+    # ── 中央矢印
+    arr_fnt = font(72)
+    arr_w   = draw.textlength('→', font=arr_fnt)
+    draw.text((W / 2 - arr_w / 2, (BOX_Y0 + BOX_Y1) / 2 - 40),
+              '→', font=arr_fnt, fill=acc)
+
+    # ── 右ボックス（天国）
+    RX0, RX1 = 710, W - 36
+    draw_rect_rounded(draw, [RX0, BOX_Y0, RX1, BOX_Y1], radius=18,
+                      fill=(10, 60, 20), outline=(50, 200, 80), width=4)
+    # ✅ アイコン
+    draw.text((RX0 + 24, BOX_Y0 + 18), '✅', font=x_fnt, fill=(80, 220, 80))
+    # 小ラベル
+    vl_fnt = font(30)
+    vl_w   = draw.textlength(config['heaven_label'], font=vl_fnt)
+    draw.text(((RX0 + RX1) / 2 - vl_w / 2, BOX_Y0 + 20),
+              config['heaven_label'], font=vl_fnt, fill=(120, 255, 120))
+    # メイン値
+    vv_fnt = font(68)
+    vv_w   = draw.textlength(config['heaven_value'], font=vv_fnt)
+    draw.text(((RX0 + RX1) / 2 - vv_w / 2, BOX_Y0 + 80),
+              config['heaven_value'], font=vv_fnt, fill=(80, 255, 120))
+    # 補足テキスト
+    if config.get('heaven_note'):
+        vn_fnt = font(26)
+        vn_w   = draw.textlength(config['heaven_note'], font=vn_fnt)
+        draw.text(((RX0 + RX1) / 2 - vn_w / 2, BOX_Y0 + 168),
+                  config['heaven_note'], font=vn_fnt, fill=(100, 220, 130))
+
+    # ── ボトムコピー
+    if config.get('bottom_copy'):
+        bc_fnt = font(34)
+        bc_w   = draw.textlength(config['bottom_copy'], font=bc_fnt)
+        draw.text(((W - bc_w) / 2, BOX_Y1 + 22),
+                  config['bottom_copy'], font=bc_fnt,
+                  fill=tuple(min(255, c + 160) for c in bg))
+
+    out_path = OUT_DIR / f'{stem}.png'
+    img.save(out_path, 'PNG')
+    print(f'  保存: {out_path.name}')
+    return out_path
+
+
+# 「地獄 vs 天国」レイアウトのサムネイル設定
+VS_THUMBNAILS = {
+    'math2-10_log_inequality': dict(
+        bg_color     = (14, 6, 30),          # 深紫
+        accent       = (168, 85, 247),        # 紫
+        subject_tag  = '数学II・対数不等式',
+        subject_color= (90, 30, 160),
+        badge_text   = '模試頻出の罠',
+        badge_color  = (180, 30, 30),
+        top_copy     = '不等号が逆転！',       # 8文字 ✓
+        hell_label   = 'よくある誤答',
+        hell_value   = 'x > 2',
+        hell_note    = '底を確認しないと…',
+        heaven_label = '正しい答え',
+        heaven_value = '0 < x < 2',
+        heaven_note  = '底 1/2 → 不等号逆転',
+        bottom_copy  = 'log₁/₂ x > −1 ｜底が1未満で答えが丸ごと逆になる',
+    ),
+}
+
+
 if __name__ == '__main__':
     print(f'サムネイル生成 → {OUT_DIR}')
     for stem, cfg in THUMBNAILS.items():
         make_thumbnail(stem, cfg)
+    for stem, cfg in VS_THUMBNAILS.items():
+        make_thumbnail_vs(stem, cfg)
     print('完了')
