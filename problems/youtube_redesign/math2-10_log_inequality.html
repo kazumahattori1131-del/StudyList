@@ -255,53 +255,51 @@ https://kazumahattori1131-del.github.io/StudyList/problems/youtube_redesign/math
 <section class="slide">
   <div class="slide-header">
     <span class="badge green">類題</span>
-    <span class="slide-title">今度は底が 1 より大きいパターン</span>
+    <span class="slide-title">今度も底が 1 未満のパターン</span>
   </div>
   <div class="problem-box" style="font-size:21px;">
-    $\log_3(2x-1) \leq 2$ の解を求めよ。
+    $\log_{\frac{1}{3}} x \leq -2$ の解を求めよ。
   </div>
   <div class="graph-wrap" style="margin-top:8px;">
     <div style="flex:1; font-size:19px; line-height:2.1;">
-      <div class="step-box" style="margin-bottom:4px;"><span class="step-num">1</span>真数条件：$2x-1 &gt; 0$ → $x &gt; \dfrac{1}{2}$</div>
-      <div class="step-box" style="margin-bottom:4px;"><span class="step-num">2</span>底 $= 3 &gt; 1$ → <strong style="color:#1d4ed8;">単調増加、不等号そのまま</strong></div>
-      <div class="step-box" style="margin-bottom:4px;"><span class="step-num">3</span>$2 = \log_3 9$ と変換<br>
-        　$\log_3(2x-1) \leq \log_3 9$ → $2x-1 \leq 9$ → $x \leq 5$</div>
+      <div class="step-box" style="margin-bottom:4px;"><span class="step-num">1</span>真数条件：$x &gt; 0$</div>
+      <div class="step-box" style="margin-bottom:4px;"><span class="step-num">2</span>底 $= \dfrac{1}{3} &lt; 1$ → <strong style="color:#ef4444;">単調減少、不等号逆転！</strong></div>
+      <div class="step-box" style="margin-bottom:4px;"><span class="step-num">3</span>$-2 = \log_{\frac{1}{3}} 9$ と変換（$\left(\tfrac{1}{3}\right)^{-2}=9$）<br>
+        　$\log_{\frac{1}{3}} x \leq \log_{\frac{1}{3}} 9$ → 逆転 → $x \geq 9$</div>
       <div class="step-box" style="background:#f0fff4; border-color:#48bb78;"><span class="step-num" style="background:#166534;">4</span>
-        $x &gt; \dfrac{1}{2}$ かつ $x \leq 5$
-        $$\boxed{\dfrac{1}{2} &lt; x \leq 5}$$
+        $x &gt; 0$ かつ $x \geq 9$
+        $$\boxed{x \geq 9}$$
       </div>
     </div>
-    <svg width="200" height="170" style="flex-shrink:0; border:1px solid #d1d5db; border-radius:8px; background:#fafafa;">
+    <svg width="210" height="170" style="flex-shrink:0; border:1px solid #d1d5db; border-radius:8px; background:#fafafa;">
       <defs>
         <marker id="ah2" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#555"/></marker>
-        <clipPath id="cl2"><rect x="0" y="0" width="200" height="170"/></clipPath>
+        <clipPath id="cl2"><rect x="0" y="0" width="210" height="170"/></clipPath>
       </defs>
-      <!-- solution region: 1/2<x<=5, y<=2, shaded green -->
-      <!-- svgX=25+x*30, svgY=95-y*30 -->
-      <!-- x=0.5: svgX=40, x=5: svgX=175, y=2: svgY=35 -->
-      <polygon points="40,35 175,35 175,170 40,170" fill="#bbf7d0" opacity="0.55" clip-path="url(#cl2)"/>
+      <!-- solution region: x>=9 (svgX>=160), shaded green -->
+      <polygon points="160,0 210,0 210,170 160,170" fill="#bbf7d0" opacity="0.55" clip-path="url(#cl2)"/>
       <!-- axes -->
-      <line x1="10" y1="95" x2="195" y2="95" stroke="#555" stroke-width="1.5" marker-end="url(#ah2)"/>
+      <line x1="10" y1="75" x2="205" y2="75" stroke="#555" stroke-width="1.5" marker-end="url(#ah2)"/>
       <line x1="25" y1="165" x2="25" y2="5" stroke="#555" stroke-width="1.5" marker-end="url(#ah2)"/>
-      <!-- curve y=log3(x): svgX=25+x*30, svgY=95-log3(x)*30 -->
-      <!-- x=0.33: svgX=35, svgY=95+30=125; x=1: svgX=55, svgY=95; x=3: svgX=115, svgY=65; x=5: svgX=175, svgY=51; x=6: svgX=205 clipped -->
-      <polyline points="35,125 40,119 55,95 85,79 115,65 145,57 175,51"
-        fill="none" stroke="#3B82F6" stroke-width="2.5" clip-path="url(#cl2)"/>
-      <!-- dashed line y=2 at svgY=35 -->
-      <line x1="10" y1="35" x2="195" y2="35" stroke="#ef4444" stroke-width="1.5" stroke-dasharray="5,4"/>
-      <circle cx="175" cy="35" r="5" fill="#3B82F6"/>
-      <circle cx="55" cy="95" r="4" fill="#555"/>
+      <!-- curve y=log_(1/3)x = -log_3(x); svgX=25+x*15, svgY=75+log3(x)*30 -->
+      <!-- x=0.33:svgX=30,svgY=75-30=45; x=1:svgX=40,svgY=75; x=3:svgX=70,svgY=105; x=9:svgX=160,svgY=135 -->
+      <polyline points="30,45 35,57 40,75 55,90 70,105 100,118 130,127 160,135 190,141"
+        fill="none" stroke="#7C3AED" stroke-width="2.5" clip-path="url(#cl2)"/>
+      <!-- dashed line y=-2 at svgY=135 -->
+      <line x1="10" y1="135" x2="205" y2="135" stroke="#ef4444" stroke-width="1.5" stroke-dasharray="5,4"/>
+      <circle cx="160" cy="135" r="5" fill="#7C3AED"/>
+      <circle cx="40" cy="75" r="4" fill="#555"/>
       <!-- labels -->
-      <text x="186" y="99" font-size="11" fill="#555">x</text>
+      <text x="196" y="79" font-size="11" fill="#555">x</text>
       <text x="28" y="10" font-size="11" fill="#555">y</text>
-      <line x1="55" y1="92" x2="55" y2="98" stroke="#555" stroke-width="1.5"/>
-      <text x="50" y="110" font-size="11" fill="#555">1</text>
-      <line x1="175" y1="92" x2="175" y2="98" stroke="#555" stroke-width="1.5"/>
-      <text x="170" y="110" font-size="11" fill="#555">5</text>
-      <line x1="22" y1="35" x2="28" y2="35" stroke="#555" stroke-width="1.5"/>
-      <text x="9" y="39" font-size="11" fill="#555">2</text>
-      <text x="125" y="72" font-size="11" fill="#3B82F6" font-weight="bold">y=log₃x</text>
-      <text x="80" y="155" font-size="11" fill="#166534" font-weight="bold">解の領域</text>
+      <line x1="40" y1="72" x2="40" y2="78" stroke="#555" stroke-width="1.5"/>
+      <text x="35" y="90" font-size="11" fill="#555">1</text>
+      <line x1="160" y1="72" x2="160" y2="78" stroke="#555" stroke-width="1.5"/>
+      <text x="155" y="90" font-size="11" fill="#555">9</text>
+      <line x1="22" y1="135" x2="28" y2="135" stroke="#555" stroke-width="1.5"/>
+      <text x="5" y="139" font-size="11" fill="#555">-2</text>
+      <text x="30" y="32" font-size="10" fill="#7C3AED" font-weight="bold">y=log₁/₃x</text>
+      <text x="163" y="155" font-size="11" fill="#166534" font-weight="bold">解の領域</text>
     </svg>
   </div>
   <div class="slide-footer"></div>
