@@ -24,6 +24,7 @@
 - [ ] アニメーションのタイミングがずれる場合は動画タイムスタンプから `XX%` を計算して直接指定する（PITFALLS.md 7-3）
 - [ ] 強調対象の日本語部分が 2 文字以上か・LaTeX 除去後に他の step と被らないか（PITFALLS.md 7-4）
 - [ ] 類題スライドの解答コンテナに `class="step"` が付いているか（PITFALLS.md 7-5）
+- [ ] サムネイルに Unicode 絵文字（❌✅）や下付き文字（₁₂）を使っていないか（PITFALLS.md 9-1）
 
 ---
 
@@ -518,3 +519,47 @@ CHUNK3
 
 130行程度のテキストファイルなら `cat > file << 'EOF' ... EOF` で一括書き込みできる。
 タイムアウトが起きるのは主に HTML（SVG・KaTeX 入り）の生成時。
+
+---
+
+## 9. サムネイル画像生成（make_thumbnails.py）
+
+### 9-1. IPAGothic フォントが非対応の文字
+
+```python
+FONT_PATH = '/usr/share/fonts/opentype/ipafont-gothic/ipag.ttf'
+```
+
+以下の文字は IPAGothic で描画できず、豆腐（□）または文字化けになる：
+
+| 種類 | 例 | 症状 |
+|---|---|---|
+| Unicode 絵文字 | ❌ ✅ 🔑 など | □（豆腐）として表示 |
+| Unicode 下付き文字 | ₁ ₂ ₃（`log₁/₂` など） | □として表示 |
+
+NotoColorEmoji (`/usr/share/fonts/truetype/noto/NotoColorEmoji.ttf`) は存在するが、
+PIL の `ImageFont` は **カラー絵文字のレンダリングに非対応**（モノクロ fallback も動作しない）。
+
+**対処法：**
+
+- **絵文字（❌/✅）** → PIL のプリミティブで直描画する
+  ```python
+  def draw_cross_icon(cx, cy, r, clr):       # × 印付き円
+      draw.ellipse([cx-r, cy-r, cx+r, cy+r], outline=clr, width=6)
+      draw.line([cx-r*0.6, cy-r*0.6, cx+r*0.6, cy+r*0.6], fill=clr, width=6)
+      draw.line([cx+r*0.6, cy-r*0.6, cx-r*0.6, cy+r*0.6], fill=clr, width=6)
+
+  def draw_check_icon(cx, cy, r, clr):       # ✓ 印付き円
+      draw.ellipse([cx-r, cy-r, cx+r, cy+r], outline=clr, width=6)
+      pts = [(cx-r*0.5, cy), (cx-r*0.1, cy+r*0.4), (cx+r*0.5, cy-r*0.35)]
+      draw.line(pts, fill=clr, width=6)
+  ```
+
+- **下付き文字（log₁/₂ など）** → ASCII で代替する
+  ```
+  NG: log₁/₂ x > -1
+  OK: log(1/2) x > -1
+  ```
+
+チェックリスト追加：
+- [ ] サムネイルに絵文字・Unicode 下付き文字を使っていないか（PITFALLS.md 9-1）
