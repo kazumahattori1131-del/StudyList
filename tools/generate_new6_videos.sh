@@ -10,12 +10,12 @@ OUTPUT="${REPO}/problems/youtube_redesign/output"
 KEY="${GEMINI_API_KEY:?'GEMINI_API_KEY が未設定です'}"
 
 STEMS=(
-    math1-3_quadratic_axis
-    math2-5_integral_area
-    math3-3_riemann_integral
-    mathA-4_repeated_trial
-    mathB-5_vector_inner
-    mathC-3_complex_rotation
+    math1-03_quadratic_axis
+    math2-05_integral_area
+    math3-03_riemann_integral
+    mathA-04_repeated_trial
+    mathB-05_vector_inner
+    mathC-03_complex_rotation
 )
 
 log() { echo "[$(date '+%Y-%m-%d %H:%M:%S')] $*" | tee -a "$LOG"; }

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>【数学B】S_n = 2a_n - n — 和と一般項の関係</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <link rel="stylesheet" href="../slide.css">
+  <style>
+    :root { --accent: #b7791f; }
+    .key-box { background: #fffbeb; border-left: 6px solid #b7791f; border-radius: 0 10px 10px 0; padding: 16px 24px; margin: 10px 0; font-size: 22px; font-weight: 700; }
+    .trap-box { background: #fff5f5; border: 2px solid #fc8181; border-radius: 10px; padding: 14px 24px; margin: 10px 0; }
+    .trap-title { color: #c53030; font-weight: 800; font-size: 22px; margin-bottom: 6px; }
+  </style>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]})"></script>
+</head>
+<body>
+<!--
+https://kazumahattori1131-del.github.io/StudyList/problems/youtube_redesign/mathB-02_sum_recurrence.html
+-->
+<div id="progress-bar"></div>
+
+<!-- ① 問題提示 -->
+<section class="slide active">
+  <div class="slide-header">
+    <span class="badge">数学B</span>
+    <span class="slide-title">$S_n$ と $a_n$ の関係式から解く</span>
+    <div class="meta"><span>★★★☆☆ 標準+</span><span>偏差値55〜65</span></div>
+  </div>
+  <div class="problem-label">問　題</div>
+  <div class="problem-box">
+    数列 $\{a_n\}$ の初項から第 $n$ 項までの和を $S_n$ とするとき、<br>
+    すべての自然数 $n$ に対して $S_n = 2a_n - n$ が成り立つ。<br>
+    $a_1$ を求め、一般項 $a_n$ を求めよ。
+  </div>
+  <div class="step" style="font-size:22px; margin-top:1.2rem;">
+    💬 $S_n$ と $a_n$ が混在している。どこから手をつければいい？
+  </div>
+  <div class="slide-footer"></div>
+</section>
+
+<!-- ② 思考誘導：よくある間違い -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge orange">よくある間違い</span>
+    <span class="slide-title">$n = 1$ の確認を忘れる</span>
+  </div>
+  <div class="trap-box">
+    <div class="trap-title">❌ よくある失点パターン</div>
+    $a_n = S_n - S_{n-1}$ を $n \geq 1$ に使ってしまう。<br><br>
+    <strong>正しくは：</strong> $a_n = S_n - S_{n-1}$ は <strong>$n \geq 2$ でのみ成立</strong>。<br>
+    $n = 1$ のとき $S_0$ は定義されないため、<strong>$n = 1$ を直接代入</strong> して $a_1$ を求める。<br><br>
+    さらに最後に「一般項の式が $n = 1$ でも成立するか」を確認すること。
+  </div>
+  <div class="slide-footer"></div>
+</section>
+
+<!-- ③ 本質ポイント -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge green">本質ポイント</span>
+    <span class="slide-title">$a_n = S_n - S_{n-1}$ で漸化式に帰着</span>
+  </div>
+  <div class="key-box">
+    🔑 $n \geq 2$ のとき $a_n = S_n - S_{n-1}$ を利用：
+    $$a_n = (2a_n - n) - (2a_{n-1} - (n-1)) = 2a_n - 2a_{n-1} - 1$$
+    整理すると <strong>$a_n = 2a_{n-1} + 1$</strong><br>
+    → $a_n + 1 = 2(a_{n-1} + 1)$ の形で<strong>等比数列</strong>に帰着！
+  </div>
+  <div class="slide-footer"></div>
+</section>
+
+<!-- ④ 解説（模範解答） -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge">解説</span>
+    <span class="slide-title">$n = 1$ から順に解く</span>
+  </div>
+  <div class="step"><span class="step-num">1</span>
+    $n = 1$：$S_1 = a_1 = 2a_1 - 1$ より $a_1 = 1$
+  </div>
+  <div class="step"><span class="step-num">2</span>
+    $n \geq 2$：$a_n = 2a_{n-1} + 1$ → $a_n + 1 = 2(a_{n-1}+1)$<br>
+    公比 $2$ の等比数列。初項 $a_1 + 1 = 2$：
+    $$a_n + 1 = 2 \cdot 2^{n-1} = 2^n$$
+  </div>
+  <div class="step"><span class="step-num">3</span>
+    $n = 1$ でも $2^1 - 1 = 1 = a_1$ ✓（式は全ての $n$ で成立）
+  </div>
+  <div class="answer-label">答　え</div>
+  <div class="answer-box">$$a_1 = 1, \quad a_n = 2^n - 1$$</div>
+  <div class="slide-footer"></div>
+</section>
+
+<!-- ⑤ 一般化 -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge green">一般化</span>
+    <span class="slide-title">$S_n = pa_n + f(n)$ の型</span>
+  </div>
+  <div class="key-box" style="font-size:20px;">
+    $S_n = pa_n + f(n)$（$p \neq 1$）の形：<br>
+    ① $n = 1$ を代入して $a_1$ を確定<br>
+    ② $n \geq 2$ で $a_n = S_n - S_{n-1}$ を使って漸化式を導出<br>
+    ③ 漸化式を等比・等差の形に変形して解く<br>
+    ④ 一般項の式が $n = 1$ でも成立するか確認
+  </div>
+  <div class="slide-footer"></div>
+</section>
+
+<!-- ⑥ 類題 -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge green">類題</span>
+    <span class="slide-title">同じ手順で解いてみよう</span>
+  </div>
+  <div class="problem-box" style="font-size:20px;">
+    $S_n = 2a_n + n$ のとき、$a_1$ と一般項 $a_n$ を求めよ。
+  </div>
+  <div class="step" style="font-size:22px; margin-top:1rem;">
+    <strong>解答：</strong>
+    $n=1$：$a_1 = 2a_1 + 1$ → $a_1 = -1$<br>
+    $n \geq 2$：$a_n = 2a_{n-1} - 1$ → $a_n - 1 = 2(a_{n-1}-1)$<br>
+    初項 $a_1 - 1 = -2$：$a_n - 1 = -2^n$
+    $$a_n = 1 - 2^n$$
+  </div>
+  <div class="slide-footer"></div>
+</section>
+
+<div id="nav">
+  <button id="btn-prev">◀ 前へ</button>
+  <span class="page-info" id="pinfo">1 / 6</span>
+  <button id="btn-next">次へ ▶</button>
+  <button id="btn-pdf" onclick="window.print()">⬇ PDF保存</button>
+  <span class="hint">← → キーでも操作できます</span>
+</div>
+<script src="../slide.js"></script>
+</body>
+</html>

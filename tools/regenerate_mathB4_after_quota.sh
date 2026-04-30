@@ -1,5 +1,5 @@
 #!/bin/bash
-# mathB-4 動画再生成スクリプト（クォータリセット後に実行）
+# mathB-04 動画再生成スクリプト（クォータリセット後に実行）
 set -e
 
 LOG="/home/user/StudyList/tools/regenerate_mathB4.log"
@@ -53,14 +53,14 @@ echo "[$(date '+%Y-%m-%d %H:%M:%S')] 動画生成開始..." | tee -a "$LOG"
 cd "$REPO"
 GEMINI_API_KEY="$KEY" PLAYWRIGHT_BROWSERS_PATH=/opt/pw-browsers \
     python3 tools/slide_to_video.py \
-    --file problems/youtube_redesign/mathB-4_sum_arithmetic_geometric.html \
+    --file problems/youtube_redesign/mathB-04_sum_arithmetic_geometric.html \
     >> "$LOG" 2>&1
 
 if [ $? -eq 0 ]; then
     echo "[$(date '+%Y-%m-%d %H:%M:%S')] 動画生成成功。コミット・プッシュ中..." | tee -a "$LOG"
     git checkout claude/math-problem-analysis-Hngj1
-    git add -f problems/youtube_redesign/output/mathB-4_sum_arithmetic_geometric.mp4
-    git commit -m "chore: mathB-4 動画を修正内容で再生成（クォータリセット後）
+    git add -f problems/youtube_redesign/output/mathB-04_sum_arithmetic_geometric.mp4
+    git commit -m "chore: mathB-04 動画を修正内容で再生成（クォータリセット後）
 
 https://claude.ai/code/session_01AEJUFz7TMqmGFXqNWKccKA"
     git push -u origin claude/math-problem-analysis-Hngj1

@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>区分求積法（数列の極限を定積分に変換） | 数学III</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <link rel="stylesheet" href="../slide.css">
+  <style>
+    :root { --accent: #744210; }
+    /* color-mix() 未サポート環境向けフォールバック */
+    .problem-box { background: #fdf6ec; }
+    .key-formula  { background: #fef8f2; }
+    @supports (color: color-mix(in srgb, red 8%, white)) {
+      .problem-box { background: color-mix(in srgb, var(--accent) 8%, white); }
+      .key-formula  { background: color-mix(in srgb, var(--accent) 6%, white); }
+    }
+    .key-box {
+      background: #1c0e00;
+      border-left: 6px solid var(--accent);
+      border-radius: 0 10px 10px 0;
+      padding: 14px 22px;
+      margin: 10px 0;
+      font-size: 21px;
+      font-weight: 700;
+      color: #fff;
+    }
+    .calc-box {
+      background: #120900;
+      border: 2px solid #744210;
+      border-radius: 10px;
+      padding: 14px 28px;
+      margin: 10px 0;
+      font-size: 19px;
+      color: #fff;
+      line-height: 2;
+    }
+  </style>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]})"></script>
+</head>
+<body>
+<!-- https://kazumahattori1131-del.github.io/StudyList/problems/youtube_redesign/math3-03_riemann_integral.html -->
+<div id="progress-bar"></div>
+
+<!-- ① 問題提示 -->
+<section class="slide active">
+  <div class="slide-header">
+    <span class="badge">数学III</span>
+    <span class="slide-title">区分求積法（数列の極限→定積分）</span>
+    <div class="meta"><span>★★★★☆ 応用</span><span>偏差値60〜70</span></div>
+  </div>
+  <div class="problem-box" style="font-size:22px; margin: 20px 0 14px; text-align:center;">
+    $$\lim_{n\to\infty} \frac{1}{n}\sum_{k=1}^{n}\sqrt{\frac{k}{n}} \text{ を求めよ}$$
+  </div>
+  <p style="font-size:19px; color:#aaa; margin: 8px 0 0 4px;">
+    この極限、数列の知識だけでは解けません。「区分求積法」という定積分への変換が鍵です。
+  </p>
+  <div class="slide-footer"></div>
+</section>
+
+<!-- ② よくある間違い -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge orange">よくある間違い</span>
+    <span class="slide-title">積分への対応が分からない / 下限を1とする</span>
+  </div>
+  <div class="step">
+    <p style="font-size:20px; margin: 0 0 6px;">❌ <strong>よくある間違い①</strong>：どの積分に対応するか分からない</p>
+    <p style="font-size:19px;">$\dfrac{1}{n}\displaystyle\sum_{k=1}^{n}\sqrt{\dfrac{k}{n}}$ がどんな $f(x)$ の積分に対応するか見えない。</p>
+    <p style="font-size:19px; color:#f87171; margin:4px 0 0;">→ $\dfrac{k}{n}$ を $x$ と見なす。$f\!\left(\dfrac{k}{n}\right)=\sqrt{\dfrac{k}{n}}$ なので $f(x)=\sqrt{x}$</p>
+  </div>
+  <div class="step">
+    <p style="font-size:20px; margin: 0 0 6px;">❌ <strong>よくある間違い②</strong>：下限を $0$ でなく $1$ とする</p>
+    $$\int_{\mathbf{1}}^{1}\sqrt{x}\,dx \;\overset{?}{=}\; 0$$
+    <p style="font-size:19px; color:#f87171; margin:4px 0 0;">→ $k=1$ から始まっても積分の下限は $0$。$n\to\infty$ で $k/n\to 0$ が出発点。</p>
+  </div>
+  <div class="key-box" style="font-size:19px; margin-top:12px;">
+    ⚠️ 区分求積法の下限は「$k=0$ か $k=1$ か」ではなく公式で決まる。$\int_0^1$！
+  </div>
+  <div class="slide-footer"></div>
+</section>
+
+<!-- ③ 本質ポイント -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge green">本質ポイント</span>
+    <span class="slide-title">$\frac{k}{n}$ を $x$ と見なして $\int_0^1$ に変換</span>
+  </div>
+  <p style="font-size:19px; margin: 6px 0 10px;">
+    区分求積法の公式：
+  </p>
+  <div class="key-formula" style="font-size:23px; text-align:center; padding:16px; margin:8px 0;">
+    $\displaystyle\lim_{n\to\infty}\frac{1}{n}\sum_{k=1}^{n}f\!\left(\frac{k}{n}\right) = \int_0^1 f(x)\,dx$
+  </div>
+  <div class="calc-box">
+    今回：$f\!\left(\dfrac{k}{n}\right)=\sqrt{\dfrac{k}{n}}$ → $f(x)=\sqrt{x}=x^{1/2}$<br><br>
+    $\therefore\; \displaystyle\lim_{n\to\infty}\frac{1}{n}\sum_{k=1}^{n}\sqrt{\frac{k}{n}} = \int_0^1 \sqrt{x}\,dx$
+  </div>
+  <div class="key-box">
+    $\dfrac{1}{n}$ が $\Delta x$、$\dfrac{k}{n}$ が $x_k$ の役割。$n\to\infty$ でリーマン和が定積分に収束する。
+  </div>
+  <div class="slide-footer"></div>
+</section>
+
+<!-- ④ 解説 -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge">解説</span>
+    <span class="slide-title">3ステップで完全解答</span>
+  </div>
+  <div class="step">
+    <span class="step-label">STEP 1</span>$f(x)$ を特定する<br>
+    <span style="font-size:18px;">$\dfrac{1}{n}\displaystyle\sum_{k=1}^{n}\sqrt{\dfrac{k}{n}}$ で $\dfrac{k}{n}=x$ とおくと $f(x)=\sqrt{x}$</span>
+  </div>
+  <div class="step">
+    <span class="step-label">STEP 2</span>区分求積法で定積分に変換する<br>
+    <span style="font-size:18px;">$\displaystyle\lim_{n\to\infty}\frac{1}{n}\sum_{k=1}^{n}\sqrt{\frac{k}{n}} = \int_0^1\sqrt{x}\,dx = \int_0^1 x^{1/2}\,dx$</span>
+  </div>
+  <div class="step">
+    <span class="step-label">STEP 3</span>定積分を計算する<br>
+    <span style="font-size:18px;">
+      $\displaystyle\int_0^1 x^{1/2}\,dx = \left[\frac{x^{3/2}}{3/2}\right]_0^1 = \left[\frac{2}{3}x^{3/2}\right]_0^1 = \frac{2}{3}\cdot 1 - \frac{2}{3}\cdot 0$
+    </span>
+    <br>
+    <span class="key-formula" style="font-size:22px; display:inline-block; padding:6px 18px; margin-top:6px;">
+      $= \dfrac{2}{3}$
+    </span>
+  </div>
+  <div class="slide-footer"></div>
+</section>
+
+<!-- ⑤ 一般化 -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge green">一般化</span>
+    <span class="slide-title">区分求積法の2パターン</span>
+  </div>
+  <div class="key-formula" style="font-size:21px; text-align:center; padding:12px; margin:6px 0;">
+    パターン①：$\displaystyle\lim_{n\to\infty}\frac{1}{n}\sum_{k=1}^{n}f\!\left(\frac{k}{n}\right) = \int_0^1 f(x)\,dx$
+  </div>
+  <div class="key-formula" style="font-size:21px; text-align:center; padding:12px; margin:6px 0;">
+    パターン②：$\displaystyle\lim_{n\to\infty}\frac{1}{n}\sum_{k=0}^{n-1}f\!\left(\frac{k}{n}\right) = \int_0^1 f(x)\,dx$
+  </div>
+  <p class="section-title">チェックポイント</p>
+  <ul class="point-list">
+    <li>$k=1$ 始まりでも $k=0$ 始まりでも積分区間は $\int_0^1$（$n\to\infty$ で差は消える）</li>
+    <li>$\dfrac{1}{n}$ が見えたら「区分求積法かも」と疑う習慣をつける</li>
+    <li>$x^{p/q}$ の積分：$\displaystyle\int x^{p/q}\,dx = \dfrac{x^{p/q+1}}{p/q+1}+C$ で指数 $+1$ して割る</li>
+  </ul>
+  <div class="slide-footer"></div>
+</section>
+
+<!-- ⑥ 類題 -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge green">類題</span>
+    <span class="slide-title">同じ手順で解いてみよう</span>
+  </div>
+  <div class="problem-box" style="font-size:21px; text-align:center;">
+    $$\lim_{n\to\infty}\frac{1}{n}\sum_{k=1}^{n}\frac{1}{1+\left(\dfrac{k}{n}\right)^2} \text{ を求めよ}$$
+  </div>
+  <div class="answer-label">答　え</div>
+  <div class="answer-box" style="font-size:19px;">
+    $f(x)=\dfrac{1}{1+x^2}$ とおくと、区分求積法より：<br>
+    $\displaystyle\lim_{n\to\infty}\frac{1}{n}\sum_{k=1}^{n}\frac{1}{1+(k/n)^2} = \int_0^1\frac{dx}{1+x^2}$<br><br>
+    $\displaystyle\int_0^1\frac{dx}{1+x^2} = \bigl[\arctan x\bigr]_0^1 = \arctan 1 - \arctan 0 = \frac{\pi}{4} - 0$<br><br>
+    $\therefore\; \dfrac{\pi}{4}$
+  </div>
+  <div class="slide-footer"></div>
+</section>
+
+<!-- ナビゲーション -->
+<div id="nav">
+  <button id="btn-prev" onclick="prevSlide()">◀</button>
+  <span id="slide-counter">1 / 6</span>
+  <button id="btn-next" onclick="nextSlide()">▶</button>
+</div>
+<script src="../slide.js"></script>
+</body>
+</html>

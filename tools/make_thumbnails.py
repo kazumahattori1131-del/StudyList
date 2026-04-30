@@ -137,7 +137,7 @@ def make_thumbnail(stem, config):
 
 
 THUMBNAILS = {
-    'math1-1_quadratic_discriminant': dict(
+    'math1-01_quadratic_discriminant': dict(
         bg_color      = (18, 24, 48),
         accent        = (66, 133, 244),
         subject_tag   = '数学I',
@@ -148,7 +148,7 @@ THUMBNAILS = {
         badge_text    = '落とし穴あり',
         badge_color   = (200, 50, 50),
     ),
-    'math1-2_quadratic_trap': dict(
+    'math1-02_quadratic_trap': dict(
         bg_color      = (48, 18, 18),
         accent        = (234, 88, 12),
         subject_tag   = '数学I',
@@ -159,7 +159,7 @@ THUMBNAILS = {
         badge_text    = '超頻出の落とし穴',
         badge_color   = (180, 30, 30),
     ),
-    'math2-1_exponential_substitution': dict(
+    'math2-01_exponential_substitution': dict(
         bg_color      = (18, 40, 30),
         accent        = (34, 197, 94),
         subject_tag   = '数学II',
@@ -170,7 +170,7 @@ THUMBNAILS = {
         badge_text    = None,
         badge_color   = None,
     ),
-    'math2-2_log_substitution': dict(
+    'math2-02_log_substitution': dict(
         bg_color      = (20, 38, 48),
         accent        = (14, 165, 233),
         subject_tag   = '数学II',
@@ -181,7 +181,7 @@ THUMBNAILS = {
         badge_text    = None,
         badge_color   = None,
     ),
-    'math3-1_integral_squared': dict(
+    'math3-01_integral_squared': dict(
         bg_color      = (28, 18, 48),
         accent        = (168, 85, 247),
         subject_tag   = '数学III',
@@ -192,7 +192,7 @@ THUMBNAILS = {
         badge_text    = '発展レベル',
         badge_color   = (120, 40, 200),
     ),
-    'math3-2_integration_by_parts': dict(
+    'math3-02_integration_by_parts': dict(
         bg_color      = (28, 18, 48),
         accent        = (236, 72, 153),
         subject_tag   = '数学III',
@@ -203,7 +203,7 @@ THUMBNAILS = {
         badge_text    = '発展レベル',
         badge_color   = (160, 30, 100),
     ),
-    'mathA-1_circular_nonadjacent': dict(
+    'mathA-01_circular_nonadjacent': dict(
         bg_color      = (24, 36, 24),
         accent        = (74, 222, 128),
         subject_tag   = '数学A',
@@ -214,7 +214,7 @@ THUMBNAILS = {
         badge_text    = None,
         badge_color   = None,
     ),
-    'mathA-2_circular_probability': dict(
+    'mathA-02_circular_probability': dict(
         bg_color      = (24, 36, 24),
         accent        = (16, 185, 129),
         subject_tag   = '数学A',
@@ -225,7 +225,7 @@ THUMBNAILS = {
         badge_text    = None,
         badge_color   = None,
     ),
-    'mathB-1_recurrence_divide': dict(
+    'mathB-01_recurrence_divide': dict(
         bg_color      = (40, 28, 18),
         accent        = (251, 146, 60),
         subject_tag   = '数学B',
@@ -236,7 +236,7 @@ THUMBNAILS = {
         badge_text    = None,
         badge_color   = None,
     ),
-    'mathB-2_sum_recurrence': dict(
+    'mathB-02_sum_recurrence': dict(
         bg_color      = (40, 28, 18),
         accent        = (245, 158, 11),
         subject_tag   = '数学B',
@@ -247,7 +247,7 @@ THUMBNAILS = {
         badge_text    = '場合分け注意',
         badge_color   = (180, 80, 20),
     ),
-    'mathB-3_recurrence_char': dict(
+    'mathB-03_recurrence_char': dict(
         bg_color      = (28, 16, 6),
         accent        = (251, 146, 60),
         subject_tag   = '数学B',
@@ -258,7 +258,7 @@ THUMBNAILS = {
         badge_text    = '入試頻出',
         badge_color   = (180, 60, 10),
     ),
-    'mathC-1_complex_factorize': dict(
+    'mathC-01_complex_factorize': dict(
         bg_color      = (18, 18, 40),
         accent        = (99, 102, 241),
         subject_tag   = '数学C',
@@ -269,7 +269,7 @@ THUMBNAILS = {
         badge_text    = '発展レベル',
         badge_color   = (80, 50, 200),
     ),
-    'mathC-2_complex_identity': dict(
+    'mathC-02_complex_identity': dict(
         bg_color      = (18, 18, 40),
         accent        = (129, 140, 248),
         subject_tag   = '数学C',
@@ -280,7 +280,7 @@ THUMBNAILS = {
         badge_text    = '発展レベル',
         badge_color   = (80, 50, 200),
     ),
-    'math2-3_trig_compose': dict(
+    'math2-03_trig_compose': dict(
         bg_color      = (15, 28, 48),
         accent        = (14, 165, 233),
         subject_tag   = '数学II',
@@ -291,7 +291,7 @@ THUMBNAILS = {
         badge_text    = '落とし穴あり',
         badge_color   = (200, 50, 50),
     ),
-    'math2-4_derivative_maxmin': dict(
+    'math2-04_derivative_maxmin': dict(
         bg_color      = (10, 30, 18),
         accent        = (34, 197, 94),
         subject_tag   = '数学II',
@@ -302,7 +302,7 @@ THUMBNAILS = {
         badge_text    = '落とし穴あり',
         badge_color   = (200, 50, 50),
     ),
-    'mathA-3_conditional_prob': dict(
+    'mathA-03_conditional_prob': dict(
         bg_color      = (10, 30, 15),
         accent        = (74, 222, 128),
         subject_tag   = '数学A',
@@ -313,7 +313,7 @@ THUMBNAILS = {
         badge_text    = '落とし穴あり',
         badge_color   = (200, 50, 50),
     ),
-    'mathB-4_sum_arithmetic_geometric': dict(
+    'mathB-04_sum_arithmetic_geometric': dict(
         bg_color      = (40, 28, 18),
         accent        = (251, 146, 60),
         subject_tag   = '数学B',
@@ -324,7 +324,7 @@ THUMBNAILS = {
         badge_text    = '入試頻出',
         badge_color   = (180, 60, 10),
     ),
-    'math1-3_quadratic_axis': dict(
+    'math1-03_quadratic_axis': dict(
         bg_color      = (36, 18, 8),
         accent        = (192, 86, 33),
         subject_tag   = '数学I',
@@ -335,7 +335,7 @@ THUMBNAILS = {
         badge_text    = '場合分け必須',
         badge_color   = (180, 60, 20),
     ),
-    'math2-5_integral_area': dict(
+    'math2-05_integral_area': dict(
         bg_color      = (10, 28, 18),
         accent        = (60, 160, 100),
         subject_tag   = '数学II',
@@ -346,7 +346,7 @@ THUMBNAILS = {
         badge_text    = '落とし穴あり',
         badge_color   = (200, 50, 50),
     ),
-    'math3-3_riemann_integral': dict(
+    'math3-03_riemann_integral': dict(
         bg_color      = (28, 18, 8),
         accent        = (160, 100, 40),
         subject_tag   = '数学III',
@@ -357,7 +357,7 @@ THUMBNAILS = {
         badge_text    = '入試頻出',
         badge_color   = (140, 70, 20),
     ),
-    'mathA-4_repeated_trial': dict(
+    'mathA-04_repeated_trial': dict(
         bg_color      = (20, 14, 36),
         accent        = (130, 100, 220),
         subject_tag   = '数学A',
@@ -368,7 +368,7 @@ THUMBNAILS = {
         badge_text    = '落とし穴あり',
         badge_color   = (180, 50, 180),
     ),
-    'mathB-5_vector_inner': dict(
+    'mathB-05_vector_inner': dict(
         bg_color      = (38, 24, 10),
         accent        = (251, 146, 60),
         subject_tag   = '数学B',
@@ -379,7 +379,7 @@ THUMBNAILS = {
         badge_text    = '落とし穴あり',
         badge_color   = (180, 60, 10),
     ),
-    'mathC-3_complex_rotation': dict(
+    'mathC-03_complex_rotation': dict(
         bg_color      = (28, 10, 22),
         accent        = (210, 80, 160),
         subject_tag   = '数学C',
@@ -390,7 +390,7 @@ THUMBNAILS = {
         badge_text    = '入試頻出',
         badge_color   = (160, 40, 120),
     ),
-    'math1-4_quadratic_complete': dict(
+    'math1-04_quadratic_complete': dict(
         bg_color      = (36, 18, 8),
         accent        = (192, 86, 33),
         subject_tag   = '数学I',
@@ -401,7 +401,7 @@ THUMBNAILS = {
         badge_text    = '計算ミス撲滅',
         badge_color   = (180, 60, 20),
     ),
-    'math1-5_absolute_inequality': dict(
+    'math1-05_absolute_inequality': dict(
         bg_color      = (36, 18, 8),
         accent        = (192, 86, 33),
         subject_tag   = '数学I',
@@ -412,7 +412,7 @@ THUMBNAILS = {
         badge_text    = '落とし穴あり',
         badge_color   = (200, 50, 50),
     ),
-    'math2-6_logarithm_concept': dict(
+    'math2-06_logarithm_concept': dict(
         bg_color      = (10, 28, 18),
         accent        = (60, 160, 100),
         subject_tag   = '数学II',
@@ -423,7 +423,7 @@ THUMBNAILS = {
         badge_text    = '概念理解',
         badge_color   = (20, 140, 60),
     ),
-    'math2-7_trig_unit_circle': dict(
+    'math2-07_trig_unit_circle': dict(
         bg_color      = (10, 28, 38),
         accent        = (60, 140, 200),
         subject_tag   = '数学II',
@@ -434,7 +434,7 @@ THUMBNAILS = {
         badge_text    = '定義から理解',
         badge_color   = (20, 100, 180),
     ),
-    'math2-8_vieta_formulas': dict(
+    'math2-08_vieta_formulas': dict(
         bg_color      = (18, 16, 56),
         accent        = (99, 102, 241),
         subject_tag   = '数学II',
@@ -445,7 +445,7 @@ THUMBNAILS = {
         badge_text    = '受験頻出',
         badge_color   = (80, 60, 220),
     ),
-    'mathB-6_hypothesis_test': dict(
+    'mathB-06_hypothesis_test': dict(
         bg_color      = (38, 24, 10),
         accent        = (251, 146, 60),
         subject_tag   = '数学B',
@@ -456,7 +456,7 @@ THUMBNAILS = {
         badge_text    = '新課程必須',
         badge_color   = (200, 80, 10),
     ),
-    'mathC-4_conic_sections': dict(
+    'mathC-04_conic_sections': dict(
         bg_color      = (28, 10, 22),
         accent        = (210, 80, 160),
         subject_tag   = '数学C',

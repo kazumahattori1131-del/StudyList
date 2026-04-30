@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>複素数の累乗とド・モアブルの定理 | 数学C</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <link rel="stylesheet" href="../slide.css">
+  <style>
+    :root { --accent: #97266d; }
+    /* color-mix() 未サポート環境向けフォールバック */
+    .problem-box { background: #fdf2f8; }
+    .key-formula  { background: #fef6fb; }
+    @supports (color: color-mix(in srgb, red 8%, white)) {
+      .problem-box { background: color-mix(in srgb, var(--accent) 8%, white); }
+      .key-formula  { background: color-mix(in srgb, var(--accent) 6%, white); }
+    }
+    .key-box {
+      background: #1a0510;
+      border-left: 6px solid var(--accent);
+      border-radius: 0 10px 10px 0;
+      padding: 14px 22px;
+      margin: 10px 0;
+      font-size: 21px;
+      font-weight: 700;
+      color: #fff;
+    }
+    .calc-box {
+      background: #120008;
+      border: 2px solid #97266d;
+      border-radius: 10px;
+      padding: 14px 28px;
+      margin: 10px 0;
+      font-size: 19px;
+      color: #fff;
+      line-height: 2;
+    }
+    .method-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin: 10px 0;
+    }
+    .method-card {
+      border: 2px solid #d6779b;
+      border-radius: 10px;
+      padding: 14px 18px;
+      font-size: 18px;
+      line-height: 1.85;
+      background: #fdf2f8;
+    }
+    .method-label {
+      font-size: 15px;
+      font-weight: 700;
+      color: #97266d;
+      margin-bottom: 8px;
+      display: inline-block;
+      background: #f3d4e6;
+      padding: 2px 10px;
+      border-radius: 4px;
+    }
+  </style>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]})"></script>
+</head>
+<body>
+<!-- https://kazumahattori1131-del.github.io/StudyList/problems/youtube_redesign/mathC-03_complex_rotation.html -->
+<div id="progress-bar"></div>
+
+<!-- ① 問題提示 -->
+<section class="slide active">
+  <div class="slide-header">
+    <span class="badge">数学C</span>
+    <span class="slide-title">複素数の累乗とド・モアブルの定理</span>
+    <div class="meta"><span>★★★★☆ 応用</span><span>偏差値60〜70</span></div>
+  </div>
+  <div class="problem-box" style="font-size:24px; margin: 20px 0 14px; text-align:center;">
+    $z = 1+i$ のとき $z^8$ を求めよ。
+  </div>
+  <p style="font-size:19px; color:#aaa; margin: 8px 0 0 4px;">
+    $(1+i)^8 = 1^8 + i^8$ と展開しようとしていませんか？　それは禁じ手です。
+  </p>
+  <div class="slide-footer"></div>
+</section>
+
+<!-- ② よくある間違い -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge orange">よくある間違い</span>
+    <span class="slide-title">二項定理なしに累乗しようとする</span>
+  </div>
+  <div class="step">
+    <p style="font-size:20px; margin: 0 0 6px;">❌ <strong>よくある間違い①</strong>：各項を独立に累乗する</p>
+    $$(1+i)^8 \;\overset{?}{=}\; 1^8 + i^8 = 1 + (i^2)^4 = 1+1 = 2$$
+    <p style="font-size:19px; color:#f87171; margin:4px 0 0;">→ $(a+b)^n \neq a^n + b^n$　累乗は絶対に分配できない！</p>
+  </div>
+  <div class="step">
+    <p style="font-size:20px; margin: 0 0 6px;">❌ <strong>よくある間違い②</strong>：$|z|$ を忘れて角度だけ計算</p>
+    $$z = \cos\frac{\pi}{4}+i\sin\frac{\pi}{4} \;\overset{?}{\Rightarrow}\; z^8 = \cos 2\pi + i\sin 2\pi = 1$$
+    <p style="font-size:19px; color:#f87171; margin:4px 0 0;">→ $|z|=\sqrt{2}$ を掛け忘れ！　極形式は $r(\cos\theta+i\sin\theta)$ の $r$ が必須。</p>
+  </div>
+  <div class="key-box" style="font-size:19px; margin-top:12px;">
+    ⚠️ 複素数の累乗を直接計算しようとするのは罠。極形式か段階的累乗を使う！
+  </div>
+  <div class="slide-footer"></div>
+</section>
+
+<!-- ③ 本質ポイント -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge green">本質ポイント</span>
+    <span class="slide-title">極形式に変換してド・モアブルを使う</span>
+  </div>
+  <p style="font-size:19px; margin: 6px 0 10px;">
+    $z=1+i$ を極形式 $r(\cos\theta+i\sin\theta)$ に変換する：
+  </p>
+  <div class="calc-box">
+    $r = |z| = \sqrt{1^2+1^2} = \sqrt{2}$<br>
+    $\theta = \dfrac{\pi}{4}$ （偏角：実部・虚部がともに正で等しい）<br>
+    $\therefore\; z = \sqrt{2}\!\left(\cos\dfrac{\pi}{4}+i\sin\dfrac{\pi}{4}\right)$
+  </div>
+  <div class="key-box">
+    ド・モアブルの定理：$z^n = r^n(\cos n\theta + i\sin n\theta)$
+  </div>
+  <p style="font-size:18px; color:#aaa; margin-top:10px;">
+    ※ 絶対値 $r$ の $n$ 乗を忘れると全く違う答えになるので要注意
+  </p>
+  <div class="slide-footer"></div>
+</section>
+
+<!-- ④ 解説 -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge">解説</span>
+    <span class="slide-title">2つの方法で完全解答</span>
+  </div>
+  <div class="method-grid">
+    <div class="method-card">
+      <span class="method-label">方法A：極形式＋ド・モアブル</span><br>
+      $z = \sqrt{2}\!\left(\cos\dfrac{\pi}{4}+i\sin\dfrac{\pi}{4}\right)$<br>
+      $z^8 = (\sqrt{2})^8\!\left(\cos\dfrac{8\pi}{4}+i\sin\dfrac{8\pi}{4}\right)$<br>
+      $\phantom{z^8} = 16(\cos 2\pi + i\sin 2\pi)$<br>
+      $\phantom{z^8} = 16\cdot 1 = \boldsymbol{16}$
+    </div>
+    <div class="method-card">
+      <span class="method-label">方法B：段階的累乗</span><br>
+      $z^2 = (1+i)^2 = 1+2i+i^2 = 2i$<br>
+      $z^4 = (z^2)^2 = (2i)^2 = 4i^2 = -4$<br>
+      $z^8 = (z^4)^2 = (-4)^2 = \boldsymbol{16}$
+    </div>
+  </div>
+  <div class="key-box" style="font-size:19px;">
+    どちらの方法でも $z^8 = 16$（実数）。$n$ が大きいほど方法Aが速い。
+  </div>
+  <div class="slide-footer"></div>
+</section>
+
+<!-- ⑤ 一般化 -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge green">一般化</span>
+    <span class="slide-title">ド・モアブルの定理と累乗の戦略</span>
+  </div>
+  <div class="key-formula" style="font-size:22px; text-align:center; padding:14px; margin:8px 0;">
+    $\bigl[r(\cos\theta+i\sin\theta)\bigr]^n = r^n(\cos n\theta + i\sin n\theta)$
+  </div>
+  <p class="section-title">累乗の解法選択</p>
+  <ul class="point-list">
+    <li>$n$ が大きい（6以上など）→ <strong>極形式＋ド・モアブル</strong>が最速</li>
+    <li>$z^2$ が簡単な形になる → <strong>段階的累乗</strong>（$z^2 \to z^4 \to \cdots$）</li>
+    <li>どちらも：必ず $r = |z|$ を極形式に含める。忘れると答えが $1$ になって終わる</li>
+  </ul>
+  <div class="key-box">
+    複素数の累乗は必ず「極形式」または「段階的累乗」。直接展開は禁じ手！
+  </div>
+  <div class="slide-footer"></div>
+</section>
+
+<!-- ⑥ 類題 -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge green">類題</span>
+    <span class="slide-title">同じ手順で解いてみよう</span>
+  </div>
+  <div class="problem-box" style="font-size:21px;">
+    $z = 1+\sqrt{3}\,i$ のとき $z^6$ を求めよ。
+  </div>
+  <div class="answer-label">答　え</div>
+  <div class="answer-box" style="font-size:19px;">
+    極形式に変換：<br>
+    $r = |z| = \sqrt{1^2+(\sqrt{3})^2} = \sqrt{4} = 2$、$\theta = \dfrac{\pi}{3}$<br>
+    $z = 2\!\left(\cos\dfrac{\pi}{3}+i\sin\dfrac{\pi}{3}\right)$<br><br>
+    ド・モアブルの定理を適用：<br>
+    $z^6 = 2^6\!\left(\cos\dfrac{6\pi}{3}+i\sin\dfrac{6\pi}{3}\right) = 64(\cos 2\pi + i\sin 2\pi)$<br><br>
+    $\therefore\; z^6 = 64$
+  </div>
+  <div class="slide-footer"></div>
+</section>
+
+<!-- ナビゲーション -->
+<div id="nav">
+  <button id="btn-prev" onclick="prevSlide()">◀</button>
+  <span id="slide-counter">1 / 6</span>
+  <button id="btn-next" onclick="nextSlide()">▶</button>
+</div>
+<script src="../slide.js"></script>
+</body>
+</html>

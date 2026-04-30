@@ -55,7 +55,7 @@ StudyList/
 
 - 科目コード: `math1`（数学I）、`math2`（数学II）、`math3`（数学III）、`mathA`（数学A）、`mathB`（数学B）、`mathC`（数学C）
 - 番号: 科目内の通し番号（ハイフン区切り）
-- 例: `math1-1_quadratic_discriminant.html`、`mathA-3_conditional_prob.html`
+- 例: `math1-01_quadratic_discriminant.html`、`mathA-03_conditional_prob.html`
 
 ### スライド構成（固定：全6枚）
 | スライド番号 | バッジ | 内容 |
@@ -413,22 +413,22 @@ python3 tools/make_thumbnails.py
 
 | stem | 科目 | タイトル | エンディング |
 |---|---|---|---|
-| math1-1_quadratic_discriminant | 数学I | 放物線とx軸の交点条件（判別式） | 旧スライド |
-| math1-2_quadratic_trap | 数学I | 二次不等式の恒等的成立 | ending_slide.png |
-| math2-1_exponential_substitution | 数学II | 指数方程式（置換テクニック） | ending_slide.png |
-| math2-2_log_substitution | 数学II | 対数方程式（置換テクニック） | ending_slide.png |
-| math3-1_integral_squared | 数学III | 三角置換による定積分 | 旧スライド |
-| math3-2_integration_by_parts | 数学III | 部分積分の連鎖（e^x sinx） | 旧スライド |
-| mathA-1_circular_nonadjacent | 数学A | 円順列×余事象（隣り合わない） | 旧スライド |
-| mathA-2_circular_probability | 数学A | 円順列×確率（男女交互） | ending_slide.png |
-| mathB-1_recurrence_divide | 数学B | 漸化式（両辺を割る） | ending_slide.png |
-| mathB-2_sum_recurrence | 数学B | Sn型漸化式 | ending_slide.png |
-| mathB-3_recurrence_char | 数学B | 漸化式（特性方程式） | ending_slide.png |
-| mathC-1_complex_factorize | 数学C | 複素数の絶対値最大値 | ending_slide.png |
-| mathC-2_complex_identity | 数学C | z+1/z=1 から z³+1/z³ | ending_slide.png |
-| math2-3_trig_compose | 数学II | 三角関数の合成（sinθ+√3cosθ の最大・最小） | ending_slide.png |
-| math2-4_derivative_maxmin | 数学II | 微分の最大・最小（端点を見落とす落とし穴） | ending_slide.png |
-| mathA-3_conditional_prob | 数学A | 条件付き確率（P(A\|B)とP(B\|A)の取り違え） | ending_slide.png |
+| math1-01_quadratic_discriminant | 数学I | 放物線とx軸の交点条件（判別式） | 旧スライド |
+| math1-02_quadratic_trap | 数学I | 二次不等式の恒等的成立 | ending_slide.png |
+| math2-01_exponential_substitution | 数学II | 指数方程式（置換テクニック） | ending_slide.png |
+| math2-02_log_substitution | 数学II | 対数方程式（置換テクニック） | ending_slide.png |
+| math3-01_integral_squared | 数学III | 三角置換による定積分 | 旧スライド |
+| math3-02_integration_by_parts | 数学III | 部分積分の連鎖（e^x sinx） | 旧スライド |
+| mathA-01_circular_nonadjacent | 数学A | 円順列×余事象（隣り合わない） | 旧スライド |
+| mathA-02_circular_probability | 数学A | 円順列×確率（男女交互） | ending_slide.png |
+| mathB-01_recurrence_divide | 数学B | 漸化式（両辺を割る） | ending_slide.png |
+| mathB-02_sum_recurrence | 数学B | Sn型漸化式 | ending_slide.png |
+| mathB-03_recurrence_char | 数学B | 漸化式（特性方程式） | ending_slide.png |
+| mathC-01_complex_factorize | 数学C | 複素数の絶対値最大値 | ending_slide.png |
+| mathC-02_complex_identity | 数学C | z+1/z=1 から z³+1/z³ | ending_slide.png |
+| math2-03_trig_compose | 数学II | 三角関数の合成（sinθ+√3cosθ の最大・最小） | ending_slide.png |
+| math2-04_derivative_maxmin | 数学II | 微分の最大・最小（端点を見落とす落とし穴） | ending_slide.png |
+| mathA-03_conditional_prob | 数学A | 条件付き確率（P(A\|B)とP(B\|A)の取り違え） | ending_slide.png |
 
 > **旧スライドの4本**（discriminant, integral_squared, integration_by_parts, circular_nonadjacent）は次回再生成時に ending_slide.png が自動適用される。
 

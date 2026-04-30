@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>統計的な推測（仮説検定の考え方） | 数学B</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <link rel="stylesheet" href="../slide.css">
+  <style>
+    :root { --accent: #FB923C; }
+    /* color-mix() 未サポート環境向けフォールバック */
+    .problem-box { background: #fff6ef; }
+    .key-formula  { background: #fff8f2; }
+    @supports (color: color-mix(in srgb, red 8%, white)) {
+      .problem-box { background: color-mix(in srgb, var(--accent) 8%, white); }
+      .key-formula  { background: color-mix(in srgb, var(--accent) 6%, white); }
+    }
+    .key-box {
+      background: #2a1200;
+      border-left: 6px solid var(--accent);
+      border-radius: 0 10px 10px 0;
+      padding: 14px 22px;
+      margin: 10px 0;
+      font-size: 21px;
+      font-weight: 700;
+      color: #fff;
+    }
+    .calc-box {
+      background: #1e1008;
+      border: 2px solid #FB923C;
+      border-radius: 10px;
+      padding: 14px 28px;
+      margin: 10px 0;
+      font-size: 19px;
+      color: #fff;
+      line-height: 2;
+    }
+  </style>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]})"></script>
+</head>
+<body>
+<!-- GitHub Pages: problems/youtube_redesign/mathB-06_hypothesis_test.html -->
+<div id="progress-bar"></div>
+
+<!-- ① 問題提示 -->
+<section class="slide active">
+  <div class="slide-header">
+    <span class="badge">数学B</span>
+    <span class="slide-title">統計的な推測（仮説検定の考え方）</span>
+    <div class="meta"><span>★★★☆☆ 標準</span><span>偏差値55〜65</span></div>
+  </div>
+  <div class="problem-box" style="font-size:22px; margin: 20px 0 14px;">
+    1枚のコインを100回投げたところ、表が60回出た。<br>
+    このコインは表が出やすいように偏っているといえるか。<br><br>
+    有意水準 5%（$z_{0.05} = 1.65$）で検定せよ。
+  </div>
+  <p style="font-size:19px; color:#aaa; margin: 8px 0 0 4px;">
+    「60回も出たから偏ってる」…これは数学的な判断ではない！
+  </p>
+  <div class="slide-footer"></div>
+</section>
+
+<!-- ② よくある間違い -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge orange">よくある間違い</span>
+    <span class="slide-title">「確率が低いから偏っている」と直感で判断する</span>
+  </div>
+  <div class="step">
+    <p style="font-size:20px; margin: 0 0 6px;">❌ <strong>よくある発想①</strong>：確率で直接判断する</p>
+    <p style="font-size:19px;">「100回中60回は確率として低そうだから偏っている」→ 感覚で判断。基準が曖昧。</p>
+    <p style="font-size:19px; color:#f87171; margin:4px 0 0;">→ 何を計算しているのか、根拠が不明確。</p>
+  </div>
+  <div class="step">
+    <p style="font-size:20px; margin: 0 0 6px;">❌ <strong>よくある発想②</strong>：$p = 0.6$ を直接使う</p>
+    <p style="font-size:19px;">「表が出る確率を $\hat{p} = 0.6$ とおいて $0.5$ と比較する」</p>
+    <p style="font-size:19px; color:#f87171; margin:4px 0 0;">→ 「どれくらい差があれば偏りといえるか」の基準（有意水準）が入っていない。</p>
+  </div>
+  <div class="key-box" style="font-size:19px; margin-top:12px;">
+    ⚠️ 「偏っていないと仮定した世界で、この結果が起きる確率」を計算するのが仮説検定！
+  </div>
+  <div class="slide-footer"></div>
+</section>
+
+<!-- ③ 本質ポイント -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge green">本質ポイント</span>
+    <span class="slide-title">帰無仮説を立て、正規分布で判断する</span>
+  </div>
+  <p style="font-size:19px; margin: 6px 0 10px;">
+    仮説検定の流れはみっつのステップだけ：
+  </p>
+  <div class="calc-box">
+    ① 帰無仮説を立てる：「コインは公平（$p = 0.5$）」と仮定する<br>
+    ② 標準化して確率を計算：$z = \dfrac{\hat{p} - p_0}{\sqrt{p_0(1-p_0)/n}}$ を求める<br>
+    ③ 有意水準と比較：$|z| &gt; z_{0.05}$ なら帰無仮説を棄却
+  </div>
+  <div class="key-box">
+    「めったに起きないことが起きた」→ 仮定が間違っていた、と判断する！
+  </div>
+  <p style="font-size:18px; color:#aaa; margin-top:10px;">
+    ※ 2022年新課程から数学Bの必須内容になった単元
+  </p>
+  <div class="slide-footer"></div>
+</section>
+
+<!-- ④ 解説 -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge">解説</span>
+    <span class="slide-title">3ステップで完全解答</span>
+  </div>
+  <div class="step">
+    <span class="step-label">STEP 1</span>帰無仮説・対立仮説を立てる<br>
+    <span style="font-size:18px;">帰無仮説 $H_0$：$p = 0.5$（公平なコイン）</span><br>
+    <span style="font-size:18px;">対立仮説 $H_1$：$p &gt; 0.5$（表が出やすい）← 片側検定</span>
+  </div>
+  <div class="step">
+    <span class="step-label">STEP 2</span>検定統計量 $z$ を求める<br>
+    <span style="font-size:18px;">$n = 100$, $\hat{p} = \dfrac{60}{100} = 0.6$, $p_0 = 0.5$</span><br>
+    <span style="font-size:18px;">$$z = \dfrac{0.6 - 0.5}{\sqrt{0.5 \times 0.5 / 100}} = \dfrac{0.1}{0.05} = 2.0$$</span>
+  </div>
+  <div class="step">
+    <span class="step-label">STEP 3</span>有意水準と比較して結論を出す<br>
+    <span style="font-size:18px;">$z = 2.0 &gt; 1.65 = z_{0.05}$ より、帰無仮説を棄却する。</span>
+    <span class="key-formula" style="font-size:19px; display:inline-block; padding:6px 18px; margin-left:8px;">
+      有意水準5%でこのコインは表が出やすいといえる。
+    </span>
+  </div>
+  <div class="slide-footer"></div>
+</section>
+
+<!-- ⑤ 一般化 -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge green">一般化</span>
+    <span class="slide-title">仮説検定の標準的な手順</span>
+  </div>
+  <div class="key-formula" style="font-size:20px; text-align:center; padding:14px; margin:8px 0;">
+    $z = \dfrac{\hat{p} - p_0}{\sqrt{p_0(1-p_0)/n}}$ （標準正規分布に従う）
+  </div>
+  <p class="section-title">検定の判断基準</p>
+  <ul class="point-list">
+    <li>帰無仮説 $H_0$：「差がない・偏っていない」という仮定を立てる</li>
+    <li>$|z| &gt; 1.96$ （有意水準5%・両側）→ 帰無仮説を棄却</li>
+    <li>$z &gt; 1.65$ （有意水準5%・片側）→ 帰無仮説を棄却</li>
+    <li>棄却できなかった = 「差があるとはいえない」（差がないとは言っていない）</li>
+  </ul>
+  <div class="key-box">
+    仮説検定は「帰無仮説を疑う」推論。証明ではなく、確率的な判断。
+  </div>
+  <div class="slide-footer"></div>
+</section>
+
+<!-- ⑥ 類題 -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge green">類題</span>
+    <span class="slide-title">同じ手順で解いてみよう</span>
+  </div>
+  <div class="problem-box" style="font-size:21px;">
+    さいころを60回振ったところ、1の目が15回出た。このさいころは1の目が出やすいように偏っているといえるか。有意水準5%（$z_{0.05} = 1.65$）で検定せよ。
+  </div>
+  <div class="answer-label">答　え</div>
+  <div class="answer-box" style="font-size:19px;">
+    帰無仮説 $H_0$：$p = \dfrac{1}{6}$（公平なさいころ）<br>
+    対立仮説 $H_1$：$p &gt; \dfrac{1}{6}$（1の目が出やすい）<br><br>
+    $n = 60$, $\hat{p} = \dfrac{15}{60} = 0.25$, $p_0 = \dfrac{1}{6} \approx 0.167$<br><br>
+    $z = \dfrac{0.25 - 0.167}{\sqrt{0.167 \times 0.833 / 60}} = \dfrac{0.083}{0.048} \approx 1.73$<br><br>
+    $z \approx 1.73 &gt; 1.65$ より、帰無仮説を棄却する。<br>
+    $\therefore$ 有意水準5%でこのさいころは1の目が出やすいといえる。
+  </div>
+  <div class="slide-footer"></div>
+</section>
+
+<!-- ナビゲーション -->
+<div id="nav">
+  <button id="btn-prev" onclick="prevSlide()">◀</button>
+  <span id="slide-counter">1 / 6</span>
+  <button id="btn-next" onclick="nextSlide()">▶</button>
+</div>
+<script src="../slide.js"></script>
+</body>
+</html>

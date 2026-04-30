@@ -8,14 +8,14 @@ LOG="${REPO}/tools/generate_math2_videos.log"
 KEY="${GEMINI_API_KEY:?'GEMINI_API_KEY が未設定です'}"
 
 VIDEOS=(
-  "math2-1_exponential_substitution"
-  "math2-2_log_substitution"
-  "math2-3_trig_compose"
-  "math2-4_derivative_maxmin"
-  "math2-5_integral_area"
-  "math2-6_logarithm_concept"
-  "math2-7_trig_unit_circle"
-  "math2-8_vieta_formulas"
+  "math2-01_exponential_substitution"
+  "math2-02_log_substitution"
+  "math2-03_trig_compose"
+  "math2-04_derivative_maxmin"
+  "math2-05_integral_area"
+  "math2-06_logarithm_concept"
+  "math2-07_trig_unit_circle"
+  "math2-08_vieta_formulas"
 )
 
 log() { echo "[$(date '+%Y-%m-%d %H:%M:%S')] $*" | tee -a "$LOG"; }

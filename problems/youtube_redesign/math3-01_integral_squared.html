@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>【数学III】∫1/(1+x²)²dx — 三角置換の発展</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <link rel="stylesheet" href="../slide.css">
+  <style>
+    :root { --accent: #744210; }
+    .key-box { background: #fffbeb; border-left: 6px solid #744210; border-radius: 0 10px 10px 0; padding: 16px 24px; margin: 10px 0; font-size: 18px; font-weight: 700; }
+    .hint-box { background: #ebf8ff; border: 2px solid #63b3ed; border-radius: 10px; padding: 14px 24px; margin: 10px 0; }
+  </style>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]})"></script>
+</head>
+<body>
+<!--
+https://kazumahattori1131-del.github.io/StudyList/problems/youtube_redesign/math3-01_integral_squared.html
+-->
+<div id="progress-bar"></div>
+
+<!-- ① 問題提示 -->
+<section class="slide active">
+  <div class="slide-header">
+    <span class="badge">数学III</span>
+    <span class="slide-title">∫1/(1+x²) の発展形</span>
+    <div class="meta"><span>★★★★☆ 発展</span><span>偏差値65〜70</span></div>
+  </div>
+  <div class="problem-label">問　題</div>
+  <div class="problem-box">
+    次の定積分を求めよ。
+    $$\int_0^1 \frac{1}{(1+x^2)^2}\,dx$$
+  </div>
+  <div class="step" style="font-size:18px; margin-top:1.2rem;">
+    💬 分母の <strong>2乗</strong> ―― どうやって崩す？
+  </div>
+  <div class="slide-footer"></div>
+</section>
+
+<!-- ② 思考誘導：ヒント -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge orange">ヒント</span>
+    <span class="slide-title">$x = \tan\theta$ の三角置換</span>
+  </div>
+  <div class="hint-box">
+    <strong>HINT：</strong> $x = \tan\theta$ とおくと
+    $$1 + x^2 = 1 + \tan^2\theta = \frac{1}{\cos^2\theta}$$
+    このとき $dx = \dfrac{d\theta}{\cos^2\theta}$。<br><br>
+    被積分関数と $dx$ を<strong>まとめて変換</strong>するとどうなる？<br>
+    積分範囲：$x: 0 \to 1$ のとき $\theta: 0 \to \dfrac{\pi}{4}$
+  </div>
+  <div class="slide-footer"></div>
+</section>
+
+<!-- ③ 本質ポイント -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge green">本質ポイント</span>
+    <span class="slide-title">置換後に $\cos^2\theta$ だけが残る</span>
+  </div>
+  <div class="key-box">
+    🔑 $x = \tan\theta$ とおくと $(1+x^2)^2 = \dfrac{1}{\cos^4\theta}$、$dx = \dfrac{d\theta}{\cos^2\theta}$<br><br>
+    $$\frac{dx}{(1+x^2)^2} = \frac{\frac{1}{\cos^2\theta}\,d\theta}{\frac{1}{\cos^4\theta}} = \cos^2\theta\,d\theta$$
+    → <strong>半角公式で積分できる形</strong>に変換完了！
+  </div>
+  <div class="slide-footer"></div>
+</section>
+
+<!-- ④ 解説（模範解答） -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge">解説</span>
+    <span class="slide-title">置換から積分まで</span>
+  </div>
+  <div class="step"><span class="step-num">1</span>
+    $x = \tan\theta$（$0 \leq \theta \leq \dfrac{\pi}{4}$）：
+    $$\int_0^1 \frac{dx}{(1+x^2)^2} = \int_0^{\pi/4}\cos^2\theta\,d\theta$$
+  </div>
+  <div class="step"><span class="step-num">2</span>
+    半角公式 $\cos^2\theta = \dfrac{1+\cos 2\theta}{2}$ を使う：
+    $$= \left[\frac{\theta}{2} + \frac{\sin 2\theta}{4}\right]_0^{\pi/4}$$
+  </div>
+  <div class="step"><span class="step-num">3</span>
+    $\theta = \pi/4$ を代入（$\sin(\pi/2) = 1$）：
+    $$= \frac{\pi}{8} + \frac{1}{4}$$
+  </div>
+  <div class="answer-label">答　え</div>
+  <div class="answer-box">$$\int_0^1 \frac{dx}{(1+x^2)^2} = \frac{\pi}{8} + \frac{1}{4}$$</div>
+  <div class="slide-footer"></div>
+</section>
+
+<!-- ⑤ 一般化 -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge green">一般化</span>
+    <span class="slide-title">分母に $(a^2+x^2)^n$ がある積分</span>
+  </div>
+  <div class="key-box" style="font-size:16px;">
+    $\displaystyle\int \frac{1}{(a^2+x^2)^n}\,dx$ の形は $x = a\tan\theta$ で置換。<br>
+    $a^2 + x^2 = \dfrac{a^2}{\cos^2\theta}$ となり次数が下がる。<br><br>
+    <strong>「分母に $(1+x^2)$ → $x = \tan\theta$」</strong> を反射的に出せるようにしよう。
+  </div>
+  <div class="slide-footer"></div>
+</section>
+
+<!-- ⑥ 類題 -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge green">類題</span>
+    <span class="slide-title">同じ手順で解いてみよう</span>
+  </div>
+  <div class="problem-box" style="font-size:16px;">
+    $\displaystyle\int_0^{\sqrt{3}} \frac{1}{(1+x^2)^2}\,dx$ を求めよ。
+  </div>
+  <div class="step" style="font-size:15px; margin-top:1rem;">
+    <strong>解答：</strong>
+    $x = \tan\theta$、範囲 $\theta: 0 \to \dfrac{\pi}{3}$：
+    $$\int_0^{\pi/3}\cos^2\theta\,d\theta = \left[\frac{\theta}{2}+\frac{\sin 2\theta}{4}\right]_0^{\pi/3} = \frac{\pi}{6}+\frac{\sqrt{3}}{8}$$
+  </div>
+  <div class="slide-footer"></div>
+</section>
+
+<div id="nav">
+  <button id="btn-prev">◀ 前へ</button>
+  <span class="page-info" id="pinfo">1 / 6</span>
+  <button id="btn-next">次へ ▶</button>
+  <button id="btn-pdf" onclick="window.print()">⬇ PDF保存</button>
+  <span class="hint">← → キーでも操作できます</span>
+</div>
+<script src="../slide.js"></script>
+</body>
+</html>

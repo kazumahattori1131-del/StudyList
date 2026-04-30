@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>等差×等比型の和（差し引き法） | 数学B</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <link rel="stylesheet" href="../slide.css">
+  <style>
+    :root { --accent: #FB923C; }
+    /* color-mix() 未サポート環境向けフォールバック */
+    .problem-box { background: #fff6ef; }
+    .key-formula  { background: #fff8f2; }
+    @supports (color: color-mix(in srgb, red 8%, white)) {
+      .problem-box { background: color-mix(in srgb, var(--accent) 8%, white); }
+      .key-formula  { background: color-mix(in srgb, var(--accent) 6%, white); }
+    }
+    .key-box {
+      background: #2a1200;
+      border-left: 6px solid var(--accent);
+      border-radius: 0 10px 10px 0;
+      padding: 14px 22px;
+      margin: 10px 0;
+      font-size: 21px;
+      font-weight: 700;
+      color: #fff;
+    }
+    .calc-box {
+      background: #1e1008;
+      border: 2px solid #FB923C;
+      border-radius: 10px;
+      padding: 14px 28px;
+      margin: 10px 0;
+      font-size: 19px;
+      color: #fff;
+      line-height: 2;
+    }
+  </style>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]})"></script>
+</head>
+<body>
+<!-- https://kazumahattori1131-del.github.io/StudyList/problems/youtube_redesign/mathB-04_sum_arithmetic_geometric.html -->
+<div id="progress-bar"></div>
+
+<!-- ① 問題提示 -->
+<section class="slide active">
+  <div class="slide-header">
+    <span class="badge">数学B</span>
+    <span class="slide-title">等差×等比型の和（差し引き法）</span>
+    <div class="meta"><span>★★★☆☆ 標準</span><span>偏差値55〜65</span></div>
+  </div>
+  <div class="problem-box" style="font-size:22px; margin: 20px 0 14px;">
+    $n$ を正の整数とするとき、次の和を求めよ。<br><br>
+    $$S = \sum_{k=1}^{n} k \cdot 2^k$$
+  </div>
+  <p style="font-size:19px; color:#aaa; margin: 8px 0 0 4px;">
+    等差数列の和？　等比数列の和？　どちらの公式も使えない…
+  </p>
+  <div class="slide-footer"></div>
+</section>
+
+<!-- ② よくある間違い -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge orange">よくある間違い</span>
+    <span class="slide-title">Σを「積に分解」しようとする</span>
+  </div>
+  <div class="step">
+    <p style="font-size:20px; margin: 0 0 6px;">❌ <strong>よくある発想①</strong>：Σを積に分解する</p>
+    $$\sum_{k=1}^{n} k \cdot 2^k \;\overset{?}{=}\; \left(\sum_{k=1}^{n} k\right) \times \left(\sum_{k=1}^{n} 2^k\right)$$
+    <p style="font-size:19px; color:#f87171; margin:4px 0 0;">→ Σは積に分解できない！ これは完全な間違い。</p>
+  </div>
+  <div class="step">
+    <p style="font-size:20px; margin: 0 0 6px;">❌ <strong>よくある発想②</strong>：1項ずつ書き出して足す</p>
+    <p style="font-size:19px;">$k=1,2,3,\ldots$ を代入して書き出す → 一般項が複雑で規則性が見えない</p>
+    <p style="font-size:19px; color:#f87171; margin:4px 0 0;">→ 有限個なら計算できるが、一般項 $a_n$ を求める形に直せない。</p>
+  </div>
+  <div class="key-box" style="font-size:19px; margin-top:12px;">
+    ⚠️ この形は「等差」でも「等比」でも解けない。別のアプローチが必要！
+  </div>
+  <div class="slide-footer"></div>
+</section>
+
+<!-- ③ 本質ポイント -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge green">本質ポイント</span>
+    <span class="slide-title">S と 2S を並べて「差し引く」</span>
+  </div>
+  <p style="font-size:19px; margin: 6px 0 10px;">
+    $S$ の両辺に公比 $2$ をかけた $2S$ を作り、引き算する：
+  </p>
+  <div class="calc-box">
+    $S \;=\; \boldsymbol{1}{\cdot}2^1 + \boldsymbol{2}{\cdot}2^2 + \boldsymbol{3}{\cdot}2^3 + \cdots + \boldsymbol{n}{\cdot}2^n$<br>
+    $2S = \phantom{1{\cdot}2^1\;+\;} \boldsymbol{1}{\cdot}2^2 + \boldsymbol{2}{\cdot}2^3 + \cdots + \boldsymbol{(n{-}1)}{\cdot}2^n + \boldsymbol{n}{\cdot}2^{n+1}$
+  </div>
+  <div class="key-box">
+    $S - 2S$ を計算 → 右辺の大部分が打ち消し、<strong style="color:#FB923C;">等比数列の和</strong>が現れる！
+  </div>
+  <p style="font-size:18px; color:#aaa; margin-top:10px;">
+    ※ 京大生は「等差×等比型」を見た瞬間に差し引き法を選びます
+  </p>
+  <div class="slide-footer"></div>
+</section>
+
+<!-- ④ 解説 -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge">解説</span>
+    <span class="slide-title">4ステップで完全解答</span>
+  </div>
+  <div class="step">
+    <span class="step-label">STEP 1</span>$S$ を書き出す<br>
+    <span style="font-size:18px;">$S = 1{\cdot}2^1 + 2{\cdot}2^2 + 3{\cdot}2^3 + \cdots + n{\cdot}2^n$</span>
+  </div>
+  <div class="step">
+    <span class="step-label">STEP 2</span>$2S$ を書き出す（右に1項ずつずらす）<br>
+    <span style="font-size:18px;">$2S = \phantom{1{\cdot}2^1 + {}} 1{\cdot}2^2 + 2{\cdot}2^3 + \cdots + (n{-}1){\cdot}2^n + n{\cdot}2^{n+1}$</span>
+  </div>
+  <div class="step">
+    <span class="step-label">STEP 3</span>差し引き：$S - 2S = -S$<br>
+    <span style="font-size:17px;">$-S = \underbrace{(2^1 + 2^2 + \cdots + 2^n)}_{\text{等比数列の和}} - n{\cdot}2^{n+1} = (2^{n+1}-2) - n{\cdot}2^{n+1}$</span>
+  </div>
+  <div class="step">
+    <span class="step-label">STEP 4</span>$S$ を求める：
+    <span class="key-formula" style="font-size:22px; display:inline-block; padding:6px 18px; margin-left:8px;">
+      $S = (n-1)\cdot 2^{n+1} + 2$
+    </span>
+  </div>
+  <div class="slide-footer"></div>
+</section>
+
+<!-- ⑤ 一般化 -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge green">一般化</span>
+    <span class="slide-title">等差×等比型の解法パターン</span>
+  </div>
+  <div class="key-formula" style="font-size:22px; text-align:center; padding:14px; margin:8px 0;">
+    $\displaystyle S = \sum_{k=1}^{n} k \cdot r^k \quad (r \neq 1)$
+  </div>
+  <p class="section-title">差し引き法の流れ</p>
+  <ul class="point-list">
+    <li>$S$ を書き出し、両辺に $r$ をかけた $rS$ を作る</li>
+    <li>$S - rS$ を計算 → 右辺に等比数列の和 $+ $ 末尾の余り項が現れる</li>
+    <li>等比数列の和の公式で整理し、$S$ を求める</li>
+  </ul>
+  <div class="key-box">
+    答え：$S = \dfrac{(n-1)r^{n+1}}{r-1} \cdot r + \dfrac{r(r^n - 1)}{(r-1)^2}$
+    <span style="font-size:16px; font-weight:400;">（$r=2$ なら $(n-1){\cdot}2^{n+1}+2$）</span>
+  </div>
+  <div class="slide-footer"></div>
+</section>
+
+<!-- ⑥ 類題 -->
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge green">類題</span>
+    <span class="slide-title">同じ手順で解いてみよう</span>
+  </div>
+  <div class="problem-box" style="font-size:21px;">
+    $n$ を正の整数とするとき、$\displaystyle T = \sum_{k=1}^{n} k \cdot 3^k$ を求めよ。
+  </div>
+  <div class="answer-label">答　え</div>
+  <div class="answer-box" style="font-size:19px;">
+    $T$ と $3T$ を書き出して差し引く：<br>
+    $T - 3T = -2T = (3^1 + 3^2 + \cdots + 3^n) - n{\cdot}3^{n+1}$<br>
+    $\phantom{-2T} = \dfrac{3(3^n - 1)}{2} - n{\cdot}3^{n+1} = \dfrac{3^{n+1}-3}{2} - n{\cdot}3^{n+1}$<br><br>
+    $4T = (2n-1){\cdot}3^{n+1} + 3$<br><br>
+    $\therefore\; T = \dfrac{(2n-1){\cdot}3^{n+1} + 3}{4}$
+  </div>
+  <div class="slide-footer"></div>
+</section>
+
+<!-- ナビゲーション -->
+<div id="nav">
+  <button id="btn-prev" onclick="prevSlide()">◀</button>
+  <span id="slide-counter">1 / 6</span>
+  <button id="btn-next" onclick="nextSlide()">▶</button>
+</div>
+<script src="../slide.js"></script>
+</body>
+</html>

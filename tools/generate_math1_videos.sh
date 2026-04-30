@@ -8,11 +8,11 @@ LOG="${REPO}/tools/generate_math1_videos.log"
 KEY="${GEMINI_API_KEY:?'GEMINI_API_KEY が未設定です'}"
 
 VIDEOS=(
-  "math1-1_quadratic_discriminant"
-  "math1-2_quadratic_trap"
-  "math1-3_quadratic_axis"
-  "math1-4_quadratic_complete"
-  "math1-5_absolute_inequality"
+  "math1-01_quadratic_discriminant"
+  "math1-02_quadratic_trap"
+  "math1-03_quadratic_axis"
+  "math1-04_quadratic_complete"
+  "math1-05_absolute_inequality"
 )
 
 log() { echo "[$(date '+%Y-%m-%d %H:%M:%S')] $*" | tee -a "$LOG"; }

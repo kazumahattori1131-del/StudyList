@@ -1,5 +1,5 @@
 #!/bin/bash
-# 明日 9:00 JST にクォータリセット後、math2-1 / math2-4 を生成して main へマージ
+# 明日 9:00 JST にクォータリセット後、math2-01 / math2-04 を生成して main へマージ
 REPO="/home/user/StudyList"
 LOG="${REPO}/tools/resume_apr30.log"
 KEY_FILE="${HOME}/.gemini_api_key"
@@ -25,7 +25,7 @@ log "=== 待機完了。生成開始 ==="
 
 cd "$REPO" || exit 1
 
-for stem in math2-1_exponential_substitution math2-4_derivative_maxmin; do
+for stem in math2-01_exponential_substitution math2-04_derivative_maxmin; do
   html="${REPO}/problems/youtube_redesign/${stem}.html"
   log "  生成開始: ${stem}"
   GEMINI_API_KEY="$KEY" python3 "${REPO}/tools/slide_to_video.py" \
@@ -39,11 +39,11 @@ done
 
 log "=== 全生成完了。コミット・プッシュ開始 ==="
 
-git add problems/youtube_redesign/math2-1_exponential_substitution_edit.md \
-        problems/youtube_redesign/math2-4_derivative_maxmin_edit.md \
+git add problems/youtube_redesign/math2-01_exponential_substitution_edit.md \
+        problems/youtube_redesign/math2-04_derivative_maxmin_edit.md \
         tools/api_usage_log.jsonl \
         tools/resume_apr30.log
-git commit -m "rebuild: math2-1/4 を修正後に再生成（APR30）
+git commit -m "rebuild: math2-01/4 を修正後に再生成（APR30）
 
 https://claude.ai/code/session_01RKesr7AcWzRxVjkrQ8KsTr"
 
