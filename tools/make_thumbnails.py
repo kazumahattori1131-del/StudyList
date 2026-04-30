@@ -527,14 +527,30 @@ def make_thumbnail_vs(stem, config):
     draw.text(((W - tc_w) / 2 + 3, 103), tc, font=tc_fnt, fill=(0, 0, 0, 100))
     draw.text(((W - tc_w) / 2,     100), tc, font=tc_fnt, fill=(255, 255, 255))
 
+    def draw_cross_icon(cx, cy, r, clr):
+        """❌ の代替：円 + ×線を PIL で描画"""
+        draw.ellipse([cx - r, cy - r, cx + r, cy + r], outline=clr, width=5)
+        m = int(r * 0.55)
+        draw.line([cx - m, cy - m, cx + m, cy + m], fill=clr, width=6)
+        draw.line([cx + m, cy - m, cx - m, cy + m], fill=clr, width=6)
+
+    def draw_check_icon(cx, cy, r, clr):
+        """✅ の代替：円 + チェックマークを PIL で描画"""
+        draw.ellipse([cx - r, cy - r, cx + r, cy + r], outline=clr, width=5)
+        # チェック: 左下→中央底→右上
+        m = int(r * 0.55)
+        pts = [cx - m, cy + int(m * 0.1),
+               cx - int(m * 0.1), cy + m,
+               cx + m, cy - int(m * 0.7)]
+        draw.line(pts, fill=clr, width=6)
+
     # ── 左ボックス（地獄）
     BOX_Y0, BOX_Y1 = 218, 560
     LX0, LX1 = 60, 570
     draw_rect_rounded(draw, [LX0, BOX_Y0, LX1, BOX_Y1], radius=18,
                       fill=(80, 10, 10), outline=(220, 50, 50), width=4)
-    # ❌ アイコン
-    x_fnt = font(64)
-    draw.text((LX0 + 24, BOX_Y0 + 18), '❌', font=x_fnt, fill=(255, 80, 80))
+    # × アイコン（PIL 描画）
+    draw_cross_icon(LX0 + 52, BOX_Y0 + 48, 28, (255, 80, 80))
     # 小ラベル
     hl_fnt = font(30)
     hl_w   = draw.textlength(config['hell_label'], font=hl_fnt)
@@ -562,8 +578,8 @@ def make_thumbnail_vs(stem, config):
     RX0, RX1 = 710, W - 36
     draw_rect_rounded(draw, [RX0, BOX_Y0, RX1, BOX_Y1], radius=18,
                       fill=(10, 60, 20), outline=(50, 200, 80), width=4)
-    # ✅ アイコン
-    draw.text((RX0 + 24, BOX_Y0 + 18), '✅', font=x_fnt, fill=(80, 220, 80))
+    # チェック アイコン（PIL 描画）
+    draw_check_icon(RX0 + 52, BOX_Y0 + 48, 28, (80, 220, 80))
     # 小ラベル
     vl_fnt = font(30)
     vl_w   = draw.textlength(config['heaven_label'], font=vl_fnt)
@@ -611,7 +627,7 @@ VS_THUMBNAILS = {
         heaven_label = '正しい答え',
         heaven_value = '0 < x < 2',
         heaven_note  = '底 1/2 → 不等号逆転',
-        bottom_copy  = 'log₁/₂ x > −1 ｜底が1未満で答えが丸ごと逆になる',
+        bottom_copy  = 'log(1/2) x > -1  |  底が1未満で答えが丸ごと逆になる',
     ),
 }
 
