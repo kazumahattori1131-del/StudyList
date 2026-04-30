@@ -21,3 +21,6 @@
 {"ts": "2026-04-28T21:06:54", "stem": "math2-3_trig_compose", "api_calls": 10, "cached_calls": 0, "input_chars": 2483, "input_tokens_est": 2230, "cost_usd_est": 0.000669, "cost_jpy_est": 0.1}
 {"ts": "2026-04-28T21:13:01", "stem": "math2-4_derivative_maxmin", "api_calls": 10, "cached_calls": 0, "input_chars": 2334, "input_tokens_est": 2203, "cost_usd_est": 0.000661, "cost_jpy_est": 0.1}
 {"ts": "2026-04-29T02:43:29", "stem": "math2-1_exponential_substitution", "api_calls": 2, "cached_calls": 8, "input_chars": 469, "input_tokens_est": 435, "cost_usd_est": 0.000131, "cost_jpy_est": 0.0}
+{"ts": "2026-04-30T00:53:37", "stem": "math2-10_log_inequality", "api_calls": 5, "cached_calls": 6, "input_chars": 774, "input_tokens_est": 885, "cost_usd_est": 0.000266, "cost_jpy_est": 0.0}
+{"ts": "2026-04-30T01:02:25", "stem": "math2-1_exponential_substitution", "api_calls": 10, "cached_calls": 0, "input_chars": 1656, "input_tokens_est": 1830, "cost_usd_est": 0.000549, "cost_jpy_est": 0.1}
+{"ts": "2026-04-30T01:08:21", "stem": "math2-4_derivative_maxmin", "api_calls": 12, "cached_calls": 0, "input_chars": 2653, "input_tokens_est": 2584, "cost_usd_est": 0.000775, "cost_jpy_est": 0.1}
