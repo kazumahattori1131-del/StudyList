@@ -147,6 +147,489 @@ Claude のコンテキスト制限に近づく可能性がある場合は、
 
 ---
 
+## 動画コンテンツ作成仕様（math2-10 を基準フォーマット）
+
+> **参照ファイル**: `problems/youtube_redesign/math2-10_log_inequality.html`
+> 新規動画は math2-10 の構造を骨格とする。
+
+### ファイル配置
+
+```
+problems/youtube_redesign/math2-NN_slug.html
+problems/youtube_redesign/math2-NN_slug_voice.md
+problems/youtube_redesign/math2-NN_slug_edit.md
+```
+
+### HTML 骨格テンプレート
+
+```html
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>【数学II・単元名】タイトル</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <link rel="stylesheet" href="../slide.css">
+  <style>
+    :root { --accent: #XXXXXX; }
+    .key-box   { background:#f5f3ff; border-left:6px solid var(--accent); border-radius:0 10px 10px 0;
+                 padding:16px 24px; margin:10px 0; font-size:22px; font-weight:700; }
+    .trap-box  { background:#fff5f5; border:2px solid #fc8181; border-radius:10px; padding:14px 24px; margin:10px 0; }
+    .trap-title{ color:#c53030; font-weight:800; font-size:22px; margin-bottom:6px; }
+    .ok-box    { background:#f0fff4; border:2px solid #48bb78; border-radius:10px; padding:14px 24px; margin:10px 0; }
+    .step-box  { background:#fafafa; border:1.5px solid #d1d5db; border-radius:10px;
+                 padding:12px 20px; margin:8px 0; font-size:20px; }
+    .step-num  { display:inline-block; background:var(--accent); color:#fff; border-radius:50%;
+                 width:28px; height:28px; text-align:center; line-height:28px; font-size:15px;
+                 font-weight:700; margin-right:8px; }
+    .rule-row  { display:flex; gap:16px; margin:8px 0; }
+    .rule-card { flex:1; border-radius:10px; padding:14px 16px; font-size:19px; text-align:center; }
+    .rule-inc  { background:#eff6ff; border:2px solid #3B82F6; }
+    .rule-dec  { background:#fff5f5; border:2px solid #ef4444; }
+    .graph-wrap{ display:flex; align-items:center; gap:24px; margin:0.8rem 0; }
+  </style>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+    onload="renderMathInElement(document.body,{delimiters:[
+      {left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}]})"></script>
+</head>
+<body>
+<!--
+https://kazumahattori1131-del.github.io/StudyList/problems/youtube_redesign/math2-NN_slug.html
+-->
+<div id="progress-bar"></div>
+<!-- 8 section.slide blocks here（① active, ②〜⑧ not active） -->
+<div id="nav">
+  <button id="btn-prev">◀ 前へ</button>
+  <span class="page-info" id="pinfo">1 / 8</span>
+  <button id="btn-next">次へ ▶</button>
+  <button id="btn-pdf" onclick="window.print()">⬇ PDF保存</button>
+  <span class="hint">← → キーでも操作できます</span>
+</div>
+<script src="../slide.js"></script>
+</body>
+</html>
+```
+
+### アクセント色（単元カテゴリ別）
+
+| カテゴリ | `--accent` | `.key-box` background |
+|---|---|---|
+| 対数・指数 | `#7C3AED`（紫） | `#f5f3ff` |
+| 積分・微分 | `#0EA5E9`（青） | `#eff6ff` |
+| 数列 | `#10B981`（緑） | `#f0fdf4` |
+| 複素数・ベクトル | `#F59E0B`（橙） | `#fffbeb` |
+
+### バッジカラー
+
+| スライド | badge クラス | 表示テキスト例 |
+|---|---|---|
+| ① フック | `badge orange` | `落とし穴` |
+| ② 問題提示 | `badge` | `数学II` |
+| ③ よくある間違い | `badge orange` | `よくある間違い` |
+| ④ 本質ポイント | `badge green` | `本質ポイント` |
+| ⑤ 解説 | `badge` | `解説` |
+| ⑥ 一般化 | `badge green` | `一般化` |
+| ⑦ 類題 | `badge green` | `類題` |
+| ⑧ まとめ | `badge green` | `まとめ` |
+
+
+---
+
+### スライド別レイアウト仕様
+
+#### ① フック
+
+```html
+<section class="slide active">
+  <div class="slide-header">
+    <span class="badge orange">落とし穴</span>
+    <span class="slide-title">○○が△△になる！</span>
+  </div>
+  <div style="font-size:22px; margin-top:0.6rem;">
+    この問題、どう解きますか？
+    <div class="problem-box" style="margin:10px 0; font-size:24px;">[問題式]</div>
+  </div>
+  <!-- 誤答 vs 正解の2カラム -->
+  <div style="display:flex; gap:20px; margin-top:0.8rem;">
+    <div class="trap-box" style="flex:1;">
+      <div class="trap-title">❌ よくある誤答</div>
+      <div style="font-size:20px; margin:6px 0;">[誤答の計算過程]</div>
+      <div style="color:#c53030; font-size:17px;">真面目に公式を覚えた人がハマる罠！</div>
+    </div>
+    <div class="ok-box" style="flex:1;">
+      <div style="color:#166534; font-weight:800; font-size:22px; margin-bottom:6px;">✅ 正しい答え</div>
+      <div style="font-size:26px; font-weight:700; text-align:center; margin:8px 0;">[正解]</div>
+      <div style="color:#166534; font-size:17px;">[なぜ違うか一言]</div>
+    </div>
+  </div>
+  <div class="key-box" style="margin-top:12px; font-size:20px;">
+    🔑 [核心を一言で]<br>
+    <span style="font-size:17px; font-weight:400;">[補足]</span>
+  </div>
+  <div class="slide-footer"></div>
+</section>
+```
+
+#### ② 問題提示
+
+```html
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge">数学II</span>
+    <span class="slide-title">単元名（テーマ）</span>
+    <div class="meta"><span>★★★☆☆ 標準</span><span>偏差値55〜65</span></div>
+  </div>
+  <div class="problem-label">問　題</div>
+  <div class="problem-box">[問題文]</div>
+  <div class="graph-wrap">
+    <div style="flex:1; font-size:19px; line-height:1.9;">
+      💬 [グラフの読み方]<br>[解のイメージ]
+    </div>
+    <svg width="230" height="170" style="flex-shrink:0; border:1px solid #d1d5db; border-radius:8px; background:#fafafa;">
+      [SVGグラフ（下記「SVGグラフ仕様」参照）]
+    </svg>
+  </div>
+  <div style="font-size:18px; background:#f5f3ff; border-radius:8px; padding:10px 16px; margin-top:6px;">
+    ⚠️ [注意点の一言]
+  </div>
+  <div class="slide-footer">出典：教科書例題・数学II（改題）</div>
+</section>
+```
+
+#### ③ よくある間違い
+
+```html
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge orange">よくある間違い</span>
+    <span class="slide-title">「○○」と思い込む落とし穴</span>
+  </div>
+  <div style="font-size:19px; margin-bottom:8px;">「真面目に勉強した人」ほどハマる間違いを確認します。</div>
+  <div class="trap-box">
+    <div class="trap-title">❌ 間違った解法</div>
+    <div style="font-size:20px; line-height:2; margin:6px 0;">[誤答の計算ステップ]</div>
+    <div style="font-size:17px; color:#744;">⛔ 原因：[なぜ間違うか]</div>
+  </div>
+  <div style="margin-top:12px;">
+    <strong style="font-size:19px;">○○と△△の関係（必須知識）</strong>
+    <div class="rule-row" style="margin-top:8px;">
+      <div class="rule-card rule-inc">[条件A]<br>→ [結果A]</div>
+      <div class="rule-card rule-dec">[条件B]<br>→ [結果B]<br><strong style="color:#ef4444;">逆転！</strong></div>
+    </div>
+  </div>
+  <div class="slide-footer"></div>
+</section>
+```
+
+
+#### ④ 本質ポイント
+
+```html
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge green">本質ポイント</span>
+    <span class="slide-title">○○の4ステップ解法</span>
+  </div>
+  <div class="key-box">✅ この手順を身につければ、○○を<strong>X分以内</strong>に確実に解ける！</div>
+  <div style="margin-top:12px;">
+    <div class="step-box"><span class="step-num">1</span><strong>[ステップ1]</strong></div>
+    <div class="step-box"><span class="step-num">2</span><strong>[ステップ2]</strong></div><!-- ← animation の主ターゲット -->
+    <div class="step-box"><span class="step-num">3</span><strong>[ステップ3]</strong></div>
+    <div class="step-box"><span class="step-num">4</span><strong>[ステップ4]</strong></div>
+  </div>
+  <div style="margin-top:10px; font-size:18px; background:#fef9c3; border:2px solid #fbbf24; border-radius:8px; padding:10px 16px;">
+    💡 [模試での時間節約アドバイス]
+  </div>
+  <div class="slide-footer"></div>
+</section>
+```
+
+#### ⑤ 解説
+
+```html
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge">解説</span>
+    <span class="slide-title">[問題式]を正しく解く</span>
+  </div>
+  <div style="margin-top:0.6rem;">
+    <div class="step-box"><span class="step-num">1</span><strong>真数条件：</strong>[条件式]</div>
+    <div class="step-box"><span class="step-num">2</span><strong>底を確認：</strong>[底の値] → <span style="color:#ef4444; font-weight:700;">単調○○</span></div>
+    <div class="step-box">
+      <span class="step-num">3</span>[変換の計算]<br>
+      <!-- animation ターゲットには固有 id の span を振る（PITFALLS.md 7-1） -->
+      　<span id="s5-flip">[アニメーションターゲット文字列]</span>
+      <span style="color:var(--accent); font-weight:700;">[結果式]</span>
+    </div>
+    <!-- ステップ4は緑で強調 -->
+    <div class="step-box" style="background:#f0fff4; border-color:#48bb78;">
+      <span class="step-num" style="background:#166534;">4</span>
+      [真数条件との共通部分]：$$\boxed{[答え]}$$
+    </div>
+  </div>
+  <div class="slide-footer"></div>
+</section>
+```
+
+#### ⑥ 一般化
+
+```html
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge green">一般化</span>
+    <span class="slide-title">○○の鉄則まとめ</span>
+  </div>
+  <div class="key-box" style="font-size:20px; line-height:1.8;">
+    📌 [一般的な公式]：
+    <div class="rule-row" style="margin-top:10px;">
+      <div class="rule-card rule-inc" style="font-size:18px;"><strong>[条件A]</strong><br>→ [結果A]</div>
+      <div class="rule-card rule-dec" style="font-size:18px;"><strong>[条件B]</strong><br>→ [結果B]<br><span style="color:#dc2626;">逆転！</span></div>
+    </div>
+  </div>
+  <div style="margin-top:12px;">
+    <strong style="font-size:19px;">試験で差がつくポイント</strong>
+    <div class="step-box" style="margin-top:8px;">① <strong>[ポイント1]</strong></div>
+    <div class="step-box">② <strong>[ポイント2]</strong></div>
+  </div>
+  <div style="margin-top:10px; background:#fef9c3; border:2px solid #fbbf24; border-radius:8px; padding:10px 16px; font-size:18px;">
+    ⏱️ [実践効果の一言]
+  </div>
+  <div class="slide-footer"></div>
+</section>
+```
+
+#### ⑦ 類題
+
+```html
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge green">類題</span>
+    <span class="slide-title">[類題のテーマ]</span>
+  </div>
+  <div class="problem-box" style="font-size:21px;">[類題の問題文]</div>
+  <!-- class="step" は必須：解答エリアを初期非表示にする（PITFALLS.md 7-5） -->
+  <div class="graph-wrap step" style="margin-top:8px;">
+    <div style="flex:1; font-size:19px; line-height:2.1;">
+      <div class="step-box" style="margin-bottom:4px;"><span class="step-num">1</span>[ステップ1]</div>
+      <div class="step-box" style="margin-bottom:4px;"><span class="step-num">2</span>[ステップ2]</div>
+      <div class="step-box" style="margin-bottom:4px;"><span class="step-num">3</span>[ステップ3]</div>
+      <div class="step-box" style="background:#f0fff4; border-color:#48bb78;">
+        <span class="step-num" style="background:#166534;">4</span>
+        [共通部分] $$\boxed{[答え]}$$
+      </div>
+    </div>
+    <svg width="210" height="170" style="flex-shrink:0; border:1px solid #d1d5db; border-radius:8px; background:#fafafa;">
+      [SVGグラフ]
+    </svg>
+  </div>
+  <div class="slide-footer"></div>
+</section>
+```
+
+#### ⑧ まとめ
+
+```html
+<section class="slide">
+  <div class="slide-header">
+    <span class="badge green">まとめ</span>
+    <span class="slide-title">今日の一言</span>
+  </div>
+  <div style="text-align:center; margin-top:2rem;">
+    <div class="key-box" style="display:inline-block; text-align:left; max-width:640px; font-size:22px; line-height:2;">
+      🔑 [単元の核心]<br>
+      [条件A] → [結果A]<br>
+      [条件B] → <span style="color:#dc2626;">[結果B]</span><br>
+      <span style="font-size:18px; font-weight:400;">[習慣化の言葉]</span>
+    </div>
+    <div style="margin-top:1.2rem; background:#fff9e6; border:2px solid #fbbf24; border-radius:10px; padding:12px 20px; max-width:640px; display:inline-block; text-align:left; font-size:19px;">
+      ⚠️ [忘れがちな注意点]
+    </div>
+  </div>
+  <div style="text-align:center; margin-top:1.6rem; font-size:19px; color:#444;">
+    次回も、入試で差がつく重要ポイントを解説します。お楽しみに！
+  </div>
+  <div class="slide-footer"></div>
+</section>
+```
+
+
+---
+
+### SVG グラフ仕様
+
+#### 座標変換（対数・指数グラフ）
+
+```
+svgX = origin_x + x * scale_x
+svgY = origin_y - y * scale_y   ← SVG は y 軸が下向きなのでマイナス
+```
+
+例：`origin=(30,90)` `scale=(40,40)` のとき
+- `x=1, y=0` → `(70, 90)`
+- `x=2, y=log_(1/2)2=-1` → `(110, 130)`
+
+#### SVG テンプレート（スライド②用 230×170）
+
+```html
+<svg width="230" height="170" style="flex-shrink:0; border:1px solid #d1d5db; border-radius:8px; background:#fafafa;">
+  <defs>
+    <marker id="ah" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 Z" fill="#555"/>
+    </marker>
+    <clipPath id="cl1"><rect x="0" y="0" width="230" height="170"/></clipPath>
+  </defs>
+  <!-- 解の領域（緑）: 不等式の解を polygon で塗る -->
+  <polygon points="..." fill="#bbf7d0" opacity="0.55" clip-path="url(#cl1)"/>
+  <!-- 軸 -->
+  <line x1="10" y1="[oy]" x2="225" y2="[oy]" stroke="#555" stroke-width="1.5" marker-end="url(#ah)"/>
+  <line x1="[ox]" y1="165" x2="[ox]" y2="5" stroke="#555" stroke-width="1.5" marker-end="url(#ah)"/>
+  <!-- 曲線（手計算で数点を polyline に）-->
+  <polyline points="..." fill="none" stroke="#7C3AED" stroke-width="2.5" clip-path="url(#cl1)"/>
+  <!-- 基準線（解の境界：赤破線）-->
+  <line x1="10" y1="[svgY_border]" x2="225" y2="[svgY_border]" stroke="#ef4444" stroke-width="1.5" stroke-dasharray="5,4"/>
+  <!-- 境界点（紫塗り）-->
+  <circle cx="[svgX_border]" cy="[svgY_border]" r="5" fill="#7C3AED"/>
+  <!-- x=1 の目盛り点 -->
+  <circle cx="[svgX_1]" cy="[oy]" r="4" fill="#555"/>
+  <!-- ラベル -->
+  <text x="216" y="[oy+4]" font-size="11" fill="#555">x</text>
+  <text x="[ox+3]" y="10" font-size="11" fill="#555">y</text>
+  <text x="[ox+4]" y="35" font-size="11" fill="#7C3AED" font-weight="bold">y=log₁/₂x</text>
+  <text x="[領域内]" y="155" font-size="11" fill="#166534" font-weight="bold">解の領域</text>
+</svg>
+```
+
+**注意点:**
+- 複数 SVG が同じページにある場合、`id="ah"` `id="cl1"` は `ah2`, `cl2` のように連番にする
+- スライド⑦（類題）は `width="210"` を使う（`ah2`, `cl2` で命名）
+- 解の領域: 正解範囲は `fill="#bbf7d0"`（緑）、不正解範囲があれば `fill="#fecaca"`（赤）
+
+---
+
+## voice.md フォーマット仕様
+
+**参照ファイル**: `problems/youtube_redesign/math2-10_log_inequality_voice.md`
+
+### ファイル冒頭
+
+```markdown
+# 【音声台本】数学II｜単元名（テーマ一言）
+
+対象スライド：math2-NN_slug.html
+難易度：標準（偏差値55〜65）
+
+※ 数式はAI音声読み上げ向けに日本語表記へ変換済み
+
+---
+```
+
+### スライドセクションの構造
+
+```markdown
+## スライド①　フック
+
+[台本本文：スライド内は空行なしで1段落にまとめる]
+[最初の一言はフックワードまたは問いかけ（「今日は〜」NG）]
+
+---
+
+## スライド②　問題提示
+
+[台本本文]
+
+---
+```
+
+### 重要ルール
+
+- **スライド内に空行（`\n\n`）を入れない**（長い間が生じる → PITFALLS.md 1-7）
+- スライド間は `---` で区切る
+- 数式は完全にひらがな・カタカナで読む（例：`log_(1/2)x` → `2分の1を底とする x の対数`）
+- 挨拶なし・即フックワードで始める
+
+### スライド⑦（類題）の特殊ルール
+
+```markdown
+## スライド⑦　類題
+
+[問題文の読み上げ（ここまでが「問題パート」）]
+
+[解答・解説（空行1つで区切る → ここから「解答パート」）]
+[解答パートの内部にも空行を入れない]
+```
+
+空行の直前までが `slide_ruidai_hidden.png`（解答非表示）で表示される。
+
+---
+
+## _edit.md フォーマット仕様
+
+**参照ファイル**: `problems/youtube_redesign/math2-10_log_inequality_edit.md`
+
+### ファイル冒頭
+
+```markdown
+# 【編集指示】数学II｜単元名（テーマ一言）
+
+対象スライド：math2-NN_slug.html
+対象台本：math2-NN_slug_voice.md
+
+---
+```
+
+### セクション① 追い装飾指示
+
+```markdown
+## ① 追い装飾指示
+
+### [Slide①　フック]
+
+**強調①**
+- 強調対象：`[HTMLの実際のテキスト（LaTeXは $...$ 形式で残してよい）]`
+- 方法：赤枠 / 丸枠 / アンダーライン / 矢印
+- アニメーション：zoom / slide_up / fade
+- タイミング：[音声台本テキスト（引用符「」なし）] または [XX%]
+- 理由：[なぜここにアニメーションをかけるか]
+```
+
+### タイミング指定の選び方
+
+| 指定方法 | 使う場面 |
+|---|---|
+| テキスト直書き | 台本に一意な文字列がある場合 |
+| `XX%` | テキスト検索が誤爆しやすい・動画確認後の修正 |
+
+```
+% の計算: (発火タイムスタンプ - スライド開始) / スライド尺 × 100
+例: (3:18 - 2:31) / 61秒 = 47/61 ≈ 77%
+```
+
+### セクション② グラフ設計メモ
+
+```markdown
+## ② グラフ設計メモ
+
+- スライド②のSVG：y = [関数]（単調増加/減少）、解の領域（[範囲]）を緑シェード
+- スライド⑦のSVG：y = [関数]、解の領域（[範囲]）を緑シェード
+- 両グラフとも y = [境界値] の基準線を赤破線で表示
+- 解の境界点に紫の点を明示
+```
+
+### YouTube メタデータのセクション順（固定）
+
+```
+### タイトル（推奨案 + 案2〜5）
+### 説明欄（概要のみ・答えは書かない）
+### タイムスタンプ（▼目次 形式）
+### タグ（# なしカンマ区切り）
+### サムネイル案（3案、推奨案に「（推奨）」）
+### 固定コメント案（問いかけ形式・高評価誘導あり）
+```
+
+
+---
+
 ## YouTube メタデータの書き方ルール
 
 _edit.md の「YouTube メタデータ」セクションを書く際は以下に従う。
