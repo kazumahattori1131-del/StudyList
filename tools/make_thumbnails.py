@@ -629,6 +629,22 @@ VS_THUMBNAILS = {
         heaven_note  = '底 1/2 → 不等号逆転',
         bottom_copy  = 'log(1/2) x > -1  |  底が1未満で答えが丸ごと逆になる',
     ),
+    'mathB-07_vector_magnitude': dict(
+        bg_color     = (10, 18, 38),         # 深紺
+        accent       = (251, 146, 60),        # 橙
+        subject_tag  = '数学B・ベクトル',
+        subject_color= (160, 80, 10),
+        badge_text   = '計算ミスの定番',
+        badge_color  = (180, 60, 10),
+        top_copy     = '|a+b|=5は間違い！',
+        hell_label   = 'よくある誤答',
+        hell_value   = '|a+b| = 5',
+        hell_note    = '大きさをそのまま足した…',
+        heaven_label = '正しい答え',
+        heaven_value = '|a+b| = √21',
+        heaven_note  = '二乗→内積展開→平方根',
+        bottom_copy  = '|a|=3, |b|=2, a・b=4  |  大きさは足し算できない',
+    ),
 }
 
 
