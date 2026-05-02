@@ -713,7 +713,7 @@ def process_one(html_path: Path, api_key: str, gemini_key: str = None,
     # 使用量カウンターをリセット
     _usage['api_calls'] = _usage['cached_calls'] = _usage['input_chars'] = _usage['input_tokens'] = 0
     stem = html_path.stem
-    voice_path = html_path.parent / f'{stem}_voice.md'
+    voice_path = html_path.parent / 'voice_scripts' / f'{stem}_voice.md'
 
     if not voice_path.exists():
         print(f'[SKIP] 台本なし: {voice_path.name}')
