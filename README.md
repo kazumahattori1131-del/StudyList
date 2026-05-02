@@ -60,7 +60,7 @@ StudyList/
 | mathB-04_sum_arithmetic_geometric | 数学B | 等差×等比型の和（差し引き法） | ✅ | ✅ |
 | mathB-05_vector_inner | 数学B | ベクトルの内積と大きさ（\|a+b\|の落とし穴） | ✅ | — |
 | mathB-06_hypothesis_test | 数学B | 統計的な推測（仮説検定の考え方） | — | — |
-| mathB-07_vector_magnitude | 数学B | ベクトルの大きさ（\|a+b\|は足し算できない） | ✅ | — |
+| mathB-07_vector_magnitude | 数学B | ベクトルの大きさ（\|a+b\|は足し算できない） | ✅ | ✅ |
 | mathC-01_complex_factorize | 数学C | 複素数の絶対値最大値 | ✅ | — |
 | mathC-02_complex_identity | 数学C | z+1/z=1 から z³+1/z³ | ✅ | — |
 | mathC-03_complex_rotation | 数学C | 複素数の累乗とド・モアブルの定理 | ✅ | — |
