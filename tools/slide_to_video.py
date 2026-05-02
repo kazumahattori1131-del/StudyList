@@ -767,19 +767,7 @@ def process_one(html_path: Path, api_key: str, gemini_key: str = None,
     timestamps: list[tuple[str, float]] = []   # (ラベル, 開始秒)
     elapsed = 0.0
 
-    # イントロクリップ（サムネイル画像 + 固定イントロ音声）
-    thumbnail = THUMBNAILS_DIR / f'{stem}.png'
-    if thumbnail.exists():
-        print('        [イントロ]', end='', flush=True)
-        intro_audio = out_dir / 'audio_intro.wav'
-        intro_clip  = out_dir / 'clip_intro.mp4'
-        generate_audio(INTRO_TEXT, intro_audio, api_key, gap=0.0, gemini_key=gemini_key)
-        make_slide_clip(thumbnail, intro_audio, intro_clip)
-        print(' 音声✓ 動画✓')
-        clip_paths.append(intro_clip)
-        elapsed += wav_duration(intro_audio)
-    else:
-        print(f'  [WARN] サムネイルなし: {thumbnail.name}、イントロをスキップ')
+    # イントロクリップなし（動画はスライド①フックから直接開始）
 
     for idx, (img, script) in enumerate(pairs):
         i = idx + 1
