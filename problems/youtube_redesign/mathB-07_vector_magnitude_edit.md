@@ -1,7 +1,7 @@
 # 【編集指示】数学B｜ベクトルの大きさ（|a+b|は足し算できない）
 
-対象スライド：mathB-01_vector_magnitude.html
-対象台本：mathB-01_vector_magnitude_voice.md
+対象スライド：mathB-07_vector_magnitude.html
+対象台本：mathB-07_vector_magnitude_voice.md
 
 ---
 

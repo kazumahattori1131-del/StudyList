@@ -1,6 +1,6 @@
 # 【音声台本】数学B｜ベクトルの大きさ（|a+b|は足し算できない）
 
-対象スライド：mathB-01_vector_magnitude.html
+対象スライド：mathB-07_vector_magnitude.html
 難易度：標準（偏差値55〜65）
 
 ※ 数式はAI音声読み上げ向けに日本語表記へ変換済み
