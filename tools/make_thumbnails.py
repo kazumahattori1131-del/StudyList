@@ -521,23 +521,33 @@ def make_thumbnail_vs(stem, config):
         draw.text((bx + 14, 40), config['badge_text'], font=b_fnt, fill=(255, 255, 255))
 
     # ── トップコピー（中央）
-    tc_fnt = font(82)
-    tc     = config['top_copy']
-    tc_w   = draw.textlength(tc, font=tc_fnt)
-    draw.text(((W - tc_w) / 2 + 3, 103), tc, font=tc_fnt, fill=(0, 0, 0, 100))
-    draw.text(((W - tc_w) / 2,     100), tc, font=tc_fnt, fill=(255, 255, 255))
+    tc_fnt   = font(82)
+    tc       = config['top_copy']
+    tc_color = config.get('top_copy_color', (255, 255, 255))
+    tc_w     = draw.textlength(tc, font=tc_fnt)
+    draw.text(((W - tc_w) / 2 + 3, 103), tc, font=tc_fnt, fill=(0, 0, 0))
+    draw.text(((W - tc_w) / 2,     100), tc, font=tc_fnt, fill=tc_color)
+
+    compact = config.get('compact', False)
 
     def draw_cross_icon(cx, cy, r, clr):
         """❌ の代替：円 + ×線を PIL で描画"""
-        draw.ellipse([cx - r, cy - r, cx + r, cy + r], outline=clr, width=5)
+        draw.ellipse([cx - r, cy - r, cx + r, cy + r], outline=clr, width=max(5, r // 6))
         m = int(r * 0.55)
-        draw.line([cx - m, cy - m, cx + m, cy + m], fill=clr, width=6)
-        draw.line([cx + m, cy - m, cx - m, cy + m], fill=clr, width=6)
+        lw = max(6, r // 5)
+        draw.line([cx - m, cy - m, cx + m, cy + m], fill=clr, width=lw)
+        draw.line([cx + m, cy - m, cx - m, cy + m], fill=clr, width=lw)
+
+    def draw_maru_icon(cx, cy, r, clr):
+        """◎ の代替：二重円を PIL で描画"""
+        lw = max(5, r // 6)
+        draw.ellipse([cx - r,           cy - r,           cx + r,           cy + r],           outline=clr, width=lw)
+        r2 = int(r * 0.55)
+        draw.ellipse([cx - r2,          cy - r2,          cx + r2,          cy + r2],          outline=clr, width=lw)
 
     def draw_check_icon(cx, cy, r, clr):
         """✅ の代替：円 + チェックマークを PIL で描画"""
         draw.ellipse([cx - r, cy - r, cx + r, cy + r], outline=clr, width=5)
-        # チェック: 左下→中央底→右上
         m = int(r * 0.55)
         pts = [cx - m, cy + int(m * 0.1),
                cx - int(m * 0.1), cy + m,
@@ -549,24 +559,29 @@ def make_thumbnail_vs(stem, config):
     LX0, LX1 = 60, 570
     draw_rect_rounded(draw, [LX0, BOX_Y0, LX1, BOX_Y1], radius=18,
                       fill=(80, 10, 10), outline=(220, 50, 50), width=4)
-    # × アイコン（PIL 描画）
-    draw_cross_icon(LX0 + 52, BOX_Y0 + 48, 28, (255, 80, 80))
-    # 小ラベル
-    hl_fnt = font(30)
-    hl_w   = draw.textlength(config['hell_label'], font=hl_fnt)
-    draw.text(((LX0 + LX1) / 2 - hl_w / 2, BOX_Y0 + 20),
-              config['hell_label'], font=hl_fnt, fill=(255, 120, 120))
-    # メイン値
-    hv_fnt = font(68)
-    hv_w   = draw.textlength(config['hell_value'], font=hv_fnt)
-    draw.text(((LX0 + LX1) / 2 - hv_w / 2, BOX_Y0 + 80),
-              config['hell_value'], font=hv_fnt, fill=(255, 80, 80))
-    # 補足テキスト
-    if config.get('hell_note'):
-        hn_fnt = font(26)
-        hn_w   = draw.textlength(config['hell_note'], font=hn_fnt)
-        draw.text(((LX0 + LX1) / 2 - hn_w / 2, BOX_Y0 + 168),
-                  config['hell_note'], font=hn_fnt, fill=(200, 100, 100))
+    if compact:
+        # compact: 巨大 × アイコン（中央上部） + 巨大値（中央下部）
+        box_cx = (LX0 + LX1) // 2
+        draw_cross_icon(box_cx, BOX_Y0 + 82, 52, (255, 80, 80))
+        hv_fnt = font(76)
+        hv_w   = draw.textlength(config['hell_value'], font=hv_fnt)
+        draw.text((box_cx - hv_w / 2, BOX_Y0 + 170), config['hell_value'],
+                  font=hv_fnt, fill=(255, 80, 80))
+    else:
+        draw_cross_icon(LX0 + 52, BOX_Y0 + 48, 28, (255, 80, 80))
+        hl_fnt = font(30)
+        hl_w   = draw.textlength(config['hell_label'], font=hl_fnt)
+        draw.text(((LX0 + LX1) / 2 - hl_w / 2, BOX_Y0 + 20),
+                  config['hell_label'], font=hl_fnt, fill=(255, 120, 120))
+        hv_fnt = font(68)
+        hv_w   = draw.textlength(config['hell_value'], font=hv_fnt)
+        draw.text(((LX0 + LX1) / 2 - hv_w / 2, BOX_Y0 + 80),
+                  config['hell_value'], font=hv_fnt, fill=(255, 80, 80))
+        if config.get('hell_note'):
+            hn_fnt = font(26)
+            hn_w   = draw.textlength(config['hell_note'], font=hn_fnt)
+            draw.text(((LX0 + LX1) / 2 - hn_w / 2, BOX_Y0 + 168),
+                      config['hell_note'], font=hn_fnt, fill=(200, 100, 100))
 
     # ── 中央矢印
     arr_fnt = font(72)
@@ -578,32 +593,38 @@ def make_thumbnail_vs(stem, config):
     RX0, RX1 = 710, W - 36
     draw_rect_rounded(draw, [RX0, BOX_Y0, RX1, BOX_Y1], radius=18,
                       fill=(10, 60, 20), outline=(50, 200, 80), width=4)
-    # チェック アイコン（PIL 描画）
-    draw_check_icon(RX0 + 52, BOX_Y0 + 48, 28, (80, 220, 80))
-    # 小ラベル
-    vl_fnt = font(30)
-    vl_w   = draw.textlength(config['heaven_label'], font=vl_fnt)
-    draw.text(((RX0 + RX1) / 2 - vl_w / 2, BOX_Y0 + 20),
-              config['heaven_label'], font=vl_fnt, fill=(120, 255, 120))
-    # メイン値
-    vv_fnt = font(68)
-    vv_w   = draw.textlength(config['heaven_value'], font=vv_fnt)
-    draw.text(((RX0 + RX1) / 2 - vv_w / 2, BOX_Y0 + 80),
-              config['heaven_value'], font=vv_fnt, fill=(80, 255, 120))
-    # 補足テキスト
-    if config.get('heaven_note'):
-        vn_fnt = font(26)
-        vn_w   = draw.textlength(config['heaven_note'], font=vn_fnt)
-        draw.text(((RX0 + RX1) / 2 - vn_w / 2, BOX_Y0 + 168),
-                  config['heaven_note'], font=vn_fnt, fill=(100, 220, 130))
+    if compact:
+        # compact: 巨大 ◎ アイコン（中央上部） + 巨大値（中央下部）
+        box_cx = (RX0 + RX1) // 2
+        draw_maru_icon(box_cx, BOX_Y0 + 82, 52, (80, 220, 80))
+        vv_fnt = font(76)
+        vv_w   = draw.textlength(config['heaven_value'], font=vv_fnt)
+        draw.text((box_cx - vv_w / 2, BOX_Y0 + 170), config['heaven_value'],
+                  font=vv_fnt, fill=(80, 255, 120))
+    else:
+        draw_check_icon(RX0 + 52, BOX_Y0 + 48, 28, (80, 220, 80))
+        vl_fnt = font(30)
+        vl_w   = draw.textlength(config['heaven_label'], font=vl_fnt)
+        draw.text(((RX0 + RX1) / 2 - vl_w / 2, BOX_Y0 + 20),
+                  config['heaven_label'], font=vl_fnt, fill=(120, 255, 120))
+        vv_fnt = font(68)
+        vv_w   = draw.textlength(config['heaven_value'], font=vv_fnt)
+        draw.text(((RX0 + RX1) / 2 - vv_w / 2, BOX_Y0 + 80),
+                  config['heaven_value'], font=vv_fnt, fill=(80, 255, 120))
+        if config.get('heaven_note'):
+            vn_fnt = font(26)
+            vn_w   = draw.textlength(config['heaven_note'], font=vn_fnt)
+            draw.text(((RX0 + RX1) / 2 - vn_w / 2, BOX_Y0 + 168),
+                      config['heaven_note'], font=vn_fnt, fill=(100, 220, 130))
 
     # ── ボトムコピー
     if config.get('bottom_copy'):
-        bc_fnt = font(34)
-        bc_w   = draw.textlength(config['bottom_copy'], font=bc_fnt)
-        draw.text(((W - bc_w) / 2, BOX_Y1 + 22),
-                  config['bottom_copy'], font=bc_fnt,
-                  fill=tuple(min(255, c + 160) for c in bg))
+        bc_size = 46 if compact else 34
+        bc_clr  = (255, 255, 255) if compact else tuple(min(255, c + 160) for c in bg)
+        bc_fnt  = font(bc_size)
+        bc_w    = draw.textlength(config['bottom_copy'], font=bc_fnt)
+        draw.text(((W - bc_w) / 2, BOX_Y1 + 18),
+                  config['bottom_copy'], font=bc_fnt, fill=bc_clr)
 
     out_path = OUT_DIR / f'{stem}.png'
     img.save(out_path, 'PNG')
@@ -630,20 +651,18 @@ VS_THUMBNAILS = {
         bottom_copy  = 'log(1/2) x > -1  |  底が1未満で答えが丸ごと逆になる',
     ),
     'mathB-07_vector_magnitude': dict(
-        bg_color     = (10, 18, 38),         # 深紺
-        accent       = (251, 146, 60),        # 橙
-        subject_tag  = '数学B・ベクトル',
-        subject_color= (160, 80, 10),
-        badge_text   = '計算ミスの定番',
-        badge_color  = (180, 60, 10),
-        top_copy     = '|a+b|=5は間違い！',
-        hell_label   = 'よくある誤答',
-        hell_value   = '|a+b| = 5',
-        hell_note    = '大きさをそのまま足した…',
-        heaven_label = '正しい答え',
-        heaven_value = '|a+b| = √21',
-        heaven_note  = '二乗→内積展開→平方根',
-        bottom_copy  = '|a|=3, |b|=2, a・b=4  |  大きさは足し算できない',
+        bg_color      = (10, 18, 38),          # 深紺
+        accent        = (251, 146, 60),         # 橙
+        subject_tag   = '数学B・ベクトル',
+        subject_color = (160, 80, 10),
+        badge_text    = '計算ミスの定番',
+        badge_color   = (180, 60, 10),
+        top_copy      = '「3+2=5」と書いた瞬間に0点。',
+        top_copy_color= (255, 230, 0),          # 極太黄色
+        compact       = True,
+        hell_value    = '|a+b| = 5',
+        heaven_value  = '|a+b| = √21',
+        bottom_copy   = "問題を見た瞬間に『2乗』メモ。",
     ),
 }
 
